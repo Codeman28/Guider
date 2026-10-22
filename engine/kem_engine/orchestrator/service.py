@@ -19,7 +19,7 @@ from ..llm.client import LLMClient
 from ..llm.config import LLMConfig
 from ..llm.providers.base import LLMError
 from ..models import Plan, Trace, Tutorial
-from ..planner.planner import CARD_DIRECT_THRESHOLD, Planner
+from ..planner.planner import Planner, card_is_clear
 from ..recipes.store import Store
 from ..writer import llm_writer, template
 from .session import Session
@@ -86,8 +86,8 @@ class TutorialService:
         source = None
         task = self.store.task_for_question(qf)
         if task is None:
-            m = self.pack.match(query, top_k=1)
-            if m and m[0][0] >= CARD_DIRECT_THRESHOLD:
+            m = self.pack.match(query)
+            if card_is_clear(m):
                 task = m[0][1].id
         if task and env:
             hit = self.store.get_recipe("excel", task, env)

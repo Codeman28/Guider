@@ -66,12 +66,24 @@ def wout(**over):
 
 def test_llm_writer_fixes_labels_and_tips():
     tut, src = llm_writer.write(trace(), "T", "id", "ok", client([wout()]))
-    assert src == "llm" and tut.title == "Tạo PivotTable"
-    assert tut.steps[0].heading == "Bước 1: Mở thẻ **Insert**" and "**Insert**" in tut.steps[0].body
+    assert src == "llm" and tut.title == "T"  # title and headings stay deterministic
+    assert tut.steps[0].heading == "Bước 1: Mở thẻ **Insert**"
+    assert tut.steps[0].body == "Bấm **Insert**."  # invented label replaced by the UIA name
     assert tut.steps[0].tip == "Phím tắt Alt, N"
     assert tut.steps[1].tip is None  # invented shortcut dropped
+    assert tut.outro == "Hết."
     assert template.validate_labels(tut, trace()) == []
     assert tut.steps[0].image == "step_01.png"
+
+
+def test_llm_writer_quotes_become_bold_or_template_body():
+    out = wout(steps=[{"id": 1, "heading": "x", "body": "Chọn tab 'Insert' nhé."},
+                      {"id": 2, "heading": "x", "body": "Nhấn nút để tiếp tục."},
+                      {"id": 3, "heading": "x", "body": "Nhấn “OK”."}])
+    tut, _ = llm_writer.write(trace(), "T", "id", "ok", client([out]))
+    assert tut.steps[0].body == "Chọn tab **Insert** nhé."
+    assert tut.steps[1].body == "Nhấn **PivotTable**."  # no label → template body
+    assert tut.steps[2].body == "Nhấn **OK**."
 
 
 def test_llm_writer_falls_back():

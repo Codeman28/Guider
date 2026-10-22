@@ -74,8 +74,21 @@ class GroundResult:
     repair: Repair | None = None
 
 
+UIA_TYPES = ("Button", "SplitButton", "MenuItem", "TabItem", "CheckBox", "Group", "ListItem", "Edit",
+             "RadioButton", "ComboBox", "Menu", "List", "Window")
+_TYPE_KEYS = {t.lower(): t for t in UIA_TYPES} | {"tab": "TabItem", "textbox": "Edit", "text": "Edit",
+                                                  "dropdown": "ComboBox", "checkbutton": "CheckBox",
+                                                  "listitem": "ListItem", "galleryitem": "ListItem"}
+
+
+def canonical_type(t: str) -> str:
+    """'button', 'list_item', 'Tab Item' → UIA ControlType names (S7/eval: small models vary the casing)."""
+    k = re.sub(r"[\s_-]", "", t or "").lower()
+    return _TYPE_KEYS.get(k, t.strip())
+
+
 def _types(spec: str) -> list[str]:
-    return [t.strip() for t in spec.split("|") if t.strip()]
+    return [canonical_type(t) for t in spec.split("|") if t.strip()]
 
 
 def _containers(target: Target, elements: list[Element], aliases) -> list[Element]:

@@ -1,0 +1,26 @@
+# SPEC §13 — Phase 2 eval: 20 Excel tasks. `query` is phrased differently from the card keywords on
+# purpose; `expect_task` is the card the router/planner should land on; success is the card's COM
+# success_check (asserted inside the session) plus status == ok.
+version: 1
+app: excel
+tasks:
+  - {id: e01, expect_task: pivot_basic, query: "Làm sao để tạo bảng PivotTable tổng hợp doanh số?"}
+  - {id: e02, expect_task: chart_column, query: "hướng dẫn vẽ biểu đồ cột cho bảng số liệu"}
+  - {id: e03, expect_task: chart_pie, query: "tôi muốn chèn biểu đồ hình tròn"}
+  - {id: e04, expect_task: cf_greater_than, query: "tô màu các ô có giá trị lớn hơn 100"}
+  - {id: e05, expect_task: freeze_top_row, query: "giữ dòng tiêu đề đứng yên khi cuộn xuống"}
+  - {id: e06, expect_task: filter_on, query: "bật bộ lọc cho bảng dữ liệu"}
+  - {id: e07, expect_task: sort_desc, query: "sắp xếp cột doanh số giảm dần"}
+  - {id: e08, expect_task: merge_center, query: "trộn mấy ô lại thành một ô và căn giữa"}
+  - {id: e09, expect_task: insert_table, query: "chuyển vùng dữ liệu thành dạng table"}
+  - {id: e10, expect_task: bold_header, query: "in đậm dòng tiêu đề"}
+  - {id: e11, expect_task: italic_text, query: "làm chữ in nghiêng"}
+  - {id: e12, expect_task: wrap_text, query: "cho chữ tự xuống dòng trong ô"}
+  - {id: e13, expect_task: center_align, query: "canh giữa chữ trong ô"}
+  - {id: e14, expect_task: percent_style, query: "đổi số sang định dạng phần trăm"}
+  - {id: e15, expect_task: comma_style, query: "thêm dấu phân cách hàng nghìn cho số"}
+  - {id: e16, expect_task: increase_decimal, query: "hiển thị thêm một chữ số thập phân"}
+  - {id: e17, expect_task: fill_color, query: "tô màu nền vàng cho ô"}
+  - {id: e18, expect_task: font_color, query: "đổi màu chữ thành đỏ"}
+  - {id: e19, expect_task: gridlines_off, query: "ẩn các đường lưới trên trang tính"}
+  - {id: e20, expect_task: show_formulas, query: "xem công thức trong các ô thay vì kết quả"}

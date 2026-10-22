@@ -18,6 +18,7 @@ class ProviderConf:
     api_key_env: str | None = None
     timeout_s: float = 120.0
     think: bool | None = None
+    keep_alive: str | None = None
 
     @property
     def is_local(self) -> bool:
@@ -46,7 +47,8 @@ class LLMConfig:
         if "ollama" in raw:
             o = raw["ollama"]
             providers["ollama"] = ProviderConf("ollama", o.get("enabled", True), o["base_url"],
-                                               timeout_s=o.get("timeout_s", 600), think=o.get("think"))
+                                               timeout_s=o.get("timeout_s", 600), think=o.get("think"),
+                                               keep_alive=o.get("keep_alive"))
         if "openrouter" in raw:
             o = raw["openrouter"]
             providers["openrouter"] = ProviderConf("openrouter", o.get("enabled", False), o["base_url"],

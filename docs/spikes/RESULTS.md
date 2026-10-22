@@ -14,7 +14,7 @@ Dữ liệu thô: `docs/spikes/out/*.json`. Ảnh chụp (`*.png`) bị `.gitign
 | S4 | **ĐẠT về chức năng, KHÁC giả định về foreground** | **KHÔNG** — xem mục S4 |
 | S5 | **ĐẠT ở 125%**; 100% và 150% **chưa chạy** | Chưa đủ |
 | S6 | **ĐẠT trên 1 máy (EN)**; chưa có máy VI | Chưa đủ |
-| S7 | **CHƯA CHẠY** — máy chưa cài Ollama | — |
+| S7 | **ĐẠT có điều kiện** — JSON luôn hợp lệ nhờ `format`, nhưng nội dung kế hoạch kém; chọn `qwen3:1.7b` | Một phần — xem mục S7 |
 
 ---
 
@@ -110,9 +110,29 @@ Hệ quả:
 
 ## S7 — Model local qua Ollama (`spikes/s7_ollama_planner.py`)
 
-**Chưa chạy.** Máy chưa cài Ollama (không có lệnh `ollama`, cổng 11434 không mở). Script đã sẵn:
-10 prompt mẫu (8 tác vụ Excel + 2 out-of-scope), schema Planner bằng pydantic, đo tỷ lệ JSON hợp lệ và độ trễ.
-Cần người dùng cài Ollama và chọn model để kéo về (vài GB) — không tự cài theo quy tắc an toàn.
+Chạy 23/10/2026 trên chính máy dev: **chỉ CPU** (i7-8565U, 16 GB RAM, GPU tích hợp), Ollama 0.40.8, model ở `D:\Ollama\models`.
+API gốc `/api/chat` với `format` = JSON schema của Planner, `think: false`, 10 prompt (8 tác vụ Excel + 2 ngoài phạm vi).
+
+| Model | Câu | JSON đúng schema | Nhận đúng in/out of scope | Độ trễ trung vị | Tối đa |
+|---|---|---|---|---|---|
+| `qwen3:1.7b` (1,4 GB) | 10 | **100%** | 80% (coi cả 2 câu ngoài phạm vi là làm được) | **30 s** | 62 s |
+| `qwen3:4b` (2,5 GB) | 10 | 100% | 90% | 96 s | 3 429 s (*) |
+| `llama3.2:3b` (2,0 GB) | 10 | 80% | 60% | 82 s | 368 s |
+| `gemma3:4b` (3,4 GB) | 5 (dừng sớm) | 80% | 80% | 123 s | 360 s |
+
+(*) một câu mất 57 phút — model sinh lan man (20 bước) hoặc máy ngủ giữa chừng.
+
+Kết luận:
+- **Ép schema giải quyết được tính hợp lệ, không giải quyết được chất lượng.** Mọi model đều trả kế hoạch sai lệch:
+  liệt kê cả dãy tên tab trong `target.names`, dùng `set_value` thay cho `invoke`, bịa tên nút ("Insert Table", "Sort A to Z" sai ngữ cảnh).
+  Prompt S7 chưa có Knowledge Pack; Phase 2 thêm thẻ tác vụ và kiểm tra ngữ nghĩa (tối đa 4 tên/target, không nút bị chặn).
+- **Chọn `qwen3:1.7b` làm mặc định** (`engine/config/llm.toml`): nhanh nhất, 100% hợp lệ. Việc nhận diện ngoài phạm vi
+  do router dựa trên luật đảm nhiệm trước khi tới LLM.
+- **Ollama kẹt 2 lần** ở trạng thái "Stopping…" (runner dỡ model khi đang xử lý, request treo tới timeout). Đã đặt
+  `keep_alive = "30m"` trong request; engine coi lỗi kết nối là `ProviderUnavailable` và lùi về Writer dạng template.
+- Hệ quả thiết kế (ADR-0002): ưu tiên thẻ tác vụ đã kiểm duyệt (0 lần gọi), chỉ gọi LLM Planner khi câu hỏi không khớp rõ một thẻ.
+
+Dữ liệu: `docs/spikes/out/s7_ollama_planner.json`, log `s7_partial_run1.log`, `s7_run2_stuck.log`, `s7_run3.log`.
 
 ---
 
@@ -128,4 +148,4 @@ Cần người dùng cài Ollama và chọn model để kéo về (vài GB) — 
    và nằm trong/ngay cạnh rect cửa sổ sandbox.
 3. **§6.5 Grounder (S1):** snapshot bằng raw UIA `FindAllBuildCache`; luật expand nhóm thu gọn là đường chính, không phải ngoại lệ.
 4. **§5 Tech stack:** Python 3.12 thay 3.11.
-5. Còn thiếu để đóng Phase 0: S5 ở 100%/150%, S6 trên máy giao diện tiếng Việt, S7 sau khi cài Ollama.
+5. Còn thiếu để đóng Phase 0: S5 ở 100%/150%, S6 trên máy giao diện tiếng Việt. (S7 đã chạy 23/10/2026.)

@@ -23,6 +23,13 @@ def fold(text: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[^\w%&+ ]", " ", t)).strip()
 
 
+def _word_in(w: str, words: list[str]) -> bool:
+    """Short words must match exactly ("tron" ≠ "trong"); longer ones tolerate a typo."""
+    if len(w) <= 4:
+        return w in words
+    return any(fuzz.ratio(w, qw) >= 85 for qw in words)
+
+
 @dataclass
 class Card:
     id: str
@@ -55,19 +62,25 @@ class KnowledgePack:
         self.by_id = {c.id: c for c in self.cards}
 
     def match(self, question: str, top_k: int = 3) -> list[tuple[float, Card]]:
+        """100 = a keyword occurs as a phrase; 95/85 = every word of a keyword occurs in any order
+        (small typos allowed on long words); 0 otherwise. Ties prefer the longer matched keyword."""
         q = fold(question)
+        q_words = q.split()
         scored = []
         for c in self.cards:
-            best = 0.0
+            best = (0.0, 0)
             for kw in c.keywords + [c.title]:
                 k = fold(kw)
                 if len(k) < 3:
                     continue
                 if re.search(rf"(?<!\w){re.escape(k)}(?!\w)", q):
                     s = 100.0
+                elif all(_word_in(w, q_words) for w in k.split()):
+                    # every word present (any order): strong when the keyword has 2+ real words
+                    s = 95.0 if sum(len(w) >= 3 for w in k.split()) >= 2 else 85.0
                 else:
-                    s = fuzz.partial_ratio(k, q) if len(k) >= 6 else 0.0
-                best = max(best, s)
+                    continue
+                best = max(best, (s, len(k)))
             scored.append((best, c))
-        scored.sort(key=lambda x: -x[0])
-        return scored[:top_k]
+        scored.sort(key=lambda x: (-x[0][0], -x[0][1]))
+        return [(sc[0], c) for sc, c in scored[:top_k]]

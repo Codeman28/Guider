@@ -2,7 +2,7 @@ from kem_engine.llm.sanitizer import is_identity_label, sanitize, scrub
 
 
 def test_scrub_masks_identity_like_text():
-    t = scrub("gửi cho a.b@c.com.vn, file C:\\Users\\Huy\\sales.xlsx, /home/u/x.txt, https://x.y/z, 0912 345 678")
+    t = scrub("gửi cho a.b@c.com.vn, file C:\\Users\\an\\sales.xlsx, /home/u/x.txt, https://x.y/z, 0912 345 678")
     assert "[email]" in t and t.count("[path]") == 2 and "[url]" in t and "[số]" in t
     assert "@" not in t and "Users" not in t and "0912" not in t
 

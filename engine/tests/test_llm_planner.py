@@ -235,3 +235,11 @@ def test_too_many_names_rejected_by_schema():
     with pytest.raises(Exception):
         LLMPlan.model_validate({**PLAN_OK, "steps": [{"intent": "invoke", "target": {
             "names": ["Home", "Insert", "Draw", "Page Layout", "Formulas"], "control_type": "TabItem"}}]})
+
+
+def test_planner_schema_rejects_lowercase_control_type():
+    with pytest.raises(Exception):
+        LLMPlan.model_validate({**PLAN_OK, "steps": [{"intent": "invoke",
+                                                     "target": {"names": ["OK"], "control_type": "button"}}]})
+    schema = json.dumps(LLMPlan.model_json_schema())
+    assert '"TabItem"' in schema and '"ListItem"' in schema

@@ -667,5 +667,375 @@
       }
     ],
     "source": "s7_partial_run1.log"
+  },
+  {
+    "model": "llama3.2:3b",
+    "valid_rate": 0.8,
+    "scope_acc": 0.6,
+    "avg_latency_s": 123.5,
+    "max_latency_s": 367.6,
+    "rows": [
+      {
+        "q": "Cách tạo PivotTable trong Excel",
+        "valid": false,
+        "scope_ok": false,
+        "error": "1 validation error for Plan\n  Invalid JSON: EOF while parsing a value at line 371 column 0 [type=json_invalid, input_value='{\\n  \"in_scope\": true,\\n...geSelector\"\\n      },\\n', input_type=str]\n    For",
+        "latency_s": 367.6
+      },
+      {
+        "q": "làm sao chèn biểu đồ cột trong excel",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 4,
+        "first": [
+          [
+            "select_range",
+            [
+              "A1:B1",
+              "A1:C1",
+              "A1:D1"
+            ]
+          ],
+          [
+            "select_item",
+            [
+              "Insert",
+              "Chart",
+              "Column",
+              "Clustered Column",
+              "Pie",
+              "Pie of other categories",
+              "Area",
+              "Area of other categories",
+              "Line",
+              "Line of other categories",
+              "Scatter",
+              "Scatter with only Y values",
+              "XY scatter with only Y values",
+              "Bar",
+              "Bar of other categories",
+              "Radar",
+              "Radar of other categories",
+              "Histogram",
+              "Histogram of other categories",
+              "Waterfall",
+              "Waterfall of other categories"
+            ]
+          ],
+          [
+            "select_item",
+            [
+              "Chart",
+              "Column",
+              "Clustered Column",
+              "Pie",
+              "Pie of other categories",
+              "Area",
+              "Area of other categories",
+              "Line",
+              "Line of other categories",
+              "Scatter",
+              "Scatter with only Y values",
+              "XY scatter with only Y values",
+              "Bar",
+              "Bar of other categories",
+              "Radar",
+              "Radar of other categories",
+              "Histogram",
+              "Histogram of other categories",
+              "Waterfall",
+              "Waterfall of other categories"
+            ]
+          ]
+        ],
+        "latency_s": 174.8
+      },
+      {
+        "q": "định dạng có điều kiện tô đỏ ô lớn hơn 100",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 2,
+        "first": [
+          [
+            "select_range",
+            [
+              "A1:A100"
+            ]
+          ],
+          [
+            "set_value",
+            [
+              "A1:A100"
+            ]
+          ]
+        ],
+        "latency_s": 44.2
+      },
+      {
+        "q": "cố định dòng đầu tiên khi cuộn trang tính",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 1,
+        "first": [
+          [
+            "set_value",
+            [
+              "Home tab"
+            ]
+          ]
+        ],
+        "latency_s": 16.2
+      },
+      {
+        "q": "lọc dữ liệu theo cột Tháng",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 2,
+        "first": [
+          [
+            "select_range",
+            [
+              "Tháng"
+            ]
+          ],
+          [
+            "select_range",
+            [
+              "A1:A1"
+            ]
+          ]
+        ],
+        "latency_s": 39.8
+      },
+      {
+        "q": "sắp xếp doanh số từ lớn đến bé",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 1,
+        "first": [
+          [
+            "select_range",
+            [
+              "A1:A10"
+            ]
+          ]
+        ],
+        "latency_s": 12.3
+      },
+      {
+        "q": "gộp ô A1 đến D1 và căn giữa",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 1,
+        "first": [
+          [
+            "select_range",
+            [
+              "A1:D1"
+            ]
+          ]
+        ],
+        "latency_s": 11.3
+      },
+      {
+        "q": "chèn bảng (Format as Table) cho vùng dữ liệu",
+        "valid": false,
+        "scope_ok": false,
+        "error": "1 validation error for Plan\n  Invalid JSON: EOF while parsing a string at line 388 column 16 [type=json_invalid, input_value='{\\n  \"in_scope\": true,\\n...n\": {\\n          \"names', input_type=str]\n    F",
+        "latency_s": 360.3
+      },
+      {
+        "q": "tải Excel miễn phí ở đâu",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": false,
+        "n_steps": 4,
+        "first": [
+          [
+            "expand",
+            [
+              "Microsoft Word",
+              "Google Docs"
+            ]
+          ],
+          [
+            "expand",
+            [
+              "Microsoft Word",
+              "Google Docs"
+            ]
+          ],
+          [
+            "expand",
+            [
+              "Microsoft Word",
+              "Google Docs"
+            ]
+          ]
+        ],
+        "latency_s": 81.9
+      },
+      {
+        "q": "gửi file excel qua email cho sếp",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": false,
+        "n_steps": 6,
+        "first": [
+          [
+            "select_item",
+            [
+              "File"
+            ]
+          ],
+          [
+            "select_item",
+            [
+              "File"
+            ]
+          ],
+          [
+            "select_item",
+            [
+              "File"
+            ]
+          ]
+        ],
+        "latency_s": 126.6
+      }
+    ]
+  },
+  {
+    "model": "gemma3:4b",
+    "partial": true,
+    "n": 5,
+    "valid_rate": 0.8,
+    "scope_acc": 0.8,
+    "avg_latency_s": 170.7,
+    "max_latency_s": 416.2,
+    "rows": [
+      {
+        "q": "Cách tạo PivotTable trong Excel",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 12,
+        "first": [
+          [
+            "select_range",
+            null
+          ],
+          [
+            "invoke",
+            null
+          ],
+          [
+            "select_range",
+            null
+          ]
+        ],
+        "latency_s": 122.5
+      },
+      {
+        "q": "làm sao chèn biểu đồ cột trong excel",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 4,
+        "first": [
+          [
+            "select_range",
+            [
+              "Select Data Range",
+              "Select Cells"
+            ]
+          ],
+          [
+            "invoke",
+            [
+              "Insert",
+              "Insert Chart"
+            ]
+          ],
+          [
+            "select_item",
+            [
+              "Column Chart",
+              "Bar Chart"
+            ]
+          ]
+        ],
+        "latency_s": 85.7
+      },
+      {
+        "q": "định dạng có điều kiện tô đỏ ô lớn hơn 100",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 10,
+        "first": [
+          [
+            "select_range",
+            [
+              "Select Range",
+              "Select Cells"
+            ]
+          ],
+          [
+            "select_range",
+            [
+              "Select Range",
+              "Select Cells"
+            ]
+          ],
+          [
+            "invoke",
+            [
+              "Conditional Formatting",
+              "Format Cells"
+            ]
+          ]
+        ],
+        "latency_s": 184.5
+      },
+      {
+        "q": "cố định dòng đầu tiên khi cuộn trang tính",
+        "valid": true,
+        "in_scope": true,
+        "scope_ok": true,
+        "n_steps": 2,
+        "first": [
+          [
+            "set_value",
+            [
+              "Scroll",
+              "Scroll Page"
+            ]
+          ],
+          [
+            "set_value",
+            [
+              "Freeze Panes",
+              "Freeze Top Row"
+            ]
+          ]
+        ],
+        "latency_s": 44.7
+      },
+      {
+        "q": "lọc dữ liệu theo cột Tháng",
+        "valid": false,
+        "scope_ok": false,
+        "error": "1 validation error for Plan\n  Invalid JSON: EOF while parsing a string at line 148 column 21 [type=json_invalid, input_value='{\"in_scope\": true, \"titl...\\n    \"names\": [\"Select', input_type=str]\n    F",
+        "latency_s": 416.2
+      }
+    ],
+    "note": "run stopped after 4/10 prompts: Ollama runner stuck in 'Stopping...'"
   }
 ]

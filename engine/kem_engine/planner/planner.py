@@ -20,7 +20,7 @@ from ..safety.guard import Blocklist
 from ..uia.element import Element
 
 FIXTURES_DIR = Path(__file__).resolve().parents[2] / "fixtures"
-CARD_DIRECT_THRESHOLD = 90.0
+CARD_DIRECT_THRESHOLD = 95.0
 MAX_STEPS = 12
 MAX_NAMES = 4
 _ZERO = Rect(left=0, top=0, right=0, bottom=0)
@@ -38,9 +38,13 @@ SYSTEM = (
 LLMIntent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value"]
 
 
+UIAType = Literal["TabItem", "Button", "SplitButton", "MenuItem", "ListItem", "CheckBox", "Edit", "ComboBox",
+                  "RadioButton"]
+
+
 class LLMTarget(BaseModel):
     names: list[str] = Field(max_length=MAX_NAMES)
-    control_type: str
+    control_type: UIAType  # closed set → Ollama's grammar cannot emit 'button' or 'list_item'
     within_group: Optional[str] = None
 
 
@@ -75,6 +79,17 @@ _TROUBLE = re.compile(r"\b(tại sao|vì sao|sao lại|bị lỗi|không đượ
 def is_troubleshooting(question: str) -> bool:
     """'Why is my chart off?' is not 'how do I insert a chart' — let the Planner decide."""
     return bool(_TROUBLE.search(unicodedata.normalize("NFC", question).lower()))
+
+
+CARD_RIVAL_THRESHOLD = 85.0
+
+
+def card_is_clear(matches) -> bool:
+    """Use a card directly only if it matches strongly and no other card comes close
+    ("trộn ô và căn giữa" hits both merge_center and center_align → let the Planner choose)."""
+    if not matches or matches[0][0] < CARD_DIRECT_THRESHOLD:
+        return False
+    return len(matches) < 2 or matches[1][0] < CARD_RIVAL_THRESHOLD
 
 
 def fixture_ids() -> list[str]:
@@ -125,7 +140,7 @@ class Planner:
     def plan(self, question: str, env: EnvProfile | None, ribbon_tabs: list[str] | None = None) -> PlanResult:
         matches = self.pack.match(question)
         best_score, best = matches[0] if matches else (0.0, None)
-        if best and self.use_cards_directly and best_score >= CARD_DIRECT_THRESHOLD and not is_troubleshooting(question):
+        if best and self.use_cards_directly and card_is_clear(matches) and not is_troubleshooting(question):
             return PlanResult(best.to_plan(), "card", card_score=best_score)
         if self.llm is None:
             return PlanResult(None, "none", reason="Không có model nào để lập kế hoạch cho câu hỏi này.")

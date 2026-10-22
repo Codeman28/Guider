@@ -3,16 +3,17 @@
 
 [default]
 provider = "ollama"
-# TODO(verify): chosen from spike S7 (docs/spikes/RESULTS.md); change after re-running S7.
-planner_model = "qwen3:4b"
-writer_model = "qwen3:4b"
-grounder_model = "qwen3:4b"
+# Chosen from spike S7 (docs/spikes/RESULTS.md): fastest on CPU (median 30 s), 100% schema-valid.
+planner_model = "qwen3:1.7b"
+writer_model = "qwen3:1.7b"
+grounder_model = "qwen3:1.7b"
 fallback = []            # e.g. ["openrouter"] — only providers with enabled = true are used
 
 [ollama]
 base_url = "http://127.0.0.1:11434"
 timeout_s = 600          # CPU-only machines: S7 saw 10–280 s per Planner call
 think = false            # qwen3 thinking mode off: faster, and output is constrained JSON anyway
+keep_alive = "30m"      # S7: the runner got stuck in "Stopping..." when the model unloaded mid-run
 
 [openrouter]             # optional, the user turns it on; payload is sanitized (§7.3)
 enabled = false

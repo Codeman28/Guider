@@ -98,3 +98,12 @@ def test_ambiguous_when_same_name_elsewhere(make_el):
 def test_shipped_aliases_load():
     groups = load_aliases()
     assert any("insert" in g and "chèn" in g for g in groups)
+
+
+def test_control_type_variants_from_small_models(insert_ribbon):
+    from kem_engine.grounding.grounder import canonical_type
+    assert canonical_type("list_item") == "ListItem" and canonical_type("Tab Item") == "TabItem"
+    r = ground(Target(names=["Insert"], control_type="tab"), "select_ribbon_tab", insert_ribbon, ALIASES)
+    assert r.element.automation_id == "TabInsert"
+    r = ground(Target(names=["PivotTable"], control_type="button"), "invoke", insert_ribbon, ALIASES)
+    assert r.element.eid == 5

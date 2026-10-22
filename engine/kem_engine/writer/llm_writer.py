@@ -60,6 +60,10 @@ def problems(out: WOut, trace: Trace) -> list[str]:
 
 
 def _fix_labels(text: str, name: str) -> str:
+    """Bold labels must be the exact UIA name; quoted mentions of it ('Italic', “Italic”) become bold."""
+    if name:
+        for q1, q2 in (("'", "'"), ('"', '"'), ("“", "”"), ("‘", "’")):
+            text = text.replace(f"{q1}{name}{q2}", f"**{name}**")
     return re.sub(r"\*\*(.+?)\*\*", lambda m: m.group(0) if m.group(1) == name else f"**{name}**", text)
 
 
@@ -85,16 +89,18 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClien
         log.info("writer.fixing", problems=found)  # labels are fixed by code below; wrong ids → template
     if [s.id for s in out.steps] != [s.id for s in trace.steps]:
         return base, "template"
+    # Headings stay deterministic (template, exact UIA label). The model contributes the body text,
+    # kept only if it names the element in bold; otherwise the template body is used.
     steps = []
     for ws, ts, bs in zip(out.steps, trace.steps, base.steps):
         name = template.clean(ts.element_name or "")
-        heading = _fix_labels(ws.heading, name)
-        if not heading.startswith(f"Bước {bs.id}"):
-            heading = f"Bước {bs.id}: {heading}"
+        body = _fix_labels(ws.body, name)
+        if not ts.verified or f"**{name}**" not in body:
+            body = bs.body
         tip = ws.tip if (ws.tip and ts.access_key and ts.access_key in ws.tip) else bs.tip
-        steps.append(bs.model_copy(update={"heading": heading, "body": _fix_labels(ws.body, name), "tip": tip}))
-    tut = base.model_copy(update={"title": out.title or title, "intro": out.intro or base.intro,
-                                  "outro": out.outro or base.outro, "steps": steps})
+        steps.append(bs.model_copy(update={"body": body, "tip": tip}))
+    outro = out.outro if status == "ok" and out.outro else base.outro
+    tut = base.model_copy(update={"outro": outro, "steps": steps})
     if template.validate_labels(tut, trace):  # should be impossible after _fix_labels
         return base, "template"
     return tut, "llm"

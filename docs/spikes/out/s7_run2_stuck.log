@@ -5,3 +5,4 @@ llama3.2:3b {"q": "cố định dòng đầu tiên khi cuộn trang tính", "val
 llama3.2:3b {"q": "lọc dữ liệu theo cột Tháng", "valid": true, "in_scope": true, "scope_ok": true, "n_steps": 2, "first": [["select_range", ["Tháng"]], ["select_range", ["Tháng"]]], "latency_s": 36.2}
 llama3.2:3b {"q": "sắp xếp doanh số từ lớn đến bé", "valid": false, "scope_ok": false, "error": "1 validation error for Plan\n  Invalid JSON: EOF while parsing a string at line 1 column 5054 [type=json_invalid, input_value='{\"in_scope\": true, \"titl...[\"Z1:Z10\", \"Z1:Z10 (Alt', input_type=str]\n    F", "latency_s": 374.5}
 llama3.2:3b {"q": "gộp ô A1 đến D1 và căn giữa", "valid": true, "in_scope": true, "scope_ok": true, "n_steps": 1, "first": [["select_range", ["A1:D1"]]], "latency_s": 11.9}
+S7-DONE

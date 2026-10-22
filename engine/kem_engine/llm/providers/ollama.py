@@ -18,6 +18,7 @@ class OllamaProvider:
         self.base = conf.base_url.rstrip("/")
         self.timeout = conf.timeout_s
         self.think = conf.think
+        self.keep_alive = conf.keep_alive
 
     def _post(self, body: dict) -> dict:
         req = urllib.request.Request(self.base + "/api/chat", json.dumps(body).encode(),
@@ -31,6 +32,8 @@ class OllamaProvider:
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         if self.think is not None:
             body["think"] = self.think
+        if self.keep_alive:
+            body["keep_alive"] = self.keep_alive
         for attempt in range(2):
             try:
                 return self._post(body)["message"]["content"]
