@@ -1,7 +1,7 @@
 # Kèm — SPEC
 
 Agent tạo tutorial ngay trên máy người dùng · Microsoft 365 desktop · Windows · Model miễn phí
-Phiên bản 1.0 · 22/10/2026. Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
+Phiên bản 1.1 · 22/10/2026 (cập nhật sau Phase 0, xem docs/adr/0001-phase0-findings.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
 
 ## 1. Bài toán và định vị sản phẩm
 
@@ -32,7 +32,7 @@ Windows 10/11, Microsoft 365 desktop (Excel trước, sau đó Word, PowerPoint)
 | UIA (UI Automation) | API trợ năng của Windows. Mỗi nút/ô/menu là một AutomationElement có Name, ControlType, AutomationId, BoundingRectangle, AccessKey, AcceleratorKey, và các control pattern (Invoke, ExpandCollapse, Toggle, SelectionItem, Value). Đây là "xương sống" của Kèm. |
 | COM Automation | Object model của Office (Excel.Application, Word.Application, PowerPoint.Application). Dùng để dựng và dọn sandbox và xác minh trạng thái, KHÔNG dùng để làm các bước demo (vì COM không để lại dấu vết trên giao diện để chụp). |
 | Sandbox document | File trống do Kèm tạo qua COM, không bao giờ được lưu, đóng với SaveChanges=False. |
-| Sandbox window whitelist | Tập HWND mà Kèm được phép tương tác: cửa sổ của sandbox document + dialog do chính nó sở hữu. Mọi cửa sổ khác là vùng cấm. |
+| Sandbox window whitelist | Tập HWND mà Kèm được phép tương tác: cửa sổ của sandbox document + các cửa sổ top-level mới xuất hiện sau hành động của Kèm (xem §8 — định nghĩa theo từng app, cập nhật sau S3). Mọi cửa sổ khác là vùng cấm. |
 | EnvProfile | Hồ sơ môi trường: app, build Office, ngôn ngữ UI, DPI, theme, độ phân giải. Là một phần của cache key. |
 | Plan | Danh sách bước ở dạng ý định (intent), do LLM Planner sinh ra. Chưa gắn với phần tử UI cụ thể. |
 | Grounding | Ánh xạ một bước trong Plan sang đúng một AutomationElement trên giao diện thật. |
@@ -70,6 +70,7 @@ Quyết định — "Demo mode" kín đáo:
 - Lần đầu: màn hình đồng ý một lần, giải thích bằng 3 câu: Kèm sẽ mở một file trống, làm mẫu, chụp riêng cửa sổ đó, rồi xóa sạch; không đọc file nào của bạn; ảnh không rời khỏi máy.
 - Khi chạy: một toast nhỏ góc màn hình "Kèm đang làm mẫu… nhấn Esc để dừng", cửa sổ sandbox mở cạnh app (không phủ toàn màn hình), kết thúc thì tự đóng.
 - Ưu tiên hành động qua UIA pattern (Invoke/ExpandCollapse/SelectionItem/Value) — không di chuột thật. Chỉ fallback sang click chuột thật khi bắt buộc, và lúc đó toast chuyển sang "Vui lòng không dùng chuột trong vài giây".
+- **Cập nhật sau spike S4:** UIA pattern chạy được khi cửa sổ sandbox ở nền, nhưng **Office tự kích hoạt cửa sổ của nó sau mỗi lệnh ribbon** (cướp foreground). Vì vậy "người dùng làm việc song song" KHÔNG được hứa ở v1. Thay vào đó: toast hiển thị ngay từ bước đầu "Kèm đang làm mẫu — đừng gõ phím, nhấn Esc để dừng"; trước mỗi bước kiểm tra Excel không ở chế độ Edit (retry COM khi gặp RPC_E_SERVERCALL_RETRYLATER); teardown gửi Esc tới HWND sandbox trước khi Close. Hướng v1.5: low-level keyboard hook chỉ trong lúc demo, nuốt phím (trừ Esc) khi foreground là cửa sổ sandbox.
 - Phase sau (v2): chạy trong desktop ảo cô lập. UFO² đã có giao diện Picture-in-Picture chạy automation trong một desktop ảo riêng, xây trên hạ tầng remote desktop loopback, để người dùng và agent làm việc song song. Đây là hướng nâng cấp đúng nhưng phức tạp; không đưa vào v1.
 ### ADR-4: Model local mặc định, cloud miễn phí là tùy chọn
 
@@ -116,7 +117,7 @@ TEARDOWN luôn chạy (khối finally), kể cả khi crash ở giữa.
 | State | Zustand |  |
 | Font | Không chốt trước — chọn qua /impeccable typeset với ràng buộc: hỗ trợ đầy đủ dấu tiếng Việt, license cho phép nhúng (OFL), KHÔNG dùng Inter/Arial/system default (bị Impeccable xếp vào anti-pattern). Ứng viên khởi điểm để so sánh: Be Vietnam Pro. | Đóng gói font local, không gọi CDN lúc chạy. |
 | Design system | Impeccable (pbakaus/impeccable, Apache-2.0) — bộ quy tắc và công cụ kiểm tra thiết kế giao diện | Bắt buộc cho mọi file UI, xem mục 9.1. |
-| Engine | Python 3.11, đóng gói PyInstaller (onefile) làm sidecar |  |
+| Engine | Python 3.12 (đã kiểm chứng ở Phase 0), đóng gói PyInstaller (onefile) làm sidecar |  |
 | UIA | pywinauto (backend uia) + comtypes cho truy cập UIA thô khi cần | Phương án B: .NET + FlaUI. |
 | COM | pywin32 (win32com.client.DispatchEx) |  |
 | Capture | Win32 PrintWindow với cờ PW_RENDERFULLCONTENT (qua pywin32/ctypes) | Phương án B: Windows.Graphics.Capture. |
@@ -153,9 +154,9 @@ teardown(handle)    -> luôn idempotent
 
 - Excel: DispatchEx("Excel.Application") (tạo instance riêng), Visible=True, Workbooks.Add(), nạp fixture (dữ liệu mẫu như bảng doanh số 20 dòng) qua Range.Value. Đặt kích thước/vị trí cửa sổ cố định (ví dụ 1280×800 logic) để ảnh đồng nhất.
 - Word: Documents.Add(). PowerPoint: Presentations.Add().
-- Rủi ro cần spike (S2): Theo hiểu biết hiện tại, PowerPoint (và có thể Word) chạy single-instance, nên sandbox có thể nằm chung process với file thật người dùng đang mở. Do đó whitelist phải theo HWND của cửa sổ sandbox, KHÔNG theo PID. Kiểm chứng trên máy thật.
+- Kết quả spike S2: Excel và Word — mỗi DispatchEx là một process riêng (HWND: `Application.Hwnd` / `Document.ActiveWindow.Hwnd`). PowerPoint — single-instance, sandbox có thể chung process với file thật; không có HWND qua COM, phải tìm cửa sổ `PPTFrameClass` mới xuất hiện sau `Presentations.Add()` và đối chiếu tiêu đề. Setup sandbox phải có timeout (đã gặp Word treo ~900 s vì dialog modal).
 - Fixture: thư viện fixture JSON có sẵn cho các tác vụ phổ biến; LLM chỉ được chọn fixture theo ID hoặc sinh dữ liệu giả theo schema (không dữ liệu thật).
-- Teardown: doc.Close(SaveChanges=False); nếu instance do Kèm tạo và không còn document nào khác thì Quit(); giải phóng COM refs; xóa temp_dir. Chỉ xóa đường dẫn có trong session manifest do Kèm tạo — không bao giờ xóa bất cứ file nào khác, kể cả file AutoRecover không chắc chắn là của sandbox.
+- Teardown: gửi Esc tới HWND sandbox (thoát chế độ Edit nếu có); doc.Close(SaveChanges=False) với retry khi COM báo busy; nếu instance do Kèm tạo và không còn document nào khác thì Quit(); giải phóng COM refs (process Office chỉ thoát khi mọi ref được nhả); xóa temp_dir. Chỉ xóa đường dẫn có trong session manifest do Kèm tạo — không bao giờ xóa bất cứ file nào khác, kể cả file AutoRecover không chắc chắn là của sandbox.
 ### 6.4 Planner (LLM call #1)
 
 Đầu vào: câu hỏi, EnvProfile rút gọn, đoạn Knowledge Pack liên quan (truy hồi theo app + từ khóa), danh sách tên các tab ribbon thực tế (lấy từ UIA, rẻ).
@@ -189,10 +190,10 @@ Không cho Planner sinh tọa độ.
 
 ### 6.5 Grounder
 
-- Snapshot cây UIA chỉ của các HWND whitelist, lọc IsOffscreen=false, IsEnabled=true, giới hạn độ sâu; tạo danh sách phẳng [{eid, name, control_type, automation_id, parent_chain, rect, patterns, access_key, accel_key}].
+- Snapshot cây UIA chỉ của các HWND whitelist bằng raw UIA `FindAllBuildCache` (một lời gọi, cache sẵn thuộc tính — 0,41 s ở S1; duyệt bằng wrapper pywinauto chậm và không ổn định), lọc IsOffscreen=false, IsEnabled=true, giới hạn độ sâu; tạo danh sách phẳng [{eid, name, control_type, automation_id, parent_chain, rect, patterns, access_key, accel_key}].
 - Lọc theo control_type và within, chấm điểm rapidfuzz với target.names + alias EN↔VI. Nếu điểm cao nhất ≥ ngưỡng (khởi điểm 90, tune bằng eval) và cách điểm thứ hai ≥ 10 → chọn, không gọi LLM.
 - Mơ hồ → gọi LLM (call #3, tối đa 1 lần/tutorial, gộp mọi bước mơ hồ còn lại vào cùng một lời gọi nếu có thể) với top-k ứng viên dạng văn bản.
-- Không tìm thấy → luật sửa cục bộ: phần tử có thể nằm trong tab chưa chọn, group bị thu gọn (ribbon hẹp gom group thành nút dropdown), hoặc menu chưa mở → chèn bước tiền đề (ví dụ expand group thu gọn) rồi thử lại. Việc ribbon co giãn theo độ rộng cửa sổ chính là lý do ảnh trên mạng khác máy người dùng — đây là tình huống bình thường, không phải lỗi.
+- Không tìm thấy → luật sửa cục bộ: phần tử có thể nằm trong tab chưa chọn, group bị thu gọn (ribbon hẹp gom group thành nút dropdown), hoặc menu chưa mở → chèn bước tiền đề (ví dụ expand group thu gọn) rồi thử lại. **Đây là đường chính, không phải ngoại lệ:** ở S1, cửa sổ 1280×800 với DPI 125% đã gom nhóm Tables thành một MenuItem, PivotTable chỉ hiện sau khi expand. Việc ribbon co giãn theo độ rộng cửa sổ chính là lý do ảnh trên mạng khác máy người dùng — đây là tình huống bình thường, không phải lỗi.
 - Kết quả: Locator (chuỗi bước từ cửa sổ gốc, ưu tiên AutomationId nếu có, rồi ControlType+Name) + rect tại thời điểm chụp.
 ### 6.6 Capturer
 
@@ -290,7 +291,7 @@ Writer: như 6.10.
 
 ## 8. Quyền riêng tư và bất biến an toàn (KHÔNG được vi phạm)
 
-- Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới các HWND do sandbox tạo ra (và dialog/popup có owner là chúng). Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
+- Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới HWND cửa sổ sandbox và các cửa sổ phụ của nó. Spike S3 cho thấy popup ribbon có owner là một cửa sổ ẩn, không phải HWND chính, nên "owner là sandbox" không đủ. Định nghĩa: (Excel/Word, process riêng) cửa sổ top-level cùng PID với sandbox; (PowerPoint, chung process) cửa sổ top-level cùng PID **xuất hiện sau một hành động của Kèm** trong phiên và giao/kề rect cửa sổ sandbox — cửa sổ có từ trước phiên luôn bị cấm. Bỏ qua cửa sổ `MSO_BORDEREFFECT_WINDOW_CLASS`. Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
 - Không đọc file người dùng. Không mở, liệt kê, hay đọc tài liệu có sẵn. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
 - Blocklist hành động: không bao giờ invoke các phần tử thuộc nhóm File/Backstage → Account, Share, Save/Save As/Export tới vị trí ngoài temp, Send/Email, Sign in/out, Options → Trust Center, Add-ins store, Macro/VBA, Copilot. Danh sách lưu trong safety/blocklist.yaml (EN+VI), có test.
 - Không mạng từ engine ngoài lời gọi LLM đã cấu hình.
@@ -426,7 +427,7 @@ Ma trận môi trường: {EN, VI} × {100%, 125%, 150% DPI} × {cửa sổ rộ
 | AV/EDR chặn | Trung bình | Code signing, không ẩn cửa sổ, không inject process. |
 | Model local yếu tiếng Việt | Trung bình | Writer prompt có ví dụ mẫu; validator nhãn; cho phép người dùng bật cloud cho riêng Writer (payload đã sanitize). |
 | Quota free cạn | Trung bình | Local mặc định, recipe cache, ngân sách 3 call. |
-| Người dùng thao tác chen ngang | Trung bình | Ưu tiên UIA pattern; kiểm tra foreground trước input; Esc. |
+| Người dùng thao tác chen ngang | **Cao** (đã xảy ra ở S4) | Office cướp foreground sau mỗi lệnh ribbon; toast "đừng gõ phím" từ đầu; kiểm tra chế độ Edit + retry COM; teardown gửi Esc; v1.5: keyboard hook trong lúc demo. |
 
 ## 15. Quy tắc triển khai
 
