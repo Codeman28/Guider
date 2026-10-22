@@ -1,7 +1,7 @@
 """Shared data contracts (SPEC §6.4, §6.10, §11). Every LLM/plan I/O goes through these."""
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -10,7 +10,7 @@ Intent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle
 
 # Expected-condition kinds the Verifier knows. COM checks are a closed set — never evaluated strings.
 ExpectedType = Literal["tab_selected", "expanded", "dialog_opened", "dialog_closed",
-                       "com_pivot_tables", "com_charts", "com_format_conditions", "none"]
+                       "com_pivot_tables", "com_charts", "com_format_conditions", "com_check", "none"]
 
 
 class Within(BaseModel):
@@ -29,6 +29,11 @@ class Expected(BaseModel):
     type: ExpectedType = "none"
     names: Optional[list[str]] = None
     min_count: int = 1
+    # com_check: prop must be a key of verify.checks.COM_PROPS (closed allowlist, never evaluated)
+    prop: Optional[str] = None
+    ref: Optional[str] = None
+    op: Literal["eq", "contains", "gte", "true", "false"] = "eq"
+    value: Optional[Union[str, int, float, bool]] = None
 
 
 class Step(BaseModel):
@@ -52,6 +57,7 @@ class Plan(BaseModel):
     fixture_id: Optional[str] = None
     preconditions: list[Precondition] = []
     steps: list[Step]
+    success_check: Optional[Expected] = None  # task-level COM assertion (cards, eval)
 
 
 class EnvProfile(BaseModel):

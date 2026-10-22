@@ -1,0 +1,223 @@
+# Excel Knowledge Pack — task cards (SPEC §2 "Knowledge Pack", §6.4).
+# Each card is a reviewed plan skeleton. Ribbon names/AutomationIds come from spikes/dump_ribbon.py on
+# M365 build 20326 (EN UI). Items that only appear inside a menu/gallery are marked `unverified: true`
+# until an eval run has grounded them. The Planner gets the best-matching cards as reference; when a
+# card matches the question confidently the engine may use it directly (0 Planner calls).
+version: 1
+app: excel
+cards:
+  - id: pivot_basic
+    title: Cách tạo PivotTable trong Excel
+    keywords: [pivot, pivottable, bảng tổng hợp, bảng pivot, tổng hợp dữ liệu]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem, automation_id: TabInsert}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [PivotTable], control_type: Button|SplitButton, within: {names: [Tables, Bảng], control_type: Group}}, expected: {type: dialog_opened}, capture_result: true}
+      - {id: 3, intent: invoke, target: {names: [OK], control_type: Button}, expected: {type: com_pivot_tables}, capture_result: true}
+    success_check: {type: com_check, prop: book.pivot_tables, op: gte, value: 1}
+
+  - id: chart_column
+    title: Cách chèn biểu đồ cột trong Excel
+    keywords: [biểu đồ cột, chart cột, column chart, vẽ biểu đồ cột, đồ thị cột]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "C1:D9"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem, automation_id: TabInsert}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Insert Column or Bar Chart], control_type: MenuItem, automation_id: ChartTypeColumnInsertGallery, within: {names: [Charts, Biểu đồ], control_type: Group}}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Clustered Column, Cột Nhóm], control_type: ListItem}, expected: {type: com_charts}, capture_result: true}
+    success_check: {type: com_check, prop: book.charts, op: gte, value: 1}
+
+  - id: chart_pie
+    title: Cách chèn biểu đồ tròn trong Excel
+    keywords: [biểu đồ tròn, pie chart, chart tròn, biểu đồ hình tròn, đồ thị tròn]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "C1:D5"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem, automation_id: TabInsert}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Insert Pie or Doughnut Chart], control_type: MenuItem, automation_id: ChartTypePieInsertGallery, within: {names: [Charts, Biểu đồ], control_type: Group}}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Pie, Hình tròn], control_type: ListItem}, expected: {type: com_charts}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: book.charts, op: gte, value: 1}
+
+  - id: cf_greater_than
+    title: Cách tô màu ô lớn hơn một giá trị bằng Định dạng có điều kiện
+    keywords: [định dạng có điều kiện, conditional formatting, tô màu ô lớn hơn, lớn hơn, greater than, tô đỏ]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "D2:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Conditional Formatting], control_type: MenuItem|SplitButton|Button, automation_id: ConditionalFormattingMenu, within: {names: [Styles, Kiểu], control_type: Group}}, expected: {type: expanded}}
+      - {id: 3, intent: expand, target: {names: [Highlight Cells Rules], control_type: MenuItem}, expected: {type: expanded}}
+      - {id: 4, intent: invoke, target: {names: [Greater Than...], control_type: MenuItem}, expected: {type: dialog_opened}}
+      - {id: 5, intent: set_value, value: "100", target: {names: [Format cells that are GREATER THAN], control_type: Edit}}
+      - {id: 6, intent: invoke, target: {names: [OK], control_type: Button}, expected: {type: com_format_conditions}, capture_result: true}
+    success_check: {type: com_check, prop: book.format_conditions, op: gte, value: 1}
+
+  - id: freeze_top_row
+    title: Cách cố định dòng đầu tiên trong Excel
+    keywords: [cố định dòng, cố định hàng, freeze, freeze panes, đóng băng dòng, giữ tiêu đề khi cuộn]
+    fixture_id: sales_table_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [View, Xem], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Freeze Panes], control_type: MenuItem, automation_id: ViewFreezePanesGallery}, expected: {type: expanded}}
+      - {id: 3, intent: invoke, target: {names: [Freeze Top Row], control_type: MenuItem|ListItem|Button}, expected: {type: com_check, prop: window.freeze_panes, op: "true"}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: window.freeze_panes, op: "true"}
+
+  - id: filter_on
+    title: Cách bật bộ lọc (Filter) cho bảng dữ liệu
+    keywords: [lọc, bộ lọc, filter, lọc dữ liệu, autofilter]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Data, Dữ liệu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Filter, Bộ lọc], control_type: Button, automation_id: Filter}, expected: {type: com_check, prop: sheet.autofilter, op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: sheet.autofilter, op: "true"}
+
+  - id: sort_desc
+    title: Cách sắp xếp dữ liệu từ lớn đến nhỏ
+    keywords: [sắp xếp giảm dần, sắp xếp từ lớn đến bé, sắp xếp từ lớn đến nhỏ, sort descending, sort z to a]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "D2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Data, Dữ liệu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Sort Z to A], control_type: Button, automation_id: SortDescendingExcel}, expected: {type: com_check, prop: range.sorted_desc, ref: "D2:D21", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: range.sorted_desc, ref: "D2:D21", op: "true"}
+
+  - id: merge_center
+    title: Cách gộp ô và căn giữa (Merge & Center)
+    keywords: [gộp ô, trộn ô, merge, merge and center, merge & center, gộp và căn giữa]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "F1:H1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Merge & Center], control_type: Button, automation_id: MergeCenter}, expected: {type: com_check, prop: range.merge_cells, ref: "F1:H1", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: range.merge_cells, ref: "F1:H1", op: "true"}
+
+  - id: insert_table
+    title: Cách chuyển vùng dữ liệu thành Bảng (Table)
+    keywords: [chèn bảng, tạo bảng, table, format as table, định dạng bảng, chuyển thành bảng]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem, automation_id: TabInsert}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Table, Bảng], control_type: Button, automation_id: TableInsertExcel, within: {names: [Tables, Bảng], control_type: Group}}, expected: {type: dialog_opened}, capture_result: true}
+      - {id: 3, intent: invoke, target: {names: [OK], control_type: Button}, expected: {type: com_check, prop: sheet.list_objects, op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: sheet.list_objects, op: gte, value: 1}
+
+  - id: bold_header
+    title: Cách in đậm dòng tiêu đề
+    keywords: [in đậm, chữ đậm, bold, tô đậm]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Bold, Đậm], control_type: Button, automation_id: Bold}, expected: {type: com_check, prop: range.font.bold, ref: "A1:D1", op: "true"}}
+    success_check: {type: com_check, prop: range.font.bold, ref: "A1:D1", op: "true"}
+
+  - id: italic_text
+    title: Cách in nghiêng chữ
+    keywords: [in nghiêng, chữ nghiêng, italic]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A2:A21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Italic, Nghiêng], control_type: Button, automation_id: Italic}, expected: {type: com_check, prop: range.font.italic, ref: "A2:A21", op: "true"}}
+    success_check: {type: com_check, prop: range.font.italic, ref: "A2:A21", op: "true"}
+
+  - id: wrap_text
+    title: Cách xuống dòng trong ô (Wrap Text)
+    keywords: [xuống dòng trong ô, wrap text, ngắt dòng, tự xuống dòng]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "C2:C21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Wrap Text], control_type: Button, automation_id: WrapText}, expected: {type: com_check, prop: range.wrap_text, ref: "C2:C21", op: "true"}}
+    success_check: {type: com_check, prop: range.wrap_text, ref: "C2:C21", op: "true"}
+
+  - id: center_align
+    title: Cách căn giữa nội dung ô
+    keywords: [căn giữa, canh giữa, center, align center]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Center], control_type: Button, automation_id: AlignCenter}, expected: {type: com_check, prop: range.horizontal_alignment, ref: "A1:D1", op: eq, value: -4108}}
+    success_check: {type: com_check, prop: range.horizontal_alignment, ref: "A1:D1", op: eq, value: -4108}
+
+  - id: percent_style
+    title: Cách định dạng số thành phần trăm
+    keywords: [phần trăm, percent, định dạng phần trăm, "%"]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "D2:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Percent Style], control_type: Button, automation_id: PercentStyle}, expected: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: "%"}}
+    success_check: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: "%"}
+
+  - id: comma_style
+    title: Cách thêm dấu phân cách hàng nghìn
+    keywords: [phân cách hàng nghìn, dấu phẩy, comma style, định dạng số có dấu phẩy]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "D2:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Comma Style], control_type: Button, automation_id: CommaStyle}, expected: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: ","}}
+    success_check: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: ","}
+
+  - id: increase_decimal
+    title: Cách tăng số chữ số thập phân
+    keywords: [thập phân, tăng số lẻ, increase decimal, thêm số sau dấu phẩy]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "D2:D21"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Increase Decimal], control_type: Button, automation_id: DecimalsIncrease}, expected: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: "0.0"}}
+    success_check: {type: com_check, prop: range.number_format, ref: "D2", op: contains, value: "0.0"}
+
+  - id: fill_color
+    title: Cách tô màu nền cho ô
+    keywords: [tô màu nền, màu nền, fill color, tô màu ô, đổ màu]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Fill Color], control_type: SplitButton|Button, automation_id: CellFillColorPicker}, expected: {type: com_check, prop: range.interior.color, ref: "A1", op: eq, value: 65535}}
+    success_check: {type: com_check, prop: range.interior.color, ref: "A1", op: eq, value: 65535}
+
+  - id: font_color
+    title: Cách đổi màu chữ
+    keywords: [màu chữ, đổi màu chữ, font color, chữ màu đỏ]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Font Color], control_type: SplitButton|Button, automation_id: FontColorPicker}, expected: {type: com_check, prop: range.font.color, ref: "A1", op: eq, value: 255}}
+    success_check: {type: com_check, prop: range.font.color, ref: "A1", op: eq, value: 255}
+
+  - id: gridlines_off
+    title: Cách ẩn đường lưới trong Excel
+    keywords: [ẩn đường lưới, bỏ đường kẻ, gridlines, tắt lưới, ẩn lưới]
+    fixture_id: sales_table_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [View, Xem], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Gridlines, Đường lưới], control_type: CheckBox, automation_id: ViewSheetGridlines}, expected: {type: com_check, prop: window.display_gridlines, op: "false"}}
+    success_check: {type: com_check, prop: window.display_gridlines, op: "false"}
+
+  - id: show_formulas
+    title: Cách hiển thị công thức thay cho kết quả
+    keywords: [hiện công thức, hiển thị công thức, show formulas, xem công thức]
+    fixture_id: sales_table_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Formulas, Công thức], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: toggle, target: {names: [Show Formulas], control_type: Button, automation_id: ShowFormulas}, expected: {type: com_check, prop: window.display_formulas, op: "true"}}
+    success_check: {type: com_check, prop: window.display_formulas, op: "true"}
+
+  - id: orientation_landscape
+    title: Cách xoay trang ngang khi in
+    keywords: [xoay ngang, trang ngang, landscape, hướng giấy, in ngang]
+    fixture_id: sales_table_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Page Layout, Bố trí Trang], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Orientation], control_type: MenuItem, automation_id: PageOrientationGallery}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Landscape, Ngang], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: sheet.page_orientation, op: eq, value: 2}, unverified: true}
+    success_check: {type: com_check, prop: sheet.page_orientation, op: eq, value: 2}

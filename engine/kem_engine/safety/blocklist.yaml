@@ -11,6 +11,24 @@ automation_ids:
   - CommentsButton
   - TellMeControlAnchor  # Microsoft search (verified) — can launch arbitrary commands
   - TellMeTextBoxAutomationId
+  # verified on M365 build 20326 (spikes/dump_ribbon.py): network / cloud / code execution
+  - OfficeExtensionsShowAddinFlyout       # Add-ins flyout
+  - PowerQueryGetTransformDataMenuSubscription19  # Get Data
+  - GetPowerQueryDataFromWeb              # From Web
+  - GetPowerQueryGetTransformDataFromText # From Text/CSV (opens the user's files)
+  - GetTransformExistingConnections
+  - PowerQueryRecentSources
+  - DataFromPicture
+  - RefreshAll
+  - WorkbookLinks
+  - Translator                            # sends text to a cloud service
+  - AnalyzeData                           # cloud analysis
+  - MacroPlay                             # View Macros
+  - InsertPicturesInCellOverCellsMenu     # pictures from disk/web
+  - IconInsertFromFile
+  - Insert3DModelDefault
+  - ScreenshotInsertGallery               # captures other windows
+  - SameAsName                            # Unshare Workbook
 names:
   - File
   - Tệp
@@ -44,6 +62,20 @@ names:
   - Record Macro
   - Copilot
   - Microsoft search
+  - Claude            # add-in button on Home (verified)
+  - Get Data
+  - From Web
+  - Refresh All
+  - Stocks (English)
+  - Currencies (English)
+  - Data Types
+  - Translate
+  - Analyze Data
+  - View Macros
+  - Screenshot
+  - Comments
+  - New Comment       # threaded comments carry the account name
+  - Notes
 name_prefixes:
   - Share
   - Sign

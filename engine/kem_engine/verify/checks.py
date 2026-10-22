@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import time
-from typing import Callable
+from typing import Any, Callable
 
 from ..sandbox.com import com_retry
 
@@ -45,3 +45,62 @@ COM_COUNTERS: dict[str, Callable[[object], int]] = {
     "com_charts": charts,
     "com_format_conditions": format_conditions,
 }
+
+
+def _first_sheet(doc):
+    return doc.Worksheets(1)
+
+
+def _range(doc, ref: str):
+    return _first_sheet(doc).Range(ref)
+
+
+def _window(doc):
+    return doc.Windows(1)
+
+
+def _sorted_desc(doc, ref: str) -> bool:
+    vals = [r[0] for r in _range(doc, ref).Value]
+    return vals == sorted(vals, reverse=True)
+
+
+# name → getter(doc, ref). Every readable property is listed here; plans can only name these keys.
+COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
+    "range.font.bold": lambda d, r: _range(d, r).Font.Bold,
+    "range.font.italic": lambda d, r: _range(d, r).Font.Italic,
+    "range.font.color": lambda d, r: int(_range(d, r).Font.Color),
+    "range.interior.color": lambda d, r: int(_range(d, r).Interior.Color),
+    "range.wrap_text": lambda d, r: _range(d, r).WrapText,
+    "range.merge_cells": lambda d, r: _range(d, r).MergeCells,
+    "range.horizontal_alignment": lambda d, r: int(_range(d, r).HorizontalAlignment),
+    "range.number_format": lambda d, r: str(_range(d, r).NumberFormat),
+    "range.sorted_desc": lambda d, r: _sorted_desc(d, r),
+    "sheet.autofilter": lambda d, r: bool(_first_sheet(d).AutoFilterMode),
+    "sheet.list_objects": lambda d, r: int(_first_sheet(d).ListObjects.Count),
+    "sheet.page_orientation": lambda d, r: int(_first_sheet(d).PageSetup.Orientation),
+    "window.freeze_panes": lambda d, r: bool(_window(d).FreezePanes),
+    "window.display_gridlines": lambda d, r: bool(_window(d).DisplayGridlines),
+    "window.display_formulas": lambda d, r: bool(_window(d).DisplayFormulas),
+    "book.pivot_tables": lambda d, r: pivot_tables(d),
+    "book.charts": lambda d, r: charts(d),
+    "book.format_conditions": lambda d, r: format_conditions(d),
+}
+
+
+def compare(actual: Any, op: str, value: Any) -> bool:
+    if op == "true":
+        return actual is True or actual == -1 or actual == 1
+    if op == "false":
+        return actual is False or actual == 0
+    if op == "contains":
+        return str(value) in str(actual)
+    if op == "gte":
+        return actual is not None and float(actual) >= float(value)
+    return actual == value
+
+
+def com_check(doc, prop: str, ref: str | None, op: str, value: Any) -> bool:
+    getter = COM_PROPS.get(prop)
+    if getter is None:
+        raise KeyError(f"unknown COM check {prop!r}")
+    return compare(com_retry(lambda: getter(doc, ref)), op, value)

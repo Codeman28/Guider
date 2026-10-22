@@ -13,8 +13,12 @@ LANG_LABEL = {"en-US": "giao diện tiếng Anh", "vi-VN": "giao diện tiếng 
 _BIDI = re.compile("[‎‏‪-‮]")
 
 
+def clean(name: str) -> str:
+    return _BIDI.sub("", name or "").strip()
+
+
 def _label(name: str) -> str:
-    return "**" + _BIDI.sub("", name).strip() + "**"
+    return "**" + clean(name) + "**"
 
 
 def _texts(s: TraceStep) -> tuple[str, str]:
@@ -75,7 +79,7 @@ def bold_labels(text: str) -> list[str]:
 
 def validate_labels(tut: Tutorial, trace: Trace) -> list[str]:
     """Every bold string must be a real element name from the Trace (SPEC §6.10). Returns offenders."""
-    names = {_BIDI.sub("", s.element_name or "").strip() for s in trace.steps}
+    names = {clean(s.element_name or "") for s in trace.steps}
     bad = []
     for st in tut.steps:
         for part in (st.heading, st.body, st.tip or ""):

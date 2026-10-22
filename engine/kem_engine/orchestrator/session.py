@@ -25,7 +25,7 @@ from ..sandbox import excel
 from ..sandbox.com import com_retry, is_busy_error
 from ..uia import actuator
 from ..uia.snapshot import snapshot
-from ..verify.checks import COM_COUNTERS, poll
+from ..verify.checks import COM_COUNTERS, com_check, poll
 from ..writer.template import validate_labels, write
 
 log = structlog.get_logger()
@@ -49,13 +49,29 @@ class RunResult:
     out_dir: Path
     teardown: dict
     seconds: float
+    trace: Trace | None = None
+    writer_source: str = "template"
+    ribbon_tabs: list[str] | None = None
+
+
+WriteFn = Callable[[Trace, str, str, str], tuple[Tutorial, str]]
+Disambiguate = Callable[[Step, list], object]
+
+
+def _template_writer(trace, title, tid, status):
+    return write(trace, title, tid, status), "template"
 
 
 class Session:
     def __init__(self, plan: Plan, out_root: Path, progress: Callable[[dict], None] | None = None,
-                 window_logical: tuple[int, int] = (1280, 800)):
+                 window_logical: tuple[int, int] = (1280, 800), writer: WriteFn | None = None,
+                 disambiguate: Disambiguate | None = None, cancel_event=None):
         self.plan = plan
         self.window_logical = window_logical
+        self.writer = writer or _template_writer
+        self.disambiguate = disambiguate
+        self.cancel_event = cancel_event  # threading.Event set by tutorial.cancel (RPC)
+        self.ribbon_tabs: list[str] = []
         self.session_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
         self.out_dir = out_root / f"{self.session_id}_{plan.task_canonical}"
         self.progress = progress or (lambda m: None)
@@ -74,7 +90,7 @@ class Session:
                        "n_steps": len(self.plan.steps), "message": message})
 
     def _check_cancel(self):
-        if win32.escape_pressed():
+        if win32.escape_pressed() or (self.cancel_event is not None and self.cancel_event.is_set()):
             raise Cancelled()
 
     def _windows(self) -> list[int]:
@@ -131,6 +147,8 @@ class Session:
             return poll(lambda: bool(set(excel.dialogs(self.sb)) - dialogs_before))
         if exp.type == "dialog_closed":
             return poll(lambda: not (set(excel.dialogs(self.sb)) & dialogs_before))
+        if exp.type == "com_check":
+            return poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=8)
         counter = COM_COUNTERS[exp.type]
         return poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=8)
 
@@ -162,6 +180,10 @@ class Session:
             raise StepFailed(ts.error)
 
         el = res.element
+        if res.ambiguous and self.disambiguate is not None:
+            picked = self.disambiguate(step, [c for _, c in res.candidates])
+            if picked is not None:
+                el = picked
         ts.element_name, ts.control_type, ts.access_key = el.name, el.control_type, el.access_key or None
         ts.grounding_score, ts.ambiguous = res.score, res.ambiguous
         ts.locator = Locator(automation_id=el.automation_id or None, control_type=el.control_type,
@@ -229,8 +251,16 @@ class Session:
             # No foreground juggling: PrintWindow captures covered windows (S3), and Office raises its
             # own window on the first ribbon command anyway (S4). The Alt-key trick showed KeyTips.
             time.sleep(0.5)
+            tabs, _ = snapshot([self.sb.hwnd])
+            ribbon = [e for e in tabs if e.control_type == "TabItem" and e.name]
+            top = min((e.rect.top for e in ribbon), default=0)
+            self.ribbon_tabs = [e.name for e in ribbon if e.rect.top <= top + 10]  # drop sheet tabs
             for step in self.plan.steps:
                 self._run_step(step, step.id)
+            sc = self.plan.success_check
+            if sc is not None and not self._verify(Step(id=0, intent="wait_for", expected=sc), None, set(), set()):
+                status = "partial"
+                log.warning("session.success_check_failed", check=sc.model_dump())
         except Cancelled:
             status = "cancelled"
             self._emit("CANCELLED", "Đã dừng theo yêu cầu.")
@@ -248,7 +278,7 @@ class Session:
             raise RuntimeError("sandbox setup failed")
         self._add_undemonstrated_steps()
         self._emit("WRITE", "Viết hướng dẫn")
-        tut = write(self.trace, self.plan.title, self.session_id, status)
+        tut, writer_source = self.writer(self.trace, self.plan.title, self.session_id, status)
         bad = validate_labels(tut, self.trace)
         if bad:  # template writer only uses Trace names; this guards future edits
             raise RuntimeError(f"writer produced labels not in trace: {bad}")
@@ -257,7 +287,8 @@ class Session:
         self._write_json("manifest.json", {"session_id": self.session_id, "files": self.created_files + ["manifest.json"],
                                            "teardown": teardown_report})
         self._emit("DONE", f"Xong ({status})")
-        return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0)
+        return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0, self.trace, writer_source,
+                         self.ribbon_tabs)
 
     def _add_undemonstrated_steps(self):
         """Plan steps never reached still appear, as text only (SPEC §9 error state)."""

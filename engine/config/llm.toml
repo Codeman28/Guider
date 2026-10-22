@@ -1,0 +1,30 @@
+# SPEC §7.2. Model IDs, endpoints and limits live here — never in code. Values were checked on
+# 22–23/10/2026 against ollama.com/library; re-verify provider docs before changing them.
+
+[default]
+provider = "ollama"
+# TODO(verify): chosen from spike S7 (docs/spikes/RESULTS.md); change after re-running S7.
+planner_model = "qwen3:4b"
+writer_model = "qwen3:4b"
+grounder_model = "qwen3:4b"
+fallback = []            # e.g. ["openrouter"] — only providers with enabled = true are used
+
+[ollama]
+base_url = "http://127.0.0.1:11434"
+timeout_s = 600          # CPU-only machines: S7 saw 10–280 s per Planner call
+think = false            # qwen3 thinking mode off: faster, and output is constrained JSON anyway
+
+[openrouter]             # optional, the user turns it on; payload is sanitized (§7.3)
+enabled = false
+base_url = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+models = []              # "<id>:free" entries — TODO(verify): https://openrouter.ai/models?q=free
+
+[gemini]                 # optional; the UI must warn about free-tier data use before enabling
+enabled = false
+base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"  # TODO(verify) OpenAI-compat endpoint
+api_key_env = "GEMINI_API_KEY"
+model = ""               # TODO(verify): current flash / flash-lite id
+
+[budget]
+max_llm_calls_per_tutorial = 3

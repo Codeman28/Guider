@@ -27,8 +27,11 @@ _BIDI = re.compile("[‎‏‪-‮]")
 ALIASES_PATH = Path(__file__).resolve().parents[2] / "knowledge" / "aliases.yaml"
 
 
+_HYPHENS = re.compile("[‐-―−]")  # Office uses U+2011 in "Add‑ins"
+
+
 def normalize(s: str) -> str:
-    s = _BIDI.sub("", s or "").strip().lower()
+    s = _HYPHENS.sub("-", _BIDI.sub("", s or "")).strip().lower()
     s = re.sub(r"(\.\.\.|…)$", "", s)
     return re.sub(r"\s+", " ", s).strip()
 

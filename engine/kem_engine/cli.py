@@ -68,6 +68,28 @@ def cmd_run(args) -> int:
     return 0 if ok and len(summary) == args.repeat else 1
 
 
+def cmd_ask(args) -> int:
+    from .env import runtime
+    runtime.init()
+
+    import structlog
+    structlog.configure(wrapper_class=structlog.make_filtering_bound_logger(30))
+
+    from .orchestrator.service import TutorialService
+    svc = TutorialService(Path(args.out) if args.out else default_out(), window_logical=(args.width, 800),
+                          use_cards_directly=not args.no_cards)
+    res = svc.create(args.question, progress=lambda m: print(f"[{m.get('state', ''):<9}] {m.get('message', '')}",
+                                                            flush=True))
+    if res.kind == "text":
+        print(res.answer)
+    d = res.to_dict()
+    d.pop("llm_log", None)
+    print(json.dumps(d, ensure_ascii=False))
+    for c in res.llm_log:
+        print(f"  LLM {c['role']:<8} {c['provider']}:{c['model']} {c['seconds']:.1f}s ok={c['ok']}")
+    return 0 if res.kind == "text" or res.status == "ok" else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     for stream in (sys.stdout, sys.stderr):  # Vietnamese output on cp1252 consoles
         try:
@@ -82,10 +104,22 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--width", type=int, default=1280, help="độ rộng logic cửa sổ sandbox (hẹp → ribbon thu gọn)")
     run.add_argument("--out", help="thư mục gốc chứa tutorial (mặc định %%LOCALAPPDATA%%\\Kem\\tutorials)")
     sub.add_parser("tasks", help="liệt kê tác vụ có plan")
+    ask = sub.add_parser("ask", help="hỏi bằng câu tự do → Kèm lập kế hoạch, làm mẫu, viết hướng dẫn")
+    ask.add_argument("question")
+    ask.add_argument("--width", type=int, default=1280)
+    ask.add_argument("--out")
+    ask.add_argument("--no-cards", action="store_true", help="luôn dùng LLM Planner (bỏ qua thẻ Knowledge Pack)")
+    sub.add_parser("serve", help="JSON-RPC qua stdin/stdout cho app")
     args = ap.parse_args(argv)
     if args.cmd == "tasks":
         print("\n".join(list_tasks()))
         return 0
+    if args.cmd == "serve":
+        from .rpc.server import main as serve
+        serve()
+        return 0
+    if args.cmd == "ask":
+        return cmd_ask(args)
     return cmd_run(args)
 
 
