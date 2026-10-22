@@ -1,0 +1,18 @@
+{
+  "task_canonical": "pivot_basic",
+  "title": "Cách tạo PivotTable trong Excel",
+  "fixture_id": "sales_table_basic",
+  "preconditions": [{"type": "select_range", "ref": "A1:D21"}],
+  "steps": [
+    {"id": 1, "intent": "select_ribbon_tab",
+     "target": {"names": ["Insert", "Chèn"], "control_type": "TabItem", "automation_id": "TabInsert"},
+     "expected": {"type": "tab_selected"}},
+    {"id": 2, "intent": "invoke",
+     "target": {"names": ["PivotTable"], "control_type": "Button|SplitButton",
+                "within": {"names": ["Tables", "Bảng"], "control_type": "Group"}},
+     "expected": {"type": "dialog_opened"}, "capture_result": true},
+    {"id": 3, "intent": "invoke",
+     "target": {"names": ["OK"], "control_type": "Button"},
+     "expected": {"type": "com_pivot_tables", "min_count": 1}, "capture_result": true}
+  ]
+}

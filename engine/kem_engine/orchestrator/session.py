@@ -1,0 +1,274 @@
+"""Orchestrator (SPEC §4.3): SETUP → per step GROUND → CAPTURE → ACT → VERIFY → WRITE, TEARDOWN in finally.
+
+Phase 1: hand-written plans, no LLM. Esc cancels at the next checkpoint.
+"""
+from __future__ import annotations
+
+import json
+import time
+import uuid
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Callable
+
+import structlog
+
+from ..annotate.draw import Style, annotate, smart_crop
+from ..annotate.redact import fallback_identity_rect, redact
+from ..capture.printwindow import capture_composite
+from ..env import win32
+from ..env.probe import probe_excel
+from ..grounding.grounder import GroundResult, ground, load_aliases
+from ..models import Locator, Plan, Rect, Step, Target, Trace, TraceStep, Tutorial
+from ..safety.guard import GuardContext, SafetyGuard, SafetyViolation
+from ..sandbox import excel
+from ..sandbox.com import com_retry, is_busy_error
+from ..uia import actuator
+from ..uia.snapshot import snapshot
+from ..verify.checks import COM_COUNTERS, poll
+from ..writer.template import validate_labels, write
+
+log = structlog.get_logger()
+
+WARNING = "Kèm đang làm mẫu trên một file Excel trống — vui lòng đừng gõ phím hay bấm chuột. Nhấn Esc để dừng."
+MAX_REPAIRS = 2
+MAX_ACT_ATTEMPTS = 2
+
+
+class Cancelled(Exception):
+    pass
+
+
+class StepFailed(Exception):
+    pass
+
+
+@dataclass
+class RunResult:
+    tutorial: Tutorial
+    out_dir: Path
+    teardown: dict
+    seconds: float
+
+
+class Session:
+    def __init__(self, plan: Plan, out_root: Path, progress: Callable[[dict], None] | None = None,
+                 window_logical: tuple[int, int] = (1280, 800)):
+        self.plan = plan
+        self.window_logical = window_logical
+        self.session_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
+        self.out_dir = out_root / f"{self.session_id}_{plan.task_canonical}"
+        self.progress = progress or (lambda m: None)
+        self.aliases = load_aliases()
+        self.sb: excel.SandboxHandle | None = None
+        self.trace: Trace | None = None
+        self.created_files: list[str] = []
+        self.style: Style | None = None
+        self.scale = 1.0
+
+    # ---- helpers -------------------------------------------------------------------------
+    def _emit(self, state: str, message: str, step_i: int = 0):
+        if self.trace:
+            self.trace.state = state
+        self.progress({"session_id": self.session_id, "state": state, "step_i": step_i,
+                       "n_steps": len(self.plan.steps), "message": message})
+
+    def _check_cancel(self):
+        if win32.escape_pressed():
+            raise Cancelled()
+
+    def _windows(self) -> list[int]:
+        # S3: popups are owned by a hidden window, so whitelist = all windows of our own process.
+        wins = excel.sandbox_windows(self.sb)
+        return [self.sb.hwnd] + [w for w in wins if w != self.sb.hwnd]
+
+    def _ping_excel(self):
+        """S4: if the user typed into the sandbox, Excel sits in cell-edit mode and COM is busy."""
+        if len(self._windows()) > 1:
+            return  # a popup/dialog of ours is open on purpose
+        try:
+            com_retry(lambda: self.sb.app.Ready, timeout=1.0)
+        except Exception as e:
+            if is_busy_error(e):
+                log.warning("session.user_input_detected")
+                self._emit("RECOVER", "Phát hiện có phím gõ vào cửa sổ mẫu — Kèm khôi phục và làm tiếp.")
+                excel.unstick(self.sb)
+            else:
+                raise
+
+    def _save(self, img, name: str) -> str:
+        path = self.out_dir / name
+        img.save(path, "PNG", optimize=True)
+        self.created_files.append(name)
+        return name
+
+    def _capture(self, box: Rect | None, step_no: int, identity: list[Rect], name: str) -> str:
+        img, (ox, oy) = capture_composite(self.sb.hwnd, self._windows()[1:])
+        local_ident = [Rect(left=r.left - ox, top=r.top - oy, right=r.right - ox, bottom=r.bottom - oy)
+                       for r in identity] or [fallback_identity_rect(img.width, self.scale)]
+        img = redact(img, local_ident)
+        if box is not None:
+            lb = Rect(left=box.left - ox, top=box.top - oy, right=box.right - ox, bottom=box.bottom - oy)
+            img = annotate(img, lb, step_no, self.style)
+            img, _ = smart_crop(img, lb, keep_top=round(185 * self.scale), min_w=round(720 * self.scale),
+                                margin=round(160 * self.scale))
+        return self._save(img, name)
+
+    # ---- steps ---------------------------------------------------------------------------
+    def _ground(self, step: Step) -> tuple[GroundResult, list[Rect]]:
+        els, ident = snapshot(self._windows())
+        return ground(step.target, step.intent, els, self.aliases), ident
+
+    def _verify(self, step: Step, el, dialogs_before: set[int], windows_before: set[int]) -> bool:
+        exp = step.expected
+        if exp.type == "none":
+            return True
+        if exp.type == "tab_selected":
+            return poll(lambda: actuator.is_selected(el))
+        if exp.type == "expanded":
+            return poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before))
+        if exp.type == "dialog_opened":
+            return poll(lambda: bool(set(excel.dialogs(self.sb)) - dialogs_before))
+        if exp.type == "dialog_closed":
+            return poll(lambda: not (set(excel.dialogs(self.sb)) & dialogs_before))
+        counter = COM_COUNTERS[exp.type]
+        return poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=8)
+
+    def _run_step(self, step: Step, plan_step_id: int | None, reason: str | None = None, repairs: int = 0):
+        assert self.trace is not None
+        self._check_cancel()
+        self._ping_excel()
+        n = len(self.trace.steps) + 1
+        ts = TraceStep(id=n, plan_step_id=plan_step_id, intent=step.intent, value=step.value,
+                       inserted_reason=reason)
+        self.trace.steps.append(ts)
+        self._emit("GROUND", f"Bước {n}: tìm nút", n)
+
+        res, ident = self._ground(step)
+        if res.element is None:
+            time.sleep(0.6)  # UI may still be animating
+            res, ident = self._ground(step)
+        if res.element is None:
+            if res.repair and repairs < MAX_REPAIRS:
+                self.trace.steps.pop()
+                rep = res.repair
+                rstep = Step(id=0, intent=rep.intent,
+                             target=Target(names=[rep.element.name], control_type=rep.element.control_type,
+                                           automation_id=rep.element.automation_id or None),
+                             expected={"type": "expanded"})
+                self._run_step(rstep, None, reason=rep.reason, repairs=repairs + 1)
+                return self._run_step(step, plan_step_id, reason, repairs + 1)
+            ts.error = f"không tìm thấy phần tử (điểm cao nhất {res.score:.0f})"
+            raise StepFailed(ts.error)
+
+        el = res.element
+        ts.element_name, ts.control_type, ts.access_key = el.name, el.control_type, el.access_key or None
+        ts.grounding_score, ts.ambiguous = res.score, res.ambiguous
+        ts.locator = Locator(automation_id=el.automation_id or None, control_type=el.control_type,
+                             name=el.name, within=(step.target.within.names[0] if step.target.within else None))
+        ts.rect = el.rect
+
+        # Capture before acting so the arrow points at a button not yet pressed — except typed
+        # values, which only make sense once they are in the box.
+        capture_after = step.intent == "set_value"
+        if not capture_after:
+            self._emit("CAPTURE", f"Bước {n}: chụp ảnh", n)
+            ts.image = self._capture(el.rect, n, ident, f"step_{n:02d}.png")
+
+        for attempt in range(1, MAX_ACT_ATTEMPTS + 1):
+            self._check_cancel()
+            ts.attempts = attempt
+            SafetyGuard(GuardContext(allowed_hwnds=lambda: set(self._windows()),
+                                     foreground=win32.foreground)).check(step.intent, el)
+            dialogs_before, windows_before = set(excel.dialogs(self.sb)), set(self._windows())
+            self._emit("ACT", f"Bước {n}: {step.intent} “{el.name}”", n)
+            try:
+                actuator.perform(step.intent, el, step.value)
+            except actuator.ActionError as e:
+                ts.error = str(e)
+                log.warning("session.act_failed", step=n, error=str(e))
+            self._emit("VERIFY", f"Bước {n}: kiểm tra kết quả", n)
+            if self._verify(step, el, dialogs_before, windows_before):
+                ts.verified, ts.error = True, None
+                break
+            if attempt < MAX_ACT_ATTEMPTS:  # reground once: the element may have been re-created
+                res, ident = self._ground(step)
+                if res.element is None:
+                    break
+                el = res.element
+        if not ts.verified:
+            ts.error = ts.error or f"không xác minh được ({step.expected.type})"
+            raise StepFailed(ts.error)
+        if capture_after:
+            time.sleep(0.3)
+            self._emit("CAPTURE", f"Bước {n}: chụp ảnh", n)
+            ts.image = self._capture(el.rect, n, ident, f"step_{n:02d}.png")
+
+        if step.capture_result:
+            time.sleep(0.4)
+            _, ident = snapshot(self._windows())
+            ts.result_image = self._capture(None, n, ident, f"step_{n:02d}_result.png")
+
+    # ---- entry ---------------------------------------------------------------------------
+    def run(self) -> RunResult:
+        t0 = time.monotonic()
+        self.out_dir.mkdir(parents=True, exist_ok=False)
+        status = "ok"
+        teardown_report: dict = {}
+        win32.escape_pressed()  # clear the "pressed since last call" bit
+        try:
+            self.progress({"session_id": self.session_id, "state": "SETUP", "step_i": 0,
+                           "n_steps": len(self.plan.steps), "message": WARNING})
+            self.sb = excel.setup(self.plan.fixture_id, size_logical=self.window_logical)
+            env = probe_excel(self.sb.app, self.sb.hwnd)
+            self.scale = env.dpi / 96
+            self.style = Style.load(self.scale)
+            self.trace = Trace(session_id=self.session_id, task_canonical=self.plan.task_canonical, env=env)
+            for pre in self.plan.preconditions:
+                com_retry(lambda: self.sb.doc.ActiveSheet.Range(pre.ref).Select())
+            # No foreground juggling: PrintWindow captures covered windows (S3), and Office raises its
+            # own window on the first ribbon command anyway (S4). The Alt-key trick showed KeyTips.
+            time.sleep(0.5)
+            for step in self.plan.steps:
+                self._run_step(step, step.id)
+        except Cancelled:
+            status = "cancelled"
+            self._emit("CANCELLED", "Đã dừng theo yêu cầu.")
+        except (StepFailed, SafetyViolation) as e:
+            status = "partial" if self.trace and any(s.verified for s in self.trace.steps) else "failed"
+            log.warning("session.step_failed", error=str(e))
+            if isinstance(e, SafetyViolation) and self.trace and self.trace.steps:
+                self.trace.steps[-1].error = f"chặn bởi SafetyGuard: {e}"
+        finally:
+            if self.sb is not None:
+                self._emit("TEARDOWN", "Dọn dẹp file mẫu")
+                teardown_report = excel.teardown(self.sb)
+
+        if self.trace is None:
+            raise RuntimeError("sandbox setup failed")
+        self._add_undemonstrated_steps()
+        self._emit("WRITE", "Viết hướng dẫn")
+        tut = write(self.trace, self.plan.title, self.session_id, status)
+        bad = validate_labels(tut, self.trace)
+        if bad:  # template writer only uses Trace names; this guards future edits
+            raise RuntimeError(f"writer produced labels not in trace: {bad}")
+        self._write_json("tutorial.json", tut.model_dump())
+        self._write_json("trace.json", self.trace.model_dump())
+        self._write_json("manifest.json", {"session_id": self.session_id, "files": self.created_files + ["manifest.json"],
+                                           "teardown": teardown_report})
+        self._emit("DONE", f"Xong ({status})")
+        return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0)
+
+    def _add_undemonstrated_steps(self):
+        """Plan steps never reached still appear, as text only (SPEC §9 error state)."""
+        done = {s.plan_step_id for s in self.trace.steps if s.plan_step_id is not None}
+        for step in self.plan.steps:
+            if step.id not in done and step.target:
+                self.trace.steps.append(TraceStep(id=len(self.trace.steps) + 1, plan_step_id=step.id,
+                                                  intent=step.intent, element_name=step.target.names[0],
+                                                  control_type=step.target.control_type.split("|")[0],
+                                                  value=step.value, error="chưa làm mẫu"))
+
+    def _write_json(self, name: str, data):
+        (self.out_dir / name).write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        self.created_files.append(name)

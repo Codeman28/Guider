@@ -1,0 +1,17 @@
+# EN↔VI aliases for ribbon labels. English names are verified on M365 build 20326 (Phase 0 / explore.py).
+# Vietnamese names are TODO(verify): not yet checked on a Vietnamese-UI Office (S6 VI machine pending).
+version: 1
+aliases:
+  - [Home, Trang đầu]
+  - [Insert, Chèn]
+  - [Data, Dữ liệu]
+  - [View, Xem]
+  - [Tables, Bảng]
+  - [Charts, Biểu đồ]
+  - [Styles, Kiểu]
+  - [Conditional Formatting, Định dạng có Điều kiện]
+  - [Highlight Cells Rules, Quy tắc Tô sáng Ô]
+  - [Greater Than..., Lớn Hơn...]
+  - [Clustered Column, Cột Nhóm]
+  - [Insert Column or Bar Chart, Chèn Biểu đồ Cột hoặc Thanh]
+  - [OK]

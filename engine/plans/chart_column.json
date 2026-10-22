@@ -1,0 +1,19 @@
+{
+  "task_canonical": "chart_column",
+  "title": "Cách chèn biểu đồ cột trong Excel",
+  "fixture_id": "sales_table_basic",
+  "preconditions": [{"type": "select_range", "ref": "C1:D9"}],
+  "steps": [
+    {"id": 1, "intent": "select_ribbon_tab",
+     "target": {"names": ["Insert", "Chèn"], "control_type": "TabItem", "automation_id": "TabInsert"},
+     "expected": {"type": "tab_selected"}},
+    {"id": 2, "intent": "expand",
+     "target": {"names": ["Insert Column or Bar Chart"], "control_type": "MenuItem",
+                "automation_id": "ChartTypeColumnInsertGallery",
+                "within": {"names": ["Charts", "Biểu đồ"], "control_type": "Group"}},
+     "expected": {"type": "expanded"}},
+    {"id": 3, "intent": "select_item",
+     "target": {"names": ["Clustered Column", "Cột Nhóm"], "control_type": "ListItem"},
+     "expected": {"type": "com_charts", "min_count": 1}, "capture_result": true}
+  ]
+}

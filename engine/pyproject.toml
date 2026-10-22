@@ -1,0 +1,24 @@
+[project]
+name = "kem-engine"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "pywinauto", "pywin32", "comtypes", "Pillow>=10.1", "rapidfuzz", "pydantic>=2", "pyyaml", "structlog",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "pytest-cov"]
+
+[project.scripts]
+kem = "kem_engine.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["kem_engine*"]
+
+[tool.pytest.ini_options]
+markers = ["windows_office: needs a real Microsoft 365 install; never runs on CI"]
+addopts = "-m 'not windows_office'"

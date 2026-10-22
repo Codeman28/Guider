@@ -1,0 +1,51 @@
+# SPEC §8: elements Kèm must never act on. Names match after normalization (case, trailing "...",
+# bidi marks): exact match, or prefix match for entries under name_prefixes.
+# English entries verified on M365 build 20326 where noted; Vietnamese entries TODO(verify).
+version: 1
+automation_ids:
+  - FileTabButton        # File / Backstage
+  - MeControlWidget      # account (verified, S1 explore)
+  - AutoSaveSwitch       # saving to OneDrive (verified)
+  - FileSave             # Save (verified)
+  - ShareButton
+  - CommentsButton
+  - TellMeControlAnchor  # Microsoft search (verified) — can launch arbitrary commands
+  - TellMeTextBoxAutomationId
+names:
+  - File
+  - Tệp
+  - Account
+  - Tài khoản
+  - Share
+  - Chia sẻ
+  - Save
+  - Lưu
+  - Save As
+  - Lưu Như
+  - Export
+  - Xuất
+  - Send
+  - Gửi
+  - Email
+  - Sign in
+  - Đăng nhập
+  - Sign out
+  - Đăng xuất
+  - Options
+  - Tùy chọn
+  - Trust Center
+  - Trung tâm Tin cậy
+  - Get Add-ins
+  - Bổ trợ
+  - Add-ins
+  - Macros
+  - Macro
+  - Visual Basic
+  - Record Macro
+  - Copilot
+  - Microsoft search
+name_prefixes:
+  - Share
+  - Sign
+  - Save
+  - Copilot

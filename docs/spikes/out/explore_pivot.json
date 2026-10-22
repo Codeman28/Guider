@@ -1,0 +1,479 @@
+{
+  "Insert": {
+    "ct": "TabItem",
+    "aid": "TabInsert",
+    "new_windows": [],
+    "main_hits": [
+      [
+        "‪Book1‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book1‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "PivotChart",
+        "SplitButton",
+        "",
+        [
+          643,
+          143,
+          717,
+          239
+        ]
+      ],
+      [
+        "PivotChart",
+        "Button",
+        "PivotChartInsert",
+        [
+          643,
+          143,
+          717,
+          191
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book1",
+        "Pane",
+        "Book1",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book1",
+        "Tab",
+        "Book1",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  },
+  "Tables": {
+    "ct": "MenuItem",
+    "aid": "",
+    "new_windows": [
+      {
+        "hwnd": 1574580,
+        "class": "Net UI Tool Window",
+        "title": "",
+        "rect": [
+          55,
+          260,
+          344,
+          379
+        ],
+        "hits": []
+      }
+    ],
+    "main_hits": [
+      [
+        "‪Book1‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book1‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "PivotTable",
+        "SplitButton",
+        "InsertPivotTableDropdown",
+        [
+          65,
+          262,
+          130,
+          358
+        ]
+      ],
+      [
+        "PivotTable",
+        "Button",
+        "",
+        [
+          65,
+          262,
+          130,
+          308
+        ]
+      ],
+      [
+        "Recommended PivotTables",
+        "Button",
+        "PivotTableSuggestion",
+        [
+          132,
+          262,
+          226,
+          358
+        ]
+      ],
+      [
+        "PivotChart",
+        "SplitButton",
+        "",
+        [
+          643,
+          143,
+          717,
+          239
+        ]
+      ],
+      [
+        "PivotChart",
+        "Button",
+        "PivotChartInsert",
+        [
+          643,
+          143,
+          717,
+          191
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book1",
+        "Pane",
+        "Book1",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book1",
+        "Tab",
+        "Book1",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  },
+  "PivotTable": {
+    "ct": "Button",
+    "aid": "",
+    "new_windows": [
+      {
+        "hwnd": 1901526,
+        "class": "NUIDialog",
+        "title": "PivotTable from table or range",
+        "rect": [
+          745,
+          411,
+          1258,
+          775
+        ],
+        "hits": [
+          [
+            "PivotTable from table or range",
+            "Window",
+            "",
+            [
+              746,
+              449,
+              1257,
+              774
+            ]
+          ],
+          [
+            "Table/Range",
+            "Text",
+            "",
+            [
+              764,
+              491,
+              853,
+              511
+            ]
+          ],
+          [
+            "Table/Range",
+            "Edit",
+            "",
+            [
+              864,
+              487,
+              1239,
+              515
+            ]
+          ],
+          [
+            "Choose where you want the PivotTable to be placed",
+            "Group",
+            "",
+            [
+              753,
+              528,
+              1250,
+              656
+            ]
+          ],
+          [
+            "Choose where you want the PivotTable to be placed",
+            "Text",
+            "",
+            [
+              753,
+              528,
+              1250,
+              548
+            ]
+          ],
+          [
+            "New Worksheet",
+            "RadioButton",
+            "",
+            [
+              764,
+              561,
+              895,
+              586
+            ]
+          ],
+          [
+            "Existing Worksheet",
+            "RadioButton",
+            "",
+            [
+              764,
+              590,
+              916,
+              615
+            ]
+          ],
+          [
+            "Location",
+            "Edit",
+            "",
+            [
+              838,
+              619,
+              1239,
+              647
+            ]
+          ],
+          [
+            "OK",
+            "Button",
+            "",
+            [
+              1105,
+              735,
+              1172,
+              765
+            ]
+          ]
+        ]
+      }
+    ],
+    "main_hits": [
+      [
+        "‪Book1‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book1‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "PivotChart",
+        "SplitButton",
+        "",
+        [
+          643,
+          143,
+          717,
+          239
+        ]
+      ],
+      [
+        "PivotChart",
+        "Button",
+        "PivotChartInsert",
+        [
+          643,
+          143,
+          717,
+          191
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book1",
+        "Pane",
+        "Book1",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book1",
+        "Tab",
+        "Book1",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  }
+}

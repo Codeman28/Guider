@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 # Spike captures contain the dev's real account avatar — never commit (SPEC §8)
 docs/spikes/out/*.png
+engine/.out/
+*.egg-info/
+.coverage
 # local tooling and notes (not published)
 .impeccable/
 .hallmark/

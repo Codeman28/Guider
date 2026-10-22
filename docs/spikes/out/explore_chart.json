@@ -1,0 +1,315 @@
+{
+  "Insert": {
+    "ct": "TabItem",
+    "aid": "TabInsert",
+    "new_windows": [],
+    "main_hits": [
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Insert Column or Bar Chart",
+        "MenuItem",
+        "ChartTypeColumnInsertGallery",
+        [
+          433,
+          143,
+          483,
+          173
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Column left",
+        "Button",
+        "",
+        [
+          832,
+          781,
+          853,
+          802
+        ]
+      ],
+      [
+        "Column right",
+        "Button",
+        "",
+        [
+          1275,
+          781,
+          1296,
+          802
+        ]
+      ]
+    ]
+  },
+  "Insert Column or Bar Chart": {
+    "ct": "MenuItem",
+    "aid": "ChartTypeColumnInsertGallery",
+    "new_windows": [
+      {
+        "hwnd": 9242870,
+        "class": "Net UI Tool Window",
+        "title": "",
+        "rect": [
+          433,
+          173,
+          717,
+          693
+        ],
+        "hits": []
+      }
+    ],
+    "main_hits": [
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Insert Column or Bar Chart",
+        "MenuItem",
+        "ChartTypeColumnInsertGallery",
+        [
+          433,
+          143,
+          483,
+          173
+        ]
+      ],
+      [
+        "Insert Column or Bar Chart",
+        "Menu",
+        "",
+        [
+          433,
+          173,
+          717,
+          693
+        ]
+      ],
+      [
+        "Insert Column or Bar Chart",
+        "Menu",
+        "",
+        [
+          433,
+          173,
+          717,
+          693
+        ]
+      ],
+      [
+        "2-D Column",
+        "Group",
+        "",
+        [
+          435,
+          175,
+          715,
+          292
+        ]
+      ],
+      [
+        "Clustered Column",
+        "ListItem",
+        "",
+        [
+          435,
+          212,
+          505,
+          282
+        ]
+      ],
+      [
+        "Stacked Column",
+        "ListItem",
+        "",
+        [
+          505,
+          212,
+          575,
+          282
+        ]
+      ],
+      [
+        "100% Stacked Column",
+        "ListItem",
+        "",
+        [
+          575,
+          212,
+          645,
+          282
+        ]
+      ],
+      [
+        "3-D Column",
+        "Group",
+        "",
+        [
+          435,
+          292,
+          715,
+          412
+        ]
+      ],
+      [
+        "3-D Clustered Column",
+        "ListItem",
+        "",
+        [
+          435,
+          332,
+          505,
+          402
+        ]
+      ],
+      [
+        "3-D Stacked Column",
+        "ListItem",
+        "",
+        [
+          505,
+          332,
+          575,
+          402
+        ]
+      ],
+      [
+        "3-D 100% Stacked Column",
+        "ListItem",
+        "",
+        [
+          575,
+          332,
+          645,
+          402
+        ]
+      ],
+      [
+        "3-D Column",
+        "ListItem",
+        "",
+        [
+          645,
+          332,
+          715,
+          402
+        ]
+      ],
+      [
+        "Clustered Bar",
+        "ListItem",
+        "",
+        [
+          435,
+          452,
+          505,
+          522
+        ]
+      ],
+      [
+        "3-D Clustered Bar",
+        "ListItem",
+        "",
+        [
+          435,
+          572,
+          505,
+          642
+        ]
+      ],
+      [
+        "More Column Charts...",
+        "MenuItem",
+        "",
+        [
+          435,
+          655,
+          715,
+          691
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Column left",
+        "Button",
+        "",
+        [
+          832,
+          781,
+          853,
+          802
+        ]
+      ],
+      [
+        "Column right",
+        "Button",
+        "",
+        [
+          1275,
+          781,
+          1296,
+          802
+        ]
+      ]
+    ]
+  }
+}

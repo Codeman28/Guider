@@ -1,0 +1,132 @@
+{
+ "id": "sales_table_basic",
+ "description": "Bảng doanh số giả 20 dòng (dữ liệu bịa, không phải dữ liệu thật)",
+ "columns": [
+  "Tháng",
+  "Khu vực",
+  "Sản phẩm",
+  "Doanh số"
+ ],
+ "rows": [
+  [
+   "T1",
+   "Bắc",
+   "Bút bi",
+   40
+  ],
+  [
+   "T2",
+   "Trung",
+   "Vở",
+   77
+  ],
+  [
+   "T3",
+   "Nam",
+   "Thước",
+   114
+  ],
+  [
+   "T4",
+   "Bắc",
+   "Balo",
+   151
+  ],
+  [
+   "T5",
+   "Trung",
+   "Bút bi",
+   58
+  ],
+  [
+   "T6",
+   "Nam",
+   "Vở",
+   95
+  ],
+  [
+   "T1",
+   "Bắc",
+   "Thước",
+   132
+  ],
+  [
+   "T2",
+   "Trung",
+   "Balo",
+   169
+  ],
+  [
+   "T3",
+   "Nam",
+   "Bút bi",
+   76
+  ],
+  [
+   "T4",
+   "Bắc",
+   "Vở",
+   113
+  ],
+  [
+   "T5",
+   "Trung",
+   "Thước",
+   150
+  ],
+  [
+   "T6",
+   "Nam",
+   "Balo",
+   57
+  ],
+  [
+   "T1",
+   "Bắc",
+   "Bút bi",
+   94
+  ],
+  [
+   "T2",
+   "Trung",
+   "Vở",
+   131
+  ],
+  [
+   "T3",
+   "Nam",
+   "Thước",
+   168
+  ],
+  [
+   "T4",
+   "Bắc",
+   "Balo",
+   75
+  ],
+  [
+   "T5",
+   "Trung",
+   "Bút bi",
+   112
+  ],
+  [
+   "T6",
+   "Nam",
+   "Vở",
+   149
+  ],
+  [
+   "T1",
+   "Bắc",
+   "Thước",
+   56
+  ],
+  [
+   "T2",
+   "Trung",
+   "Balo",
+   93
+  ]
+ ]
+}

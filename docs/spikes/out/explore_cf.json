@@ -1,0 +1,664 @@
+{
+  "Home": {
+    "ct": "TabItem",
+    "aid": "TabHome",
+    "new_windows": [],
+    "main_hits": [
+      [
+        "‪Book2‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book2‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Font",
+        "Edit",
+        "",
+        [
+          201,
+          146,
+          298,
+          170
+        ]
+      ],
+      [
+        "Font Size",
+        "Edit",
+        "",
+        [
+          318,
+          146,
+          363,
+          170
+        ]
+      ],
+      [
+        "Number Format",
+        "Edit",
+        "",
+        [
+          577,
+          146,
+          672,
+          170
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "MenuItem",
+        "ConditionalFormattingMenu",
+        [
+          709,
+          143,
+          919,
+          173
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book2",
+        "Pane",
+        "Book2",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book2",
+        "Tab",
+        "Book2",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  },
+  "Conditional Formatting": {
+    "ct": "MenuItem",
+    "aid": "ConditionalFormattingMenu",
+    "new_windows": [
+      {
+        "hwnd": 3082180,
+        "class": "Net UI Tool Window",
+        "title": "",
+        "rect": [
+          709,
+          173,
+          945,
+          546
+        ],
+        "hits": []
+      }
+    ],
+    "main_hits": [
+      [
+        "‪Book2‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book2‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Font",
+        "Edit",
+        "",
+        [
+          201,
+          146,
+          298,
+          170
+        ]
+      ],
+      [
+        "Font Size",
+        "Edit",
+        "",
+        [
+          318,
+          146,
+          363,
+          170
+        ]
+      ],
+      [
+        "Number Format",
+        "Edit",
+        "",
+        [
+          577,
+          146,
+          672,
+          170
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "MenuItem",
+        "ConditionalFormattingMenu",
+        [
+          709,
+          143,
+          919,
+          173
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "Menu",
+        "",
+        [
+          709,
+          173,
+          945,
+          546
+        ]
+      ],
+      [
+        "Highlight Cells Rules",
+        "MenuItem",
+        "",
+        [
+          711,
+          175,
+          943,
+          226
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book2",
+        "Pane",
+        "Book2",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book2",
+        "Tab",
+        "Book2",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  },
+  "Highlight Cells Rules": {
+    "ct": "MenuItem",
+    "aid": "",
+    "new_windows": [
+      {
+        "hwnd": 133348,
+        "class": "Net UI Tool Window",
+        "title": "",
+        "rect": [
+          943,
+          175,
+          1197,
+          575
+        ],
+        "hits": []
+      }
+    ],
+    "main_hits": [
+      [
+        "‪Book2‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book2‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Font",
+        "Edit",
+        "",
+        [
+          201,
+          146,
+          298,
+          170
+        ]
+      ],
+      [
+        "Font Size",
+        "Edit",
+        "",
+        [
+          318,
+          146,
+          363,
+          170
+        ]
+      ],
+      [
+        "Number Format",
+        "Edit",
+        "",
+        [
+          577,
+          146,
+          672,
+          170
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "MenuItem",
+        "ConditionalFormattingMenu",
+        [
+          709,
+          143,
+          919,
+          173
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "Menu",
+        "",
+        [
+          709,
+          173,
+          945,
+          546
+        ]
+      ],
+      [
+        "Highlight Cells Rules",
+        "MenuItem",
+        "",
+        [
+          711,
+          175,
+          943,
+          226
+        ]
+      ],
+      [
+        "Highlight Cells Rules",
+        "Menu",
+        "",
+        [
+          943,
+          175,
+          1197,
+          575
+        ]
+      ],
+      [
+        "Greater Than...",
+        "MenuItem",
+        "",
+        [
+          945,
+          177,
+          1195,
+          228
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book2",
+        "Pane",
+        "Book2",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book2",
+        "Tab",
+        "Book2",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  },
+  "Greater Than...": {
+    "ct": "MenuItem",
+    "aid": "",
+    "new_windows": [
+      {
+        "hwnd": 198888,
+        "class": "NUIDialog",
+        "title": "Greater Than",
+        "rect": [
+          723,
+          506,
+          1279,
+          681
+        ],
+        "hits": [
+          [
+            "Greater Than",
+            "Window",
+            "",
+            [
+              732,
+              544,
+              1270,
+              672
+            ]
+          ],
+          [
+            "Format cells that are GREATER THAN",
+            "Text",
+            "",
+            [
+              739,
+              553,
+              973,
+              570
+            ]
+          ],
+          [
+            "Format cells that are GREATER THAN",
+            "Edit",
+            "",
+            [
+              739,
+              589,
+              990,
+              614
+            ]
+          ],
+          [
+            "OK",
+            "Button",
+            "",
+            [
+              1076,
+              633,
+              1164,
+              663
+            ]
+          ]
+        ]
+      }
+    ],
+    "main_hits": [
+      [
+        "‪Book2‬  -  Excel",
+        "TitleBar",
+        "",
+        [
+          395,
+          41,
+          536,
+          101
+        ]
+      ],
+      [
+        "‪Book2‬  -  Excel",
+        "Button",
+        "",
+        [
+          395,
+          41,
+          512,
+          101
+        ]
+      ],
+      [
+        "Microsoft search",
+        "Edit",
+        "TellMeTextBoxAutomationId",
+        [
+          587,
+          58,
+          865,
+          85
+        ]
+      ],
+      [
+        "Font",
+        "Edit",
+        "",
+        [
+          201,
+          146,
+          298,
+          170
+        ]
+      ],
+      [
+        "Font Size",
+        "Edit",
+        "",
+        [
+          318,
+          146,
+          363,
+          170
+        ]
+      ],
+      [
+        "Number Format",
+        "Edit",
+        "",
+        [
+          577,
+          146,
+          672,
+          170
+        ]
+      ],
+      [
+        "Conditional Formatting",
+        "MenuItem",
+        "ConditionalFormattingMenu",
+        [
+          709,
+          143,
+          919,
+          173
+        ]
+      ],
+      [
+        "Name Box",
+        "Edit",
+        "1001",
+        [
+          55,
+          277,
+          153,
+          300
+        ]
+      ],
+      [
+        "Formula Bar",
+        "Edit",
+        "FormulaBar",
+        [
+          315,
+          263,
+          1319,
+          311
+        ]
+      ],
+      [
+        "Book2",
+        "Pane",
+        "Book2",
+        [
+          41,
+          311,
+          1319,
+          812
+        ]
+      ],
+      [
+        "Book2",
+        "Tab",
+        "Book2",
+        [
+          41,
+          772,
+          792,
+          812
+        ]
+      ]
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "task_canonical": "cf_greater_than",
+  "title": "Cách tô màu ô lớn hơn một giá trị bằng Định dạng có điều kiện",
+  "fixture_id": "sales_table_basic",
+  "preconditions": [{"type": "select_range", "ref": "D2:D21"}],
+  "steps": [
+    {"id": 1, "intent": "select_ribbon_tab",
+     "target": {"names": ["Home", "Trang đầu"], "control_type": "TabItem", "automation_id": "TabHome"},
+     "expected": {"type": "tab_selected"}},
+    {"id": 2, "intent": "expand",
+     "target": {"names": ["Conditional Formatting"], "control_type": "MenuItem|SplitButton|Button",
+                "automation_id": "ConditionalFormattingMenu",
+                "within": {"names": ["Styles", "Kiểu"], "control_type": "Group"}},
+     "expected": {"type": "expanded"}},
+    {"id": 3, "intent": "expand",
+     "target": {"names": ["Highlight Cells Rules"], "control_type": "MenuItem"},
+     "expected": {"type": "expanded"}},
+    {"id": 4, "intent": "invoke",
+     "target": {"names": ["Greater Than..."], "control_type": "MenuItem"},
+     "expected": {"type": "dialog_opened"}},
+    {"id": 5, "intent": "set_value", "value": "100",
+     "target": {"names": ["Format cells that are GREATER THAN"], "control_type": "Edit"},
+     "expected": {"type": "none"}},
+    {"id": 6, "intent": "invoke",
+     "target": {"names": ["OK"], "control_type": "Button"},
+     "expected": {"type": "com_format_conditions", "min_count": 1}, "capture_result": true}
+  ]
+}
