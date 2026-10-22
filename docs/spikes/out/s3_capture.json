@@ -1,0 +1,120 @@
+{
+  "dpi_awareness": "PerMonitorV2",
+  "window_dpi": 120,
+  "scale_pct": 125,
+  "clean": {
+    "ok": true,
+    "size": [
+      1280,
+      800
+    ],
+    "mean": 149.8,
+    "stddev": 112.0,
+    "min": 0,
+    "max": 255,
+    "blank": false,
+    "diff_vs_screen": 1.55
+  },
+  "no_flag": {
+    "ok": true,
+    "mean": 171.7,
+    "stddev": 107.5,
+    "min": 0,
+    "max": 255,
+    "blank": false,
+    "diff_vs_clean": 21.97
+  },
+  "covered": {
+    "ok": true,
+    "mean": 149.5,
+    "stddev": 112.2,
+    "min": 0,
+    "max": 255,
+    "blank": false,
+    "diff_vs_clean": 0.38,
+    "occluder_found": true
+  },
+  "s5_alignment": {
+    "insert_tab": {
+      "rect": [
+        185,
+        101,
+        251,
+        139
+      ],
+      "diff": 0.0,
+      "dx": 0,
+      "dy": 0
+    },
+    "recommended_charts": {
+      "rect": [
+        324,
+        143,
+        431,
+        239
+      ],
+      "diff": 0.0,
+      "dx": 0,
+      "dy": 0
+    }
+  },
+  "popups": [
+    {
+      "hwnd": 918362,
+      "class": "Net UI Tool Window",
+      "rect": [
+        55,
+        260,
+        344,
+        379
+      ],
+      "owner": 591634
+    },
+    {
+      "hwnd": 985480,
+      "class": "MSO_BORDEREFFECT_WINDOW_CLASS",
+      "rect": [
+        45,
+        379,
+        354,
+        389
+      ],
+      "owner": 0
+    },
+    {
+      "hwnd": 918196,
+      "class": "MSO_BORDEREFFECT_WINDOW_CLASS",
+      "rect": [
+        332,
+        250,
+        354,
+        389
+      ],
+      "owner": 0
+    },
+    {
+      "hwnd": 853256,
+      "class": "MSO_BORDEREFFECT_WINDOW_CLASS",
+      "rect": [
+        45,
+        250,
+        67,
+        389
+      ],
+      "owner": 0
+    },
+    {
+      "hwnd": 2164366,
+      "class": "MSO_BORDEREFFECT_WINDOW_CLASS",
+      "rect": [
+        45,
+        250,
+        354,
+        260
+      ],
+      "owner": 0
+    }
+  ],
+  "composite_diff_vs_screen": 0.02,
+  "base_without_popup_diff_vs_screen": 3.3
+}

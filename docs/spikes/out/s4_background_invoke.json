@@ -1,0 +1,30 @@
+{
+  "occluder_is_foreground": true,
+  "select_ribbon_tab(SelectionItem)": {
+    "foreground_before": "occluder",
+    "ok": true,
+    "foreground_after": "sandbox"
+  },
+  "toggle(TogglePattern Bold)": {
+    "foreground_before": "occluder",
+    "ok": true,
+    "foreground_after": "sandbox"
+  },
+  "invoke(InvokePattern Increase Font Size)": {
+    "foreground_before": "occluder",
+    "ok": true,
+    "foreground_after": "sandbox"
+  },
+  "expand(ExpandCollapse Tables)": {
+    "foreground_before": "occluder",
+    "ok": true,
+    "foreground_after": 1705980
+  },
+  "set_value(ValuePattern Name Box)": {
+    "foreground_before": "occluder",
+    "ok": true,
+    "foreground_after": "sandbox"
+  },
+  "name_box_moved_selection": false,
+  "a1_value_after": "Kèm"
+}

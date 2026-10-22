@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+# Spike captures contain the dev's real account avatar — never commit (SPEC §8)
+docs/spikes/out/*.png
+# local tooling and notes (not published)
+.impeccable/
+.hallmark/
+docs/HANDOFF.md

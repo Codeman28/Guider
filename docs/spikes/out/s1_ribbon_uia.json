@@ -1,0 +1,609 @@
+{
+  "dpi_awareness": "PerMonitorV2",
+  "list_tabs_s": 0.799,
+  "tabs": [
+    "Home",
+    "Insert",
+    "Draw",
+    "Page Layout",
+    "Formulas",
+    "Data",
+    "Review",
+    "View",
+    "Automate",
+    "Help",
+    "Analytic Solver",
+    "Sheet1"
+  ],
+  "insert_tab_found": true,
+  "find_groups_s": 0.481,
+  "walk_buttons_s": 0.233,
+  "detail_s": 0.182,
+  "fast": {
+    "seconds": 0.409,
+    "n": 89,
+    "has_tables_menu": true
+  },
+  "n_groups": 11,
+  "n_buttons": 50,
+  "groups": [
+    "Charts",
+    "Comments",
+    "Controls",
+    "Filters",
+    "Illustrations",
+    "Insert",
+    "Links",
+    "Sparklines",
+    "Symbols",
+    "Tables",
+    "Text"
+  ],
+  "sample_buttons": [
+    {
+      "group": "Insert",
+      "name": "Tables",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        56,
+        141,
+        125,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Illustrations",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        125,
+        141,
+        224,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Checkbox",
+      "control_type": "Button",
+      "automation_id": "InsertInCellCheckbox",
+      "rect": [
+        234,
+        143,
+        304,
+        240
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "automation_id": "ChartInsertGalleryNew",
+      "rect": [
+        324,
+        143,
+        431,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Column or Bar Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeColumnInsertGallery",
+      "rect": [
+        433,
+        143,
+        483,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Line or Area Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeLineInsertGallery",
+      "rect": [
+        433,
+        175,
+        483,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Pie or Doughnut Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypePieInsertGallery",
+      "rect": [
+        433,
+        207,
+        483,
+        237
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Hierarchy Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeHierarchyInsertGallery",
+      "rect": [
+        485,
+        143,
+        535,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Statistic Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeStatisticalInsertGallery",
+      "rect": [
+        485,
+        175,
+        535,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Scatter (X, Y) or Bubble Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeXYScatterInsertGallery",
+      "rect": [
+        485,
+        207,
+        535,
+        237
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Waterfall, Funnel, Stock, Surface, or Radar Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeWaterfallInsertChartGallery",
+      "rect": [
+        537,
+        143,
+        587,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Insert Combo Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeComboInsertGallery",
+      "rect": [
+        537,
+        175,
+        587,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Maps",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeMapsInsertGallery",
+      "rect": [
+        589,
+        143,
+        641,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "PivotChart",
+      "control_type": "SplitButton",
+      "automation_id": "",
+      "rect": [
+        643,
+        143,
+        717,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "PivotChart",
+      "control_type": "Button",
+      "automation_id": "PivotChartInsert",
+      "rect": [
+        643,
+        143,
+        717,
+        191
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "More Options",
+      "control_type": "MenuItem",
+      "automation_id": "NewPivotChartSplitButton_Dropdown",
+      "rect": [
+        643,
+        191,
+        717,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "automation_id": "ChartDialogLauncherAll",
+      "rect": [
+        707,
+        241,
+        727,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Sparklines",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        727,
+        141,
+        817,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Filters",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        817,
+        141,
+        886,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Link",
+      "control_type": "SplitButton",
+      "automation_id": "InsertLinkGallery",
+      "rect": [
+        896,
+        143,
+        948,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Link",
+      "control_type": "Button",
+      "automation_id": "",
+      "rect": [
+        896,
+        143,
+        948,
+        189
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "More Options",
+      "control_type": "MenuItem",
+      "automation_id": "InsertLinkGallery_Dropdown",
+      "rect": [
+        896,
+        189,
+        948,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Comment",
+      "control_type": "Button",
+      "automation_id": "InsertNewComment",
+      "rect": [
+        968,
+        143,
+        1039,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Text",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        1049,
+        141,
+        1118,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Insert",
+      "name": "Symbols",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        1118,
+        141,
+        1197,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Tables",
+      "name": "Tables",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        56,
+        141,
+        125,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Illustrations",
+      "name": "Illustrations",
+      "control_type": "MenuItem",
+      "automation_id": "",
+      "rect": [
+        125,
+        141,
+        224,
+        261
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Controls",
+      "name": "Checkbox",
+      "control_type": "Button",
+      "automation_id": "InsertInCellCheckbox",
+      "rect": [
+        234,
+        143,
+        304,
+        240
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "automation_id": "ChartInsertGalleryNew",
+      "rect": [
+        324,
+        143,
+        431,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Column or Bar Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeColumnInsertGallery",
+      "rect": [
+        433,
+        143,
+        483,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Line or Area Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeLineInsertGallery",
+      "rect": [
+        433,
+        175,
+        483,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Pie or Doughnut Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypePieInsertGallery",
+      "rect": [
+        433,
+        207,
+        483,
+        237
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Hierarchy Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeHierarchyInsertGallery",
+      "rect": [
+        485,
+        143,
+        535,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Statistic Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeStatisticalInsertGallery",
+      "rect": [
+        485,
+        175,
+        535,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Scatter (X, Y) or Bubble Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeXYScatterInsertGallery",
+      "rect": [
+        485,
+        207,
+        535,
+        237
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Waterfall, Funnel, Stock, Surface, or Radar Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeWaterfallInsertChartGallery",
+      "rect": [
+        537,
+        143,
+        587,
+        173
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Insert Combo Chart",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeComboInsertGallery",
+      "rect": [
+        537,
+        175,
+        587,
+        205
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "Maps",
+      "control_type": "MenuItem",
+      "automation_id": "ChartTypeMapsInsertGallery",
+      "rect": [
+        589,
+        143,
+        641,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "PivotChart",
+      "control_type": "SplitButton",
+      "automation_id": "",
+      "rect": [
+        643,
+        143,
+        717,
+        239
+      ],
+      "offscreen": 0
+    },
+    {
+      "group": "Charts",
+      "name": "PivotChart",
+      "control_type": "Button",
+      "automation_id": "PivotChartInsert",
+      "rect": [
+        643,
+        143,
+        717,
+        191
+      ],
+      "offscreen": 0
+    }
+  ],
+  "detail": [
+    {
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "patterns": [
+        "Invoke"
+      ],
+      "access_key": "Alt, N, R",
+      "accel_key": "",
+      "help": ""
+    },
+    {
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "patterns": [
+        "Invoke"
+      ],
+      "access_key": "Alt, N, K",
+      "accel_key": "",
+      "help": ""
+    },
+    {
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "patterns": [
+        "Invoke"
+      ],
+      "access_key": "Alt, N, R",
+      "accel_key": "",
+      "help": ""
+    },
+    {
+      "name": "Recommended Charts",
+      "control_type": "Button",
+      "patterns": [
+        "Invoke"
+      ],
+      "access_key": "Alt, N, K",
+      "accel_key": "",
+      "help": ""
+    }
+  ],
+  "total_insert_scan_s": 0.714,
+  "pass_pywinauto_naive": true,
+  "pass": true
+}

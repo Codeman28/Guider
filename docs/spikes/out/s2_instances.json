@@ -1,0 +1,161 @@
+{
+  "excel": {
+    "pre_existing_pids": [],
+    "open_a_s": 3.78,
+    "a": {
+      "hwnd": 787402,
+      "pid": 12912,
+      "class": "XLMAIN",
+      "created_instance": true
+    },
+    "b": {
+      "hwnd": 394052,
+      "pid": 8024,
+      "class": "XLMAIN",
+      "created_instance": true
+    },
+    "same_process": false,
+    "distinct_hwnd": true,
+    "pids_during": [
+      8024,
+      12912
+    ],
+    "visible_windows_of_a_pid": [
+      {
+        "hwnd": 787402,
+        "class": "XLMAIN"
+      },
+      {
+        "hwnd": 394864,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 460586,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 9307980,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 263856,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      }
+    ],
+    "pids_after_teardown": [],
+    "teardown_clean": true
+  },
+  "word": {
+    "pre_existing_pids": [],
+    "open_a_s": 902.89,
+    "a": {
+      "hwnd": 329394,
+      "pid": 11612,
+      "class": "OpusApp",
+      "created_instance": true
+    },
+    "b": {
+      "hwnd": 1181774,
+      "pid": 8860,
+      "class": "OpusApp",
+      "created_instance": true
+    },
+    "same_process": false,
+    "distinct_hwnd": true,
+    "pids_during": [
+      8860,
+      11612
+    ],
+    "visible_windows_of_a_pid": [
+      {
+        "hwnd": 329394,
+        "class": "OpusApp"
+      },
+      {
+        "hwnd": 1967766,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 591564,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 1181692,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 854096,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      }
+    ],
+    "pids_after_teardown": [],
+    "teardown_clean": true
+  },
+  "powerpoint": {
+    "pre_existing_pids": [],
+    "open_a_s": 4.24,
+    "a": {
+      "hwnd": 2098786,
+      "pid": 16560,
+      "class": "PPTFrameClass",
+      "created_instance": true
+    },
+    "b": {
+      "hwnd": 723308,
+      "pid": 16560,
+      "class": "PPTFrameClass",
+      "created_instance": false
+    },
+    "same_process": true,
+    "distinct_hwnd": true,
+    "pids_during": [
+      16560
+    ],
+    "visible_windows_of_a_pid": [
+      {
+        "hwnd": 723308,
+        "class": "PPTFrameClass"
+      },
+      {
+        "hwnd": 1181332,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 1378728,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 526740,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 590682,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 2098786,
+        "class": "PPTFrameClass"
+      },
+      {
+        "hwnd": 2360994,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 918480,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 394930,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      },
+      {
+        "hwnd": 722598,
+        "class": "MSO_BORDEREFFECT_WINDOW_CLASS"
+      }
+    ],
+    "pids_after_teardown": [
+      16560
+    ],
+    "teardown_clean": false
+  }
+}

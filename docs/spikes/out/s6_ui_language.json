@@ -1,0 +1,62 @@
+{
+  "excel": {
+    "install": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "ui": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "help": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "exe_mode": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "version": "16.0",
+    "build": "20326.0"
+  },
+  "word": {
+    "install": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "ui": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "help": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "exe_mode": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "version": "16.0",
+    "build": "16.0.20326"
+  },
+  "powerpoint": {
+    "install": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "ui": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "help": {
+      "lcid": 1033,
+      "tag": "en-US"
+    },
+    "exe_mode": {
+      "lcid": 1066,
+      "tag": "vi-VN"
+    },
+    "version": "16.0",
+    "build": "20326"
+  }
+}
