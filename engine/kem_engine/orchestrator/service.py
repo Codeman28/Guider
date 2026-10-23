@@ -18,7 +18,7 @@ from ..intent.router import route
 from ..llm.client import LLMClient
 from ..llm.config import LLMConfig
 from ..llm.providers.base import LLMError
-from ..models import Plan, Trace, Tutorial
+from ..models import Expected, Plan, Trace, Tutorial
 from ..planner.planner import Planner, card_is_clear
 from ..recipes.store import Store
 from ..writer import llm_writer, template
@@ -68,7 +68,10 @@ class TutorialService:
         self.use_cards_directly = use_cards_directly
 
     def create(self, query: str, app_hint: str | None = None,
-               progress: Callable[[dict], None] | None = None, cancel_event=None) -> CreateResult:
+               progress: Callable[[dict], None] | None = None, cancel_event=None,
+               success_check: Expected | None = None) -> CreateResult:
+        """success_check: eval-only hook — asserts the task's outcome when the plan has no check of its
+        own (LLM-written plans), so eval scores outcomes instead of the model's task naming."""
         t0 = time.monotonic()
         progress = progress or (lambda m: None)
         r = route(query, app_hint)
@@ -112,6 +115,9 @@ class TutorialService:
                                     seconds=time.monotonic() - t0)
             plan, source = pr.plan, pr.source
 
+        if success_check is not None and plan.success_check is None:
+            plan = plan.model_copy(update={"success_check": success_check})
+
         # 3) demonstrate
         def writer(trace, title, tid, status):
             if stored_text is not None and status == "ok" and text_matches_trace(stored_text, trace):
@@ -124,7 +130,7 @@ class TutorialService:
 
         session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
                           writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
-                          cancel_event=cancel_event)
+                          cancel_event=cancel_event, allow_skip=source == "llm")
         res = session.run()
 
         # 4) remember

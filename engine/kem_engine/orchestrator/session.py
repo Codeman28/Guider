@@ -43,6 +43,10 @@ class StepFailed(Exception):
     pass
 
 
+class NotFound(StepFailed):
+    """The step's element is not on screen (as opposed to: found but the action did not verify)."""
+
+
 @dataclass
 class RunResult:
     tutorial: Tutorial
@@ -65,13 +69,16 @@ def _template_writer(trace, title, tid, status):
 class Session:
     def __init__(self, plan: Plan, out_root: Path, progress: Callable[[dict], None] | None = None,
                  window_logical: tuple[int, int] = (1280, 800), writer: WriteFn | None = None,
-                 disambiguate: Disambiguate | None = None, cancel_event=None):
+                 disambiguate: Disambiguate | None = None, cancel_event=None, allow_skip: bool = False):
         self.plan = plan
         self.window_logical = window_logical
         self.writer = writer or _template_writer
         self.disambiguate = disambiguate
         self.cancel_event = cancel_event  # threading.Event set by tutorial.cancel (RPC)
         self.ribbon_tabs: list[str] = []
+        self.allow_skip = allow_skip  # LLM plans may contain a step this UI does not need
+        self._last_expand: Step | None = None
+        self._skipped: set[int] = set()
         self.session_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
         self.out_dir = out_root / f"{self.session_id}_{plan.task_canonical}"
         self.progress = progress or (lambda m: None)
@@ -111,6 +118,32 @@ class Session:
                 excel.unstick(self.sb)
             else:
                 raise
+        self._restore_selection()
+
+    def _restore_selection(self):
+        """A stray click can move the selection; re-apply the plan's range so toggles hit the right cells."""
+        if len(self._windows()) > 1:
+            return  # a menu or dialog of ours is open; touching the grid would close it
+        for pre in self.plan.preconditions:
+            try:
+                com_retry(lambda: self.sb.doc.ActiveSheet.Range(pre.ref).Select(), timeout=2)
+            except Exception as e:
+                log.warning("session.restore_selection_failed", error=repr(e))
+
+    def _reopen_last_menu(self) -> bool:
+        """Office closes a ribbon menu/gallery when another window takes focus. Re-open it silently."""
+        if self._last_expand is None:
+            return False
+        res, _ = self._ground(self._last_expand)
+        if res.element is None:
+            return False
+        try:
+            actuator.perform("expand", res.element)
+        except actuator.ActionError:
+            return False
+        time.sleep(1.0)
+        log.info("session.menu_reopened", name=res.element.name)
+        return True
 
     def _save(self, img, name: str) -> str:
         path = self.out_dir / name
@@ -135,22 +168,25 @@ class Session:
         els, ident = snapshot(self._windows())
         return ground(step.target, step.intent, els, self.aliases), ident
 
-    def _verify(self, step: Step, el, dialogs_before: set[int], windows_before: set[int]) -> bool:
+    def _verify(self, step: Step, el, dialogs_before: set[int], windows_before: set[int],
+                timeout: float | None = None) -> bool:
         exp = step.expected
+        ui_t, com_t = timeout or 5.0, timeout or 8.0
         if exp.type == "none":
             return True
         if exp.type == "tab_selected":
-            return poll(lambda: actuator.is_selected(el))
+            return poll(lambda: actuator.is_selected(el), timeout=ui_t)
         if exp.type == "expanded":
-            return poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before))
+            return poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before),
+                        timeout=ui_t)
         if exp.type == "dialog_opened":
-            return poll(lambda: bool(set(excel.dialogs(self.sb)) - dialogs_before))
+            return poll(lambda: bool(set(excel.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
         if exp.type == "dialog_closed":
-            return poll(lambda: not (set(excel.dialogs(self.sb)) & dialogs_before))
+            return poll(lambda: not (set(excel.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
         if exp.type == "com_check":
-            return poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=8)
+            return poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=com_t)
         counter = COM_COUNTERS[exp.type]
-        return poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=8)
+        return poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=com_t)
 
     def _run_step(self, step: Step, plan_step_id: int | None, reason: str | None = None, repairs: int = 0):
         assert self.trace is not None
@@ -166,6 +202,8 @@ class Session:
         if res.element is None:
             time.sleep(0.6)  # UI may still be animating
             res, ident = self._ground(step)
+        if res.element is None and self._reopen_last_menu():
+            res, ident = self._ground(step)
         if res.element is None:
             if res.repair and repairs < MAX_REPAIRS:
                 self.trace.steps.pop()
@@ -177,7 +215,7 @@ class Session:
                 self._run_step(rstep, None, reason=rep.reason, repairs=repairs + 1)
                 return self._run_step(step, plan_step_id, reason, repairs + 1)
             ts.error = f"không tìm thấy phần tử (điểm cao nhất {res.score:.0f})"
-            raise StepFailed(ts.error)
+            raise NotFound(ts.error)
 
         el = res.element
         if res.ambiguous and self.disambiguate is not None:
@@ -213,7 +251,15 @@ class Session:
             if self._verify(step, el, dialogs_before, windows_before):
                 ts.verified, ts.error = True, None
                 break
-            if attempt < MAX_ACT_ATTEMPTS:  # reground once: the element may have been re-created
+            if attempt < MAX_ACT_ATTEMPTS:
+                # Never blindly repeat: a second toggle undoes the first. Restore the selection, look
+                # again, and only act again if the post-condition still does not hold.
+                self._restore_selection()
+                if self._verify(step, el, dialogs_before, windows_before, timeout=1.0):
+                    ts.verified, ts.error = True, None
+                    break
+                if step.intent != "expand":
+                    self._reopen_last_menu()
                 res, ident = self._ground(step)
                 if res.element is None:
                     break
@@ -226,6 +272,7 @@ class Session:
             self._emit("CAPTURE", f"Bước {n}: chụp ảnh", n)
             ts.image = self._capture(el.rect, n, ident, f"step_{n:02d}.png")
 
+        self._last_expand = step if step.intent == "expand" else None
         if step.capture_result:
             time.sleep(0.4)
             _, ident = snapshot(self._windows())
@@ -255,8 +302,21 @@ class Session:
             ribbon = [e for e in tabs if e.control_type == "TabItem" and e.name]
             top = min((e.rect.top for e in ribbon), default=0)
             self.ribbon_tabs = [e.name for e in ribbon if e.rect.top <= top + 10]  # drop sheet tabs
-            for step in self.plan.steps:
-                self._run_step(step, step.id)
+            skipped = False
+            for i, step in enumerate(self.plan.steps):
+                try:
+                    self._run_step(step, step.id)
+                except NotFound:
+                    # An LLM plan may add a step this UI does not have. Skip it (once) only if the next
+                    # step's element is on screen right now; never skip in reviewed cards/recipes.
+                    nxt = self.plan.steps[i + 1] if i + 1 < len(self.plan.steps) else None
+                    if not (self.allow_skip and not skipped and nxt and nxt.target
+                            and self._ground(nxt)[0].element is not None):
+                        raise
+                    skipped = True
+                    self._skipped.add(step.id)
+                    self.trace.steps.pop()
+                    log.warning("session.step_skipped", plan_step=step.id)
             sc = self.plan.success_check
             if sc is not None and not self._verify(Step(id=0, intent="wait_for", expected=sc), None, set(), set()):
                 status = "partial"
@@ -292,7 +352,7 @@ class Session:
 
     def _add_undemonstrated_steps(self):
         """Plan steps never reached still appear, as text only (SPEC §9 error state)."""
-        done = {s.plan_step_id for s in self.trace.steps if s.plan_step_id is not None}
+        done = {s.plan_step_id for s in self.trace.steps if s.plan_step_id is not None} | self._skipped
         for step in self.plan.steps:
             if step.id not in done and step.target:
                 self.trace.steps.append(TraceStep(id=len(self.trace.steps) + 1, plan_step_id=step.id,

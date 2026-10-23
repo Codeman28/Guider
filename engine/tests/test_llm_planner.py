@@ -243,3 +243,18 @@ def test_planner_schema_rejects_lowercase_control_type():
                                                      "target": {"names": ["OK"], "control_type": "button"}}]})
     schema = json.dumps(LLMPlan.model_json_schema())
     assert '"TabItem"' in schema and '"ListItem"' in schema
+
+
+def test_ambiguous_cards_go_to_llm_choice(cfg):
+    from kem_engine.planner.planner import slug
+    f = Fake("ollama", ['{"card_id": "merge_center"}'])
+    r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("trộn mấy ô lại thành một ô và căn giữa", ENV)
+    assert r.source == "card_llm" and r.plan.task_canonical == "merge_center"
+    assert set(f.seen[0][1]) == {"question", "knowledge"}
+    assert slug("Create PivotTable") == "create_pivottable"
+
+
+def test_llm_choice_none_falls_through_to_free_plan(cfg):
+    f = Fake("ollama", ['{"card_id": "none"}', json.dumps(PLAN_OK)])
+    r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("trộn mấy ô lại thành một ô và căn giữa", ENV)
+    assert r.source == "llm" and len(f.seen) == 2

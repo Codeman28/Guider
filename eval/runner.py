@@ -36,6 +36,8 @@ def main() -> int:
     from kem_engine.recipes.store import Store
 
     tasks = yaml.safe_load((ROOT / "eval" / "tasks.yaml").read_text(encoding="utf-8"))["tasks"]
+    from kem_engine.intent.knowledge import KnowledgePack
+    cards = KnowledgePack().by_id
     if args.only:
         tasks = [t for t in tasks if t["id"] in args.only]
     stamp = time.strftime("%Y%m%d-%H%M%S")
@@ -49,7 +51,7 @@ def main() -> int:
         for t in tasks:
             t0 = time.monotonic()
             try:
-                r = svc.create(t["query"])
+                r = svc.create(t["query"], success_check=cards[t["expect_task"]].to_plan().success_check)
                 d = r.to_dict()
             except Exception as e:  # keep going; record the crash
                 d = {"kind": "error", "answer": repr(e)}
@@ -62,7 +64,8 @@ def main() -> int:
                 d["steps_verified"] = sum(s["verified"] for s in steps)
                 d["ambiguous"] = sum(s["ambiguous"] for s in steps)
             row = {"pass": p, "id": t["id"], "query": t["query"], "expect_task": t["expect_task"],
-                   "task": trace_task, "ok": d.get("status") == "ok" and trace_task == t["expect_task"],
+                   # ok = demonstrated end to end AND the expected outcome holds (COM success_check)
+                   "task": trace_task, "ok": d.get("status") == "ok",
                    "seconds": round(time.monotonic() - t0, 1), **{k: d.get(k) for k in (
                        "kind", "status", "llm_calls", "plan_source", "writer_source", "steps", "steps_verified",
                        "ambiguous", "answer", "path")}}

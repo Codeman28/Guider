@@ -67,7 +67,7 @@ class LLMPlan(BaseModel):
 @dataclass
 class PlanResult:
     plan: Plan | None
-    source: Literal["card", "recipe", "llm", "none"]
+    source: Literal["card", "card_llm", "recipe", "llm", "none"]
     in_scope: bool = True
     reason: str | None = None
     card_score: float = 0.0
@@ -90,6 +90,24 @@ def card_is_clear(matches) -> bool:
     if not matches or matches[0][0] < CARD_DIRECT_THRESHOLD:
         return False
     return len(matches) < 2 or matches[1][0] < CARD_RIVAL_THRESHOLD
+
+
+def slug(text: str) -> str:
+    """'Create PivotTable' → 'create_pivottable' (the task id names folders and recipe keys)."""
+    from ..intent.knowledge import fold
+    return re.sub(r"[^a-z0-9]+", "_", fold(text or "")).strip("_")[:48]
+
+
+CHOOSE_SYSTEM = (
+    "Chọn thẻ tác vụ phù hợp nhất với câu hỏi của người dùng trong danh sách 'knowledge'. "
+    "Trả card_id là id của thẻ đó, hoặc \"none\" nếu không thẻ nào làm đúng điều người dùng hỏi. Chỉ trả JSON."
+)
+
+
+def card_choice_model(ids: list[str]) -> type[BaseModel]:
+    """Schema whose card_id is an enum of the candidate ids (+ 'none'): the model can only pick one."""
+    from pydantic import create_model
+    return create_model("CardChoice", card_id=(Literal[tuple(ids + ["none"])], ...))
 
 
 def fixture_ids() -> list[str]:
@@ -125,7 +143,7 @@ def to_plan(p: LLMPlan) -> Plan:
                           expected={"type": "tab_selected"} if s.intent == "select_ribbon_tab" else
                           {"type": "expanded"} if s.intent == "expand" else {"type": "none"}))
     pre = [Precondition(type="select_range", ref=p.select_range)] if p.select_range else []
-    return Plan(task_canonical=p.task_canonical or "llm_task", title=p.title,
+    return Plan(task_canonical=slug(p.task_canonical) or "llm_task", title=p.title,
                 fixture_id=p.fixture_id or "sales_table_basic", preconditions=pre, steps=steps)
 
 
@@ -144,6 +162,18 @@ class Planner:
             return PlanResult(best.to_plan(), "card", card_score=best_score)
         if self.llm is None:
             return PlanResult(None, "none", reason="Không có model nào để lập kế hoạch cho câu hỏi này.")
+
+        # Several reviewed cards match: let the model choose among them (classification is within reach
+        # of a 1.7B model; free-form planning is not — eval run 2).
+        candidates = [c for s_, c in matches if s_ >= 85.0]
+        if len(candidates) >= 2 and self.use_cards_directly:
+            Choice = card_choice_model([c.id for c in candidates])
+            pick = self.llm.complete("planner", CHOOSE_SYSTEM, {
+                "question": question, "knowledge": "\n".join(c.summary() for c in candidates)}, Choice,
+                max_repairs=0)
+            if pick.card_id != "none":
+                return PlanResult(self.pack.by_id[pick.card_id].to_plan(), "card_llm", card_score=best_score)
+
         payload = {
             "question": question,
             "env": {"app": "excel", "ui_lang": env.ui_lang, "office_build": env.office_build} if env else {},
