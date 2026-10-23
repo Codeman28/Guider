@@ -104,7 +104,7 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--width", type=int, default=1280, help="độ rộng logic cửa sổ sandbox (hẹp → ribbon thu gọn)")
     run.add_argument("--out", help="thư mục gốc chứa tutorial (mặc định %%LOCALAPPDATA%%\\Kem\\tutorials)")
     sub.add_parser("tasks", help="liệt kê tác vụ có plan")
-    ask = sub.add_parser("ask", help="hỏi bằng câu tự do → Kèm lập kế hoạch, làm mẫu, viết hướng dẫn")
+    ask = sub.add_parser("ask", help="hỏi bằng câu tự do → Guider lập kế hoạch, làm mẫu, viết hướng dẫn")
     ask.add_argument("question")
     ask.add_argument("--width", type=int, default=1280)
     ask.add_argument("--out")

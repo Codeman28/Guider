@@ -10,7 +10,7 @@
    kiểm tra chế độ Edit + retry COM trước mỗi bước; teardown gửi Esc trước khi Close. Keyboard hook lùi sang v1.5,
    desktop ảo vẫn ở v2.
 2. **Whitelist (§2, §8) — từ S3.** Popup ribbon có owner là cửa sổ ẩn, không phải HWND chính. Whitelist = HWND sandbox +
-   cửa sổ top-level cùng PID (Excel/Word); với PowerPoint chỉ nhận cửa sổ cùng PID xuất hiện sau hành động của Kèm.
+   cửa sổ top-level cùng PID (Excel/Word); với PowerPoint chỉ nhận cửa sổ cùng PID xuất hiện sau hành động của Guider.
 3. **Grounder (§6.5) — từ S1.** Snapshot bằng raw UIA `FindAllBuildCache`. Expand nhóm ribbon thu gọn là đường chính.
 4. **Tech stack (§5).** Python 3.12.
 

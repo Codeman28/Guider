@@ -30,7 +30,7 @@ from ..writer.template import validate_labels, write
 
 log = structlog.get_logger()
 
-WARNING = "Kèm đang làm mẫu trên một file Excel trống — vui lòng đừng gõ phím hay bấm chuột. Nhấn Esc để dừng."
+WARNING = "Guider đang làm mẫu trên một file Excel trống — vui lòng đừng gõ phím hay bấm chuột. Nhấn Esc để dừng."
 MAX_REPAIRS = 2
 MAX_ACT_ATTEMPTS = 2
 
@@ -114,7 +114,7 @@ class Session:
         except Exception as e:
             if is_busy_error(e):
                 log.warning("session.user_input_detected")
-                self._emit("RECOVER", "Phát hiện có phím gõ vào cửa sổ mẫu — Kèm khôi phục và làm tiếp.")
+                self._emit("RECOVER", "Phát hiện có phím gõ vào cửa sổ mẫu — Guider khôi phục và làm tiếp.")
                 excel.unstick(self.sb)
             else:
                 raise

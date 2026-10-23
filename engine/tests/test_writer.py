@@ -45,7 +45,7 @@ def test_failed_step_is_text_only():
     tr = trace(ts(1, "invoke", "PivotTable"), ts(2, "invoke", "OK", verified=False))
     tut = write(tr, "t", "id", "partial")
     assert tut.steps[1].image is None and not tut.steps[1].demonstrated
-    assert tut.steps[1].body.startswith("Bước này Kèm chưa làm mẫu được")
+    assert tut.steps[1].body.startswith("Bước này Guider chưa làm mẫu được")
     assert "chưa làm mẫu" in tut.outro
 
 

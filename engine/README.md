@@ -1,4 +1,4 @@
-# Kèm engine (Python sidecar)
+# Guider engine (Python sidecar)
 
 Phase 1: CLI làm mẫu tác vụ Excel bằng plan viết tay, không dùng LLM (SPEC §12).
 

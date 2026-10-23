@@ -100,13 +100,13 @@ class TutorialService:
 
         # 2) card or LLM Planner
         if plan is None:
-            progress({"state": "PLAN", "message": "Kèm đang lập kế hoạch các bước"})
+            progress({"state": "PLAN", "message": "Guider đang lập kế hoạch các bước"})
             planner = Planner(self.pack, llm, use_cards_directly=self.use_cards_directly)
             try:
                 pr = planner.plan(query, env, tabs)
             except LLMError as e:
                 log.warning("service.planner_failed", error=str(e))
-                return CreateResult("text", answer="Kèm chưa lập được kế hoạch cho câu hỏi này "
+                return CreateResult("text", answer="Guider chưa lập được kế hoạch cho câu hỏi này "
                                     "(model trên máy chưa sẵn sàng hoặc trả lời không hợp lệ).",
                                     llm_calls=llm.budget.used if llm else 0, seconds=time.monotonic() - t0,
                                     llm_log=[asdict(c) for c in llm.budget.log] if llm else [])

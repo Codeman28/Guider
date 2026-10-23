@@ -18,17 +18,17 @@ APP_WORDS = {
 # "cài"); English words are matched on folded text. (vi_pattern, en_pattern, reason)
 OUT_OF_SCOPE = [
     (r"\b(tải|cài đặt|cài|bẻ khóa|bản quyền|mua|kích hoạt)\b", r"\b(download|install|crack|license|activate)\b",
-     "Kèm không tải, cài đặt hay kích hoạt phần mềm trên máy bạn, nên không làm mẫu được việc này."),
+     "Guider không tải, cài đặt hay kích hoạt phần mềm trên máy bạn, nên không làm mẫu được việc này."),
     (r"\b(gửi|thư điện tử)\b", r"\b(send|email|e mail|mail|outlook)\b",
-     "Gửi thư hoặc gửi file là thao tác ra ngoài máy, Kèm không làm mẫu."),
+     "Gửi thư hoặc gửi file là thao tác ra ngoài máy, Guider không làm mẫu."),
     (r"\b(chia sẻ|đồng bộ)\b", r"\b(share|onedrive|sharepoint|teams|sync)\b",
-     "Chia sẻ hoặc đồng bộ lên mạng là thao tác ra ngoài máy, Kèm không làm mẫu."),
+     "Chia sẻ hoặc đồng bộ lên mạng là thao tác ra ngoài máy, Guider không làm mẫu."),
     (r"\b(đăng nhập|đăng xuất|tài khoản|mật khẩu)\b", r"\b(sign in|sign out|login|account|password)\b",
-     "Đăng nhập và tài khoản là dữ liệu cá nhân, Kèm không đụng tới."),
+     "Đăng nhập và tài khoản là dữ liệu cá nhân, Guider không đụng tới."),
     (r"\b(mã vba)\b", r"\b(macro|vba|visual basic)\b",
-     "Macro/VBA có thể chạy mã tùy ý, Kèm không làm mẫu phần này."),
+     "Macro/VBA có thể chạy mã tùy ý, Guider không làm mẫu phần này."),
     (r"(?!x)x", r"\b(copilot|chatgpt|gemini)\b",
-     "Kèm không điều khiển trợ lý AI khác trong Office."),
+     "Guider không điều khiển trợ lý AI khác trong Office."),
 ]
 SUPPORTED_APPS = {"excel"}  # Word, PowerPoint: Phase 4
 
@@ -54,5 +54,5 @@ def route(question: str, app_hint: str | None = None) -> Route:
         best = max(hits, key=hits.get)
         app, unsure = (best, False) if hits[best] > 0 else ("excel", True)
     if app not in SUPPORTED_APPS:
-        return Route(False, app, f"Kèm hiện mới làm mẫu được trên Excel; {app.title()} sẽ có ở bản sau.")
+        return Route(False, app, f"Guider hiện mới làm mẫu được trên Excel; {app.title()} sẽ có ở bản sau.")
     return Route(True, app, None, unsure)

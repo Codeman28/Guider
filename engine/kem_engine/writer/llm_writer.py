@@ -24,7 +24,7 @@ SYSTEM = (
     "hướng dẫn quen thuộc. Mỗi bước trong 'steps' đầu vào thành đúng một bước đầu ra, cùng thứ tự, cùng id. "
     "Câu ngắn, mỗi bước một hành động. Nhãn nút in đậm bằng **...** và phải giữ NGUYÊN chuỗi element_name. "
     "Không thêm bước, không bịa phím tắt (chỉ nhắc access_key nếu có), không nói 'theo hình'. "
-    "Bước có verified=false: nói rõ Kèm chưa làm mẫu được bước này trên máy bạn. Chỉ trả JSON."
+    "Bước có verified=false: nói rõ Guider chưa làm mẫu được bước này trên máy bạn. Chỉ trả JSON."
 )
 
 

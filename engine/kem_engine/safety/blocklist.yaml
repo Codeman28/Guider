@@ -1,4 +1,4 @@
-# SPEC §8: elements Kèm must never act on. Names match after normalization (case, trailing "...",
+# SPEC §8: elements Guider must never act on. Names match after normalization (case, trailing "...",
 # bidi marks): exact match, or prefix match for entries under name_prefixes.
 # English entries verified on M365 build 20326 where noted; Vietnamese entries TODO(verify).
 version: 1

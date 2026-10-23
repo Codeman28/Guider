@@ -55,7 +55,7 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
     for i, s in enumerate(trace.steps, start=1):
         heading, body = _texts(s)
         if not s.verified:
-            body = ("Bước này Kèm chưa làm mẫu được trên máy bạn. " + body)
+            body = ("Bước này Guider chưa làm mẫu được trên máy bạn. " + body)
         tip = f"Phím tắt: {s.access_key}." if s.access_key else None
         if s.image is None and s.result_image is None:
             body = body.replace("theo hình", "")
@@ -63,11 +63,11 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
                                   image=s.image if s.verified else None,
                                   result_image=s.result_image if s.verified else None,
                                   demonstrated=s.verified))
-    intro = ("Hướng dẫn này được Kèm làm mẫu ngay trên Excel trong Microsoft 365 của bạn, "
+    intro = ("Hướng dẫn này được Guider làm mẫu ngay trên Excel trong Microsoft 365 của bạn, "
              "nên các nút trong ảnh giống hệt những gì bạn đang thấy.")
     outro = {"ok": "Xong. Bạn có thể làm lại các bước trên với dữ liệu của mình.",
-             "partial": "Kèm chưa làm mẫu được hết các bước; phần còn lại được mô tả bằng chữ.",
-             "failed": "Kèm chưa làm mẫu được tác vụ này trên máy bạn.",
+             "partial": "Guider chưa làm mẫu được hết các bước; phần còn lại được mô tả bằng chữ.",
+             "failed": "Guider chưa làm mẫu được tác vụ này trên máy bạn.",
              "cancelled": "Bạn đã dừng phiên làm mẫu."}[status]
     return Tutorial(tutorial_id=tutorial_id, title=title, intro=intro, steps=steps, outro=outro,
                     env_label=env_label(trace.env), status=status)

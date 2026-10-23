@@ -1,4 +1,6 @@
-# Kèm — SPEC
+# Guider — SPEC
+
+> Tên sản phẩm: **Guider** (đổi từ tên làm việc "Kèm" ngày 23/10/2026). Tên kỹ thuật nội bộ (`kem`, `kem_engine`, repo `kem`) giữ nguyên.
 
 Agent tạo tutorial ngay trên máy người dùng · Microsoft 365 desktop · Windows · Model miễn phí
 Phiên bản 1.2 · 23/10/2026 (cập nhật sau Phase 0 và Phase 2, xem docs/adr/0001-phase0-findings.md và docs/adr/0002-phase2-design.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
@@ -7,7 +9,7 @@ Phiên bản 1.2 · 23/10/2026 (cập nhật sau Phase 0 và Phase 2, xem docs/a
 
 Người dùng phổ thông học một thao tác trên Excel/Word/PowerPoint thường phải lên mạng đọc bài hướng dẫn kiểu Thegioididong: tiêu đề, đoạn mở đầu, rồi "Bước 1, Bước 2…" mỗi bước một ảnh chụp màn hình có khung đỏ/mũi tên. Vấn đề cốt lõi: ảnh trên mạng là giao diện của máy người viết. Phiên bản Office khác (build Microsoft 365 cập nhật liên tục), ngôn ngữ giao diện khác (Tiếng Việt vs English), độ phân giải/DPI khác, theme khác, ribbon bị thu gọn khác, khiến người học không tìm thấy nút.
 
-Kèm giải quyết bằng cách tự làm mẫu thao tác trên chính bản Office của người dùng, trong một file trống do Kèm tạo ra, chụp lại từng bước, vẽ chú thích, viết hướng dẫn tiếng Việt, rồi dọn sạch. Kết quả là một tutorial hiển thị trong tab của app, trùng khớp 100% với giao diện người dùng đang thấy.
+Guider giải quyết bằng cách tự làm mẫu thao tác trên chính bản Office của người dùng, trong một file trống do Guider tạo ra, chụp lại từng bước, vẽ chú thích, viết hướng dẫn tiếng Việt, rồi dọn sạch. Kết quả là một tutorial hiển thị trong tab của app, trùng khớp 100% với giao diện người dùng đang thấy.
 
 Giá trị khác biệt nằm ở chữ "của chính bạn". Mọi quyết định kỹ thuật bên dưới đều phục vụ điều này.
 
@@ -29,10 +31,10 @@ Windows 10/11, Microsoft 365 desktop (Excel trước, sau đó Word, PowerPoint)
 
 | Thuật ngữ | Nghĩa trong dự án |
 |---|---|
-| UIA (UI Automation) | API trợ năng của Windows. Mỗi nút/ô/menu là một AutomationElement có Name, ControlType, AutomationId, BoundingRectangle, AccessKey, AcceleratorKey, và các control pattern (Invoke, ExpandCollapse, Toggle, SelectionItem, Value). Đây là "xương sống" của Kèm. |
+| UIA (UI Automation) | API trợ năng của Windows. Mỗi nút/ô/menu là một AutomationElement có Name, ControlType, AutomationId, BoundingRectangle, AccessKey, AcceleratorKey, và các control pattern (Invoke, ExpandCollapse, Toggle, SelectionItem, Value). Đây là "xương sống" của Guider. |
 | COM Automation | Object model của Office (Excel.Application, Word.Application, PowerPoint.Application). Dùng để dựng và dọn sandbox và xác minh trạng thái, KHÔNG dùng để làm các bước demo (vì COM không để lại dấu vết trên giao diện để chụp). |
-| Sandbox document | File trống do Kèm tạo qua COM, không bao giờ được lưu, đóng với SaveChanges=False. |
-| Sandbox window whitelist | Tập HWND mà Kèm được phép tương tác: cửa sổ của sandbox document + các cửa sổ top-level mới xuất hiện sau hành động của Kèm (xem §8 — định nghĩa theo từng app, cập nhật sau S3). Mọi cửa sổ khác là vùng cấm. |
+| Sandbox document | File trống do Guider tạo qua COM, không bao giờ được lưu, đóng với SaveChanges=False. |
+| Sandbox window whitelist | Tập HWND mà Guider được phép tương tác: cửa sổ của sandbox document + các cửa sổ top-level mới xuất hiện sau hành động của Guider (xem §8 — định nghĩa theo từng app, cập nhật sau S3). Mọi cửa sổ khác là vùng cấm. |
 | EnvProfile | Hồ sơ môi trường: app, build Office, ngôn ngữ UI, DPI, theme, độ phân giải. Là một phần của cache key. |
 | Plan | Danh sách bước ở dạng ý định (intent), do LLM Planner sinh ra. Chưa gắn với phần tử UI cụ thể. |
 | Grounding | Ánh xạ một bước trong Plan sang đúng một AutomationElement trên giao diện thật. |
@@ -67,10 +69,10 @@ Yêu cầu gốc là làm chìm để người dùng không thấy bị xâm ph�
 - Pháp lý/đạo đức: Thao tác trên máy người khác phải có sự đồng ý rõ ràng.
 Quyết định — "Demo mode" kín đáo:
 
-- Lần đầu: màn hình đồng ý một lần, giải thích bằng 3 câu: Kèm sẽ mở một file trống, làm mẫu, chụp riêng cửa sổ đó, rồi xóa sạch; không đọc file nào của bạn; ảnh không rời khỏi máy.
-- Khi chạy: một toast nhỏ góc màn hình "Kèm đang làm mẫu… nhấn Esc để dừng", cửa sổ sandbox mở cạnh app (không phủ toàn màn hình), kết thúc thì tự đóng.
+- Lần đầu: màn hình đồng ý một lần, giải thích bằng 3 câu: Guider sẽ mở một file trống, làm mẫu, chụp riêng cửa sổ đó, rồi xóa sạch; không đọc file nào của bạn; ảnh không rời khỏi máy.
+- Khi chạy: một toast nhỏ góc màn hình "Guider đang làm mẫu… nhấn Esc để dừng", cửa sổ sandbox mở cạnh app (không phủ toàn màn hình), kết thúc thì tự đóng.
 - Ưu tiên hành động qua UIA pattern (Invoke/ExpandCollapse/SelectionItem/Value) — không di chuột thật. Chỉ fallback sang click chuột thật khi bắt buộc, và lúc đó toast chuyển sang "Vui lòng không dùng chuột trong vài giây".
-- **Cập nhật sau spike S4:** UIA pattern chạy được khi cửa sổ sandbox ở nền, nhưng **Office tự kích hoạt cửa sổ của nó sau mỗi lệnh ribbon** (cướp foreground). Vì vậy "người dùng làm việc song song" KHÔNG được hứa ở v1. Thay vào đó: toast hiển thị ngay từ bước đầu "Kèm đang làm mẫu — đừng gõ phím, nhấn Esc để dừng"; trước mỗi bước kiểm tra Excel không ở chế độ Edit (retry COM khi gặp RPC_E_SERVERCALL_RETRYLATER); teardown gửi Esc tới HWND sandbox trước khi Close. Hướng v1.5: low-level keyboard hook chỉ trong lúc demo, nuốt phím (trừ Esc) khi foreground là cửa sổ sandbox.
+- **Cập nhật sau spike S4:** UIA pattern chạy được khi cửa sổ sandbox ở nền, nhưng **Office tự kích hoạt cửa sổ của nó sau mỗi lệnh ribbon** (cướp foreground). Vì vậy "người dùng làm việc song song" KHÔNG được hứa ở v1. Thay vào đó: toast hiển thị ngay từ bước đầu "Guider đang làm mẫu — đừng gõ phím, nhấn Esc để dừng"; trước mỗi bước kiểm tra Excel không ở chế độ Edit (retry COM khi gặp RPC_E_SERVERCALL_RETRYLATER); teardown gửi Esc tới HWND sandbox trước khi Close. Hướng v1.5: low-level keyboard hook chỉ trong lúc demo, nuốt phím (trừ Esc) khi foreground là cửa sổ sandbox.
 - Phase sau (v2): chạy trong desktop ảo cô lập. UFO² đã có giao diện Picture-in-Picture chạy automation trong một desktop ảo riêng, xây trên hạ tầng remote desktop loopback, để người dùng và agent làm việc song song. Đây là hướng nâng cấp đúng nhưng phức tạp; không đưa vào v1.
 ### ADR-4: Model local mặc định, cloud miễn phí là tùy chọn
 
@@ -79,7 +81,7 @@ Quyết định: Mặc định chạy Ollama local (không giới hạn, không 
 
 ### ADR-5: Ngân sách LLM ≤ 3 lần gọi / tutorial
 
-Phép tính: thiết kế ngây thơ gọi LLM mỗi bước (plan 1 + ground ~8 + verify ~0 + viết ~8) ≈ 17 lần/tutorial → với quota 50 request/ngày của OpenRouter chưa nạp tiền, chỉ được khoảng 2–3 tutorial/ngày. Thiết kế của Kèm: 1 lần Planner + grounding tất định (fuzzy match, chỉ gọi LLM khi mơ hồ) + 1 lần Writer viết gộp mọi bước = 2 lần điển hình, 3 lần tối đa → khoảng 16–25 tutorial/ngày trên cùng quota. Recipe cache đưa chi phí lần lặp lại về 0 lần gọi.
+Phép tính: thiết kế ngây thơ gọi LLM mỗi bước (plan 1 + ground ~8 + verify ~0 + viết ~8) ≈ 17 lần/tutorial → với quota 50 request/ngày của OpenRouter chưa nạp tiền, chỉ được khoảng 2–3 tutorial/ngày. Thiết kế của Guider: 1 lần Planner + grounding tất định (fuzzy match, chỉ gọi LLM khi mơ hồ) + 1 lần Writer viết gộp mọi bước = 2 lần điển hình, 3 lần tối đa → khoảng 16–25 tutorial/ngày trên cùng quota. Recipe cache đưa chi phí lần lặp lại về 0 lần gọi.
 
 ### ADR-6: Tauri 2 + Python sidecar, giao tiếp qua stdio (không mở cổng mạng)
 
@@ -95,7 +97,7 @@ Writer chỉ được nhắc phím tắt nếu nó tồn tại trong thuộc tí
 
 ### 4.1 Kiến trúc thành phần
 
-Hình 1. Kiến trúc thành phần của Kèm
+Hình 1. Kiến trúc thành phần của Guider
 
 ### 4.2 Trình tự một phiên
 
@@ -156,7 +158,7 @@ teardown(handle)    -> luôn idempotent
 - Word: Documents.Add(). PowerPoint: Presentations.Add().
 - Kết quả spike S2: Excel và Word — mỗi DispatchEx là một process riêng (HWND: `Application.Hwnd` / `Document.ActiveWindow.Hwnd`). PowerPoint — single-instance, sandbox có thể chung process với file thật; không có HWND qua COM, phải tìm cửa sổ `PPTFrameClass` mới xuất hiện sau `Presentations.Add()` và đối chiếu tiêu đề. Setup sandbox phải có timeout (đã gặp Word treo ~900 s vì dialog modal).
 - Fixture: thư viện fixture JSON có sẵn cho các tác vụ phổ biến; LLM chỉ được chọn fixture theo ID hoặc sinh dữ liệu giả theo schema (không dữ liệu thật).
-- Teardown: gửi Esc tới HWND sandbox (thoát chế độ Edit nếu có); doc.Close(SaveChanges=False) với retry khi COM báo busy; nếu instance do Kèm tạo và không còn document nào khác thì Quit(); giải phóng COM refs (process Office chỉ thoát khi mọi ref được nhả); xóa temp_dir. Chỉ xóa đường dẫn có trong session manifest do Kèm tạo — không bao giờ xóa bất cứ file nào khác, kể cả file AutoRecover không chắc chắn là của sandbox.
+- Teardown: gửi Esc tới HWND sandbox (thoát chế độ Edit nếu có); doc.Close(SaveChanges=False) với retry khi COM báo busy; nếu instance do Guider tạo và không còn document nào khác thì Quit(); giải phóng COM refs (process Office chỉ thoát khi mọi ref được nhả); xóa temp_dir. Chỉ xóa đường dẫn có trong session manifest do Guider tạo — không bao giờ xóa bất cứ file nào khác, kể cả file AutoRecover không chắc chắn là của sandbox.
 ### 6.4 Planner (LLM call #1)
 
 Đầu vào: câu hỏi, EnvProfile rút gọn, đoạn Knowledge Pack liên quan (truy hồi theo app + từ khóa), danh sách tên các tab ribbon thực tế (lấy từ UIA, rẻ).
@@ -306,20 +308,20 @@ Writer: như 6.10.
 
 ## 8. Quyền riêng tư và bất biến an toàn (KHÔNG được vi phạm)
 
-- Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới HWND cửa sổ sandbox và các cửa sổ phụ của nó. Spike S3 cho thấy popup ribbon có owner là một cửa sổ ẩn, không phải HWND chính, nên "owner là sandbox" không đủ. Định nghĩa: (Excel/Word, process riêng) cửa sổ top-level cùng PID với sandbox; (PowerPoint, chung process) cửa sổ top-level cùng PID **xuất hiện sau một hành động của Kèm** trong phiên và giao/kề rect cửa sổ sandbox — cửa sổ có từ trước phiên luôn bị cấm. Bỏ qua cửa sổ `MSO_BORDEREFFECT_WINDOW_CLASS`. Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
+- Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới HWND cửa sổ sandbox và các cửa sổ phụ của nó. Spike S3 cho thấy popup ribbon có owner là một cửa sổ ẩn, không phải HWND chính, nên "owner là sandbox" không đủ. Định nghĩa: (Excel/Word, process riêng) cửa sổ top-level cùng PID với sandbox; (PowerPoint, chung process) cửa sổ top-level cùng PID **xuất hiện sau một hành động của Guider** trong phiên và giao/kề rect cửa sổ sandbox — cửa sổ có từ trước phiên luôn bị cấm. Bỏ qua cửa sổ `MSO_BORDEREFFECT_WINDOW_CLASS`. Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
 - Không đọc file người dùng. Không mở, liệt kê, hay đọc tài liệu có sẵn. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
 - Blocklist hành động: không bao giờ invoke các phần tử thuộc nhóm File/Backstage → Account, Share, Save/Save As/Export tới vị trí ngoài temp, Send/Email, Sign in/out, Options → Trust Center, Add-ins store, Macro/VBA, Copilot. Danh sách lưu trong safety/blocklist.yaml (EN+VI), có test.
 - Không mạng từ engine ngoài lời gọi LLM đã cấu hình.
 - Ảnh và trace ở local. Không upload ảnh. Không telemetry mặc định; nếu có telemetry sau này thì opt-in và chỉ số liệu ẩn danh.
 - Teardown đảm bảo trong finally; Esc toàn cục hủy ngay và teardown.
-- Đồng ý một lần, minh bạch luôn: màn hình consent lần đầu; toast khi chạy; nút "Xem Kèm đã làm gì" mở trace.
+- Đồng ý một lần, minh bạch luôn: màn hình consent lần đầu; toast khi chạy; nút "Xem Guider đã làm gì" mở trace.
 - Chỉ xóa đường dẫn trong session manifest.
 ## 9. Hiển thị tutorial (UI/UX tối giản)
 
 Bố cục hai cột: trái là chat (hẹp, 360px), phải là vùng tab. Mỗi tutorial là một tab có tiêu đề ngắn. Nội dung tab theo cấu trúc giống bài hướng dẫn quen thuộc: tiêu đề, đoạn mở đầu, rồi từng khối "Bước n" gồm heading, ảnh có chú thích, đoạn mô tả, tip tùy chọn. Thêm hai thứ bài trên mạng không có: nhãn nhỏ "Chụp trên Excel của bạn ·  · <ngôn ngữ>" ở đầu tab, và chế độ "Từng bước" (một bước một màn hình, nút Tiếp/Lùi) cho người học chậm.
 Typography: một font, ba cỡ chữ; màu nền trắng ngà / xám than (dark mode); một màu nhấn trùng màu khung chú thích. Không icon thừa, không gradient.
 Xuất: Markdown + ảnh, HTML một file (ảnh base64), PDF.
-Trạng thái lỗi: bước thất bại hiển thị "Bước này Kèm chưa làm mẫu được trên máy bạn" + mô tả văn bản, thay vì ảnh sai.
+Trạng thái lỗi: bước thất bại hiển thị "Bước này Guider chưa làm mẫu được trên máy bạn" + mô tả văn bản, thay vì ảnh sai.
 
 ### 9.1 Quy trình thiết kế bắt buộc: Impeccable
 

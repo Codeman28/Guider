@@ -67,7 +67,7 @@ class Server:
         from ..env.probe import probe_excel
         from ..sandbox import excel
         if not self._lock.acquire(blocking=False):
-            raise RpcError(BUSY, "Kèm đang bận làm mẫu")
+            raise RpcError(BUSY, "Guider đang bận làm mẫu")
         try:
             sb = excel.setup(None)
             try:
@@ -84,7 +84,7 @@ class Server:
         if not isinstance(query, str) or not query.strip():
             raise RpcError(INVALID_PARAMS, "query is required")
         if not self._lock.acquire(blocking=False):
-            raise RpcError(BUSY, "Kèm đang làm mẫu một tutorial khác")
+            raise RpcError(BUSY, "Guider đang làm mẫu một tutorial khác")
         import uuid
         sid = uuid.uuid4().hex[:12]
         cancel = threading.Event()

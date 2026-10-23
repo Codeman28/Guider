@@ -6,6 +6,9 @@ docs/spikes/out/*.png
 engine/.out/
 *.egg-info/
 .coverage
+# impeccable-ignore-start (machine-local files; SPEC §9.1)
+.impeccable/config.local.json
+# impeccable-ignore-end
 # local tooling and notes (not published)
 .impeccable/
 .hallmark/

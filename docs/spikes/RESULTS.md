@@ -48,7 +48,7 @@ Dữ liệu thô: `docs/spikes/out/*.json`. Ảnh chụp (`*.png`) bị `.gitign
   Đề xuất: lấy HWND bằng cách so tập `PPTFrameClass` trước/sau `Presentations.Add()` rồi đối chiếu tiêu đề.
 - PowerPoint: lần DispatchEx thứ hai gắn vào instance có sẵn → nếu người dùng đang mở file thật, sandbox
   **chung process** với file đó. Whitelist bắt buộc theo HWND, không theo PID (đúng §6.3). Teardown chỉ
-  được `Quit()` khi instance do Kèm tạo **và** `Presentations.Count == 0` — đã cài như vậy.
+  được `Quit()` khi instance do Guider tạo **và** `Presentations.Count == 0` — đã cài như vậy.
 - Word: được process riêng trên máy này (SPEC nghi có thể single-instance — không đúng ở đây).
   Một lần mở Word mất **~900 s** (các lần khác ~8 s) — nghi có hộp thoại modal (first-run/đăng nhập/khôi phục)
   chặn COM. Cần timeout + phát hiện dialog khi setup sandbox.
@@ -103,7 +103,7 @@ Hệ quả:
 - `Application.LanguageSettings.LanguageID(msoLanguageIDUI=2)` trả **1033 (en-US)** cho cả Excel, Word, PowerPoint,
   khớp với tên tab tiếng Anh thấy ở S1. Trên cùng máy, `msoLanguageIDInstall=1` và `msoLanguageIDExeMode=4` trả
   **1066 (vi-VN)** — tức ngôn ngữ cài đặt khác ngôn ngữ giao diện. Chỉ được dùng hằng số 2 (UI); đọc nhầm hằng số
-  sẽ khiến Kèm tưởng ribbon là tiếng Việt.
+  sẽ khiến Guider tưởng ribbon là tiếng Việt.
 - `Application.Version` = `16.0` (không phân biệt build M365); `Application.Build` có ở cả 3 app nhưng định dạng khác nhau
   (`20326.0` / `16.0.20326` / `20326`) → cần chuẩn hóa thành số build chính trong EnvProfile/recipe key.
 - **Chưa có máy giao diện tiếng Việt** để xác nhận vế "VI" của tiêu chí.
@@ -143,7 +143,7 @@ Dữ liệu: `docs/spikes/out/s7_ollama_planner.json`, log `s7_partial_run1.log`
    kiểm tra trạng thái Edit của Excel (`Application.Interactive`/`Ready` + retry COM) trước mỗi bước; teardown gửi Esc
    tới HWND sandbox trước khi Close. Phương án mạnh hơn (v1.5): low-level keyboard hook chỉ trong lúc demo,
    nuốt phím khi foreground là cửa sổ sandbox, trừ Esc. Desktop ảo (v2) vẫn là lời giải triệt để.
-2. **§8 whitelist (S3):** định nghĩa lại là "HWND sandbox + cửa sổ top-level cùng PID xuất hiện sau hành động của Kèm"
+2. **§8 whitelist (S3):** định nghĩa lại là "HWND sandbox + cửa sổ top-level cùng PID xuất hiện sau hành động của Guider"
    cho Excel/Word; với PowerPoint (chung process) thêm điều kiện cửa sổ xuất hiện trong khoảng thời gian hành động
    và nằm trong/ngay cạnh rect cửa sổ sandbox.
 3. **§6.5 Grounder (S1):** snapshot bằng raw UIA `FindAllBuildCache`; luật expand nhóm thu gọn là đường chính, không phải ngoại lệ.
