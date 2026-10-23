@@ -291,3 +291,32 @@ def test_rpc_list_get_export_settings(tmp_path):
     assert m[5]["result"] == {} and m[7]["result"] == {"accent": "#123456"}
     assert m[8]["result"] == {"ok": False}
     assert len(m) == 8  # the notification without id got no reply
+
+
+def test_rpc_get_includes_trace_and_shutdown_cancels(tmp_path):
+    s, lines, store = rpc(tmp_path)
+    d = _tutorial_dir(tmp_path)
+    (d / "trace.json").write_text(trace().model_dump_json(), encoding="utf-8")
+    store.add_tutorial(Tutorial.model_validate_json((d / "tutorial.json").read_text(encoding="utf-8")), d, 1, "card")
+    s.handle_line('{"jsonrpc": "2.0", "id": 1, "method": "tutorial.get", "params": {"tutorial_id": "t1"}}')
+    got = msgs(lines)[0]["result"]["trace"]
+    assert got["steps"][0]["element_name"] == "Insert" and "rect" not in got["steps"][0]
+    ev = threading.Event()
+    s.active["x"] = ev
+    s.shutdown(timeout=0.1)
+    assert ev.is_set()
+
+
+def test_check_model_reports_unreachable(monkeypatch):
+    from kem_engine.rpc import server as srv
+    monkeypatch.setenv("KEM_LLM_CONFIG", str(_cfg_unreachable()))
+    r = srv.check_model()
+    assert r["ok"] is False and "error" in r
+
+
+def _cfg_unreachable():
+    import tempfile
+    p = tempfile.mktemp(suffix=".toml")
+    open(p, "w", encoding="utf-8").write('[default]\nprovider="ollama"\nplanner_model="m"\nwriter_model="m"\n'
+                                         '[ollama]\nbase_url="http://127.0.0.1:9"\n')
+    return p

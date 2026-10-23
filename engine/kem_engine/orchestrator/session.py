@@ -90,11 +90,12 @@ class Session:
         self.scale = 1.0
 
     # ---- helpers -------------------------------------------------------------------------
-    def _emit(self, state: str, message: str, step_i: int = 0):
+    def _emit(self, state: str, message: str, step_i: int = 0, **extra):
+        """extra: label (real UIA name), intent, seconds — the app draws its step sheets from these."""
         if self.trace:
             self.trace.state = state
         self.progress({"session_id": self.session_id, "state": state, "step_i": step_i,
-                       "n_steps": len(self.plan.steps), "message": message})
+                       "n_steps": len(self.plan.steps), "message": message, **extra})
 
     def _check_cancel(self):
         if win32.escape_pressed() or (self.cancel_event is not None and self.cancel_event.is_set()):
@@ -193,6 +194,7 @@ class Session:
         self._check_cancel()
         self._ping_excel()
         n = len(self.trace.steps) + 1
+        t_step = time.monotonic()
         ts = TraceStep(id=n, plan_step_id=plan_step_id, intent=step.intent, value=step.value,
                        inserted_reason=reason)
         self.trace.steps.append(ts)
@@ -241,7 +243,7 @@ class Session:
             SafetyGuard(GuardContext(allowed_hwnds=lambda: set(self._windows()),
                                      foreground=win32.foreground)).check(step.intent, el)
             dialogs_before, windows_before = set(excel.dialogs(self.sb)), set(self._windows())
-            self._emit("ACT", f"Bước {n}: {step.intent} “{el.name}”", n)
+            self._emit("ACT", f"Bước {n}: {step.intent} “{el.name}”", n, label=el.name, intent=step.intent)
             try:
                 actuator.perform(step.intent, el, step.value)
             except actuator.ActionError as e:
@@ -273,6 +275,8 @@ class Session:
             ts.image = self._capture(el.rect, n, ident, f"step_{n:02d}.png")
 
         self._last_expand = step if step.intent == "expand" else None
+        self._emit("STEP_DONE", f"Bước {n} xong", n, label=el.name, intent=step.intent,
+                   seconds=round(time.monotonic() - t_step, 1))
         if step.capture_result:
             time.sleep(0.4)
             _, ident = snapshot(self._windows())

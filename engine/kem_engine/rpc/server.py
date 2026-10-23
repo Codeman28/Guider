@@ -23,6 +23,24 @@ class RpcError(Exception):
         self.code = code
 
 
+def check_model() -> dict:
+    """Is the configured local model reachable and pulled? Never raises."""
+    import urllib.request
+    from ..llm.config import LLMConfig
+    try:
+        cfg = LLMConfig.load()
+        conf = cfg.providers.get(cfg.provider)
+        if conf is None or not conf.is_local:
+            return {"ok": True, "provider": cfg.provider, "note": "cloud provider"}
+        with urllib.request.urlopen(conf.base_url.rstrip("/") + "/api/tags", timeout=3) as r:
+            names = {m["name"] for m in json.loads(r.read()).get("models", [])}
+        wanted = {cfg.planner_model, cfg.writer_model}
+        missing = sorted(w for w in wanted if w not in names)
+        return {"ok": not missing, "provider": cfg.provider, "model": cfg.writer_model, "missing": missing}
+    except Exception as e:
+        return {"ok": False, "provider": "ollama", "error": f"Không kết nối được model trên máy: {e}"}
+
+
 class Server:
     def __init__(self, service_factory: Callable[[], Any], out_root: Path, write: Callable[[str], None] | None = None,
                  settings_path: Path | None = None):
@@ -33,12 +51,14 @@ class Server:
         self._lock = threading.Lock()
         self._out_lock = threading.Lock()
         self.active: dict[str, threading.Event] = {}
+        self.workers: list[threading.Thread] = []
         self.settings_path = settings_path or out_root.parent / "settings.json"
         self.methods = {
             "env.probe": self.env_probe, "tutorial.create": self.tutorial_create,
             "tutorial.cancel": self.tutorial_cancel, "tutorial.get": self.tutorial_get,
             "tutorial.list": self.tutorial_list, "tutorial.export": self.tutorial_export,
             "settings.get": self.settings_get, "settings.set": self.settings_set,
+            "system.check": self.system_check,
         }
 
     @staticmethod
@@ -79,6 +99,20 @@ class Server:
         finally:
             self._lock.release()
 
+    def system_check(self, params):
+        """First-run machine check (consent screen): Excel via a short sandbox probe, local model via Ollama."""
+        out = {"excel": {"ok": False}, "model": {"ok": False}}
+        try:
+            env = self.env_probe({"refresh": bool(params.get("refresh"))})
+            out["excel"] = {"ok": True, "version": env["office_version"], "build": env["office_build"],
+                            "ui_lang": env["ui_lang"]}
+        except RpcError:
+            raise
+        except Exception as e:
+            out["excel"]["error"] = f"Không mở được Excel: {e}"
+        out["model"] = check_model()
+        return out
+
     def tutorial_create(self, params):
         query = params.get("query")
         if not isinstance(query, str) or not query.strip():
@@ -92,7 +126,7 @@ class Server:
 
         def progress(m: dict):
             self.notify("tutorial.progress", {"session_id": sid, **{k: m.get(k) for k in
-                        ("state", "step_i", "n_steps", "message")}})
+                        ("state", "step_i", "n_steps", "message", "label", "intent", "seconds") if k in m}})
 
         def work():
             import pythoncom
@@ -107,7 +141,9 @@ class Server:
                 self.active.pop(sid, None)
                 self._lock.release()
 
-        threading.Thread(target=work, name=f"tutorial-{sid}", daemon=True).start()
+        t = threading.Thread(target=work, name=f"tutorial-{sid}", daemon=True)
+        self.workers.append(t)
+        t.start()
         return {"session_id": sid}
 
     def tutorial_cancel(self, params):
@@ -126,6 +162,13 @@ class Server:
         p = self._dir(params.get("tutorial_id"))
         data = json.loads((p / "tutorial.json").read_text(encoding="utf-8"))
         data["dir"] = str(p)
+        trace = p / "trace.json"
+        if trace.exists():  # "Xem Guider đã làm gì" (SPEC §8): what was clicked, verified, retried
+            t = json.loads(trace.read_text(encoding="utf-8"))
+            data["trace"] = {"env": t.get("env"), "llm_calls": t.get("llm_calls"),
+                             "steps": [{k: s.get(k) for k in ("id", "intent", "element_name", "control_type",
+                                                             "verified", "attempts", "grounding_score",
+                                                             "inserted_reason", "error")} for s in t.get("steps", [])]}
         return data
 
     def tutorial_list(self, params):
@@ -186,6 +229,15 @@ class Server:
             line = line.strip()
             if line:
                 self.handle_line(line)
+        self.shutdown()
+
+    def shutdown(self, timeout: float = 60.0):
+        """stdin closed (the app quit): cancel running demonstrations and wait for their teardown, so no
+        sandbox Excel is left behind (SPEC §8)."""
+        for ev in list(self.active.values()):
+            ev.set()
+        for t in self.workers:
+            t.join(timeout)
 
 
 def main():

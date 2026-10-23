@@ -9,6 +9,13 @@ engine/.out/
 # impeccable-ignore-start (machine-local files; SPEC §9.1)
 .impeccable/config.local.json
 # impeccable-ignore-end
+
+# app build output
+app/node_modules/
+app/dist/
+app/src/tokens.css
+app/src-tauri/target/
+app/src-tauri/gen/
 # local tooling and notes (not published)
 .impeccable/
 .hallmark/
