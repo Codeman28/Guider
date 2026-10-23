@@ -1,7 +1,7 @@
 # Kèm — SPEC
 
 Agent tạo tutorial ngay trên máy người dùng · Microsoft 365 desktop · Windows · Model miễn phí
-Phiên bản 1.1 · 22/10/2026 (cập nhật sau Phase 0, xem docs/adr/0001-phase0-findings.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
+Phiên bản 1.2 · 23/10/2026 (cập nhật sau Phase 0 và Phase 2, xem docs/adr/0001-phase0-findings.md và docs/adr/0002-phase2-design.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
 
 ## 1. Bài toán và định vị sản phẩm
 
@@ -125,8 +125,8 @@ TEARDOWN luôn chạy (khối finally), kể cả khi crash ở giữa.
 | Matching | rapidfuzz + bảng alias EN↔VI |  |
 | Schema | pydantic v2 | Mọi I/O với LLM phải validate. |
 | IPC | JSON-RPC 2.0 qua stdio (NDJSON) | Không mở cổng mạng. |
-| LLM client | openai SDK với base_url theo provider + lớp adapter riêng | Ollama và OpenRouter đều có endpoint tương thích OpenAI; Gemini — kiểm tra docs hiện hành về OpenAI compatibility, nếu không thì dùng SDK chính thức của Google trong adapter. |
-| Model local | Ollama; model có tool-calling/structured output, ví dụ họ qwen3 | Cấu hình được; kiểm tra danh sách hiện hành trên thư viện Ollama. |
+| LLM client | Ollama: API gốc `/api/chat` với `format` = JSON schema, `think: false`, `keep_alive` (ADR-0002 §3). Cloud (OpenRouter, Gemini): openai SDK với base_url theo provider + lớp adapter riêng | Gemini — kiểm tra docs hiện hành về OpenAI compatibility, nếu không thì dùng SDK chính thức của Google trong adapter. |
+| Model local | Ollama; mặc định `qwen3:1.7b` (spike S7: nhanh nhất trên CPU, 100% JSON hợp lệ) | Cấu hình trong `config/llm.toml`; kiểm tra danh sách hiện hành trên thư viện Ollama trước khi đổi. |
 | Lưu trữ | SQLite (recipes, lịch sử tutorial), ảnh trong %LOCALAPPDATA%\Kem\tutorials\ |  |
 | Log | structlog JSON, không log nội dung nhạy cảm |  |
 | Test | pytest, pytest-asyncio; Vitest cho frontend |  |
@@ -188,6 +188,14 @@ teardown(handle)    -> luôn idempotent
 intent thuộc tập đóng: select_ribbon_tab | invoke | expand | select_item | toggle | set_value | type_text | key_combo | select_range(COM) | wait_for.
 Không cho Planner sinh tọa độ.
 
+**Cập nhật Phase 2 (ADR-0002 §1):** Knowledge Pack gồm các *thẻ tác vụ* đã kiểm duyệt (`engine/knowledge/excel.cards.yaml`,
+tên nút lấy từ dump ribbon thật). Thứ tự quyết định kế hoạch:
+1. Recipe đã lưu cho (câu hỏi/tác vụ, EnvProfile) → 0 call.
+2. Câu hỏi khớp **rõ ràng** đúng một thẻ (khớp nguyên cụm hoặc mọi từ của từ khóa nhiều từ, không thẻ nào khác khớp ≥ 85,
+   không phải câu hỏi khắc phục lỗi) → dùng thẻ, 0 call Planner.
+3. Nhiều thẻ cùng khớp → LLM **chọn một thẻ** (schema enum id thẻ + `none`), 1 call.
+4. Không thẻ nào phù hợp → LLM lập kế hoạch tự do như trên (control_type giới hạn trong tên UIA; tối đa 4 tên/target).
+
 ### 6.5 Grounder
 
 - Snapshot cây UIA chỉ của các HWND whitelist bằng raw UIA `FindAllBuildCache` (một lời gọi, cache sẵn thuộc tính — 0,41 s ở S1; duyệt bằng wrapper pywinauto chậm và không ổn định), lọc IsOffscreen=false, IsEnabled=true, giới hạn độ sâu; tạo danh sách phẳng [{eid, name, control_type, automation_id, parent_chain, rect, patterns, access_key, accel_key}].
@@ -225,6 +233,11 @@ Trước MỌI hành động: gọi SafetyGuard.check(action, element) (mục 8)
 
 Kiểm tra expected của bước: tab được chọn (SelectionItemPattern.IsSelected), dialog mới thuộc whitelist xuất hiện, giá trị ô đổi (COM), số PivotTable/Chart tăng (COM)… Timeout mặc định 5 s, poll 100 ms hoặc lắng nghe UIA event. Thất bại → retry ≤2 → reground ≤1 → STEP_FAILED.
 
+
+Kiểm tra COM có tham số dùng `expected.type = "com_check"` với `prop` phải thuộc danh sách đóng `verify/checks.py::COM_PROPS`
+(ví dụ `range.font.bold`, `window.freeze_panes`); không có chuỗi nào được eval. Không bao giờ lặp lại thao tác khi chưa kiểm
+tra lại hậu điều kiện (bấm toggle hai lần là tắt). Plan có thể kèm `success_check` cấp tác vụ, kiểm tra sau bước cuối.
+
 ### 6.10 Writer (LLM call #2)
 
 Một lời gọi duy nhất cho cả tutorial. Đầu vào là Trace đã được làm sạch: mỗi bước gồm intent, tên phần tử thật (đúng ngôn ngữ UI), phím tắt thật (nếu có), kết quả verify. Đầu ra JSON:
@@ -243,11 +256,13 @@ Validator hậu kỳ: mọi chuỗi in đậm trong output phải tồn tại tr
 
 ### 6.11 Recipe cache
 
-Key: hash(app, task_canonical, office_major_build, ui_lang, dpi_bucket). Value: Plan + Locators + phiên bản Knowledge Pack. Replay: tìm phần tử theo Locator; nếu hỏng ở bước nào thì regrounding cục bộ bước đó (vẫn có thể 0 LLM call nếu fuzzy match đủ). Recipe chỉ được lưu khi mọi bước verify thành công. Không lưu ảnh của người dùng khác; recipe chỉ chứa locator văn bản, nên có thể chia sẻ giữa người dùng (phase sau) như một "kho tri thức" — đây là lợi thế mạng lưới đáng cân nhắc cho mô hình kinh doanh.
+Key: hash(app, task_canonical, office_major_build, ui_lang, dpi_bucket). Value: Plan + Locators + phiên bản Knowledge Pack. Replay: tìm phần tử theo Locator; nếu hỏng ở bước nào thì regrounding cục bộ bước đó (vẫn có thể 0 LLM call nếu fuzzy match đủ). Recipe chỉ được lưu khi mọi bước verify thành công. Recipe lưu kèm văn bản Writer đã viết; khi phát lại mà các bước ground ra cùng phần tử thì dùng lại văn bản → 0 call cho cả Planner lẫn Writer (ADR-0002 §5). Không lưu ảnh của người dùng khác; recipe chỉ chứa locator văn bản, nên có thể chia sẻ giữa người dùng (phase sau) như một "kho tri thức" — đây là lợi thế mạng lưới đáng cân nhắc cho mô hình kinh doanh.
 
 ## 7. LLM layer
 
 ### 7.1 Provider abstraction
+
+Triển khai là hàm **đồng bộ** (mỗi phiên chạy trên một worker thread vì COM/UIA đồng bộ) — ADR-0002 §2.
 
 ```python
 class LLMProvider(Protocol):
@@ -398,6 +413,10 @@ kem run --task pivot_basic sinh ra thư mục tutorial (JSON + ảnh) cho 3 tác
 ### PHASE 2 — LLM Planner/Grounder/Writer + Recipe cache
 
 Nghiệm thu trên bộ eval 20 tác vụ Excel: ≥ 80% hoàn thành đủ bước; trung bình ≤ 2,5 LLM call/tutorial; replay từ cache 0 call.
+
+
+Kết quả 23/10/2026 (`docs/phase2/ACCEPTANCE.md`): lượt đầu 18/20 (90%), 1,10 LLM call/tutorial, replay 0 call — **đạt**.
+Điều kiện đo: máy để yên (người dùng thao tác làm menu Office tự đóng — ADR-0001 §1).
 
 ### PHASE 3 — App Tauri: chat + tutorial tab + export
 
