@@ -11,7 +11,10 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from ..models import Rect
 
-TOKENS_PATH = Path(__file__).resolve().parents[3] / "design" / "tokens.json"
+_HERE = Path(__file__).resolve()
+# repo: <root>/design/tokens.json; packaged sidecar (PyInstaller): <bundle>/design/tokens.json
+TOKENS_PATH = next((p / "design" / "tokens.json" for p in (_HERE.parents[3], _HERE.parents[2])
+                    if (p / "design" / "tokens.json").exists()), _HERE.parents[3] / "design" / "tokens.json")
 SS = 2  # supersampling factor
 
 
@@ -33,6 +36,22 @@ class Style:
         return cls(_hex(t["color"]["accent"]), _hex(t["color"]["on_accent"]), a["radius_px"] * scale,
                    a["stroke_px"] * scale, a["badge_radius_px"] * scale, a["arrow_length_px"] * scale,
                    a["shadow_alpha"], t["color"]["spotlight_dim"])
+
+
+def numeral_font(size: int):
+    """A condensed numeral face close to the UI's Oswald: Bahnschrift ships with Windows 10/11."""
+    for name in ("bahnschrift.ttf", "arialbd.ttf"):
+        try:
+            f = ImageFont.truetype(name, size)
+            if name == "bahnschrift.ttf":
+                try:
+                    f.set_variation_by_name("Bold Condensed")
+                except Exception:
+                    pass
+            return f
+        except OSError:
+            continue
+    return ImageFont.load_default(size=size)
 
 
 def _hex(s: str) -> tuple[int, int, int]:
@@ -81,12 +100,12 @@ def annotate(img: Image.Image, box: Rect, step_no: int, style: Style, spotlight:
         ImageDraw.Draw(mask).rounded_rectangle(frame, radius=style.radius * SS, fill=0)
         big = Image.composite(Image.new("RGB", big.size, (0, 0, 0)), big, mask)
 
-    # soft shadow under the frame
-    shadow = Image.new("L", big.size, 0)
-    ImageDraw.Draw(shadow).rounded_rectangle(frame, radius=style.radius * SS,
-                                             outline=int(255 * style.shadow_alpha), width=int(pad * 2))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(4 * SS))
-    big = Image.composite(Image.new("RGB", big.size, (0, 0, 0)), big, shadow)
+    if style.shadow_alpha > 0:  # off in the Lịch bloc world (paper edge only); kept for other themes
+        shadow = Image.new("L", big.size, 0)
+        ImageDraw.Draw(shadow).rounded_rectangle(frame, radius=style.radius * SS,
+                                                 outline=int(255 * style.shadow_alpha), width=int(pad * 2))
+        shadow = shadow.filter(ImageFilter.GaussianBlur(4 * SS))
+        big = Image.composite(Image.new("RGB", big.size, (0, 0, 0)), big, shadow)
 
     d = ImageDraw.Draw(big)
     d.rounded_rectangle(frame, radius=style.radius * SS, outline=style.accent, width=int(style.stroke * SS))
@@ -107,7 +126,7 @@ def annotate(img: Image.Image, box: Rect, step_no: int, style: Style, spotlight:
     bx, by = frame[0], frame[1]
     bx, by = max(r + 2, bx), max(r + 2, by)
     d.ellipse((bx - r, by - r, bx + r, by + r), fill=style.accent)
-    font = ImageFont.load_default(size=int(r * 1.15))
+    font = numeral_font(int(r * 1.25))
     d.text((bx, by), str(step_no), fill=style.on_accent, font=font, anchor="mm")
 
     return big.resize((W, H), Image.LANCZOS)

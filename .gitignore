@@ -16,6 +16,10 @@ app/dist/
 app/src/tokens.css
 app/src-tauri/target/
 app/src-tauri/gen/
+
+# packaging
+engine/build/
+app/src-tauri/binaries/
 # local tooling and notes (not published)
 .impeccable/
 .hallmark/

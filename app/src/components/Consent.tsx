@@ -68,7 +68,7 @@ export function Consent() {
               type="button"
               onClick={() => void runCheck()}
               disabled={checking}
-              className="rounded-sheet bg-ink px-5 py-3 font-medium text-paper disabled:opacity-60"
+              className="rounded-sheet bg-ink px-5 py-3 font-medium text-paper disabled:opacity-40"
             >
               {checking ? "Đang kiểm tra máy…" : started ? "Kiểm tra lại" : "Đồng ý và kiểm tra máy"}
             </button>

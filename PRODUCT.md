@@ -60,8 +60,7 @@ width — "của chính bạn". Button labels and shortcuts in the text are the 
 - Name: **Guider** (confirmed by the user on 23/10/2026; earlier working name in SPEC drafts was "Kèm"). Internal code names `kem`, `kem_engine` and the repository name are unchanged for now.
 - Voice (SPEC §9.1): clear, calm, respectful of privacy. Short Vietnamese sentences, one action per step, button labels bold
   and verbatim.
-- No logo, colour or type assets exist yet (confirmed). The annotation accent in `design/tokens.json` (#E5484D) is provisional
-  and shared by the app UI and the Python annotator; it is chosen later, not here.
+- No logo, colour or type assets exist yet (confirmed). The accent is Sunday red #c8102e (Lịch bloc world, DESIGN.md), shared by the app UI and the Python annotator through `design/tokens.json`.
 - Binding constraints from SPEC: minimal UI, no gradients, no nested cards, no pure black/grey, fonts must fully support
   Vietnamese diacritics, are bundled locally, and are not Inter/Arial/system default.
 

@@ -117,6 +117,22 @@ if ((await text()).includes("Đồng ý và kiểm tra máy")) {
 }
 
 await until(`!!document.querySelector('#ask')`, "chat", 10000);
+
+// CANCEL=1: ask, wait for the live calendar sheet, press Esc in the app, expect a clean stop.
+if (process.env.CANCEL) {
+  await js(`(() => { const t = document.querySelector('#ask'); const set = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set; set.call(t, ${JSON.stringify(QUESTION)}); t.dispatchEvent(new Event('input', {bubbles:true})); })()`);
+  await click("Hỏi");
+  await until(`${has("BƯỚC")} && ${has("TRÊN")}`, "demonstration", 240000);
+  const tEsc = Date.now();
+  await js(`window.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}))`);
+  console.log("pressed Esc");
+  await until(`${has("Đã dừng")} || ${has("Guider chưa trả lời")}`, "cancelled state", 60000);
+  await until(`!!document.querySelector('#ask') && !document.querySelector('#ask').disabled`, "input re-enabled", 60000);
+  await shot("05-cancelled");
+  console.log(JSON.stringify({ cancel_to_idle_s: Math.round((Date.now() - tEsc) / 1000) }));
+  ws.close();
+  process.exit(0);
+}
 await js(`(() => { const t = document.querySelector('#ask'); const set = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set; set.call(t, ${JSON.stringify(QUESTION)}); t.dispatchEvent(new Event('input', {bubbles:true})); })()`);
 await click("Hỏi");
 await until(`${has("BƯỚC")} && ${has("TRÊN")}`, "demonstration progress", 240000);
