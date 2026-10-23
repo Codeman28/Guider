@@ -97,3 +97,11 @@ def test_redact_changes_region_only():
 def test_fallback_identity_rect_matches_measured_widget():
     r = fallback_identity_rect(1280, 1.25)  # S1: MeControlWidget at x 1036–1099, 125%
     assert r.left <= 1036 and r.right >= 1099 and r.top == 0
+
+
+def test_excel_not_ready_is_busy():
+    e = Exception(-2147352567, "Exception occurred.", (0, None, None, None, 0, -2146777998), None)
+    assert is_busy_error(e)
+    other = Exception(-2147352567, "Exception occurred.", (0, None, None, None, 0, -2146827284), None)
+    assert not is_busy_error(other)
+    assert not is_busy_error(Exception(-2147352567, "x"))

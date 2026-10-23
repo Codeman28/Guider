@@ -71,10 +71,10 @@ def setup(fixture_id: str | None, size_logical=(1280, 800), pos=(40, 40),
         if fixture_id:
             fx = load_fixture(fixture_id)
             rows = [fx["columns"]] + fx["rows"]
-            ws = doc.Worksheets(1)
+            ws = com_retry(lambda: doc.Worksheets(1), timeout=timeout)
             ref = f"A1:{chr(ord('A') + len(fx['columns']) - 1)}{len(rows)}"
-            ws.Range(ref).Value = rows
-            ws.Range("A1").Select()
+            com_retry(lambda: setattr(ws.Range(ref), "Value", rows), timeout=timeout)
+            com_retry(lambda: ws.Range("A1").Select(), timeout=timeout)
         log.info("sandbox.setup", pid=pid, hwnd=hwnd, created=h.created_instance,
                  seconds=round(time.monotonic() - t0, 2))
     except Exception:
