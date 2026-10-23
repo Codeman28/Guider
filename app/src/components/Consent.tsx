@@ -1,3 +1,4 @@
+import { Check, Cross, Pending } from "../lib/icons";
 import { useApp } from "../stores/app";
 
 const SENTENCES = [
@@ -7,15 +8,14 @@ const SENTENCES = [
 ];
 
 function Row({ title, ok, detail, pending }: { title: string; ok?: boolean; detail: string; pending: boolean }) {
-  const mark = pending ? "…" : ok ? "✓" : "✗";
   return (
     <li className="grid grid-cols-[28px_1fr] gap-2 border-t border-edge py-3">
-      <span aria-hidden className={`font-num text-xl ${ok === false && !pending ? "text-sunday" : "text-ink"}`}>
-        {mark}
+      <span className="pt-1">
+        {pending ? <Pending label="đang kiểm tra" /> : ok ? <Check label="đạt" /> : <Cross label="chưa đạt" className="text-sunday" />}
       </span>
       <div>
         <p className="font-medium">{title}</p>
-        <p className="text-sm text-lunar">{detail}</p>
+        <p className="text-small text-lunar">{detail}</p>
       </div>
     </li>
   );
@@ -42,16 +42,15 @@ export function Consent() {
 
   return (
     <main className="grid h-full place-items-center overflow-auto bg-shell p-4">
-      <section aria-labelledby="consent-title" className="w-full max-w-[620px] rounded-sheet border border-edge border-t-[6px] border-t-glue bg-paper px-8 py-7">
-        <p className="font-num text-sm tracking-[0.12em] text-lunar">LẦN ĐẦU DÙNG</p>
-        <h1 id="consent-title" className="mt-1 text-[28px] font-bold leading-tight">
+      <section aria-labelledby="consent-title" className="w-full max-w-[620px] rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-paper px-8 py-7">
+        <h1 id="consent-title" className="text-title font-bold leading-tight">
           Guider làm mẫu ngay trên Excel của bạn
         </h1>
         <ol className="mt-5 space-y-3">
           {SENTENCES.map((s, i) => (
             <li key={i} className="grid grid-cols-[44px_1fr] items-baseline gap-2">
               <span className="font-num text-[40px] font-bold leading-none">{i + 1}</span>
-              <span className="text-[17px]">{s}</span>
+              <span>{s}</span>
             </li>
           ))}
         </ol>
@@ -79,7 +78,7 @@ export function Consent() {
             </button>
           )}
         </div>
-        <p className="mt-4 text-sm text-lunar">
+        <p className="mt-4 text-small text-lunar">
           Trong lúc Guider làm mẫu, đừng gõ phím hay bấm chuột vào cửa sổ Excel. Nhấn Esc bất cứ lúc nào để dừng.
         </p>
       </section>

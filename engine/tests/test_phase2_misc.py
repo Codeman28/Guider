@@ -320,3 +320,15 @@ def _cfg_unreachable():
     open(p, "w", encoding="utf-8").write('[default]\nprovider="ollama"\nplanner_model="m"\nwriter_model="m"\n'
                                          '[ollama]\nbase_url="http://127.0.0.1:9"\n')
     return p
+
+
+def test_llm_writer_keeps_undemonstrated_sentence_and_times_out_to_template():
+    t = trace()
+    t.steps[2].verified = False
+    out = wout(steps=[{"id": 1, "heading": "x", "body": "Bấm **Insert**."},
+                      {"id": 2, "heading": "x", "body": "Nhấn **PivotTable**."},
+                      {"id": 3, "heading": "x", "body": "Nhấn **OK** là xong."}])
+    tut, src = llm_writer.write(t, "T", "id", "partial", client([out]))
+    assert src == "llm" and tut.steps[2].body.startswith("Bước này Guider chưa làm mẫu được trên máy bạn")
+    from kem_engine.llm.providers.base import LLMTimeout
+    assert llm_writer.write(trace(), "T", "id", "ok", client([LLMTimeout("slow")]))[1] == "template"

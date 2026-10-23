@@ -63,9 +63,18 @@ class TutorialService:
         self.store = store or Store()
         self.cfg = cfg or LLMConfig.load()
         self.llm_factory = llm_factory or (lambda c: LLMClient(c))
-        self.pack = KnowledgePack("excel")
+        self.packs: dict[str, KnowledgePack] = {}
         self.window_logical = window_logical
         self.use_cards_directly = use_cards_directly
+
+    def pack_for(self, app: str) -> KnowledgePack:
+        """Task cards per app; an app without a card file yet gets an empty pack (LLM Planner only)."""
+        if app not in self.packs:
+            try:
+                self.packs[app] = KnowledgePack(app)
+            except FileNotFoundError:
+                self.packs[app] = KnowledgePack.empty(app)
+        return self.packs[app]
 
     def create(self, query: str, app_hint: str | None = None,
                progress: Callable[[dict], None] | None = None, cancel_event=None,
@@ -77,9 +86,13 @@ class TutorialService:
         r = route(query, app_hint)
         if not r.in_scope:
             return CreateResult("text", answer=r.reason, seconds=time.monotonic() - t0)
+        app = r.app or "excel"
+        pack = self.pack_for(app)
 
         llm = self.llm_factory(self.cfg)
-        cached = self.store.get_env("excel")
+        if llm is not None:  # hard wall-clock budget for the whole tutorial (< 2 min)
+            llm.budget.deadline = t0 + self.cfg.max_seconds
+        cached = self.store.get_env(app)
         env, tabs = cached if cached else (None, [])
         qf = fold(query)
 
@@ -89,11 +102,11 @@ class TutorialService:
         source = None
         task = self.store.task_for_question(qf)
         if task is None:
-            m = self.pack.match(query)
+            m = pack.match(query)
             if card_is_clear(m):
                 task = m[0][1].id
         if task and env:
-            hit = self.store.get_recipe("excel", task, env)
+            hit = self.store.get_recipe(app, task, env)
             if hit:
                 plan, stored_text = hit
                 source = "recipe"
@@ -101,7 +114,8 @@ class TutorialService:
         # 2) card or LLM Planner
         if plan is None:
             progress({"state": "PLAN", "message": "Guider đang lập kế hoạch các bước"})
-            planner = Planner(self.pack, llm, use_cards_directly=self.use_cards_directly)
+            planner = Planner(pack, llm, app=app, use_cards_directly=self.use_cards_directly,
+                              reserve=self.cfg.planner_reserve_s)
             try:
                 pr = planner.plan(query, env, tabs)
             except LLMError as e:
@@ -137,9 +151,11 @@ class TutorialService:
         if res.trace is not None:
             self.store.save_env(res.trace.env, res.ribbon_tabs or tabs)
             res.trace.llm_calls = llm.budget.used if llm else 0
+            # the session wrote trace.json before the Writer's call was counted; persist the final number
+            (res.out_dir / "trace.json").write_text(res.trace.model_dump_json(indent=2), encoding="utf-8")
             if res.tutorial.status == "ok":
                 if source != "recipe" or res.writer_source == "llm":  # replay keeps the stored recipe
-                    self.store.save_recipe(plan, res.trace, self.pack.version, res.tutorial)
+                    self.store.save_recipe(plan, res.trace, pack.version, res.tutorial)
                 self.store.remember_question(qf, plan.task_canonical)
         calls = llm.budget.used if llm else 0
         self.store.add_tutorial(res.tutorial, res.out_dir, calls, source or "?")

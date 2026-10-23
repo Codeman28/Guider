@@ -52,7 +52,8 @@ class Fake:
         self.replies = list(replies)
         self.seen = []
 
-    def complete_json(self, model, system, user, schema, temperature=0.2, max_tokens=2000):
+    def complete_json(self, model, system, user, schema, temperature=0.2, max_tokens=2000, timeout=None):
+        self.timeouts = getattr(self, "timeouts", []) + [timeout]
         self.seen.append((model, json.loads(user)))
         r = self.replies.pop(0)
         if isinstance(r, Exception):
@@ -156,8 +157,11 @@ def test_router_scope(q, in_scope):
 
 
 def test_router_apps():
-    assert route("tạo slide PowerPoint").in_scope is False
-    assert route("soạn văn bản Word").app == "word"
+    r = route("thêm hiệu ứng chuyển cảnh cho slide PowerPoint")
+    assert r.in_scope and r.app == "powerpoint"
+    assert route("tạo mục lục trong văn bản Word").app == "word"
+    assert route("chèn mục lục cho tài liệu").app == "word"
+    assert route("tô màu cho ô").app == "excel"
     r = route("in đậm chữ")
     assert r.in_scope and r.app == "excel" and r.unsure_app
     assert route("x", app_hint="excel").app == "excel"
@@ -258,3 +262,30 @@ def test_llm_choice_none_falls_through_to_free_plan(cfg):
     f = Fake("ollama", ['{"card_id": "none"}', json.dumps(PLAN_OK)])
     r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("trộn mấy ô lại thành một ô và căn giữa", ENV)
     assert r.source == "llm" and len(f.seen) == 2
+
+
+def test_time_budget_skips_call_when_no_time_left(cfg):
+    import time
+    from kem_engine.llm.providers.base import LLMTimeout
+    f = Fake("ollama", ['{"x": 1}'])
+    c = LLMClient(cfg, [f])
+    c.budget.deadline = time.monotonic() + 2  # less than the minimum a CPU model needs
+    with pytest.raises(LLMTimeout):
+        c.complete("planner", "s", {}, Out)
+    assert f.seen == [] and c.budget.used == 0
+
+
+def test_time_budget_caps_each_call(cfg):
+    import time
+    f = Fake("ollama", ['{"x": 1}'])
+    c = LLMClient(cfg, [f])
+    c.budget.deadline = time.monotonic() + 100
+    c.complete("planner", "s", {}, Out, reserve=60)
+    assert 35 < f.timeouts[0] <= 40  # 100 s left minus 60 s kept for the demonstration
+
+
+def test_card_choice_timeout_falls_back_to_best_card(cfg):
+    from kem_engine.llm.providers.base import LLMTimeout
+    f = Fake("ollama", [LLMTimeout("slow")])
+    r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("trộn mấy ô lại thành một ô và căn giữa", ENV)
+    assert r.source == "card_fallback" and r.plan is not None

@@ -84,7 +84,35 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "book.pivot_tables": lambda d, r: pivot_tables(d),
     "book.charts": lambda d, r: charts(d),
     "book.format_conditions": lambda d, r: format_conditions(d),
+    # Word (doc = Document; ref = paragraph number)
+    "word.par.font.bold": lambda d, r: d.Paragraphs(int(r)).Range.Font.Bold,
+    "word.par.font.italic": lambda d, r: d.Paragraphs(int(r)).Range.Font.Italic,
+    "word.par.font.underline": lambda d, r: int(d.Paragraphs(int(r)).Range.Font.Underline),
+    "word.par.font.color": lambda d, r: int(d.Paragraphs(int(r)).Range.Font.Color),
+    "word.par.highlight": lambda d, r: int(d.Paragraphs(int(r)).Range.HighlightColorIndex),
+    "word.par.alignment": lambda d, r: int(d.Paragraphs(int(r)).Alignment),  # 1 = centred
+    "word.par.style": lambda d, r: str(d.Paragraphs(int(r)).Style.NameLocal),
+    "word.par.list": lambda d, r: int(d.Paragraphs(int(r)).Range.ListFormat.ListType),  # 0 = none
+    "word.tables": lambda d, r: int(d.Tables.Count),
+    "word.page.orientation": lambda d, r: int(d.PageSetup.Orientation),  # 1 = landscape
+    "word.toc": lambda d, r: int(d.TablesOfContents.Count),
+    "word.page_numbers": lambda d, r: int(d.Sections(1).Footers(1).PageNumbers.Count)
+    + int(d.Sections(1).Headers(1).PageNumbers.Count),
+    # PowerPoint (doc = Presentation; ref = slide number, or "slide.shape")
+    "ppt.slides": lambda d, r: int(d.Slides.Count),
+    "ppt.slide.shapes": lambda d, r: int(d.Slides(int(r)).Shapes.Count),
+    "ppt.slide.transition": lambda d, r: int(d.Slides(int(r)).SlideShowTransition.EntryEffect),  # 0 = none
+    "ppt.slide.animations": lambda d, r: int(d.Slides(int(r)).TimeLine.MainSequence.Count),
+    "ppt.shape.font.bold": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Bold),
+    "ppt.shape.font.italic": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Italic),
+    "ppt.shape.alignment": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Alignment),
+    "ppt.slide.has_picture_or_chart": lambda d, r: any(int(s.Type) in (3, 13) for s in d.Slides(int(r)).Shapes),
 }
+
+
+def _ppt_shape(doc, ref: str):
+    slide, _, shape = str(ref).partition(".")
+    return doc.Slides(int(slide)).Shapes(int(shape))
 
 
 def compare(actual: Any, op: str, value: Any) -> bool:

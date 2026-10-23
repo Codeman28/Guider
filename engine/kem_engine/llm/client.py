@@ -13,11 +13,12 @@ import structlog
 from pydantic import BaseModel, ValidationError
 
 from .config import LLMConfig
-from .providers.base import LLMError, LLMProvider, ProviderUnavailable, QuotaExceeded
+from .providers.base import LLMError, LLMProvider, LLMTimeout, ProviderUnavailable, QuotaExceeded
 from .sanitizer import sanitize
 
 log = structlog.get_logger()
 M = TypeVar("M", bound=BaseModel)
+MIN_CALL_SECONDS = 4.0  # below this a CPU model cannot answer; skip the call
 
 
 class BudgetExceeded(LLMError):
@@ -39,6 +40,10 @@ class Budget:
     max_calls: int
     used: int = 0
     log: list[CallRecord] = field(default_factory=list)
+    deadline: float | None = None  # time.monotonic() by which the whole tutorial must be done
+
+    def seconds_left(self, reserve: float = 0.0) -> float:
+        return float("inf") if self.deadline is None else self.deadline - time.monotonic() - reserve
 
     @property
     def remaining(self) -> int:
@@ -73,9 +78,13 @@ class LLMClient:
             raise ProviderUnavailable(f"{provider.name}: no model configured")
         return conf.models[0]
 
-    def _call(self, role: str, system: str, payload: dict, schema: dict) -> str:
+    def _call(self, role: str, system: str, payload: dict, schema: dict, reserve: float = 0.0) -> str:
         if self.budget.remaining <= 0:
             raise BudgetExceeded(f"LLM budget of {self.budget.max_calls} calls used up")
+        left = self.budget.seconds_left(reserve)
+        if left < MIN_CALL_SECONDS:
+            raise LLMTimeout(f"{role}: only {max(left, 0):.0f} s left in the tutorial time budget")
+        timeout = None if left == float("inf") else left
         errors = []
         for p in self.providers:
             body = payload if p.is_local else sanitize(payload)  # §7.3: cloud only sees sanitized data
@@ -87,7 +96,7 @@ class LLMClient:
             t0 = time.monotonic()
             self.budget.used += 1
             try:
-                text = p.complete_json(model, system, json.dumps(body, ensure_ascii=False), schema)
+                text = p.complete_json(model, system, json.dumps(body, ensure_ascii=False), schema, timeout=timeout)
                 self.budget.log.append(CallRecord(role, p.name, model, time.monotonic() - t0, True))
                 return text
             except (QuotaExceeded, ProviderUnavailable) as e:
@@ -98,10 +107,10 @@ class LLMClient:
         raise ProviderUnavailable("; ".join(errors) or "no LLM provider enabled")
 
     def complete(self, role: str, system: str, payload: dict, out: type[M],
-                 max_repairs: int = 2, check: Callable[[M], list[str]] | None = None) -> M:
+                 max_repairs: int = 2, check: Callable[[M], list[str]] | None = None, reserve: float = 0.0) -> M:
         """Call, validate with pydantic (+ optional semantic check), repair up to max_repairs times."""
         schema = out.model_json_schema()
-        text = self._call(role, system, payload, schema)
+        text = self._call(role, system, payload, schema, reserve)
         for attempt in range(max_repairs + 1):
             try:
                 obj = out.model_validate_json(text)
@@ -116,5 +125,5 @@ class LLMClient:
             repair = dict(payload)
             repair["previous_output"] = text[:4000]
             repair["errors"] = err
-            text = self._call(role, system + " Sửa lại JSON trước đó cho đúng; chỉ trả JSON.", repair, schema)
+            text = self._call(role, system + " Sửa lại JSON trước đó cho đúng; chỉ trả JSON.", repair, schema, reserve)
         raise LLMError("unreachable")

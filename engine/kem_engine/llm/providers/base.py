@@ -12,6 +12,10 @@ class LLMError(Exception):
     pass
 
 
+class LLMTimeout(LLMError):
+    """The call did not finish inside the time it was given (tutorial time budget)."""
+
+
 class QuotaExceeded(LLMError):
     """429 / platform rate limit — the router moves on to the next provider."""
 
@@ -26,6 +30,6 @@ class LLMProvider(Protocol):
     supports_json_schema: bool
 
     def complete_json(self, model: str, system: str, user: str, schema: dict,
-                      temperature: float = 0.2, max_tokens: int = 2000) -> str:
+                      temperature: float = 0.2, max_tokens: int = 2000, timeout: float | None = None) -> str:
         """Return the raw JSON text. Validation and repair happen in the caller (pydantic)."""
         ...

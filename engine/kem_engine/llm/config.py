@@ -37,6 +37,8 @@ class LLMConfig:
     fallback: list[str]
     providers: dict[str, ProviderConf]
     max_calls: int
+    max_seconds: float = 110.0
+    planner_reserve_s: float = 60.0
 
     @classmethod
     def load(cls, path: Path | None = None) -> "LLMConfig":
@@ -62,4 +64,6 @@ class LLMConfig:
         return cls(provider=d.get("provider", "ollama"), planner_model=d.get("planner_model", ""),
                    writer_model=d.get("writer_model", ""), grounder_model=d.get("grounder_model", ""),
                    fallback=list(d.get("fallback", [])), providers=providers,
-                   max_calls=int(raw.get("budget", {}).get("max_llm_calls_per_tutorial", 3)))
+                   max_calls=int(raw.get("budget", {}).get("max_llm_calls_per_tutorial", 3)),
+                   max_seconds=float(raw.get("budget", {}).get("max_seconds_per_tutorial", 110)),
+                   planner_reserve_s=float(raw.get("budget", {}).get("planner_reserve_s", 60)))

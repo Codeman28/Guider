@@ -9,9 +9,10 @@ from dataclasses import dataclass
 from .knowledge import fold
 
 APP_WORDS = {
-    "excel": ["excel", "bang tinh", "trang tinh", "pivot", "cong thuc", "bieu do", "sheet", "o tinh"],
-    "word": ["word", "van ban", "doan van"],
-    "powerpoint": ["powerpoint", "power point", "slide", "trinh chieu", "ppt"],
+    "excel": ["excel", "bang tinh", "trang tinh", "pivot", "cong thuc", "sheet", "o tinh", "cot", "o"],
+    "word": ["word", "van ban", "doan van", "muc luc", "so trang", "tai lieu", "chu cai dau"],
+    "powerpoint": ["powerpoint", "power point", "slide", "trang chieu", "trinh chieu", "ppt", "hieu ung",
+                   "chuyen canh", "bai thuyet trinh"],
 }
 
 # Vietnamese words are matched WITH diacritics (folding would turn "tại sao" into "tải", "cái" into
@@ -30,7 +31,7 @@ OUT_OF_SCOPE = [
     (r"(?!x)x", r"\b(copilot|chatgpt|gemini)\b",
      "Guider không điều khiển trợ lý AI khác trong Office."),
 ]
-SUPPORTED_APPS = {"excel"}  # Word, PowerPoint: Phase 4
+SUPPORTED_APPS = {"excel", "word", "powerpoint"}  # Phase 4
 
 
 @dataclass

@@ -17,13 +17,17 @@ def normalize_build(raw: str) -> str:
     return big[0] if big else (nums[-1] if nums else "unknown")
 
 
-def probe_excel(app, hwnd: int) -> EnvProfile:
+def probe_office(app, hwnd: int, name: str) -> EnvProfile:
     lcid = int(app.LanguageSettings.LanguageID(MSO_LANGUAGE_ID_UI))
     try:
         build = str(app.Build)
     except Exception:
         build = "unknown"
     dpi = win32.dpi_for_window(hwnd)
-    return EnvProfile(app="excel", office_version=str(app.Version), office_build=normalize_build(build),
+    return EnvProfile(app=name, office_version=str(app.Version), office_build=normalize_build(build),
                       ui_lang=LCID_TAGS.get(lcid, f"lcid-{lcid}"), ui_lcid=lcid, dpi=dpi,
                       scale_pct=round(dpi / 96 * 100), screen=win32.screen_size())
+
+
+def probe_excel(app, hwnd: int) -> EnvProfile:
+    return probe_office(app, hwnd, "excel")

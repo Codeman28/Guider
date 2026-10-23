@@ -29,3 +29,7 @@ model = ""               # TODO(verify): current flash / flash-lite id
 
 [budget]
 max_llm_calls_per_tutorial = 3
+# Hard wall-clock limit from question to finished tutorial (always < 2 min).
+# LLM calls get only what is left; on timeout the Planner takes the best card, the Writer the template.
+max_seconds_per_tutorial = 110
+planner_reserve_s = 60   # time kept back for the demonstration itself

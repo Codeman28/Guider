@@ -36,10 +36,11 @@ class Card:
     title: str
     keywords: list[str]
     raw: dict
+    app: str = "excel"
 
     def to_plan(self) -> Plan:
         r = self.raw
-        return Plan(task_canonical=self.id, title=self.title, fixture_id=r.get("fixture_id"),
+        return Plan(task_canonical=self.id, title=self.title, fixture_id=r.get("fixture_id"), app=self.app,
                     preconditions=r.get("preconditions", []), steps=r["steps"],
                     success_check=r.get("success_check"))
 
@@ -58,8 +59,15 @@ class KnowledgePack:
         text = path.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         self.version = f"{data.get('version', 0)}-{hashlib.sha1(text.encode()).hexdigest()[:8]}"
-        self.cards = [Card(c["id"], c["title"], list(c.get("keywords", [])), c) for c in data["cards"]]
+        self.app = data.get("app", app)
+        self.cards = [Card(c["id"], c["title"], list(c.get("keywords", [])), c, self.app) for c in data["cards"]]
         self.by_id = {c.id: c for c in self.cards}
+
+    @classmethod
+    def empty(cls, app: str) -> "KnowledgePack":
+        k = cls.__new__(cls)
+        k.app, k.version, k.cards, k.by_id = app, "0-empty", [], {}
+        return k
 
     def match(self, question: str, top_k: int = 3) -> list[tuple[float, Card]]:
         """100 = a keyword occurs as a phrase; 95/85 = every word of a keyword occurs in any order

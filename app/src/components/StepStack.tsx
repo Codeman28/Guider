@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Check } from "../lib/icons";
 import { Rich, actionText, seconds } from "../lib/rich";
 import type { Demo } from "../stores/app";
 
@@ -46,14 +47,14 @@ export function StepStack({ demo }: { demo: Demo }) {
         <div aria-hidden className="mx-1 h-2.5 rounded-b-sheet border border-t-0 border-edge bg-white" />
       </div>
 
-      <ol aria-live="polite" className="mt-3 space-y-1.5 text-sm">
+      <ol aria-live="polite" className="mt-3 space-y-1.5 text-small">
         {[...demo.done].sort((a, b) => a.n - b.n).map((d) => (
-          <li key={d.n} className="grid grid-cols-[20px_1fr_auto] gap-2 text-muted">
-            <span aria-hidden className="text-ink">✓</span>
-            <span className="text-ink">
+          <li key={d.n} className="grid grid-cols-[20px_1fr_auto] items-baseline gap-2">
+            <Check className="translate-y-0.5" />
+            <span>
               Bước {d.n} · <Rich text={actionText(d.intent, d.label)} />
             </span>
-            <span className="font-num tracking-wide text-lunar">{seconds(d.seconds)}</span>
+            <span className="font-num tabular-nums tracking-wide text-lunar">{seconds(d.seconds)}</span>
           </li>
         ))}
       </ol>
@@ -63,20 +64,18 @@ export function StepStack({ demo }: { demo: Demo }) {
 
 function Sheet({ n, total, text, sub, className = "" }: { n: number | null; total: number; text: string; sub: string; className?: string }) {
   return (
-    <div className={`rounded-sheet border border-edge border-t-[6px] border-t-glue bg-white px-4 pb-3 pt-3 ${className}`}>
-      {n !== null ? (
+    <div className={`rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white px-4 pb-3 pt-3 ${className}`}>
+      {n !== null && (
         <>
-          <p className="font-num text-sm tracking-[0.12em] text-lunar">BƯỚC</p>
-          <p className="font-num text-[92px] font-bold leading-[0.9]">{n}</p>
-          {total > 0 && <p className="font-num text-sm tracking-[0.12em] text-lunar">TRÊN {total}</p>}
+          <p className="font-num text-small tracking-[0.12em] text-lunar">BƯỚC</p>
+          <p className="font-num text-[92px] font-bold leading-none">{n}</p>
+          {total > 0 && <p className="mt-2 font-num text-small tracking-[0.12em] text-lunar">TRÊN {total}</p>}
         </>
-      ) : (
-        <p className="font-num text-sm tracking-[0.12em] text-lunar">GUIDER</p>
       )}
       <p className="mt-1.5 font-medium">
         <Rich text={text} />
       </p>
-      <p className="mt-0.5 text-xs text-lunar">{sub}</p>
+      <p className="mt-0.5 text-small tabular-nums text-lunar">{sub}</p>
     </div>
   );
 }

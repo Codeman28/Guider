@@ -14,6 +14,8 @@ lines.push(`  --color-accent: ${t.color.accent};`);
 lines.push(`  --font-sans: "${t.font.body}", ui-sans-serif, sans-serif;`);
 lines.push(`  --font-num: "${t.font.numeral}", "${t.font.body}", sans-serif;`);
 lines.push(`  --radius-sheet: ${t.radius.sheet};`);
+// exactly three text sizes (direction contract); numerals are sized separately
+for (const k of ["title", "body", "small"]) lines.push(`  --text-${k}: ${t.font.size[k]};`);
 lines.push("}");
 writeFileSync(resolve(here, "../src/tokens.css"), lines.join("\n") + "\n");
 console.log("tokens.css written");

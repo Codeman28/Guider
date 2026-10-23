@@ -18,7 +18,8 @@ def clean(name: str) -> str:
 
 
 def _label(name: str) -> str:
-    return "**" + clean(name) + "**"
+    n = clean(name)
+    return f"**{n}**" if n else "nút cần dùng"  # never bold an empty string
 
 
 def _texts(s: TraceStep) -> tuple[str, str]:

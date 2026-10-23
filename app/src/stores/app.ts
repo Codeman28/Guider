@@ -54,6 +54,7 @@ interface State {
   chat: ChatEntry[];
   demo: Demo | null;
   library: TutorialMeta[];
+  libraryLoaded: boolean;
   tabs: { id: string; title: string }[];
   active: string | null;
   tutorials: Record<string, Tutorial>;
@@ -86,6 +87,7 @@ export const useApp = create<State>((set, get) => ({
   chat: [],
   demo: null,
   library: [],
+  libraryLoaded: false,
   tabs: [],
   active: null,
   tutorials: {},
@@ -158,7 +160,8 @@ export const useApp = create<State>((set, get) => ({
       }
       if (p.state === "STEP_DONE" && p.step_i) {
         next.done = [...next.done.filter((x) => x.n !== p.step_i), { n: p.step_i, intent: p.intent, label: p.label, seconds: p.seconds }];
-        next.current = { n: p.step_i + 1, total: Math.max(p.n_steps ?? 0, p.step_i + 1) };
+        // after the last planned step there is no next sheet: show "finishing" instead of "4 / 4"
+        next.current = p.step_i < (p.n_steps ?? 0) ? { n: p.step_i + 1, total: p.n_steps! } : null;
       }
       return { demo: next };
     });
@@ -215,7 +218,7 @@ export const useApp = create<State>((set, get) => ({
     const c = get().client;
     if (!c) return;
     try {
-      set({ library: await c.call<TutorialMeta[]>("tutorial.list") });
+      set({ library: await c.call<TutorialMeta[]>("tutorial.list"), libraryLoaded: true });
     } catch {
       /* the library is a convenience; the chat still works */
     }

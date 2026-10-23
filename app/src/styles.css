@@ -6,18 +6,32 @@
   body,
   #root {
     height: 100%;
+    overflow: hidden; /* the two columns scroll on their own; no outer page scrollbar */
   }
   body {
     background: var(--color-shell);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: var(--text-body);
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+    caret-color: var(--color-ink);
+  }
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  * {
+    scrollbar-color: var(--color-ramp-5) transparent;
+    scrollbar-width: thin;
   }
   :focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
+  }
+  h1,
+  h2 {
+    text-wrap: balance;
   }
   /* Long Vietnamese strings and Office names wrap, never truncate (PRODUCT.md, WCAG). */
   h1,
@@ -55,8 +69,10 @@
   .no-print {
     display: none !important;
   }
+  html,
   body,
   #root {
+    overflow: visible;
     background: #fff;
   }
 }

@@ -32,11 +32,11 @@ export default function App() {
   if (!consented) return <Consent />;
 
   return (
-    <div className="grid h-full grid-cols-1 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] min-[900px]:grid-cols-[360px_minmax(0,1fr)] min-[900px]:grid-rows-1">
+    <div className="grid h-full grid-cols-1 grid-rows-[auto_minmax(0,1fr)] min-[900px]:grid-cols-[360px_minmax(0,1fr)] min-[900px]:grid-rows-1">
       <ChatColumn />
       <TutorialPane />
       {!inTauri() && (
-        <p className="no-print fixed bottom-2 right-3 rounded-sheet bg-ink px-2 py-1 text-xs text-white">
+        <p className="no-print fixed bottom-2 right-3 rounded-sheet bg-ink px-2 py-1 text-small text-paper">
           Bản xem thử giao diện — không chạy Excel thật
         </p>
       )}

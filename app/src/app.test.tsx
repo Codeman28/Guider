@@ -57,6 +57,8 @@ test("store follows a demonstration from question to tutorial", async () => {
   expect(useApp.getState().demo?.done).toEqual([{ n: 1, intent: "select_ribbon_tab", label: "Insert", seconds: 4.2 }]);
   prog({ state: "RECOVER", step_i: 2 });
   expect(useApp.getState().demo?.recovered).toBe(true);
+  prog({ state: "STEP_DONE", step_i: 3, n_steps: 3, intent: "invoke", label: "OK", seconds: 2 });
+  expect(useApp.getState().demo?.current).toBeNull(); // no phantom "4 / 3" sheet after the last step
 
   act(() => t.push({ jsonrpc: "2.0", method: "tutorial.done", params: { session_id: "s1", kind: "text", answer: "Không làm mẫu được." } }));
   expect(useApp.getState().demo).toBeNull();

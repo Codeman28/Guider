@@ -18,15 +18,15 @@ const STATUS: Record<string, string> = {
 };
 
 export function ChatColumn() {
-  const { chat, demo, ask, cancel, open } = useApp();
+  const { chat, demo, ask, cancel, open, tabs } = useApp();
   const [text, setText] = useState("");
   const input = useRef<HTMLTextAreaElement>(null);
-  const end = useRef<HTMLDivElement>(null);
+  const scroller = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // braces matter: newer Chromium returns a Promise from scrollIntoView, which React would treat
-    // as an effect cleanup
-    end.current?.scrollIntoView({ block: "end" });
+    // scroll only this column: scrollIntoView would also scroll the (overflow-hidden) page root
+    const el = scroller.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [chat.length, demo?.done.length]);
   useEffect(() => {
     if (!demo) input.current?.focus();
@@ -38,16 +38,19 @@ export function ChatColumn() {
     setText("");
   };
 
+  // Single column (< 900px): the tutorial needs the room, so examples show only before one is open.
+  const showExamples = chat.length === 0 && !demo;
+
   return (
-    <aside aria-label="Hỏi Guider" className="no-print flex min-h-0 flex-col border-edge bg-paper min-[900px]:border-r">
+    <aside aria-label="Hỏi Guider" className="no-print flex max-h-[45vh] min-h-0 flex-col border-b border-edge bg-paper min-[900px]:max-h-none min-[900px]:border-b-0 min-[900px]:border-r">
       <header className="flex h-14 flex-none items-center border-b-4 border-glue px-5">
-        <span className="text-lg font-bold">Guider</span>
+        <span className="font-bold">Guider</span>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto pb-4">
-        {chat.length === 0 && !demo && (
-          <div className="px-5 pt-6">
-            <p className="text-[17px]">Hỏi một việc bạn muốn làm trong Excel. Guider sẽ làm mẫu ngay trên Excel của bạn rồi viết hướng dẫn kèm ảnh.</p>
+      <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto pb-4">
+        {showExamples && (
+          <div className={`px-5 pt-6 ${tabs.length ? "max-[899px]:hidden" : ""}`}>
+            <p>Hỏi một việc bạn muốn làm trong Excel. Guider sẽ làm mẫu ngay trên Excel của bạn rồi viết hướng dẫn kèm ảnh.</p>
             <ul className="mt-4 space-y-2">
               {EXAMPLES.map((e) => (
                 <li key={e}>
@@ -67,14 +70,14 @@ export function ChatColumn() {
                 {e.text}
               </li>
             ) : e.kind === "answer" ? (
-              <li key={i} className="border-l-4 border-ink pl-3">
-                {e.text}
-              </li>
+              <li key={i}>{e.text}</li>
             ) : (
-              <li key={i} className={`rounded-sheet border border-edge bg-white px-3.5 py-3 ${e.status === "ok" ? "" : "border-l-4 border-l-sunday"}`}>
-                <p className="font-medium">{STATUS[e.status] ?? e.status}{e.title ? ` · ${e.title}` : ""}</p>
-                <p className="text-sm text-lunar">{e.steps} bước · {e.seconds} giây</p>
-                <button type="button" onClick={() => void open(e.tutorialId)} className="mt-2 text-sm font-medium underline underline-offset-4">
+              <li key={i} className="rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white px-3.5 py-3">
+                {e.title && <p className="font-medium">{e.title}</p>}
+                <p className={`text-small tabular-nums ${e.status === "ok" ? "text-lunar" : "text-sunday"}`}>
+                  {STATUS[e.status] ?? e.status} · {e.steps} bước · {e.seconds} giây
+                </p>
+                <button type="button" onClick={() => void open(e.tutorialId)} className="mt-2 text-small font-medium underline underline-offset-4">
                   Mở hướng dẫn
                 </button>
               </li>
@@ -87,11 +90,10 @@ export function ChatColumn() {
             <StepStack demo={demo} />
           </div>
         )}
-        <div ref={end} />
       </div>
 
       {demo && (
-        <div role="status" className="mx-5 mb-3 flex items-start gap-3 border-l-4 border-sunday bg-white px-3 py-2.5 text-sm">
+        <div role="status" className="mx-5 mb-3 flex items-start gap-3 rounded-sheet border border-sunday bg-white px-3 py-2.5 text-small">
           <p className="flex-1">
             {demo.recovered
               ? "Có phím gõ lọt vào cửa sổ mẫu — Guider đã khôi phục. Đừng gõ phím hay bấm chuột nhé."
@@ -126,7 +128,7 @@ export function ChatColumn() {
             }
           }}
           placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi Guider cách làm một việc trong Excel…"}
-          className="min-h-12 flex-1 resize-none rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-muted disabled:bg-shell"
+          className="min-h-12 flex-1 resize-none rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar disabled:bg-shell"
         />
         <button type="submit" disabled={!!demo || !text.trim()} className="self-end rounded-sheet bg-ink px-4 py-2.5 font-medium text-paper disabled:opacity-40">
           Hỏi

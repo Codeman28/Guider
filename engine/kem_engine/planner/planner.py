@@ -15,6 +15,7 @@ from pydantic import BaseModel, Field
 
 from ..intent.knowledge import KnowledgePack
 from ..llm.client import LLMClient
+from ..llm.providers.base import LLMTimeout
 from ..models import EnvProfile, Plan, Precondition, Rect, Step, Target, Within
 from ..safety.guard import Blocklist
 from ..uia.element import Element
@@ -26,7 +27,8 @@ MAX_NAMES = 4
 _ZERO = Rect(left=0, top=0, right=0, bottom=0)
 
 SYSTEM = (
-    "Bạn lập kế hoạch thao tác giao diện Microsoft 365 (Excel) trên Windows để làm mẫu trong một file trống. "
+    "Bạn lập kế hoạch thao tác giao diện Microsoft 365 (Excel, Word hoặc PowerPoint — xem env.app) trên Windows "
+    "để làm mẫu trong một file trống. "
     "Chỉ dùng các intent trong schema. Không sinh tọa độ. Mỗi bước nhắm đúng MỘT nút; target.names là "
     "tên nút đó bằng tiếng Anh và tiếng Việt (tối đa 4 tên), không liệt kê các tab khác. "
     "Ưu tiên làm theo các thẻ tác vụ mẫu trong 'knowledge' nếu phù hợp. Vùng chọn ban đầu đặt trong "
@@ -67,7 +69,7 @@ class LLMPlan(BaseModel):
 @dataclass
 class PlanResult:
     plan: Plan | None
-    source: Literal["card", "card_llm", "recipe", "llm", "none"]
+    source: Literal["card", "card_llm", "card_fallback", "recipe", "llm", "none"]
     in_scope: bool = True
     reason: str | None = None
     card_score: float = 0.0
@@ -134,7 +136,10 @@ def semantic_problems(p: LLMPlan, blocklist: Blocklist) -> list[str]:
     return probs
 
 
-def to_plan(p: LLMPlan) -> Plan:
+DEFAULT_FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}
+
+
+def to_plan(p: LLMPlan, app: str = "excel") -> Plan:
     steps = []
     for i, s in enumerate(p.steps, 1):
         within = Within(names=[s.target.within_group], control_type="Group") if s.target.within_group else None
@@ -144,12 +149,15 @@ def to_plan(p: LLMPlan) -> Plan:
                           {"type": "expanded"} if s.intent == "expand" else {"type": "none"}))
     pre = [Precondition(type="select_range", ref=p.select_range)] if p.select_range else []
     return Plan(task_canonical=slug(p.task_canonical) or "llm_task", title=p.title,
-                fixture_id=p.fixture_id or "sales_table_basic", preconditions=pre, steps=steps)
+                fixture_id=p.fixture_id or DEFAULT_FIXTURE.get(app, "sales_table_basic"), preconditions=pre,
+                steps=steps, app=app)
 
 
 class Planner:
     def __init__(self, pack: KnowledgePack, llm: LLMClient | None, blocklist: Blocklist | None = None,
-                 use_cards_directly: bool = True):
+                 use_cards_directly: bool = True, reserve: float = 0.0, app: str = "excel"):
+        self.app = app
+        self.reserve = reserve  # seconds kept back for the demonstration (time budget)
         self.pack = pack
         self.llm = llm
         self.blocklist = blocklist or Blocklist.load()
@@ -168,20 +176,24 @@ class Planner:
         candidates = [c for s_, c in matches if s_ >= 85.0]
         if len(candidates) >= 2 and self.use_cards_directly:
             Choice = card_choice_model([c.id for c in candidates])
-            pick = self.llm.complete("planner", CHOOSE_SYSTEM, {
-                "question": question, "knowledge": "\n".join(c.summary() for c in candidates)}, Choice,
-                max_repairs=0)
+            try:
+                pick = self.llm.complete("planner", CHOOSE_SYSTEM, {
+                    "question": question, "knowledge": "\n".join(c.summary() for c in candidates)}, Choice,
+                    max_repairs=0, reserve=self.reserve)
+            except LLMTimeout:
+                # out of time: the best-scoring reviewed card beats a late answer (< 2 min rule)
+                return PlanResult(candidates[0].to_plan(), "card_fallback", card_score=best_score)
             if pick.card_id != "none":
                 return PlanResult(self.pack.by_id[pick.card_id].to_plan(), "card_llm", card_score=best_score)
 
         payload = {
             "question": question,
-            "env": {"app": "excel", "ui_lang": env.ui_lang, "office_build": env.office_build} if env else {},
+            "env": {"app": self.app, "ui_lang": env.ui_lang, "office_build": env.office_build} if env else {"app": self.app},
             "ribbon_tabs": ribbon_tabs or [],
             "knowledge": "\n".join(c.summary() for _, c in matches),
         }
         out = self.llm.complete("planner", SYSTEM, payload, LLMPlan,
-                                check=lambda p: semantic_problems(p, self.blocklist))
+                                check=lambda p: semantic_problems(p, self.blocklist), reserve=self.reserve)
         if not out.in_scope:
             return PlanResult(None, "llm", in_scope=False, reason=out.reason)
-        return PlanResult(to_plan(out), "llm", card_score=best_score)
+        return PlanResult(to_plan(out, self.app), "llm", card_score=best_score)

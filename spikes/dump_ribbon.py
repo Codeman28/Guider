@@ -8,19 +8,28 @@ sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]
 from kem_engine.env import runtime  # noqa: E402
 
 runtime.init()
-from kem_engine.sandbox import excel  # noqa: E402
 from kem_engine.uia import actuator  # noqa: E402
 from kem_engine.uia.snapshot import snapshot  # noqa: E402
 
 from _common import OUT  # noqa: E402
 
-TABS = ["Home", "Insert", "Page Layout", "Formulas", "Data", "Review", "View"]
-sb = excel.setup("sales_table_basic", size_logical=(1600, 800))
+from kem_engine.sandbox import office  # noqa: E402
+from kem_engine.sandbox.registry import SPECS  # noqa: E402
+
+APP = sys.argv[1] if len(sys.argv) > 1 else "excel"
+TABS = {"excel": ["Home", "Insert", "Page Layout", "Formulas", "Data", "Review", "View"],
+        "word": ["Home", "Insert", "Design", "Layout", "References", "Review", "View"],
+        "powerpoint": ["Home", "Insert", "Design", "Transitions", "Animations", "Slide Show", "Review", "View"]}[APP]
+FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}[APP]
+sb = office.setup(SPECS[APP], FIXTURE, size_logical=(1600, 800))
 out = {}
 try:
     for tab in TABS:
         els, _ = snapshot([sb.hwnd])
-        t = next(e for e in els if e.control_type == "TabItem" and e.name == tab)
+        t = next((e for e in els if e.control_type == "TabItem" and e.name == tab), None)
+        if t is None:
+            print("tab not found:", tab)
+            continue
         actuator.perform("select_ribbon_tab", t)
         time.sleep(0.8)
         els, _ = snapshot([sb.hwnd])
@@ -37,5 +46,5 @@ try:
         out[tab] = rows
         print(tab, len(rows))
 finally:
-    excel.teardown(sb)
-(OUT / "ribbon_dump.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    office.teardown(sb)
+(OUT / ("ribbon_dump.json" if APP == "excel" else f"ribbon_dump_{APP}.json")).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")

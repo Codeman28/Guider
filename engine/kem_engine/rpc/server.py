@@ -246,14 +246,34 @@ def main():
     import structlog
     structlog.configure(logger_factory=structlog.PrintLoggerFactory(file=sys.stderr),
                         wrapper_class=structlog.make_filtering_bound_logger(logging.INFO))
-    for stream in (sys.stdin, sys.stdout):
+    for stream in (sys.stdin, sys.stdout, sys.stderr):  # logs in Vietnamese go to stderr
         stream.reconfigure(encoding="utf-8")
     from ..env import runtime
     runtime.init()
     from ..cli import default_out
     from ..orchestrator.service import TutorialService
     out = default_out()
+    threading.Thread(target=warm_up_model, name="warm-up", daemon=True).start()
+    try:  # Phase 5: close sandboxes a crashed previous run left behind (only provably ours)
+        from ..sandbox.recovery import recover
+        recover()
+    except Exception:
+        traceback.print_exc(file=sys.stderr)
     Server(lambda: TutorialService(out), out).serve()
+
+
+def warm_up_model():
+    """Load the local model while the user reads the screen, so the first question does not pay the
+    cold-load time (part of the < 2 minute budget). Failures are irrelevant here."""
+    try:
+        from ..llm.config import LLMConfig
+        from ..llm.providers.ollama import OllamaProvider
+        cfg = LLMConfig.load()
+        conf = cfg.providers.get(cfg.provider)
+        if conf is not None and conf.is_local and conf.enabled:
+            OllamaProvider(conf).warm_up(cfg.writer_model)
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":

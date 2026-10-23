@@ -84,7 +84,9 @@ def main() -> int:
         lines += [f"## Lượt {p}" + (" (replay từ recipe cache)" if p == 2 else ""), "",
                   f"- Hoàn thành: **{ok}/{n}** ({ok / n:.0%})" if n else "- (rỗng)",
                   f"- LLM call trung bình: **{sum(calls) / max(n, 1):.2f}**, tối đa {max(calls, default=0)}",
-                  f"- Thời gian trung bình: {sum(r['seconds'] for r in rs) / max(n, 1):.0f} s", "",
+                  f"- Thời gian trung bình: {sum(r['seconds'] for r in rs) / max(n, 1):.0f} s, tối đa "
+                  f"{max((r['seconds'] for r in rs), default=0):.0f} s",
+                  f"- Vượt 2 phút: **{sum(r['seconds'] >= 120 for r in rs)}/{n}**", "",
                   "| id | ok | task | status | calls | plan | writer | bước verify | giây |", "|---|---|---|---|---|---|---|---|---|"]
         for r in rs:
             lines.append(f"| {r['id']} | {'✓' if r['ok'] else '✗'} | {r['task']} | {r['status'] or r['kind']} | "

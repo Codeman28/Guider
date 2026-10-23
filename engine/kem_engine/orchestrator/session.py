@@ -17,11 +17,12 @@ from ..annotate.draw import Style, annotate, smart_crop
 from ..annotate.redact import fallback_identity_rect, redact
 from ..capture.printwindow import capture_composite
 from ..env import win32
-from ..env.probe import probe_excel
+from ..env.probe import probe_office
 from ..grounding.grounder import GroundResult, ground, load_aliases
 from ..models import Locator, Plan, Rect, Step, Target, Trace, TraceStep, Tutorial
 from ..safety.guard import GuardContext, SafetyGuard, SafetyViolation
-from ..sandbox import excel
+from ..sandbox import office
+from ..sandbox.registry import SPECS
 from ..sandbox.com import com_retry, is_busy_error
 from ..uia import actuator
 from ..uia.snapshot import snapshot
@@ -83,7 +84,8 @@ class Session:
         self.out_dir = out_root / f"{self.session_id}_{plan.task_canonical}"
         self.progress = progress or (lambda m: None)
         self.aliases = load_aliases()
-        self.sb: excel.SandboxHandle | None = None
+        self.sb: office.SandboxHandle | None = None
+        self.spec = SPECS[plan.app]
         self.trace: Trace | None = None
         self.created_files: list[str] = []
         self.style: Style | None = None
@@ -103,7 +105,7 @@ class Session:
 
     def _windows(self) -> list[int]:
         # S3: popups are owned by a hidden window, so whitelist = all windows of our own process.
-        wins = excel.sandbox_windows(self.sb)
+        wins = office.sandbox_windows(self.sb)
         return [self.sb.hwnd] + [w for w in wins if w != self.sb.hwnd]
 
     def _ping_excel(self):
@@ -111,12 +113,12 @@ class Session:
         if len(self._windows()) > 1:
             return  # a popup/dialog of ours is open on purpose
         try:
-            com_retry(lambda: self.sb.app.Ready, timeout=1.0)
+            office.ping(self.sb)
         except Exception as e:
             if is_busy_error(e):
                 log.warning("session.user_input_detected")
                 self._emit("RECOVER", "Phát hiện có phím gõ vào cửa sổ mẫu — Guider khôi phục và làm tiếp.")
-                excel.unstick(self.sb)
+                office.unstick(self.sb)
             else:
                 raise
         self._restore_selection()
@@ -127,7 +129,7 @@ class Session:
             return  # a menu or dialog of ours is open; touching the grid would close it
         for pre in self.plan.preconditions:
             try:
-                com_retry(lambda: self.sb.doc.ActiveSheet.Range(pre.ref).Select(), timeout=2)
+                office.select(self.sb, pre.ref, timeout=2)
             except Exception as e:
                 log.warning("session.restore_selection_failed", error=repr(e))
 
@@ -181,9 +183,9 @@ class Session:
             return poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before),
                         timeout=ui_t)
         if exp.type == "dialog_opened":
-            return poll(lambda: bool(set(excel.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
+            return poll(lambda: bool(set(office.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
         if exp.type == "dialog_closed":
-            return poll(lambda: not (set(excel.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
+            return poll(lambda: not (set(office.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
         if exp.type == "com_check":
             return poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=com_t)
         counter = COM_COUNTERS[exp.type]
@@ -216,7 +218,11 @@ class Session:
                              expected={"type": "expanded"})
                 self._run_step(rstep, None, reason=rep.reason, repairs=repairs + 1)
                 return self._run_step(step, plan_step_id, reason, repairs + 1)
-            ts.error = f"không tìm thấy phần tử (điểm cao nhất {res.score:.0f})"
+            log.info("session.not_found", step=n, best_score=res.score)  # matcher detail stays in the log
+            ts.error = "Guider không tìm thấy nút này trên Excel của bạn"
+            if step.target:  # keep what the plan asked for, so the guide can still describe the step
+                ts.element_name = step.target.names[0]
+                ts.control_type = step.target.control_type.split("|")[0]
             raise NotFound(ts.error)
 
         el = res.element
@@ -242,7 +248,7 @@ class Session:
             ts.attempts = attempt
             SafetyGuard(GuardContext(allowed_hwnds=lambda: set(self._windows()),
                                      foreground=win32.foreground)).check(step.intent, el)
-            dialogs_before, windows_before = set(excel.dialogs(self.sb)), set(self._windows())
+            dialogs_before, windows_before = set(office.dialogs(self.sb)), set(self._windows())
             self._emit("ACT", f"Bước {n}: {step.intent} “{el.name}”", n, label=el.name, intent=step.intent)
             try:
                 actuator.perform(step.intent, el, step.value)
@@ -292,13 +298,13 @@ class Session:
         try:
             self.progress({"session_id": self.session_id, "state": "SETUP", "step_i": 0,
                            "n_steps": len(self.plan.steps), "message": WARNING})
-            self.sb = excel.setup(self.plan.fixture_id, size_logical=self.window_logical)
-            env = probe_excel(self.sb.app, self.sb.hwnd)
+            self.sb = office.setup(self.spec, self.plan.fixture_id, size_logical=self.window_logical)
+            env = probe_office(self.sb.app, self.sb.hwnd, self.plan.app)
             self.scale = env.dpi / 96
             self.style = Style.load(self.scale)
             self.trace = Trace(session_id=self.session_id, task_canonical=self.plan.task_canonical, env=env)
             for pre in self.plan.preconditions:
-                com_retry(lambda: self.sb.doc.ActiveSheet.Range(pre.ref).Select())
+                office.select(self.sb, pre.ref)
             # No foreground juggling: PrintWindow captures covered windows (S3), and Office raises its
             # own window on the first ribbon command anyway (S4). The Alt-key trick showed KeyTips.
             time.sleep(0.5)
@@ -336,7 +342,7 @@ class Session:
         finally:
             if self.sb is not None:
                 self._emit("TEARDOWN", "Dọn dẹp file mẫu")
-                teardown_report = excel.teardown(self.sb)
+                teardown_report = office.teardown(self.sb)
 
         if self.trace is None:
             raise RuntimeError("sandbox setup failed")

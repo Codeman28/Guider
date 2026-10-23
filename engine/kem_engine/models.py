@@ -52,7 +52,7 @@ class Precondition(BaseModel):
 
 class Plan(BaseModel):
     task_canonical: str
-    app: Literal["excel"] = "excel"
+    app: Literal["excel", "word", "powerpoint"] = "excel"
     title: str
     fixture_id: Optional[str] = None
     preconditions: list[Precondition] = []

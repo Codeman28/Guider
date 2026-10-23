@@ -80,7 +80,7 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClien
                    "verified": s.verified, "inserted_reason": s.inserted_reason} for s in trace.steps],
     }
     try:
-        out = llm.complete("writer", SYSTEM, payload, WOut, max_repairs=1)
+        out = llm.complete("writer", SYSTEM, payload, WOut, max_repairs=1, reserve=2.0)
     except LLMError as e:
         log.warning("writer.fallback_template", error=str(e))
         return base, "template"

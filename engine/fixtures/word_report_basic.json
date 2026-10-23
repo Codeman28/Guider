@@ -1,0 +1,12 @@
+{
+ "id": "word_report_basic",
+ "description": "Báo cáo giả 6 đoạn (dữ liệu bịa, không phải dữ liệu thật)",
+ "paragraphs": [
+  "Báo cáo hoạt động câu lạc bộ Tin học",
+  "Giới thiệu",
+  "Câu lạc bộ Tin học của lớp 11A tổ chức 8 buổi sinh hoạt trong học kỳ I, tập trung vào kỹ năng văn phòng.",
+  "Kết quả",
+  "Có 32 bạn tham gia, 27 bạn hoàn thành bài thực hành Word và Excel.",
+  "Kế hoạch học kỳ II: luyện thi chứng chỉ tin học văn phòng."
+ ]
+}

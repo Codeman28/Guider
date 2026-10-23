@@ -1,0 +1,24 @@
+{
+ "id": "ppt_deck_basic",
+ "description": "Bài thuyết trình giả 3 trang (dữ liệu bịa, không phải dữ liệu thật)",
+ "slides": [
+  {
+   "title": "Câu lạc bộ Tin học 11A"
+  },
+  {
+   "title": "Hoạt động học kỳ I",
+   "body": [
+    "8 buổi sinh hoạt",
+    "32 thành viên",
+    "Thực hành Word và Excel"
+   ]
+  },
+  {
+   "title": "Kế hoạch học kỳ II",
+   "body": [
+    "Luyện thi chứng chỉ",
+    "Dự án nhóm"
+   ]
+  }
+ ]
+}

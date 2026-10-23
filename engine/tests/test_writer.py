@@ -60,3 +60,9 @@ def test_validate_labels_catches_invented_label():
     tut = write(tr, "t", "id", "failed")
     tut.steps[0].body += " Sau đó nhấn **Insert PivotTable**."
     assert validate_labels(tut, tr) == ["Insert PivotTable"]
+
+
+def test_empty_name_is_never_bolded():
+    tr = trace(TraceStep(id=1, plan_step_id=1, intent="select_item", element_name=None, verified=False))
+    tut = write(tr, "t", "id", "partial")
+    assert "****" not in tut.steps[0].heading + tut.steps[0].body
