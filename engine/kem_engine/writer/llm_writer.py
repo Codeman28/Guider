@@ -70,7 +70,7 @@ def _fix_labels(text: str, name: str) -> str:
 def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClient | None) -> tuple[Tutorial, str]:
     """Returns (tutorial, source) where source is 'llm' or 'template'."""
     base = template.write(trace, title, tutorial_id, status)
-    if llm is None or not trace.steps or llm.budget.remaining <= 0:
+    if llm is None or not trace.steps or llm.budget.remaining <= 0 or status == "cancelled":  # Esc: stop now
         return base, "template"
     payload = {
         "title": title,
