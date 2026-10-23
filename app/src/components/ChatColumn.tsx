@@ -127,7 +127,7 @@ export function ChatColumn() {
               submit(text);
             }
           }}
-          placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi Guider cách làm một việc trong Excel, Word, PowerPoint…"}
+          placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi cách làm một việc trong Office…"}
           className="min-h-12 flex-1 resize-none rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar disabled:bg-shell"
         />
         <button type="submit" disabled={!!demo || !text.trim()} className="self-end rounded-sheet bg-ink px-4 py-2.5 font-medium text-paper disabled:opacity-40">
