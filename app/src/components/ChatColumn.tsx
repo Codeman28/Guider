@@ -50,7 +50,7 @@ export function ChatColumn() {
       <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto pb-4">
         {showExamples && (
           <div className={`px-5 pt-6 ${tabs.length ? "max-[899px]:hidden" : ""}`}>
-            <p>Hỏi một việc bạn muốn làm trong Excel. Guider sẽ làm mẫu ngay trên Excel của bạn rồi viết hướng dẫn kèm ảnh.</p>
+            <p>Hỏi một việc bạn muốn làm trong Excel, Word hoặc PowerPoint. Guider sẽ làm mẫu ngay trên máy bạn rồi viết hướng dẫn kèm ảnh.</p>
             <ul className="mt-4 space-y-2">
               {EXAMPLES.map((e) => (
                 <li key={e}>
@@ -97,7 +97,7 @@ export function ChatColumn() {
           <p className="flex-1">
             {demo.recovered
               ? "Có phím gõ lọt vào cửa sổ mẫu — Guider đã khôi phục. Đừng gõ phím hay bấm chuột nhé."
-              : "Guider đang làm mẫu trên Excel — đừng gõ phím hay bấm chuột."}{" "}
+              : "Guider đang làm mẫu — đừng gõ phím hay bấm chuột."}{" "}
             Nhấn <kbd className="font-semibold">Esc</kbd> để dừng.
           </p>
           <button type="button" onClick={() => void cancel()} className="rounded-sheet border border-ink px-3 py-1 font-medium">
@@ -127,7 +127,7 @@ export function ChatColumn() {
               submit(text);
             }
           }}
-          placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi Guider cách làm một việc trong Excel…"}
+          placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi Guider cách làm một việc trong Excel, Word, PowerPoint…"}
           className="min-h-12 flex-1 resize-none rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar disabled:bg-shell"
         />
         <button type="submit" disabled={!!demo || !text.trim()} className="self-end rounded-sheet bg-ink px-4 py-2.5 font-medium text-paper disabled:opacity-40">

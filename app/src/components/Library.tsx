@@ -14,7 +14,7 @@ export function Library() {
       <div className="mx-auto max-w-[560px] px-6 py-16">
         <h1 className="text-title font-bold leading-tight">Chưa có hướng dẫn nào</h1>
         <p className="mt-3">
-          Mỗi câu bạn hỏi sẽ thành một hướng dẫn chụp trên chính Excel của bạn và được giữ ở đây, kể cả khi tắt máy.
+          Mỗi câu bạn hỏi sẽ thành một hướng dẫn chụp trên chính Office của bạn và được giữ ở đây, kể cả khi tắt máy.
         </p>
       </div>
     );

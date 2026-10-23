@@ -20,7 +20,7 @@ from . import template
 log = structlog.get_logger()
 
 SYSTEM = (
-    "Bạn viết hướng dẫn sử dụng Excel bằng tiếng Việt tự nhiên cho người dùng phổ thông, giống các bài "
+    "Bạn viết hướng dẫn sử dụng Office (ứng dụng ghi ở env.app) bằng tiếng Việt tự nhiên cho người dùng phổ thông, giống các bài "
     "hướng dẫn quen thuộc. Mỗi bước trong 'steps' đầu vào thành đúng một bước đầu ra, cùng thứ tự, cùng id. "
     "Câu ngắn, mỗi bước một hành động. Nhãn nút in đậm bằng **...** và phải giữ NGUYÊN chuỗi element_name. "
     "Không thêm bước, không bịa phím tắt (chỉ nhắc access_key nếu có), không nói 'theo hình'. "

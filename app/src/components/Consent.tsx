@@ -2,7 +2,7 @@ import { Check, Cross, Pending } from "../lib/icons";
 import { useApp } from "../stores/app";
 
 const SENTENCES = [
-  "Khi bạn hỏi, Guider mở một file Excel trống, tự làm mẫu từng bước, chụp riêng cửa sổ đó rồi đóng lại không lưu.",
+  "Khi bạn hỏi, Guider mở một file Excel, Word hoặc PowerPoint trống, tự làm mẫu từng bước, chụp riêng cửa sổ đó rồi đóng lại không lưu.",
   "Guider không mở, không đọc, không đụng tới bất kỳ file nào của bạn.",
   "Ảnh chụp và hướng dẫn chỉ nằm trên máy này, không gửi đi đâu.",
 ];
@@ -44,7 +44,7 @@ export function Consent() {
     <main className="grid h-full place-items-center overflow-auto bg-shell p-4">
       <section aria-labelledby="consent-title" className="w-full max-w-[620px] rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-paper px-8 py-7">
         <h1 id="consent-title" className="text-title font-bold leading-tight">
-          Guider làm mẫu ngay trên Excel của bạn
+          Guider làm mẫu ngay trên Office của bạn
         </h1>
         <ol className="mt-5 space-y-3">
           {SENTENCES.map((s, i) => (
@@ -57,7 +57,7 @@ export function Consent() {
 
         {started && (
           <ul aria-live="polite" className="mt-6">
-            <Row title="Excel" ok={excel?.ok} detail={excelDetail} pending={checking} />
+            <Row title="Microsoft Office" ok={excel?.ok} detail={excelDetail} pending={checking} />
             <Row title="Model trên máy" ok={model?.ok} detail={modelDetail} pending={checking} />
           </ul>
         )}
@@ -79,7 +79,7 @@ export function Consent() {
           )}
         </div>
         <p className="mt-4 text-small text-lunar">
-          Trong lúc Guider làm mẫu, đừng gõ phím hay bấm chuột vào cửa sổ Excel. Nhấn Esc bất cứ lúc nào để dừng.
+          Trong lúc Guider làm mẫu, đừng gõ phím hay bấm chuột vào cửa sổ mẫu. Nhấn Esc bất cứ lúc nào để dừng. Với PowerPoint, hãy đóng PowerPoint trước khi hỏi.
         </p>
       </section>
     </main>

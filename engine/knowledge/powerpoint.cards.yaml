@@ -1,0 +1,107 @@
+# PowerPoint Knowledge Pack — task cards (SPEC §2 "Knowledge Pack", §6.4; Phase 4).
+# Ribbon names/AutomationIds come from `spikes/dump_ribbon.py powerpoint` on M365 build 20326 (EN UI).
+# Gallery items are `unverified: true` until an eval run has grounded them; Vietnamese names are
+# unverified aliases. Fixture: ppt_deck_basic (3 slides; slide 2 and 3 have title = shape 1,
+# bulleted body = shape 2). PowerPoint is single-instance: Guider refuses while it is already open.
+version: 1
+app: powerpoint
+cards:
+  - id: ppt_new_slide
+    title: Cách thêm trang chiếu mới trong PowerPoint
+    keywords: [thêm slide, thêm trang, slide mới, new slide, chèn slide, thêm trang chiếu]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [New Slide, Trang chiếu Mới], control_type: Button, within: {names: [Slides, Trang chiếu], control_type: Group}}, expected: {type: com_check, prop: ppt.slides, op: gte, value: 4}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slides, op: gte, value: 4}
+
+  - id: ppt_bold
+    title: Cách in đậm chữ trong PowerPoint
+    keywords: [in đậm, chữ đậm, bold, làm đậm chữ, bôi đậm]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Bold, Đậm], control_type: Button, automation_id: Bold, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.font.bold, ref: "2.1", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.font.bold, ref: "2.1", op: "true"}
+
+  - id: ppt_italic
+    title: Cách in nghiêng chữ trong PowerPoint
+    keywords: [in nghiêng, chữ nghiêng, italic, làm nghiêng chữ]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Italic, Nghiêng], control_type: Button, automation_id: Italic, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.font.italic, ref: "2.1", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.font.italic, ref: "2.1", op: "true"}
+
+  - id: ppt_underline
+    title: Cách gạch chân chữ trong PowerPoint
+    keywords: [gạch chân, gạch dưới, underline]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3.1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Underline, Gạch chân], control_type: Button, automation_id: Underline, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.font.underline, ref: "3.1", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.font.underline, ref: "3.1", op: "true"}
+
+  - id: ppt_center
+    title: Cách căn giữa chữ trong PowerPoint
+    keywords: [căn giữa, canh giữa, center, căn chữ ra giữa]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Center, Căn giữa], control_type: Button, automation_id: AlignCenter, within: {names: [Paragraph, Đoạn văn], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.alignment, ref: "2.1", op: eq, value: 2}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.alignment, ref: "2.1", op: eq, value: 2}
+
+  - id: ppt_numbering
+    title: Cách đánh số thứ tự các dòng trong PowerPoint
+    keywords: [đánh số, đánh số thứ tự, numbering, danh sách số]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Numbering, Đánh số], control_type: Button, within: {names: [Paragraph, Đoạn văn], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.bullet_type, ref: "2.2", op: eq, value: 2}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.bullet_type, ref: "2.2", op: eq, value: 2}
+
+  - id: ppt_transition_fade
+    title: Cách thêm hiệu ứng chuyển trang Fade trong PowerPoint
+    keywords: [hiệu ứng chuyển trang, chuyển slide, transition, fade, mờ dần, chuyển cảnh]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Transitions, Chuyển tiếp], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: select_item, target: {names: [Fade, Mờ dần], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.transition, ref: "2", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.transition, ref: "2", op: gte, value: 1}
+
+  - id: ppt_transition_push
+    title: Cách thêm hiệu ứng chuyển trang Push trong PowerPoint
+    keywords: [hiệu ứng đẩy, push, kiểu đẩy, chuyển trang kiểu đẩy, đẩy slide]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Transitions, Chuyển tiếp], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: select_item, target: {names: [Push, Đẩy], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.transition, ref: "3", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.transition, ref: "3", op: gte, value: 1}
+
+  - id: ppt_animation_fly_in
+    title: Cách thêm hiệu ứng bay vào (Fly In) cho chữ trong PowerPoint
+    keywords: [hiệu ứng động, animation, fly in, bay vào, hiệu ứng cho chữ]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Animations, Hoạt hình], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: select_item, target: {names: [Fly In, Bay Vào], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.animations, ref: "2", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.animations, ref: "2", op: gte, value: 1}
+
+  - id: ppt_animation_appear
+    title: Cách cho chữ hiện ra (Appear) khi bấm chuột trong PowerPoint
+    keywords: [xuất hiện, appear, hiện ra khi bấm, hiệu ứng xuất hiện, hiện từng dòng]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3.2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Animations, Hoạt hình], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: select_item, target: {names: [Appear, Xuất hiện], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.animations, ref: "3", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.animations, ref: "3", op: gte, value: 1}

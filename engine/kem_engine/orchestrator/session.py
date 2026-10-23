@@ -31,7 +31,7 @@ from ..writer.template import validate_labels, write
 
 log = structlog.get_logger()
 
-WARNING = "Guider đang làm mẫu trên một file Excel trống — vui lòng đừng gõ phím hay bấm chuột. Nhấn Esc để dừng."
+WARNING = "Guider đang làm mẫu trên một file trống — vui lòng đừng gõ phím hay bấm chuột. Nhấn Esc để dừng."
 MAX_REPAIRS = 2
 MAX_ACT_ATTEMPTS = 2
 
@@ -219,7 +219,7 @@ class Session:
                 self._run_step(rstep, None, reason=rep.reason, repairs=repairs + 1)
                 return self._run_step(step, plan_step_id, reason, repairs + 1)
             log.info("session.not_found", step=n, best_score=res.score)  # matcher detail stays in the log
-            ts.error = "Guider không tìm thấy nút này trên Excel của bạn"
+            ts.error = f"Guider không tìm thấy nút này trên {self.spec.name} của bạn"
             if step.target:  # keep what the plan asked for, so the guide can still describe the step
                 ts.element_name = step.target.names[0]
                 ts.control_type = step.target.control_type.split("|")[0]

@@ -55,5 +55,5 @@ def route(question: str, app_hint: str | None = None) -> Route:
         best = max(hits, key=hits.get)
         app, unsure = (best, False) if hits[best] > 0 else ("excel", True)
     if app not in SUPPORTED_APPS:
-        return Route(False, app, f"Guider hiện mới làm mẫu được trên Excel; {app.title()} sẽ có ở bản sau.")
+        return Route(False, app, f"Guider hiện làm mẫu được trên Excel, Word và PowerPoint; {app.title()} sẽ có ở bản sau.")
     return Route(True, app, None, unsure)

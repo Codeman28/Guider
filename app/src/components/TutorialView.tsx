@@ -53,7 +53,7 @@ function Step({ t, s, n, big }: { t: Tutorial; s: TutorialStep; n: number; big: 
         </h2>
         {s.image && (
           <div className="mt-3">
-            <Shot dir={t.dir} file={s.image} alt={`Ảnh chụp bước ${n} trên Excel của bạn`} />
+            <Shot dir={t.dir} file={s.image} alt={`Ảnh chụp bước ${n} trên máy bạn`} />
           </div>
         )}
         <p className="mt-3 max-w-[680px]">

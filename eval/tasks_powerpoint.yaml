@@ -1,0 +1,14 @@
+# Phase 4 eval — 10 PowerPoint tasks (SPEC §12: ≥ 75%). PowerPoint must be closed before running.
+version: 1
+app: powerpoint
+tasks:
+  - {id: p01, expect_task: ppt_new_slide, query: "thêm một slide mới vào bài thuyết trình PowerPoint"}
+  - {id: p02, expect_task: ppt_bold, query: "in đậm tiêu đề slide trong PowerPoint"}
+  - {id: p03, expect_task: ppt_italic, query: "làm chữ nghiêng trên slide PowerPoint"}
+  - {id: p04, expect_task: ppt_underline, query: "gạch chân chữ trong PowerPoint"}
+  - {id: p05, expect_task: ppt_center, query: "căn giữa tiêu đề trên slide"}
+  - {id: p06, expect_task: ppt_numbering, query: "đánh số thứ tự các ý trên slide PowerPoint"}
+  - {id: p07, expect_task: ppt_transition_fade, query: "thêm hiệu ứng chuyển trang mờ dần cho slide"}
+  - {id: p08, expect_task: ppt_transition_push, query: "hiệu ứng chuyển slide kiểu đẩy trong PowerPoint"}
+  - {id: p09, expect_task: ppt_animation_fly_in, query: "cho chữ bay vào trên slide PowerPoint"}
+  - {id: p10, expect_task: ppt_animation_appear, query: "cho từng dòng hiện ra khi bấm chuột trong PowerPoint"}

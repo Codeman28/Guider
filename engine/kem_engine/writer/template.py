@@ -10,6 +10,7 @@ import re
 from ..models import EnvProfile, Trace, TraceStep, Tutorial, TutorialStep
 
 LANG_LABEL = {"en-US": "giao diện tiếng Anh", "vi-VN": "giao diện tiếng Việt"}
+APP_NAME = {"excel": "Excel", "word": "Word", "powerpoint": "PowerPoint"}
 _BIDI = re.compile("[‎‏‪-‮]")
 
 
@@ -22,7 +23,7 @@ def _label(name: str) -> str:
     return f"**{n}**" if n else "nút cần dùng"  # never bold an empty string
 
 
-def _texts(s: TraceStep) -> tuple[str, str]:
+def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
     n = _label(s.element_name or "")
     ct = s.control_type or ""
     if s.intent == "select_ribbon_tab":
@@ -30,7 +31,7 @@ def _texts(s: TraceStep) -> tuple[str, str]:
     if s.intent == "expand":
         if s.inserted_reason:
             return (f"Mở nhóm {n}",
-                    f"Cửa sổ Excel của bạn đang hẹp nên nhóm {n} được thu gọn thành một nút. Nhấn {n} để mở nhóm.")
+                    f"Cửa sổ {app} của bạn đang hẹp nên nhóm {n} được thu gọn thành một nút. Nhấn {n} để mở nhóm.")
         if ct == "MenuItem" and s.plan_step_id:
             return f"Mở {n}", f"Nhấn {n} để mở danh sách lựa chọn."
         return f"Mở {n}", f"Nhấn {n}."
@@ -48,13 +49,14 @@ def _texts(s: TraceStep) -> tuple[str, str]:
 
 
 def env_label(env: EnvProfile) -> str:
-    return f"Chụp trên Excel của bạn · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
+    return f"Chụp trên {APP_NAME.get(env.app, env.app)} của bạn · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
 
 
 def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
     steps: list[TutorialStep] = []
+    app = APP_NAME.get(trace.env.app, trace.env.app)
     for i, s in enumerate(trace.steps, start=1):
-        heading, body = _texts(s)
+        heading, body = _texts(s, app)
         if not s.verified:
             body = ("Bước này Guider chưa làm mẫu được trên máy bạn. " + body)
         tip = f"Phím tắt: {s.access_key}." if s.access_key else None
@@ -64,7 +66,7 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
                                   image=s.image if s.verified else None,
                                   result_image=s.result_image if s.verified else None,
                                   demonstrated=s.verified))
-    intro = ("Hướng dẫn này được Guider làm mẫu ngay trên Excel trong Microsoft 365 của bạn, "
+    intro = (f"Hướng dẫn này được Guider làm mẫu ngay trên {app} trong Microsoft 365 của bạn, "
              "nên các nút trong ảnh giống hệt những gì bạn đang thấy.")
     outro = {"ok": "Xong. Bạn có thể làm lại các bước trên với dữ liệu của mình.",
              "partial": "Guider chưa làm mẫu được hết các bước; phần còn lại được mô tả bằng chữ.",

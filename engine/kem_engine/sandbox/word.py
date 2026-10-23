@@ -4,11 +4,14 @@ from __future__ import annotations
 from . import office
 
 WD_DO_NOT_SAVE = 0  # WdSaveOptions.wdDoNotSaveChanges
+WD_STYLE_HEADING_1 = -2  # WdBuiltinStyle.wdStyleHeading1
 
 
 def _fill(doc, fx: dict) -> None:
-    """fixture: {"paragraphs": ["Tiêu đề", "đoạn 1", ...]}. Synthetic text only (SPEC §6.3)."""
+    """fixture: {"paragraphs": ["Tiêu đề", "đoạn 1", ...], "headings": [2, 4]}. Synthetic text only (SPEC §6.3)."""
     doc.Content.Text = "\r".join(fx["paragraphs"])
+    for n in fx.get("headings", []):  # built-in Heading 1 by id, so it works in any UI language
+        doc.Paragraphs(n).Style = WD_STYLE_HEADING_1
     doc.Range(0, 0).Select()
 
 

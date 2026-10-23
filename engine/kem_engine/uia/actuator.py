@@ -32,8 +32,10 @@ def perform(intent: str, el: Element, value: str | None = None) -> None:
                 w.invoke()
             elif "ExpandCollapse" in el.patterns:
                 w.expand()
+            elif "Toggle" in el.patterns:  # Word/PowerPoint Bold, Italic, Center… are toggle-only buttons
+                w.toggle()
             else:
-                raise ActionError(f"{el.name!r} supports neither Invoke nor ExpandCollapse")
+                raise ActionError(f"{el.name!r} supports neither Invoke, ExpandCollapse nor Toggle")
         elif intent == "expand":
             w.expand()
         elif intent == "toggle":

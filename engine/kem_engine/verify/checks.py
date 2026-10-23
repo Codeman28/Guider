@@ -105,6 +105,8 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "ppt.slide.animations": lambda d, r: int(d.Slides(int(r)).TimeLine.MainSequence.Count),
     "ppt.shape.font.bold": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Bold),
     "ppt.shape.font.italic": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Italic),
+    "ppt.shape.font.underline": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Underline),
+    "ppt.shape.bullet_type": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Bullet.Type),  # 2 = numbered
     "ppt.shape.alignment": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Alignment),
     "ppt.slide.has_picture_or_chart": lambda d, r: any(int(s.Type) in (3, 13) for s in d.Slides(int(r)).Shapes),
 }

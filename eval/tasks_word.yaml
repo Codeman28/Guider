@@ -1,0 +1,14 @@
+# Phase 4 eval — 10 Word tasks (SPEC §12: ≥ 75%). Queries name Word so the router is exercised too.
+version: 1
+app: word
+tasks:
+  - {id: w01, expect_task: word_bold, query: "Làm sao in đậm một dòng chữ trong Word?"}
+  - {id: w02, expect_task: word_italic, query: "cách làm chữ nghiêng trong văn bản Word"}
+  - {id: w03, expect_task: word_underline, query: "gạch chân tiêu đề trong Word thế nào"}
+  - {id: w04, expect_task: word_center, query: "căn giữa tiêu đề bài báo cáo Word"}
+  - {id: w05, expect_task: word_bullets, query: "tạo dấu chấm đầu dòng cho các đoạn văn trong Word"}
+  - {id: w06, expect_task: word_numbering, query: "đánh số 1 2 3 cho các dòng trong Word"}
+  - {id: w07, expect_task: word_highlight, query: "tô vàng một câu quan trọng trong Word"}
+  - {id: w08, expect_task: word_font_color_red, query: "đổi chữ thành màu đỏ trong Word"}
+  - {id: w09, expect_task: word_landscape, query: "xoay trang giấy nằm ngang trong Word"}
+  - {id: w11, expect_task: word_toc, query: "tạo mục lục tự động cho tài liệu Word"}

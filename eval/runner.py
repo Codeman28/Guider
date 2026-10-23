@@ -23,6 +23,7 @@ def main() -> int:
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--no-cards", action="store_true")
     ap.add_argument("--no-replay", action="store_true")
+    ap.add_argument("--tasks", default="tasks.yaml", help="task file in eval/ (tasks_word.yaml, …)")
     args = ap.parse_args()
     for s in (sys.stdout, sys.stderr):
         s.reconfigure(encoding="utf-8")
@@ -35,9 +36,10 @@ def main() -> int:
     from kem_engine.orchestrator.service import TutorialService
     from kem_engine.recipes.store import Store
 
-    tasks = yaml.safe_load((ROOT / "eval" / "tasks.yaml").read_text(encoding="utf-8"))["tasks"]
+    suite = yaml.safe_load((ROOT / "eval" / args.tasks).read_text(encoding="utf-8"))
+    tasks, app = suite["tasks"], suite.get("app", "excel")
     from kem_engine.intent.knowledge import KnowledgePack
-    cards = KnowledgePack().by_id
+    cards = KnowledgePack(app).by_id
     if args.only:
         tasks = [t for t in tasks if t["id"] in args.only]
     stamp = time.strftime("%Y%m%d-%H%M%S")

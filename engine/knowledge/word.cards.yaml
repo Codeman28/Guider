@@ -1,0 +1,110 @@
+# Word Knowledge Pack — task cards (SPEC §2 "Knowledge Pack", §6.4; Phase 4).
+# Ribbon names/AutomationIds come from `spikes/dump_ribbon.py word` on M365 build 20326 (EN UI).
+# Items inside a menu/gallery are `unverified: true` until an eval run has grounded them. Vietnamese
+# names are unverified aliases (no VI-UI Office on the build machine yet). Fixture: word_report_basic
+# (6 paragraphs: p1 title, p2 "Giới thiệu" (Heading 1), p3 body, p4 "Kết quả" (Heading 1), p5, p6 body).
+# Not carded: inserting a table — Word reports the 'NxM Table' grid cells as disabled over UIA and
+# invoking 'Insert Table...' does not open its dialog (Phase 4 eval, see docs/phase4/ACCEPTANCE.md).
+version: 1
+app: word
+cards:
+  - id: word_bold
+    title: Cách in đậm chữ trong Word
+    keywords: [in đậm, chữ đậm, bôi đậm, bold, làm đậm chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Bold, Đậm], control_type: Button, automation_id: Bold, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.bold, ref: "2", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.bold, ref: "2", op: "true"}
+
+  - id: word_italic
+    title: Cách in nghiêng chữ trong Word
+    keywords: [in nghiêng, chữ nghiêng, italic, làm nghiêng chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p3"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Italic, Nghiêng], control_type: Button, automation_id: Italic, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.italic, ref: "3", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.italic, ref: "3", op: "true"}
+
+  - id: word_underline
+    title: Cách gạch chân chữ trong Word
+    keywords: [gạch chân, gạch dưới, underline, kẻ chân chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p4"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Underline, Gạch chân], control_type: Button, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.underline, ref: "4", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.underline, ref: "4", op: gte, value: 1}
+
+  - id: word_center
+    title: Cách căn giữa đoạn văn trong Word
+    keywords: [căn giữa, canh giữa, center, căn chữ ra giữa, căn giữa tiêu đề]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Center, Căn giữa], control_type: Button, automation_id: AlignCenter, within: {names: [Paragraph, Đoạn văn], control_type: Group}}, expected: {type: com_check, prop: word.par.alignment, ref: "1", op: eq, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.alignment, ref: "1", op: eq, value: 1}
+
+  - id: word_bullets
+    title: Cách tạo danh sách gạch đầu dòng trong Word
+    keywords: [gạch đầu dòng, dấu đầu dòng, bullet, bullets, danh sách chấm tròn]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p3-p5"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Bullets, Dấu đầu dòng], control_type: Button, within: {names: [Paragraph, Đoạn văn], control_type: Group}}, expected: {type: com_check, prop: word.par.list, ref: "3", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.list, ref: "3", op: gte, value: 1}
+
+  - id: word_numbering
+    title: Cách đánh số thứ tự cho các dòng trong Word
+    keywords: [đánh số, đánh số thứ tự, numbering, danh sách số, số thứ tự đầu dòng]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p3-p5"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Numbering, Đánh số], control_type: Button, within: {names: [Paragraph, Đoạn văn], control_type: Group}}, expected: {type: com_check, prop: word.par.list, ref: "3", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.list, ref: "3", op: gte, value: 1}
+
+  - id: word_highlight
+    title: Cách tô sáng (highlight) chữ trong Word
+    keywords: [tô sáng, highlight, tô vàng, tô vàng chữ, đánh dấu chữ, bút dạ quang]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p5"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Text Highlight Color Yellow, Text Highlight Color], control_type: Button, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.highlight, ref: "5", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.highlight, ref: "5", op: gte, value: 1}
+
+  - id: word_font_color_red
+    title: Cách đổi màu chữ sang đỏ trong Word
+    keywords: [màu chữ, đổi màu chữ, chữ màu đỏ, font color, tô màu chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Font Color Red, Font Color], control_type: Button, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.color, ref: "2", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.color, ref: "2", op: gte, value: 1}
+
+  - id: word_landscape
+    title: Cách xoay trang ngang trong Word
+    keywords: [xoay ngang, trang ngang, landscape, đổi hướng trang, khổ ngang]
+    fixture_id: word_report_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Layout, Bố cục], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Orientation, Hướng], control_type: MenuItem, automation_id: PageOrientationGallery}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Landscape, Ngang], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.page.orientation, op: eq, value: 1}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: word.page.orientation, op: eq, value: 1}
+
+  - id: word_toc
+    title: Cách chèn mục lục tự động trong Word
+    keywords: [mục lục, mục lục tự động, table of contents, toc, tạo mục lục]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [References, Tham chiếu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Table of Contents, Mục lục], control_type: MenuItem, automation_id: TableOfContentsGallery}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Automatic Table 1, Bảng Tự động 1], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.toc, op: gte, value: 1}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: word.toc, op: gte, value: 1}
