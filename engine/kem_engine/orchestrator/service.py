@@ -197,6 +197,7 @@ class TutorialService:
             llm.budget.deadline = time.monotonic() + REWRITE_SECONDS
             tut, src = llm_writer.write(res.trace, plan.title, res.tutorial.tutorial_id, res.tutorial.status, llm)
             if src != "llm" or template.validate_labels(tut, res.trace):
+                log.info("service.rewrite_kept_template", tutorial_id=res.tutorial.tutorial_id)
                 return
             (res.out_dir / "tutorial.json").write_text(json.dumps(tut.model_dump(), ensure_ascii=False, indent=2),
                                                        encoding="utf-8")
@@ -204,6 +205,10 @@ class TutorialService:
             (res.out_dir / "trace.json").write_text(res.trace.model_dump_json(indent=2), encoding="utf-8")
             if tut.status == "ok":
                 self.store.update_recipe_text(plan.app, plan.task_canonical, res.trace.env, tut)
-            on_text_updated(tut.tutorial_id)
         except Exception as e:  # the template tutorial already stands; never surface this
             log.warning("service.rewrite_failed", error=repr(e))
+        finally:  # always tell the app, so its "rewriting" note never hangs (it reloads whatever is on disk)
+            try:
+                on_text_updated(res.tutorial.tutorial_id)
+            except Exception:
+                pass
