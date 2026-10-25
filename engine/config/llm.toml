@@ -29,6 +29,15 @@ model = "gemini-3.5-flash-lite"  # stable, free tier (ai.google.dev/gemini-api/d
 reasoning_effort = "low"         # Gemini 3 cannot turn thinking off; "low" keeps it short
 timeout_s = 30
 
+[training]               # developer-only training area (ADR-0004); reads books, links, research
+cloud_model = "gemini-3.8-flash"   # stable, free tier (ai.google.dev/gemini-api/docs/models, 25/10/2026); used when a Gemini key is saved
+local_model = "qwen3:4b"           # fallback without key: slower but far better than 1.7b at reading long text
+chunk_chars_cloud = 12000
+chunk_chars_local = 4000
+max_pages = 20                     # per pasted link (same site, same folder)
+local_timeout_s = 900
+cloud_timeout_s = 120
+
 [budget]
 max_llm_calls_per_tutorial = 3
 # Hard wall-clock limit from question to finished tutorial (always < 2 min).

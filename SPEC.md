@@ -3,7 +3,7 @@
 > Tên sản phẩm: **Guider** (đổi từ tên làm việc "Kèm" ngày 23/10/2026). Tên kỹ thuật nội bộ (`kem`, `kem_engine`, repo `kem`) giữ nguyên.
 
 Agent tạo tutorial ngay trên máy người dùng · Microsoft 365 desktop · Windows · Model miễn phí
-Phiên bản 1.3 · 25/10/2026 (cập nhật sau Phase 0, Phase 2 và phản hồi dùng thử; xem docs/adr/0001-phase0-findings.md, docs/adr/0002-phase2-design.md, docs/adr/0003-user-file-gemini-async-writer.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
+Phiên bản 1.4 · 25/10/2026 (cập nhật sau Phase 0, Phase 2, phản hồi dùng thử và khu Huấn luyện; xem docs/adr/0001-phase0-findings.md, docs/adr/0002-phase2-design.md, docs/adr/0003-user-file-gemini-async-writer.md, docs/adr/0004-training-notebook.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
 
 ## 1. Bài toán và định vị sản phẩm
 
@@ -298,7 +298,7 @@ max_llm_calls_per_tutorial = 3
 
 ### 7.3 Payload sanitizer (bắt buộc trước mọi lời gọi cloud)
 
-Chỉ cho đi: câu hỏi người dùng, danh sách {eid, name, control_type}, EnvProfile rút gọn (app, ngôn ngữ, major build). Loại bỏ: mọi chuỗi trông như email, tên người, đường dẫn file, nội dung ô/văn bản tài liệu, tiêu đề cửa sổ. Có unit test riêng.
+Chỉ cho đi: câu hỏi người dùng, danh sách {eid, name, control_type}, EnvProfile rút gọn (app, ngôn ngữ, major build). Ngoại lệ (v1.4, ADR-0004): tài liệu huấn luyện do người phát triển đưa vào khu Huấn luyện được gửi tới Gemini; file của người dùng và ảnh chụp thì không bao giờ. Loại bỏ: mọi chuỗi trông như email, tên người, đường dẫn file, nội dung ô/văn bản tài liệu, tiêu đề cửa sổ. Có unit test riêng.
 
 ### 7.4 System prompt khung (tinh chỉnh khi code)
 
@@ -311,7 +311,7 @@ Writer: như 6.10.
 - Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới HWND cửa sổ sandbox và các cửa sổ phụ của nó. Spike S3 cho thấy popup ribbon có owner là một cửa sổ ẩn, không phải HWND chính, nên "owner là sandbox" không đủ. Định nghĩa: (Excel/Word, process riêng) cửa sổ top-level cùng PID với sandbox; (PowerPoint, chung process) cửa sổ top-level cùng PID **xuất hiện sau một hành động của Guider** trong phiên và giao/kề rect cửa sổ sandbox — cửa sổ có từ trước phiên luôn bị cấm. Bỏ qua cửa sổ `MSO_BORDEREFFECT_WINDOW_CLASS`. Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
 - File người dùng (v1.3, ADR-0003): mặc định không mở, liệt kê hay đọc tài liệu có sẵn. Chỉ khi người dùng **tự chọn một file trong app**, engine copy file đó vào `%LOCALAPPDATA%\Kem\work\<session>\` và mở **bản sao** trong sandbox (macro tắt, không cập nhật liên kết, không thêm vào file gần đây); file gốc không bao giờ được mở bằng Office hay ghi đè; bản sao bị xóa khi teardown. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
 - Blocklist hành động: không bao giờ invoke các phần tử thuộc nhóm File/Backstage → Account, Share, Save/Save As/Export tới vị trí ngoài temp, Send/Email, Sign in/out, Options → Trust Center, Add-ins store, Macro/VBA, Copilot. Danh sách lưu trong safety/blocklist.yaml (EN+VI), có test.
-- Không mạng từ engine ngoài lời gọi LLM đã cấu hình.
+- Không mạng từ engine ngoài lời gọi LLM đã cấu hình. Ngoại lệ (v1.4, ADR-0004): ở chế độ huấn luyện (chỉ bản nhà phát triển), engine tải link người phát triển dán và trang research tìm được (tôn trọng robots.txt, giới hạn số trang).
 - Ảnh và trace ở local. Không upload ảnh. Không telemetry mặc định; nếu có telemetry sau này thì opt-in và chỉ số liệu ẩn danh.
 - Teardown đảm bảo trong finally; Esc toàn cục hủy ngay và teardown.
 - Đồng ý một lần, minh bạch luôn: màn hình consent lần đầu; toast khi chạy; nút "Xem Guider đã làm gì" mở trace.

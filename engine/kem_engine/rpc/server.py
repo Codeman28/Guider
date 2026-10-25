@@ -65,7 +65,11 @@ class Server:
             "settings.get": self.settings_get, "settings.set": self.settings_set,
             "system.check": self.system_check,
             "settings.set_api_key": self.settings_set_api_key, "settings.check_cloud": self.settings_check_cloud,
+            "training.status": self.training_status, "training.start": self.training_start,
+            "training.cancel": self.training_cancel, "training.memory": self.training_memory,
+            "training.remove": self.training_remove, "training.ask": self.training_ask,
         }
+        self._training: dict | None = None  # {"job_id", "cancel", "thread"} — one training run at a time
 
     @staticmethod
     def _stdout(line: str):
@@ -251,6 +255,93 @@ class Server:
         except Exception as e:
             return {"ok": False, "error": str(e)[:300]}
 
+    # ---- training area (ADR-0004, developer-only) -----------------------------------------
+    @staticmethod
+    def training_available() -> bool:
+        """Only when the engine runs from the repository: learned cards go into engine/knowledge for git."""
+        import os
+        from ..intent.knowledge import KNOWLEDGE_DIR
+        return not getattr(sys, "frozen", False) and os.access(KNOWLEDGE_DIR, os.W_OK)
+
+    def _need_training(self):
+        if not self.training_available():
+            raise RpcError(INVALID_REQUEST, "Khu Huấn luyện chỉ có ở bản dành cho nhà phát triển.")
+
+    def training_status(self, params):
+        if not self.training_available():
+            return {"available": False}
+        from ..training.llm import TrainingLLM
+        llm = TrainingLLM()
+        t = self._training
+        return {"available": True, "model": llm.label, "cloud": llm.cloud, "research": bool(llm.gemini_key),
+                "running": bool(t and t["thread"].is_alive()), "job_id": t["job_id"] if t else None}
+
+    def training_start(self, params):
+        self._need_training()
+        kind, ref = params.get("kind"), params.get("ref") or ""
+        if kind not in ("file", "link", "research") or not isinstance(ref, str):
+            raise RpcError(INVALID_PARAMS, "kind must be file, link or research")
+        if kind != "research" and not ref.strip():
+            raise RpcError(INVALID_PARAMS, "ref is required")
+        if self._training and self._training["thread"].is_alive():
+            raise RpcError(BUSY, "Đang huấn luyện một nguồn khác. Chờ xong hoặc dừng trước.")
+        import uuid
+        job_id = uuid.uuid4().hex[:10]
+        cancel = threading.Event()
+
+        def progress(m: dict):
+            self.notify("training.progress", {"job_id": job_id, **m})
+
+        def work():
+            import pythoncom
+            pythoncom.CoInitializeEx(0)
+            try:
+                from ..training.job import TrainingJob
+                stats = TrainingJob(kind, ref.strip(), self.out_root, progress, self._lock, cancel).run()
+                self.notify("training.done", {"job_id": job_id, "ok": True, **stats})
+            except Exception as e:
+                traceback.print_exc(file=sys.stderr)
+                self.notify("training.done", {"job_id": job_id, "ok": False, "error": str(e)[:400]})
+
+        t = threading.Thread(target=work, name=f"training-{job_id}", daemon=True)
+        self._training = {"job_id": job_id, "cancel": cancel, "thread": t}
+        t.start()
+        return {"job_id": job_id}
+
+    def training_cancel(self, params):
+        t = self._training
+        if t and t["job_id"] == params.get("job_id"):
+            t["cancel"].set()
+            return {"ok": True}
+        return {"ok": False}
+
+    def training_memory(self, params):
+        self._need_training()
+        from ..training.memory import Memory
+        return Memory().overview()
+
+    def training_remove(self, params):
+        self._need_training()
+        from ..training.memory import APPS, Memory
+        m, kind, item = Memory(), params.get("kind"), params.get("id", "")
+        if kind == "note":
+            return {"ok": m.remove_note(item)}
+        if kind == "card" and params.get("app") in APPS:
+            return {"ok": m.remove_card(params["app"], item)}
+        raise RpcError(INVALID_PARAMS, "kind must be card (with app) or note")
+
+    def training_ask(self, params):
+        self._need_training()
+        q = params.get("question")
+        if not isinstance(q, str) or not q.strip():
+            raise RpcError(INVALID_PARAMS, "question is required")
+        from ..llm.providers.base import LLMError
+        from ..training.job import ask
+        try:
+            return ask(q.strip())
+        except LLMError as e:
+            return {"answer": f"Chưa trả lời được: {e}", "citations": []}
+
     # ---- dispatch --------------------------------------------------------------------------
     def handle_line(self, line: str):
         try:
@@ -291,6 +382,9 @@ class Server:
         sandbox Excel is left behind (SPEC §8)."""
         for ev in list(self.active.values()):
             ev.set()
+        if self._training:
+            self._training["cancel"].set()
+            self._training["thread"].join(timeout)
         for t in self.workers:
             t.join(timeout)
         for t in getattr(self._service, "background", []):  # deferred Writer: brief grace, never blocks quit

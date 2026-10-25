@@ -55,12 +55,25 @@ class Card:
 
 class KnowledgePack:
     def __init__(self, app: str = "excel", path: Path | None = None):
+        learned_path = KNOWLEDGE_DIR / f"{app}.learned.yaml" if path is None else None
         path = path or KNOWLEDGE_DIR / f"{app}.cards.yaml"
         text = path.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
-        self.version = f"{data.get('version', 0)}-{hashlib.sha1(text.encode()).hexdigest()[:8]}"
         self.app = data.get("app", app)
         self.cards = [Card(c["id"], c["title"], list(c.get("keywords", [])), c, self.app) for c in data["cards"]]
+        # Training area (ADR-0004): demonstrated cards + extra phrasings for existing cards
+        if learned_path is not None and learned_path.exists():
+            ltext = learned_path.read_text(encoding="utf-8")
+            text += ltext
+            learned = yaml.safe_load(ltext) or {}
+            known = {c.id for c in self.cards}
+            self.cards += [Card(c["id"], c["title"], list(c.get("keywords", [])), c, self.app)
+                           for c in learned.get("cards", []) if c["id"] not in known]
+            for cid, kws in (learned.get("extends") or {}).items():
+                for c in self.cards:
+                    if c.id == cid:
+                        c.keywords += [k for k in kws if k not in c.keywords]
+        self.version = f"{data.get('version', 0)}-{hashlib.sha1(text.encode()).hexdigest()[:8]}"
         self.by_id = {c.id: c for c in self.cards}
 
     @classmethod
