@@ -62,6 +62,7 @@ class Server:
             "env.probe": self.env_probe, "tutorial.create": self.tutorial_create,
             "tutorial.cancel": self.tutorial_cancel, "tutorial.get": self.tutorial_get,
             "tutorial.list": self.tutorial_list, "tutorial.export": self.tutorial_export,
+            "tutorial.delete": self.tutorial_delete,
             "settings.get": self.settings_get, "settings.set": self.settings_set,
             "system.check": self.system_check,
             "settings.set_api_key": self.settings_set_api_key, "settings.check_cloud": self.settings_check_cloud,
@@ -191,7 +192,41 @@ class Server:
         return data
 
     def tutorial_list(self, params):
-        return self.service.store.list_tutorials()
+        out = []
+        for m in self.service.store.list_tutorials():
+            p = Path(m["path"])
+            m["bytes"] = sum(f.stat().st_size for f in p.iterdir() if f.is_file()) if p.is_dir() else 0
+            out.append(m)
+        return out
+
+    def tutorial_delete(self, params):
+        """Free disk space. Deletes only what the tutorial made: the files listed in
+        its manifest plus its exports (SPEC §8), inside the tutorials folder; then the library entry."""
+        ids = params.get("tutorial_ids") or ([params["tutorial_id"]] if params.get("tutorial_id") else [])
+        if not ids or not all(isinstance(i, str) for i in ids):
+            raise RpcError(INVALID_PARAMS, "tutorial_id(s) required")
+        root = self.out_root.resolve()
+        freed, deleted = 0, []
+        for tid in ids:
+            p = self.service.store.tutorial_path(tid)
+            if p is None:
+                continue
+            p = p.resolve()
+            if p.is_dir() and root in p.parents:
+                manifest = p / "manifest.json"
+                files = json.loads(manifest.read_text(encoding="utf-8")).get("files", []) if manifest.exists() else []
+                for name in set(files) | {"tutorial.md", "tutorial.html", "manifest.json"}:
+                    f = (p / name).resolve()
+                    if f.parent == p and f.is_file():
+                        freed += f.stat().st_size
+                        f.unlink()
+                try:
+                    p.rmdir()  # only if nothing else is left in it
+                except OSError:
+                    pass
+            self.service.store.remove_tutorial(tid)
+            deleted.append(tid)
+        return {"deleted": deleted, "freed_bytes": freed}
 
     def tutorial_export(self, params):
         from .export import export

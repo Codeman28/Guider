@@ -67,6 +67,7 @@ export interface TutorialMeta {
   created: number;
   llm_calls: number;
   source: string;
+  bytes?: number; // disk used by the tutorial's folder (screenshots + text)
 }
 
 export interface SystemCheck {

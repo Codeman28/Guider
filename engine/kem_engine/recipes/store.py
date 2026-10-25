@@ -122,6 +122,11 @@ class Store:
         keys = ("tutorial_id", "title", "status", "path", "created", "llm_calls", "source")
         return [dict(zip(keys, r)) for r in rows]
 
+    def remove_tutorial(self, tutorial_id: str) -> None:
+        with self.lock:
+            self.db.execute("DELETE FROM tutorials WHERE tutorial_id=?", (tutorial_id,))
+            self.db.commit()
+
     def tutorial_path(self, tutorial_id: str) -> Path | None:
         row = self.db.execute("SELECT path FROM tutorials WHERE tutorial_id=?", (tutorial_id,)).fetchone()
         return Path(row[0]) if row else None

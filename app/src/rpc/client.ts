@@ -99,8 +99,19 @@ export class PreviewTransport implements Transport {
         excel: { ok: true, version: "16.0", build: "preview", ui_lang: "en-US" },
         model: { ok: true, provider: "ollama", model: "preview", missing: [] },
       });
-    if (method === "tutorial.list" || method === "settings.get")
-      return this.reply(id, method === "settings.get" ? { provider: "ollama", has_key: { gemini: false } } : []);
+    if (method === "settings.get") return this.reply(id, { provider: "ollama", has_key: { gemini: false } });
+    if (method === "tutorial.list") {
+      const now = Date.now() / 1000;
+      return this.reply(id, [
+        { tutorial_id: "p1", title: "Cách tạo PivotTable trong Excel", status: "ok", path: "", created: now - 86400, llm_calls: 0, source: "card", bytes: 412000 },
+        { tutorial_id: "p2", title: "Cách in đậm chữ trong Word", status: "ok", path: "", created: now - 3 * 86400, llm_calls: 1, source: "card", bytes: 236000 },
+        { tutorial_id: "p3", title: "Cách tăng cỡ chữ trong Excel", status: "partial", path: "", created: now, llm_calls: 1, source: "llm", bytes: 1830000 },
+      ]);
+    }
+    if (method === "tutorial.delete") {
+      const { params } = JSON.parse(line);
+      return this.reply(id, { deleted: params.tutorial_ids, freed_bytes: 500000 * params.tutorial_ids.length });
+    }
     if (method === "tutorial.create") {
       const sid = "preview";
       this.reply(id, { session_id: sid });

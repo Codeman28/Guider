@@ -334,3 +334,31 @@ def test_llm_writer_keeps_undemonstrated_sentence_and_times_out_to_template():
                                                            "Bước này Guider chưa làm mẫu được trên máy bạn"))
     from kem_engine.llm.providers.base import LLMTimeout
     assert llm_writer.write(trace(), "T", "id", "ok", client([LLMTimeout("slow")]))[1] == "template"
+
+
+def test_rpc_delete_frees_only_the_tutorials_own_files(tmp_path):
+    s, lines, store = rpc(tmp_path)
+    root = tmp_path / "tut"
+    d = root / "t1"
+    d.mkdir(parents=True)
+    (d / "tutorial.json").write_text(template.write(trace(), "T", "t1", "ok").model_dump_json(), encoding="utf-8")
+    (d / "step_01.png").write_bytes(b"x" * 100)
+    (d / "tutorial.html").write_text("export", encoding="utf-8")
+    (d / "keep.txt").write_text("not ours", encoding="utf-8")
+    (d / "manifest.json").write_text(json.dumps({"files": ["tutorial.json", "step_01.png", "../../evil.txt"]}),
+                                     encoding="utf-8")
+    (tmp_path / "evil.txt").write_text("outside", encoding="utf-8")
+    outside = tmp_path / "t2"
+    outside.mkdir()
+    (outside / "tutorial.json").write_text("{}", encoding="utf-8")
+    tut = Tutorial.model_validate_json((d / "tutorial.json").read_text(encoding="utf-8"))
+    store.add_tutorial(tut, d, 0, "card")
+    store.add_tutorial(tut.model_copy(update={"tutorial_id": "t2"}), outside, 0, "card")
+    s.handle_line('{"jsonrpc": "2.0", "id": 1, "method": "tutorial.list"}')
+    s.handle_line('{"jsonrpc": "2.0", "id": 2, "method": "tutorial.delete", "params": {"tutorial_ids": ["t1", "t2"]}}')
+    m = {x["id"]: x for x in msgs(lines)}
+    assert {x["tutorial_id"]: x["bytes"] for x in m[1]["result"]}["t1"] > 100
+    assert m[2]["result"]["deleted"] == ["t1", "t2"] and m[2]["result"]["freed_bytes"] >= 100
+    assert sorted(p.name for p in d.iterdir()) == ["keep.txt"]  # only what Guider made is gone
+    assert (tmp_path / "evil.txt").exists() and (outside / "tutorial.json").exists()
+    assert store.list_tutorials() == []

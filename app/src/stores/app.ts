@@ -87,6 +87,7 @@ interface State {
   setStep(id: string, i: number): void;
   refreshLibrary(): Promise<void>;
   exportTutorial(id: string, format: "md" | "html"): Promise<string | null>;
+  deleteTutorials(ids: string[]): Promise<void>;
   onProgress(p: Progress): void;
   onDone(r: CreateResult): void;
   onUpdated(id: string): Promise<void>;
@@ -411,6 +412,28 @@ export const useApp = create<State>((set, get) => ({
       set({ library: await c.call<TutorialMeta[]>("tutorial.list"), libraryLoaded: true });
     } catch {
       /* the library is a convenience; the chat still works */
+    }
+  },
+
+  async deleteTutorials(ids) {
+    const c = get().client;
+    if (!c || ids.length === 0) return;
+    try {
+      const r = await c.call<{ deleted: string[]; freed_bytes: number }>("tutorial.delete", { tutorial_ids: ids });
+      const gone = new Set(r.deleted);
+      set((s) => {
+        const tabs = s.tabs.filter((t) => !gone.has(t.id));
+        const tutorials = Object.fromEntries(Object.entries(s.tutorials).filter(([id]) => !gone.has(id)));
+        return {
+          tabs,
+          tutorials,
+          active: s.active && gone.has(s.active) ? null : s.active,
+          library: s.library.filter((m) => !gone.has(m.tutorial_id)),
+          notice: `Đã xoá ${r.deleted.length} hướng dẫn, giải phóng ${(r.freed_bytes / 1048576).toFixed(1)} MB.`,
+        };
+      });
+    } catch (e) {
+      set({ notice: `Không xoá được: ${e instanceof Error ? e.message : e}` });
     }
   },
 
