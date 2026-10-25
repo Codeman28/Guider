@@ -1,0 +1,27 @@
+# Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
+# the base pack is <app>.cards.yaml.
+notes:
+- id: n2944326911
+  app: excel
+  topic: Tăng số chữ số thập phân
+  fact: Nút Decrease Decimal nằm ngay bên cạnh để bớt số lẻ
+  sources:
+  - meo_office.md · đoạn 1
+- id: n2944326999
+  app: powerpoint
+  topic: Đổ bóng cho chữ
+  fact: Chữ sẽ có bóng mờ phía sau giúp dễ đọc trên nền ảnh
+  sources:
+  - meo_office.md · đoạn 1
+- id: n2944326971
+  app: word
+  topic: Thụt lề đoạn văn
+  fact: Nhấn Decrease Indent để đưa đoạn văn ra lại
+  sources:
+  - meo_office.md · đoạn 1
+- id: n2944326942
+  app: word
+  topic: Viết chỉ số trên (mũ)
+  fact: 'Phím tắt: Ctrl+Shift+='
+  sources:
+  - meo_office.md · đoạn 1

@@ -1,0 +1,9 @@
+# Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
+# the base pack is <app>.cards.yaml.
+version: 1
+app: excel
+cards: []
+extends:
+  increase_decimal:
+  - Increase Decimal
+  - Tăng số chữ số thập phân

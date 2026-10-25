@@ -1,0 +1,38 @@
+# Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
+# the base pack is <app>.cards.yaml.
+cards:
+- reason: 'bước ''Shadow'': Guider không tìm thấy nút này trên PowerPoint của bạn'
+  card:
+    id: learn_pow_do_bong_cho_chu_8c15
+    title: Đổ bóng cho chữ
+    keywords:
+    - Shadow
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Shadow
+        control_type: Button
+        within:
+          names:
+          - Font
+          control_type: Group
+        automation_id: Shadow
+      expected:
+        type: none
+      capture_result: true
+    example: Trên slide 2 của PowerPoint 3 slide, chọn tiêu đề, mở tab Home, nhấn nút Shadow để chữ tiêu đề có bóng mờ phía sau
+    learned:
+      source: meo_office.md
+      where: đoạn 1
+      names_checked: true

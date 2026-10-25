@@ -23,6 +23,20 @@ CT = Literal["TabItem", "Button", "SplitButton", "MenuItem", "ListItem", "CheckB
 Selection = Literal["none", "table", "column_values", "header_row", "single_cell", "title", "heading", "body",
                     "paragraphs", "all", "title_slide", "content_slide", "slide_title", "slide_body"]
 
+# Ribbon group captions (EN). Books say "in the Font group, click Bold": a group is where a button lives,
+# never a step of its own. Clicking it would hit the group's dialog launcher ("Font...").
+GROUPS = {fold(g) for g in (
+    "Clipboard", "Font", "Paragraph", "Styles", "Editing", "Number", "Alignment", "Cells", "Slides", "Drawing",
+    "Tables", "Illustrations", "Charts", "Pages", "Header & Footer", "Text", "Symbols", "Page Setup", "Links",
+    "Comments", "Media", "Images", "Themes", "Variants", "Customize", "Transition to This Slide", "Timing",
+    "Animation", "Advanced Animation", "Sort & Filter", "Data Tools", "Function Library", "Defined Names",
+    "Formula Auditing", "Calculation", "Window", "Zoom", "Show", "Views", "Table of Contents", "Footnotes",
+    "Captions", "Index", "Arrange", "Proofing", "Language", "Changes", "Tracking", "Protect", "Document Formatting",
+    "Page Background", "Sparklines", "Filters", "Tours", "Macros", "Workbook Views", "Sheet Options",
+    "Scale to Fit", "Get & Transform Data", "Queries & Connections", "Outline", "Forecast", "Citations & Bibliography",
+    "Mail Merge", "Start Mail Merge", "Write & Insert Fields", "Preview Results", "Finish", "Set Up",
+    "Start Slide Show", "Monitors", "Presentation Views", "Master Views", "Insights", "Accessibility")}
+
 DUMPS = Path(__file__).resolve().parents[3] / "docs" / "spikes" / "out"
 FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}
 SELECT = {  # what the card selects in the fixture before step 1 (sandbox/*.py fixtures)
@@ -55,7 +69,7 @@ class XNote(BaseModel):
 
 
 class XOut(BaseModel):
-    summary: str = Field(description="2–3 câu tiếng Việt tóm tắt đoạn này")
+    summary: str = Field(description="2–3 câu tiếng Việt nói đoạn văn dạy những gì (nội dung, không nói về việc rút trích)")
     tasks: list[XTask]
     notes: list[XNote]
 
@@ -65,7 +79,9 @@ SYSTEM = (
     "thao tác. Từ đoạn văn, rút ra: (1) các VIỆC làm được bằng chuỗi bấm nút trên ribbon, mỗi việc là một 'task' với "
     "các bước bấm theo đúng thứ tự; bước đầu luôn là select_ribbon_tab; dùng tên nút TIẾNG ANH chuẩn của Microsoft 365 "
     "(Home, Insert, Bold, Conditional Formatting...), expand cho nút mở menu/gallery, select_item cho mục trong "
-    "menu/gallery, invoke cho nút bấm và nút OK, set_value để gõ giá trị vào ô của hộp thoại. Chỉ lấy việc làm được "
+    "menu/gallery, invoke cho nút bấm và nút OK, set_value để gõ giá trị vào ô của hộp thoại. TÊN NHÓM (Font, "
+    "Paragraph, Number, Styles...) KHÔNG phải là một bước — chỉ ghi các nút thật sự được bấm. Mỗi task phải có "
+    "'example': một ví dụ cụ thể trên file mẫu (chọn gì, bấm gì, thấy kết quả gì). Chỉ lấy việc làm được "
     "trên file mẫu: Excel = bảng 4 cột (Tháng, Khu vực, Sản phẩm, Doanh số) 20 dòng; Word = báo cáo 6 đoạn (đoạn 1 "
     "tiêu đề, 2 và 4 là đề mục); PowerPoint = 3 slide (slide 1 tiêu đề; slide 2–3 có tiêu đề và nội dung gạch đầu "
     "dòng). 'selection' là vùng cần chọn trước. Bỏ qua việc cần file khác, mạng, tài khoản, macro, in ấn. "
@@ -94,8 +110,18 @@ def build_card(t: XTask, source: str, where: str) -> tuple[dict | None, str]:
     aliases = load_aliases()
     if not t.steps or t.steps[0].intent != "select_ribbon_tab":
         return None, "bước đầu không phải chọn tab ribbon"
+    # "Home → Font → Bold" (group named as a step) becomes "Home → Bold within Font"
+    raw_steps, group = [], None
+    for k, s in enumerate(t.steps):
+        name = (s.names[0] if s.names else "").strip().rstrip(".").strip()
+        if (s.intent != "select_ribbon_tab" and fold(name) in GROUPS and k + 1 < len(t.steps)
+                and t.steps[k + 1].intent != "select_ribbon_tab"):
+            group = name
+            continue
+        raw_steps.append((s, group))
+        group = None
     steps, tab, in_menu, unverified = [], None, False, False
-    for i, s in enumerate(t.steps, start=1):
+    for i, (s, group) in enumerate(raw_steps, start=1):
         wanted = expand_names([n for n in s.names if n], aliases)
         if s.intent == "select_ribbon_tab":
             best = max(dump, key=lambda tab_name: name_score(tab_name, wanted), default=None)
@@ -113,6 +139,8 @@ def build_card(t: XTask, source: str, where: str) -> tuple[dict | None, str]:
         if hit and score >= 85 and not in_menu:
             ct = hit["ct"]
             target = {"names": [hit["name"]] + [n for n in s.names[1:] if n != hit["name"]], "control_type": ct}
+            if group:  # lets the session open the group when the ribbon is narrow (S1 repair)
+                target["within"] = {"names": [group], "control_type": "Group"}
             if hit.get("aid"):
                 target["automation_id"] = hit["aid"]
             if s.intent == "expand" and ct == "SplitButton":
@@ -127,7 +155,7 @@ def build_card(t: XTask, source: str, where: str) -> tuple[dict | None, str]:
         step = {"id": i, "intent": s.intent, "target": target}
         if s.value is not None and s.intent == "set_value":
             step["value"] = s.value
-        nxt = t.steps[i] if i < len(t.steps) else None
+        nxt = raw_steps[i][0] if i < len(raw_steps) else None
         if s.intent == "expand":
             step["expected"] = {"type": "expanded"}
             in_menu = True
@@ -141,7 +169,7 @@ def build_card(t: XTask, source: str, where: str) -> tuple[dict | None, str]:
             step["expected"] = {"type": "none"}
             if s.intent in ("select_item", "invoke", "toggle"):
                 in_menu = False
-        if i == len(t.steps):
+        if i == len(raw_steps):
             step["capture_result"] = True
         steps.append(step)
     card = {"id": slug(t.app, t.title), "title": t.title.strip(),

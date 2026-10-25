@@ -124,3 +124,14 @@ def test_rejects_unknown_file_type(tmp_path):
 def test_link_must_be_http():
     with pytest.raises(ValueError):
         sources.fetch_url("file:///C:/Windows/win.ini", 4000)
+
+
+def test_group_named_as_a_step_becomes_within():
+    card, why = build_card(task([
+        {"intent": "select_ribbon_tab", "names": ["Home"], "control_type": "TabItem"},
+        {"intent": "invoke", "names": ["Font"], "control_type": "Button"},
+        {"intent": "invoke", "names": ["Superscript"], "control_type": "Button"},
+    ], title="Cách viết chỉ số trên"), "Sách", "trang 1")
+    assert why == "" and [s["target"]["names"][0] for s in card["steps"]] == ["Home", "Superscript"]
+    assert card["steps"][1]["target"]["within"] == {"names": ["Font"], "control_type": "Group"}
+    assert [s["id"] for s in card["steps"]] == [1, 2]

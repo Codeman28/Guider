@@ -5,6 +5,7 @@ most for the card being demonstrated, then training waits for the tutorial.
 """
 from __future__ import annotations
 
+import re
 import shutil
 import time
 from pathlib import Path
@@ -20,6 +21,9 @@ from .memory import Memory
 from .sources import Source, fetch_url, read_file, relevant
 
 log = structlog.get_logger()
+
+
+META = re.compile(r"(tôi sẽ|rút ra các|theo yêu cầu|đoạn văn tài liệu hướng dẫn)", re.IGNORECASE)
 
 
 class Cancelled(Exception):
@@ -118,7 +122,8 @@ class TrainingJob:
 
     def _learn(self, src: Source, stats: dict) -> dict:
         prev = self.memory.seen(src.sha)
-        entry = {"kind": src.kind, "name": src.name, "ref": src.ref, "sha": src.sha,
+        # files: name only (a full path would leak the developer's folders into the repo); links: the URL
+        entry = {"kind": src.kind, "name": src.name, "ref": src.name if src.kind == "file" else src.ref, "sha": src.sha,
                  "date": time.strftime("%Y-%m-%d %H:%M"), "summary": "", "added": 0, "merged": 0,
                  "pending": 0, "notes": 0}
         if prev and prev.get("complete"):
@@ -136,7 +141,8 @@ class TrainingJob:
             except LLMError as e:
                 log.warning("training.chunk_failed", where=ch.where, error=str(e)[:200])
                 continue
-            summaries.append(out.summary)
+            if not META.search(out.summary):  # small models sometimes describe the task instead of the text
+                summaries.append(out.summary)
             cite = f"{src.name} · {ch.where}"
             for n in out.notes:
                 r = self.memory.add_note(n.app, n.topic, n.fact, cite)

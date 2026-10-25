@@ -1,0 +1,75 @@
+# Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
+# the base pack is <app>.cards.yaml.
+version: 1
+app: word
+cards:
+- id: learn_wor_viet_chi_so_tren_mu_c48a
+  title: Viết chỉ số trên (mũ)
+  keywords:
+  - Superscript
+  fixture_id: word_report_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Superscript
+      control_type: Button
+      within:
+        names:
+        - Font
+        control_type: Group
+      automation_id: Superscript
+    expected:
+      type: none
+    capture_result: true
+  example: Trong Word báo cáo 6 đoạn, gõ 'x2', bôi đen số 2, mở tab Home, nhấn nút Superscript để hiện x²
+  learned:
+    source: meo_office.md
+    where: đoạn 1
+    names_checked: true
+- id: learn_wor_thut_le_doan_van_e846
+  title: Thụt lề đoạn văn
+  keywords:
+  - Increase Indent
+  fixture_id: word_report_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Increase Indent
+      control_type: Button
+      within:
+        names:
+        - Paragraph
+        control_type: Group
+      automation_id: IndentIncreaseWord
+    expected:
+      type: none
+    capture_result: true
+  example: Trong Word báo cáo 6 đoạn, đặt con trỏ trong đoạn văn, mở tab Home, nhấn nút Increase Indent để thụt lề đoạn văn vào trong
+  learned:
+    source: meo_office.md
+    where: đoạn 1
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: p3-p5
+extends: {}
