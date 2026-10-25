@@ -196,4 +196,9 @@ class Planner:
                                 check=lambda p: semantic_problems(p, self.blocklist), reserve=self.reserve)
         if not out.in_scope:
             return PlanResult(None, "llm", in_scope=False, reason=out.reason)
-        return PlanResult(to_plan(out, self.app), "llm", card_score=best_score)
+        from .repair import repair
+        fixed, _ = repair(to_plan(out, self.app))  # real ribbon names/tabs before anything is clicked
+        if not fixed.steps:
+            return PlanResult(None, "llm", in_scope=False,
+                              reason="Guider chưa biết làm việc này. Bạn thử hỏi cách khác, hoặc dạy Guider ở khu Huấn luyện.")
+        return PlanResult(fixed, "llm", card_score=best_score)

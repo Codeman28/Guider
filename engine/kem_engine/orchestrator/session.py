@@ -344,6 +344,7 @@ class Session:
             top = min((e.rect.top for e in ribbon), default=0)
             self.ribbon_tabs = [e.name for e in ribbon if e.rect.top <= top + 10]  # drop sheet tabs
             skipped = False
+            failed = False
             for i, step in enumerate(self.plan.steps):
                 try:
                     self._run_step(step, step.id)
@@ -351,13 +352,22 @@ class Session:
                     # An LLM plan may add a step this UI does not have. Skip it (once) only if the next
                     # step's element is on screen right now; never skip in reviewed cards/recipes.
                     nxt = self.plan.steps[i + 1] if i + 1 < len(self.plan.steps) else None
-                    if not (self.allow_skip and not skipped and nxt and nxt.target
+                    if (self.allow_skip and not skipped and nxt and nxt.target
                             and self._ground(nxt)[0].element is not None):
-                        raise
-                    skipped = True
-                    self._skipped.add(step.id)
-                    self.trace.steps.pop()
-                    log.warning("session.step_skipped", plan_step=step.id)
+                        skipped = True
+                        self._skipped.add(step.id)
+                        self.trace.steps.pop()
+                        log.warning("session.step_skipped", plan_step=step.id)
+                        continue
+                    # Every step gets a picture: show the screen where the button
+                    # should have been, then carry on with the next steps instead of giving up.
+                    failed = True
+                    self._capture_missing(self.trace.steps[-1])
+                except StepFailed as e:  # acted but the result could not be confirmed: its photo exists
+                    failed = True
+                    log.warning("session.step_unverified", error=str(e))
+            if failed:
+                status = "partial" if any(s.verified for s in self.trace.steps) else "failed"
             self._final_capture()
             sc = self.plan.success_check
             if sc is not None and not self._verify(Step(id=0, intent="wait_for", expected=sc), None, set(), set()):
@@ -391,6 +401,16 @@ class Session:
         self._emit("DONE", f"Xong ({status})")
         return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0, self.trace, writer_source,
                          self.ribbon_tabs)
+
+    def _capture_missing(self, ts):
+        """Screenshot of the window at the moment a step could not be done (no arrow: nothing to point at)."""
+        try:
+            if len(self._windows()) > 1:
+                office.unstick(self.sb)  # a stale menu would hide the ribbon
+            _, ident = snapshot([self.sb.hwnd])
+            ts.image = self._capture(None, ts.id, ident, f"step_{ts.id:02d}_missing.png")
+        except Exception as e:
+            log.warning("session.missing_capture_failed", error=repr(e))
 
     def _final_capture(self):
         """What the user will see when done: close leftovers, drop the selection,

@@ -69,6 +69,7 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "range.font.bold": lambda d, r: _range(d, r).Font.Bold,
     "range.font.italic": lambda d, r: _range(d, r).Font.Italic,
     "range.font.color": lambda d, r: int(_range(d, r).Font.Color),
+    "range.font.size": lambda d, r: float(_range(d, r).Font.Size),
     "range.interior.color": lambda d, r: int(_range(d, r).Interior.Color),
     "range.wrap_text": lambda d, r: _range(d, r).WrapText,
     "range.merge_cells": lambda d, r: _range(d, r).MergeCells,
@@ -86,6 +87,7 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "book.format_conditions": lambda d, r: format_conditions(d),
     # Word (doc = Document; ref = paragraph number)
     "word.par.font.bold": lambda d, r: d.Paragraphs(int(r)).Range.Font.Bold,
+    "word.par.font.size": lambda d, r: float(d.Paragraphs(int(r)).Range.Font.Size),
     "word.par.font.italic": lambda d, r: d.Paragraphs(int(r)).Range.Font.Italic,
     "word.par.font.underline": lambda d, r: int(d.Paragraphs(int(r)).Range.Font.Underline),
     "word.par.font.color": lambda d, r: int(d.Paragraphs(int(r)).Range.Font.Color),
@@ -108,6 +110,7 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "ppt.slide.transition": lambda d, r: int(d.Slides(int(r)).SlideShowTransition.EntryEffect),  # 0 = none
     "ppt.slide.animations": lambda d, r: int(d.Slides(int(r)).TimeLine.MainSequence.Count),
     "ppt.shape.font.bold": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Bold),
+    "ppt.shape.font.size": lambda d, r: float(_ppt_shape(d, r).TextFrame.TextRange.Font.Size),
     "ppt.shape.font.italic": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Italic),
     "ppt.shape.font.underline": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.Font.Underline),
     "ppt.shape.bullet_type": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Bullet.Type),  # 2 = numbered

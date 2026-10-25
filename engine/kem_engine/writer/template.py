@@ -104,12 +104,17 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
     for i, s in enumerate(trace.steps, start=1):
         heading, body = _texts(s, app)
         if not s.verified:
-            body = ("Bước này Guider chưa làm mẫu được trên máy bạn. " + body)
+            if s.image and "_missing" in s.image:
+                body = ("Guider chưa bấm được nút này trên máy bạn; ảnh là màn hình lúc đó để bạn tự tìm. " + body)
+            elif s.image:
+                body = ("Guider đã bấm nhưng chưa kiểm chứng được kết quả bước này; ảnh là lúc trước khi bấm. " + body)
+            else:
+                body = ("Bước này Guider chưa làm mẫu được trên máy bạn. " + body)
         tip = f"Phím tắt: {s.access_key}." if s.access_key else None
         if s.image is None and s.result_image is None:
             body = body.replace("theo hình", "")
         steps.append(TutorialStep(id=i, heading=f"Bước {i}: {heading}", body=body, tip=tip,
-                                  image=s.image if s.verified else None,
+                                  image=s.image,  # every step keeps its picture, demonstrated or not
                                   result_image=s.result_image if s.verified else None,
                                   demonstrated=s.verified))
     intro = (f"Hướng dẫn này được Guider làm mẫu ngay trên {app} trong Microsoft 365 của bạn, "

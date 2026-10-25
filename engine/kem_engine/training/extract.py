@@ -6,16 +6,14 @@ candidate is dropped. Names inside menus/galleries cannot be checked offline; th
 from __future__ import annotations
 
 import hashlib
-import json
 import re
-from functools import lru_cache
-from pathlib import Path
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
 from ..grounding.grounder import expand_names, load_aliases, name_score
 from ..intent.knowledge import fold
+from ..intent.ribbon import GROUPS, ribbon
 
 App = Literal["excel", "word", "powerpoint"]
 Intent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value"]
@@ -23,21 +21,6 @@ CT = Literal["TabItem", "Button", "SplitButton", "MenuItem", "ListItem", "CheckB
 Selection = Literal["none", "table", "column_values", "header_row", "single_cell", "title", "heading", "body",
                     "paragraphs", "all", "title_slide", "content_slide", "slide_title", "slide_body"]
 
-# Ribbon group captions (EN). Books say "in the Font group, click Bold": a group is where a button lives,
-# never a step of its own. Clicking it would hit the group's dialog launcher ("Font...").
-GROUPS = {fold(g) for g in (
-    "Clipboard", "Font", "Paragraph", "Styles", "Editing", "Number", "Alignment", "Cells", "Slides", "Drawing",
-    "Tables", "Illustrations", "Charts", "Pages", "Header & Footer", "Text", "Symbols", "Page Setup", "Links",
-    "Comments", "Media", "Images", "Themes", "Variants", "Customize", "Transition to This Slide", "Timing",
-    "Animation", "Advanced Animation", "Sort & Filter", "Data Tools", "Function Library", "Defined Names",
-    "Formula Auditing", "Calculation", "Window", "Zoom", "Show", "Views", "Table of Contents", "Footnotes",
-    "Captions", "Index", "Arrange", "Proofing", "Language", "Changes", "Tracking", "Protect", "Document Formatting",
-    "Page Background", "Sparklines", "Filters", "Tours", "Macros", "Workbook Views", "Sheet Options",
-    "Scale to Fit", "Get & Transform Data", "Queries & Connections", "Outline", "Forecast", "Citations & Bibliography",
-    "Mail Merge", "Start Mail Merge", "Write & Insert Fields", "Preview Results", "Finish", "Set Up",
-    "Start Slide Show", "Monitors", "Presentation Views", "Master Views", "Insights", "Accessibility")}
-
-DUMPS = Path(__file__).resolve().parents[3] / "docs" / "spikes" / "out"
 FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}
 SELECT = {  # what the card selects in the fixture before step 1 (sandbox/*.py fixtures)
     "excel": {"table": "A1:D21", "column_values": "D2:D21", "header_row": "A1:D1", "single_cell": "D2"},
@@ -88,13 +71,6 @@ SYSTEM = (
     "(2) 'notes': kiến thức hữu ích ngắn (mẹo, phím tắt, khi nào dùng), tự diễn đạt lại, không chép nguyên văn. "
     "Không có gì đáng học thì trả danh sách rỗng. Chỉ trả JSON."
 )
-
-
-@lru_cache(maxsize=None)
-def ribbon(app: str) -> dict[str, list[dict]]:
-    name = "ribbon_dump.json" if app == "excel" else f"ribbon_dump_{app}.json"
-    path = DUMPS / name
-    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
 
 def slug(app: str, title: str) -> str:

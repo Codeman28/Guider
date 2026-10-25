@@ -330,6 +330,7 @@ def test_llm_writer_keeps_undemonstrated_sentence_and_times_out_to_template():
                       {"id": 2, "heading": "x", "body": "Nhấn **PivotTable**."},
                       {"id": 3, "heading": "x", "body": "Nhấn **OK** là xong."}])
     tut, src = llm_writer.write(t, "T", "id", "partial", client([out]))
-    assert src == "llm" and tut.steps[2].body.startswith("Bước này Guider chưa làm mẫu được trên máy bạn")
+    assert src == "llm" and tut.steps[2].body.startswith(("Guider đã bấm nhưng chưa kiểm chứng", "Guider chưa bấm được",
+                                                           "Bước này Guider chưa làm mẫu được trên máy bạn"))
     from kem_engine.llm.providers.base import LLMTimeout
     assert llm_writer.write(trace(), "T", "id", "ok", client([LLMTimeout("slow")]))[1] == "template"

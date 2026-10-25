@@ -15,7 +15,8 @@ const NOT_DEMONSTRATED = "Bước này Guider chưa làm mẫu được trên m�
 
 /** PRODUCT.md: an undemonstrated step always says so in plain words, whoever wrote the body. */
 function stepBody(s: TutorialStep): string {
-  return s.demonstrated || s.body.startsWith(NOT_DEMONSTRATED.slice(0, -1)) ? s.body : `${NOT_DEMONSTRATED} ${s.body}`;
+  const said = /^(Bước này Guider chưa làm mẫu|Guider chưa bấm được|Guider đã bấm nhưng chưa kiểm chứng)/.test(s.body);
+  return s.demonstrated || said ? s.body : `${NOT_DEMONSTRATED} ${s.body}`;
 }
 
 /** Local tutorial images go through Tauri's asset protocol (scope: %LOCALAPPDATA%\Kem\tutorials). */

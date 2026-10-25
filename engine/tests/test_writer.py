@@ -41,11 +41,15 @@ def test_bidi_marks_removed_from_labels():
     assert validate_labels(tut, tr) == []
 
 
-def test_failed_step_is_text_only():
-    tr = trace(ts(1, "invoke", "PivotTable"), ts(2, "invoke", "OK", verified=False))
+def test_every_step_keeps_its_picture_and_says_what_happened():
+    tr = trace(ts(1, "invoke", "PivotTable"), ts(2, "invoke", "OK", verified=False),
+               ts(3, "invoke", "Done", verified=False, image="step_03_missing.png"),
+               ts(4, "invoke", "Later", verified=False, image=None))
     tut = write(tr, "t", "id", "partial")
-    assert tut.steps[1].image is None and not tut.steps[1].demonstrated
-    assert tut.steps[1].body.startswith("Bước này Guider chưa làm mẫu được")
+    assert tut.steps[1].image == "step_02.png" and not tut.steps[1].demonstrated
+    assert tut.steps[1].body.startswith("Guider đã bấm nhưng chưa kiểm chứng")
+    assert tut.steps[2].image == "step_03_missing.png" and tut.steps[2].body.startswith("Guider chưa bấm được")
+    assert tut.steps[3].image is None and tut.steps[3].body.startswith("Bước này Guider chưa làm mẫu được")
     assert "chưa làm mẫu" in tut.outro
 
 

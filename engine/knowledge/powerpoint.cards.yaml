@@ -147,3 +147,12 @@ cards:
       - {id: 2, intent: select_item, target: {names: [Fade, Mờ dần], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.transition, ref: "2", op: gte, value: 1}}
       - {id: 3, intent: invoke, target: {names: [Apply To All, Áp dụng cho Tất cả], control_type: Button, automation_id: SlideTransitionApplyToAll}, expected: {type: com_check, prop: ppt.slide.transition, ref: "1", op: gte, value: 1}, capture_result: true}
     success_check: {type: com_check, prop: ppt.slide.transition, ref: "1", op: gte, value: 1}
+
+  - id: ppt_font_size_up
+    title: Cách tăng cỡ chữ trong PowerPoint
+    keywords: [tăng cỡ chữ, chữ to hơn, phóng to chữ, cỡ chữ, font size, tăng kích thước chữ, chỉnh cỡ chữ]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2.2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: none}, capture_result: true}

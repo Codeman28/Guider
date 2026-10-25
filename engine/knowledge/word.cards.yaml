@@ -158,3 +158,13 @@ cards:
       - {id: 2, intent: expand, target: {names: [Margins, Lề], control_type: MenuItem, automation_id: PageMarginsGallery}, expected: {type: expanded}}
       - {id: 3, intent: select_item, target: {names: [Narrow Margins, Lề Hẹp], control_type: ListItem}, expected: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}, capture_result: true}
     success_check: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}
+
+  - id: word_font_size_up
+    title: Cách tăng cỡ chữ trong Word
+    keywords: [tăng cỡ chữ, chữ to hơn, phóng to chữ, cỡ chữ, font size, tăng kích thước chữ, chỉnh cỡ chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p1"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Grow Font, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncreaseWord, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.size, ref: "1", op: gte, value: 12}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.size, ref: "1", op: gte, value: 12}

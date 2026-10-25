@@ -1,0 +1,4813 @@
+{
+ "Home": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Paste",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, V",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Paste",
+   "ct": "Button",
+   "aid": "Paste",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "PasteMenu_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, V",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Cut",
+   "ct": "Button",
+   "aid": "Cut",
+   "group": "Home",
+   "key": "Alt, H, X",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Copy",
+   "ct": "Button",
+   "aid": "Copy",
+   "group": "Home",
+   "key": "Alt, H, C 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Format Painter",
+   "ct": "Button",
+   "aid": "FormatPainter",
+   "group": "Home",
+   "key": "Alt, H, F P",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Office Clipboard...",
+   "ct": "Button",
+   "aid": "ShowClipboard",
+   "group": "Home",
+   "key": "Alt, H, F O",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Font",
+   "ct": "ComboBox",
+   "aid": "Font",
+   "group": "Home",
+   "key": "Alt, H, F F",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Font",
+   "ct": "Edit",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, F F",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Open",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Font Size",
+   "ct": "ComboBox",
+   "aid": "FontSize",
+   "group": "Home",
+   "key": "Alt, H, F S",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Font Size",
+   "ct": "Edit",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, F S",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Open",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Grow Font",
+   "ct": "Button",
+   "aid": "FontSizeIncreaseWord",
+   "group": "Home",
+   "key": "Alt, H, F G",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Shrink Font",
+   "ct": "Button",
+   "aid": "FontSizeDecreaseWord",
+   "group": "Home",
+   "key": "Alt, H, F K",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Change Case",
+   "ct": "MenuItem",
+   "aid": "ChangeCaseGallery",
+   "group": "Home",
+   "key": "Alt, H, 7",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Clear Formatting",
+   "ct": "Button",
+   "aid": "ClearFormatting",
+   "group": "Home",
+   "key": "Alt, H, E",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Bold",
+   "ct": "Button",
+   "aid": "Bold",
+   "group": "Home",
+   "key": "Alt, H, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Italic",
+   "ct": "Button",
+   "aid": "Italic",
+   "group": "Home",
+   "key": "Alt, H, 2",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Underline",
+   "ct": "SplitButton",
+   "aid": "UnderlineGallery",
+   "group": "Home",
+   "key": "Alt, H, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Underline",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "UnderlineGallery_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Strikethrough",
+   "ct": "Button",
+   "aid": "Strikethrough",
+   "group": "Home",
+   "key": "Alt, H, 4",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Subscript",
+   "ct": "Button",
+   "aid": "Subscript",
+   "group": "Home",
+   "key": "Alt, H, 5",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Superscript",
+   "ct": "Button",
+   "aid": "Superscript",
+   "group": "Home",
+   "key": "Alt, H, 6",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Text Effects and Typography",
+   "ct": "MenuItem",
+   "aid": "TextEffectsGallery",
+   "group": "Home",
+   "key": "Alt, H, F T",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Text Highlight Color",
+   "ct": "SplitButton",
+   "aid": "TextHighlightColorPicker",
+   "group": "Home",
+   "key": "Alt, H, I",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Text Highlight Color Yellow",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "TextHighlightColorPicker_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, I",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Font Color",
+   "ct": "SplitButton",
+   "aid": "FontColorPicker",
+   "group": "Home",
+   "key": "Alt, H, F C",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Font Color Red",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "FontColorPicker_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, F C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Font...",
+   "ct": "Button",
+   "aid": "FontDialog",
+   "group": "Home",
+   "key": "Alt, H, F N",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Bullets",
+   "ct": "SplitButton",
+   "aid": "BulletsGalleryWord",
+   "group": "Home",
+   "key": "Alt, H, U",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Bullets",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "BulletsGalleryWord_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, U",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Numbering",
+   "ct": "SplitButton",
+   "aid": "NumberingGalleryWord",
+   "group": "Home",
+   "key": "Alt, H, N",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Numbering",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "NumberingGalleryWord_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, N",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Multilevel List",
+   "ct": "MenuItem",
+   "aid": "MultilevelListGallery",
+   "group": "Home",
+   "key": "Alt, H, M",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Decrease Indent",
+   "ct": "Button",
+   "aid": "IndentDecreaseWord",
+   "group": "Home",
+   "key": "Alt, H, A O",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Increase Indent",
+   "ct": "Button",
+   "aid": "IndentIncreaseWord",
+   "group": "Home",
+   "key": "Alt, H, A I",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Sort...",
+   "ct": "Button",
+   "aid": "SortDialogClassic",
+   "group": "Home",
+   "key": "Alt, H, S O",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Show All",
+   "ct": "Button",
+   "aid": "ParagraphMarks",
+   "group": "Home",
+   "key": "Alt, H, 8",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Align Left",
+   "ct": "Button",
+   "aid": "AlignLeft",
+   "group": "Home",
+   "key": "Alt, H, A L",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Center",
+   "ct": "Button",
+   "aid": "AlignCenter",
+   "group": "Home",
+   "key": "Alt, H, A C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Align Right",
+   "ct": "Button",
+   "aid": "AlignRight",
+   "group": "Home",
+   "key": "Alt, H, A R",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Justify",
+   "ct": "Button",
+   "aid": "AlignJustify",
+   "group": "Home",
+   "key": "Alt, H, A J",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Line and Paragraph Spacing",
+   "ct": "MenuItem",
+   "aid": "LineSpacingGallery",
+   "group": "Home",
+   "key": "Alt, H, K",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Shading",
+   "ct": "SplitButton",
+   "aid": "ShadingColorPicker",
+   "group": "Home",
+   "key": "Alt, H, H",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Shading RGB(0, 0, 0)",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ShadingColorPicker_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, H",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Borders",
+   "ct": "SplitButton",
+   "aid": "BordersSelectionGallery",
+   "group": "Home",
+   "key": "Alt, H, B",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Borders",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "BordersSelectionGallery_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, B",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Paragraph...",
+   "ct": "Button",
+   "aid": "ParagraphDialog",
+   "group": "Home",
+   "key": "Alt, H, P G",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Styles",
+   "ct": "MenuItem",
+   "aid": "QuickStylesGallery",
+   "group": "Home",
+   "key": "Alt, H, L",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Styles...",
+   "ct": "Button",
+   "aid": "StylesPane",
+   "group": "Home",
+   "key": "Alt, H, F Y",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Z N",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Templates",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Parallel Translate",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Generate Slides from Doc",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 3",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Export to Image",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Split Document",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 5",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Merge Document",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 6",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Create PDF",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 7",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Sign",
+   "ct": "Button",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, Y 8",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Dictate",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Home",
+   "key": "Alt, H, D",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Dictate",
+   "ct": "Button",
+   "aid": "Dictate",
+   "group": "Home",
+   "key": "Alt+`",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "DictationMenu_Dropdown",
+   "group": "Home",
+   "key": "Alt, H, D",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Editor",
+   "ct": "Button",
+   "aid": "WritingAssistanceCheckDocument",
+   "group": "Home",
+   "key": "Alt, H, C 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Add‑ins",
+   "ct": "Button",
+   "aid": "OfficeExtensionsShowAddinFlyout",
+   "group": "Home",
+   "key": "Alt, H, A S",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "Insert": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Cover Page",
+   "ct": "MenuItem",
+   "aid": "CoverPageInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, V",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Blank Page",
+   "ct": "Button",
+   "aid": "BlankPageInsert",
+   "group": "Insert",
+   "key": "Alt, N, N P",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Page Break",
+   "ct": "Button",
+   "aid": "PageBreakInsertWord",
+   "group": "Insert",
+   "key": "Alt, N, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Table",
+   "ct": "MenuItem",
+   "aid": "TableInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, T",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Pictures",
+   "ct": "MenuItem",
+   "aid": "FlyoutAnchorInsertPictures",
+   "group": "Insert",
+   "key": "Alt, N, P",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Shapes",
+   "ct": "MenuItem",
+   "aid": "ShapesInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, S H",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Icons",
+   "ct": "Button",
+   "aid": "IconInsertFromFile",
+   "group": "Insert",
+   "key": "Alt, N, N S",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "3D Models",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Insert",
+   "key": "Alt, N, S 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "3D Models",
+   "ct": "Button",
+   "aid": "Insert3DModelDefault",
+   "group": "Insert",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Insert3DModelDropdown_Dropdown",
+   "group": "Insert",
+   "key": "Alt, N, S 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "SmartArt...",
+   "ct": "Button",
+   "aid": "SmartArtInsert",
+   "group": "Insert",
+   "key": "Alt, N, M",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Chart...",
+   "ct": "Button",
+   "aid": "ChartInsert",
+   "group": "Insert",
+   "key": "Alt, N, C",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Screenshot",
+   "ct": "MenuItem",
+   "aid": "ScreenshotInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, S C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Online Videos...",
+   "ct": "Button",
+   "aid": "MovieFromClipOrganizerInsert",
+   "group": "Insert",
+   "key": "Alt, N, N V",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Link",
+   "ct": "SplitButton",
+   "aid": "InsertLinkGallery",
+   "group": "Insert",
+   "key": "Alt, N, I",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Link",
+   "ct": "Button",
+   "aid": "",
+   "group": "Insert",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "InsertLinkGallery_Dropdown",
+   "group": "Insert",
+   "key": "Alt, N, I",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Bookmark...",
+   "ct": "Button",
+   "aid": "BookmarkInsert",
+   "group": "Insert",
+   "key": "Alt, N, K",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Cross-reference...",
+   "ct": "Button",
+   "aid": "CrossReferenceInsert",
+   "group": "Insert",
+   "key": "Alt, N, R F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comment",
+   "ct": "Button",
+   "aid": "InsertNewComment",
+   "group": "Insert",
+   "key": "Alt, N, L",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Header",
+   "ct": "MenuItem",
+   "aid": "HeaderInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, H",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Footer",
+   "ct": "MenuItem",
+   "aid": "FooterInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, O",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Page Number",
+   "ct": "MenuItem",
+   "aid": "HeaderFooterPageNumberInsert",
+   "group": "Insert",
+   "key": "Alt, N, N U",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Text Box",
+   "ct": "MenuItem",
+   "aid": "TextBoxInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, X",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Quick Parts",
+   "ct": "MenuItem",
+   "aid": "QuickPartsInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "WordArt",
+   "ct": "MenuItem",
+   "aid": "WordArtInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, W",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Drop Cap",
+   "ct": "MenuItem",
+   "aid": "DropCapInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, R C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Signature Line",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Insert",
+   "key": "Alt, N, G",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Signature Line",
+   "ct": "Button",
+   "aid": "SignatureLineInsert",
+   "group": "Insert",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "SignatureLineInsertMenu_Dropdown",
+   "group": "Insert",
+   "key": "Alt, N, G",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Date & Time...",
+   "ct": "Button",
+   "aid": "DateAndTimeInsert",
+   "group": "Insert",
+   "key": "Alt, N, D",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Object...",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Insert",
+   "key": "Alt, N, J",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Object...",
+   "ct": "Button",
+   "aid": "OleObjectctInsert",
+   "group": "Insert",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "OleObjectInsertMenu_Dropdown",
+   "group": "Insert",
+   "key": "Alt, N, J",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Equation",
+   "ct": "SplitButton",
+   "aid": "EquationInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, E",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Equation",
+   "ct": "Button",
+   "aid": "",
+   "group": "Insert",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "EquationInsertGallery_Dropdown",
+   "group": "Insert",
+   "key": "Alt, N, E",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Symbol",
+   "ct": "MenuItem",
+   "aid": "SymbolInsertGallery",
+   "group": "Insert",
+   "key": "Alt, N, U",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "eSignature fields",
+   "ct": "Button",
+   "aid": "SyntexEsign",
+   "group": "Insert",
+   "key": "Alt, N, S E",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line up",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "Design": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Themes",
+   "ct": "MenuItem",
+   "aid": "ThemesGallery",
+   "group": "Design",
+   "key": "Alt, G, T H",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Document",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Basic (Elegant)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Basic (Simple)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Basic (Stylish)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Black & White (Capitalized)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Black & White (Classic)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Black & White (Numbered)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Black & White (Word 2013)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Casual",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Centered",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Lines (Distinctive)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Lines (Simple)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Lines (Stylish)",
+   "ct": "ListItem",
+   "aid": "",
+   "group": "Design",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "SelectionItem"
+   ]
+  },
+  {
+   "name": "Style Set",
+   "ct": "Button",
+   "aid": "",
+   "group": "Design",
+   "key": "Alt, G, S",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Colors",
+   "ct": "MenuItem",
+   "aid": "ThemeColorsGallery",
+   "group": "Design",
+   "key": "Alt, G, T C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Fonts",
+   "ct": "MenuItem",
+   "aid": "ThemeFontsGallery",
+   "group": "Design",
+   "key": "Alt, G, T F",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Paragraph Spacing",
+   "ct": "MenuItem",
+   "aid": "ParagraphSpacing",
+   "group": "Design",
+   "key": "Alt, G, P S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Effects",
+   "ct": "MenuItem",
+   "aid": "ThemeEffectsGallery",
+   "group": "Design",
+   "key": "Alt, G, T E",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Set as Default",
+   "ct": "Button",
+   "aid": "QuickStylesSetAsDefault",
+   "group": "Design",
+   "key": "Alt, G, D",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Watermark",
+   "ct": "MenuItem",
+   "aid": "WatermarkGallery",
+   "group": "Design",
+   "key": "Alt, G, P W",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Page Color",
+   "ct": "MenuItem",
+   "aid": "PageColorPicker",
+   "group": "Design",
+   "key": "Alt, G, P C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Page Borders...",
+   "ct": "Button",
+   "aid": "PageBorderAndShadingDialog",
+   "group": "Design",
+   "key": "Alt, G, P B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "Layout": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Margins",
+   "ct": "MenuItem",
+   "aid": "PageMarginsGallery",
+   "group": "Layout",
+   "key": "Alt, P, M",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Orientation",
+   "ct": "MenuItem",
+   "aid": "PageOrientationGallery",
+   "group": "Layout",
+   "key": "Alt, P, O",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Size",
+   "ct": "MenuItem",
+   "aid": "PageSizeGallery",
+   "group": "Layout",
+   "key": "Alt, P, S Z",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Columns",
+   "ct": "MenuItem",
+   "aid": "TableColumnsGallery",
+   "group": "Layout",
+   "key": "Alt, P, J",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Breaks",
+   "ct": "MenuItem",
+   "aid": "BreaksGallery",
+   "group": "Layout",
+   "key": "Alt, P, B",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line Numbers",
+   "ct": "MenuItem",
+   "aid": "LineNumbersMenu",
+   "group": "Layout",
+   "key": "Alt, P, L N",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Hyphenation",
+   "ct": "MenuItem",
+   "aid": "HyphenationMenu",
+   "group": "Layout",
+   "key": "Alt, P, H",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Page Setup...",
+   "ct": "Button",
+   "aid": "PageSetupDialog",
+   "group": "Layout",
+   "key": "Alt, P, S P",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Less",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "More",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Less",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "More",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Less",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "More",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Less",
+   "ct": "Button",
+   "aid": "",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Paragraph...",
+   "ct": "Button",
+   "aid": "ParagraphDialog",
+   "group": "Layout",
+   "key": "Alt, P, P G",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Position",
+   "ct": "MenuItem",
+   "aid": "PicturePositionGallery",
+   "group": "Layout",
+   "key": "Alt, P, P O",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Wrap Text",
+   "ct": "MenuItem",
+   "aid": "TextWrapGallery",
+   "group": "Layout",
+   "key": "Alt, P, T W",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Bring Forward",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Layout",
+   "key": "Alt, P, A F",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Bring Forward",
+   "ct": "Button",
+   "aid": "ObjectBringForward",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ObjectBringForwardMenu_Dropdown",
+   "group": "Layout",
+   "key": "Alt, P, A F",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Send Backward",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Layout",
+   "key": "Alt, P, A E",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Send Backward",
+   "ct": "Button",
+   "aid": "ObjectSendBackward",
+   "group": "Layout",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ObjectSendBackwardMenu_Dropdown",
+   "group": "Layout",
+   "key": "Alt, P, A E",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Selection Pane...",
+   "ct": "Button",
+   "aid": "SelectionPane",
+   "group": "Layout",
+   "key": "Alt, P, A P",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Align",
+   "ct": "MenuItem",
+   "aid": "ObjectAlignMenu",
+   "group": "Layout",
+   "key": "Alt, P, A A",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Group",
+   "ct": "MenuItem",
+   "aid": "ObjectsGroupMenu",
+   "group": "Layout",
+   "key": "Alt, P, A G",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Rotate",
+   "ct": "MenuItem",
+   "aid": "ObjectRotateGallery",
+   "group": "Layout",
+   "key": "Alt, P, A Y",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line up",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "References": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Table of Contents",
+   "ct": "MenuItem",
+   "aid": "TableOfContentsGallery",
+   "group": "References",
+   "key": "Alt, S, T",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Add Text",
+   "ct": "MenuItem",
+   "aid": "TableOfContentsAddTextGallery",
+   "group": "References",
+   "key": "Alt, S, A",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Update Table...",
+   "ct": "Button",
+   "aid": "TableOfContentsUpdate",
+   "group": "References",
+   "key": "Alt, S, U",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Footnote",
+   "ct": "Button",
+   "aid": "FootnoteInsert",
+   "group": "References",
+   "key": "Alt, S, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Endnote",
+   "ct": "Button",
+   "aid": "EndnoteInsertWord",
+   "group": "References",
+   "key": "Alt, S, E",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Next Footnote",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "References",
+   "key": "Alt, S, O",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Next Footnote",
+   "ct": "Button",
+   "aid": "FootnoteNextWord",
+   "group": "References",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "FootnoteNext_Dropdown",
+   "group": "References",
+   "key": "Alt, S, O",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Show Notes",
+   "ct": "Button",
+   "aid": "FootnotesEndnotesShow",
+   "group": "References",
+   "key": "Alt, S, H",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Footnote and Endnote Dialog...",
+   "ct": "Button",
+   "aid": "FootnoteEndnoteDialog",
+   "group": "References",
+   "key": "Alt, S, Q",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Citation",
+   "ct": "MenuItem",
+   "aid": "CitationInsert",
+   "group": "References",
+   "key": "Alt, S, C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Manage Sources...",
+   "ct": "Button",
+   "aid": "BibliographyManageSources",
+   "group": "References",
+   "key": "Alt, S, M",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Style",
+   "ct": "ComboBox",
+   "aid": "BibliographyStyle",
+   "group": "References",
+   "key": "Alt, S, L",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Style",
+   "ct": "Edit",
+   "aid": "",
+   "group": "References",
+   "key": "Alt, S, L",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Open",
+   "ct": "Button",
+   "aid": "",
+   "group": "References",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Bibliography",
+   "ct": "MenuItem",
+   "aid": "BibliographyGallery",
+   "group": "References",
+   "key": "Alt, S, B",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Change Provider",
+   "ct": "MenuItem",
+   "aid": "OfficeExtensionsCitationGallery",
+   "group": "References",
+   "key": "Alt, S, S P",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Insert Caption...",
+   "ct": "Button",
+   "aid": "CaptionInsert",
+   "group": "References",
+   "key": "Alt, S, P",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Table of Figures...",
+   "ct": "Button",
+   "aid": "TableOfFiguresInsert",
+   "group": "References",
+   "key": "Alt, S, G",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Update Table",
+   "ct": "Button",
+   "aid": "TableOfFiguresUpdate",
+   "group": "References",
+   "key": "Alt, S, V",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Cross-reference...",
+   "ct": "Button",
+   "aid": "CrossReferenceInsert",
+   "group": "References",
+   "key": "Alt, S, R F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Mark Entry...",
+   "ct": "Button",
+   "aid": "IndexMarkEntry",
+   "group": "References",
+   "key": "Alt, S, N",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Index...",
+   "ct": "Button",
+   "aid": "IndexInsert",
+   "group": "References",
+   "key": "Alt, S, X",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Update Index",
+   "ct": "Button",
+   "aid": "IndexUpdate",
+   "group": "References",
+   "key": "Alt, S, D",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Mark Citation...",
+   "ct": "Button",
+   "aid": "CitationMark",
+   "group": "References",
+   "key": "Alt, S, I",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Insert Table of Authorities...",
+   "ct": "Button",
+   "aid": "TableOfAuthoritiesInsert",
+   "group": "References",
+   "key": "Alt, S, R T",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Update Table",
+   "ct": "Button",
+   "aid": "TableOfAuthoritiesUpdate",
+   "group": "References",
+   "key": "Alt, S, R U",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line up",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "Review": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Editor",
+   "ct": "Button",
+   "aid": "WritingAssistanceCheckDocument",
+   "group": "Review",
+   "key": "Alt, R, C 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Spelling and Grammar",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, Q",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Spelling and Grammar",
+   "ct": "Button",
+   "aid": "QuickCheck",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "SplitButtonQuickCheck_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Thesaurus...",
+   "ct": "Button",
+   "aid": "Thesaurus",
+   "group": "Review",
+   "key": "Alt, R, E",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Word Count",
+   "ct": "Button",
+   "aid": "WordCount",
+   "group": "Review",
+   "key": "Alt, R, W",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Read Aloud",
+   "ct": "Button",
+   "aid": "ReadAloud",
+   "group": "Review",
+   "key": "Alt, R, R",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Check Accessibility",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, A 1",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Check Accessibility",
+   "ct": "Button",
+   "aid": "AccessibilityChecker",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "MenuAccessibility_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, A 1",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Translate",
+   "ct": "MenuItem",
+   "aid": "TranslateMenu",
+   "group": "Review",
+   "key": "Alt, R, L",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Language",
+   "ct": "MenuItem",
+   "aid": "LanguageCommands",
+   "group": "Review",
+   "key": "Alt, R, U",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "New Comment",
+   "ct": "Button",
+   "aid": "ReviewNewComment",
+   "group": "Review",
+   "key": "Alt, R, C 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Delete",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, D",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Delete",
+   "ct": "Button",
+   "aid": "ReviewDeleteComment",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ReviewDeleteCommentsMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, D",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Previous",
+   "ct": "Button",
+   "aid": "ReviewPreviousCommentWord",
+   "group": "Review",
+   "key": "Alt, R, V",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Next",
+   "ct": "Button",
+   "aid": "ReviewNextCommentWord",
+   "group": "Review",
+   "key": "Alt, R, N",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Show Comments",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, P 1",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Show Comments",
+   "ct": "Button",
+   "aid": "ShowCommentGutter",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ShowCommentsMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, P 1",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Filter All Markup",
+   "ct": "MenuItem",
+   "aid": "ContentFilterButton",
+   "group": "Review",
+   "key": "Alt, R, F C",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Display for Review",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, T D",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Open",
+   "ct": "Button",
+   "aid": "",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Show Markup",
+   "ct": "MenuItem",
+   "aid": "ReviewShowMarkupMenu",
+   "group": "Review",
+   "key": "Alt, R, T M",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Reviewing Pane",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, T P",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Reviewing Pane",
+   "ct": "Button",
+   "aid": "ReviewReviewingPane",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ReviewReviewingPaneMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, T P",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Change Tracking Options...",
+   "ct": "Button",
+   "aid": "ReviewChangeTrackingOptions",
+   "group": "Review",
+   "key": "Alt, R, O",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Track Changes",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, G",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Track Changes",
+   "ct": "Button",
+   "aid": "ReviewTrackChanges",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ReviewTrackChangesMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, G",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Accept",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, A 2",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Accept and Move to Next",
+   "ct": "Button",
+   "aid": "ReviewAcceptChangeAndMoveToNext",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ReviewAcceptChangeMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, A 2",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Reject",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, J",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Reject and Move to Next",
+   "ct": "Button",
+   "aid": "ReviewRejectChangeAndMoveToNext",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "ReviewRejectChangeMenu_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, J",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Previous",
+   "ct": "Button",
+   "aid": "ReviewPreviousChange",
+   "group": "Review",
+   "key": "Alt, R, F 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Next",
+   "ct": "Button",
+   "aid": "ReviewNextChange",
+   "group": "Review",
+   "key": "Alt, R, H 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Compare",
+   "ct": "MenuItem",
+   "aid": "ReviewCompareMenu",
+   "group": "Review",
+   "key": "Alt, R, M",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Protect",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Hide Ink",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, H 2",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Toggle",
+    "Value"
+   ]
+  },
+  {
+   "name": "Hide Ink",
+   "ct": "Button",
+   "aid": "HideInk",
+   "group": "Review",
+   "key": "",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "HideInkSplitButton_Dropdown",
+   "group": "Review",
+   "key": "Alt, R, H 2",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Linked Notes",
+   "ct": "Button",
+   "aid": "",
+   "group": "Review",
+   "key": "Alt, R, Y",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line up",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ],
+ "View": [
+  {
+   "name": "Task Pane Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Close pane",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Search document",
+   "ct": "Edit",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "Search",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Enter",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "_Dropdown",
+   "group": null,
+   "key": "Alt+Down Arrow",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "AutoSave",
+   "ct": "Button",
+   "aid": "AutoSaveSwitch",
+   "group": null,
+   "key": "Alt, 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Save",
+   "ct": "Button",
+   "aid": "FileSave",
+   "group": null,
+   "key": "Alt, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "SplitButton",
+   "aid": "Undo",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "VBA-Range.Text",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "Undo_Dropdown",
+   "group": null,
+   "key": "Alt, 3",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Can't Repeat",
+   "ct": "Button",
+   "aid": "RedoOrRepeat",
+   "group": null,
+   "key": "Alt, 4",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Customize Quick Access Toolbar",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "‪Document1‬  -  Word",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, B",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Type to search and use the up and down arrow keys to navigate",
+   "ct": "MenuItem",
+   "aid": "TellMeControlAnchor",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Microsoft search",
+   "ct": "Edit",
+   "aid": "TellMeTextBoxAutomationId",
+   "group": null,
+   "key": "Alt, Q",
+   "patterns": [
+    "Value"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "File Tab",
+   "ct": "Button",
+   "aid": "FileTabButton",
+   "group": null,
+   "key": "Alt, F",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Comments",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Editing",
+   "ct": "ComboBox",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z M",
+   "patterns": [
+    "ExpandCollapse",
+    "Value"
+   ]
+  },
+  {
+   "name": "Share",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z S",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Read Mode",
+   "ct": "Button",
+   "aid": "ViewFullScreenReadingView",
+   "group": "View",
+   "key": "Alt, W, F",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Print Layout",
+   "ct": "Button",
+   "aid": "ViewPrintLayoutView",
+   "group": "View",
+   "key": "Alt, W, P",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Web Layout",
+   "ct": "Button",
+   "aid": "ViewWebLayoutView",
+   "group": "View",
+   "key": "Alt, W, L 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Outline",
+   "ct": "Button",
+   "aid": "ViewOutlineView",
+   "group": "View",
+   "key": "Alt, W, U",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Draft",
+   "ct": "Button",
+   "aid": "ViewDraftView",
+   "group": "View",
+   "key": "Alt, W, E",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Focus",
+   "ct": "Button",
+   "aid": "ViewFocusModeView",
+   "group": "View",
+   "key": "Alt, W, O",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Immersive Reader",
+   "ct": "Button",
+   "aid": "ToggleLearningTools",
+   "group": "View",
+   "key": "Alt, W, L 2",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Switch Modes",
+   "ct": "Button",
+   "aid": "DarkModeOn",
+   "group": "View",
+   "key": "Alt, W, M 1",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Vertical",
+   "ct": "Button",
+   "aid": "VerticalPageMovement",
+   "group": "View",
+   "key": "Alt, W, C",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Side to Side",
+   "ct": "Button",
+   "aid": "TwoPageMode",
+   "group": "View",
+   "key": "Alt, W, H",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Ruler",
+   "ct": "CheckBox",
+   "aid": "ViewRulerWord",
+   "group": "View",
+   "key": "Alt, W, R",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Gridlines",
+   "ct": "CheckBox",
+   "aid": "ViewGridlinesWord",
+   "group": "View",
+   "key": "Alt, W, G",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Navigation Pane",
+   "ct": "CheckBox",
+   "aid": "NavigationPaneShowHide",
+   "group": "View",
+   "key": "Alt, W, K",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Zoom...",
+   "ct": "Button",
+   "aid": "ZoomDialog",
+   "group": "View",
+   "key": "Alt, W, Q",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "100%",
+   "ct": "Button",
+   "aid": "ZoomCurrent100",
+   "group": "View",
+   "key": "Alt, W, J",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "One Page",
+   "ct": "Button",
+   "aid": "ZoomOnePage",
+   "group": "View",
+   "key": "Alt, W, 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Multiple Pages",
+   "ct": "Button",
+   "aid": "ZoomTwoPages",
+   "group": "View",
+   "key": "Alt, W, 2",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Page Width",
+   "ct": "Button",
+   "aid": "ZoomPageWidth",
+   "group": "View",
+   "key": "Alt, W, I",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "New Window",
+   "ct": "Button",
+   "aid": "WindowNew",
+   "group": "View",
+   "key": "Alt, W, N",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Arrange All",
+   "ct": "Button",
+   "aid": "WindowsArrangeAll",
+   "group": "View",
+   "key": "Alt, W, A",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Split",
+   "ct": "Button",
+   "aid": "WindowSplit",
+   "group": "View",
+   "key": "Alt, W, S 1",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "View Side by Side",
+   "ct": "Button",
+   "aid": "WindowSideBySide",
+   "group": "View",
+   "key": "Alt, W, B",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Synchronous Scrolling",
+   "ct": "Button",
+   "aid": "WindowSideBySideSynchronousScrolling",
+   "group": "View",
+   "key": "Alt, W, V S",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Reset Window Position",
+   "ct": "Button",
+   "aid": "WindowResetPosition",
+   "group": "View",
+   "key": "Alt, W, T",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Switch Windows",
+   "ct": "MenuItem",
+   "aid": "WindowSwitchWindowsMenuWord",
+   "group": "View",
+   "key": "Alt, W, W",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Macros",
+   "ct": "SplitButton",
+   "aid": "",
+   "group": "View",
+   "key": "Alt, W, M 2",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "View Macros",
+   "ct": "Button",
+   "aid": "MacroPlay",
+   "group": "View",
+   "key": "Alt+F8",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "More Options",
+   "ct": "MenuItem",
+   "aid": "MenuMacros_Dropdown",
+   "group": "View",
+   "key": "Alt, W, M 2",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Properties",
+   "ct": "Button",
+   "aid": "DocumentInformationShowHide",
+   "group": "View",
+   "key": "Alt, W, S P",
+   "patterns": [
+    "Toggle"
+   ]
+  },
+  {
+   "name": "Ribbon Display Options",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Alt, Z R",
+   "patterns": [
+    "ExpandCollapse"
+   ]
+  },
+  {
+   "name": "Line up",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke",
+    "Value"
+   ]
+  },
+  {
+   "name": "System",
+   "ct": "MenuItem",
+   "aid": "",
+   "group": null,
+   "key": "Space",
+   "patterns": [
+    "ExpandCollapse",
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Minimize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Maximize",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  },
+  {
+   "name": "Close",
+   "ct": "Button",
+   "aid": "",
+   "group": null,
+   "key": "",
+   "patterns": [
+    "Invoke"
+   ]
+  }
+ ]
+}

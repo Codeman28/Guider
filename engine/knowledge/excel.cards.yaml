@@ -221,3 +221,15 @@ cards:
       - {id: 2, intent: expand, target: {names: [Orientation], control_type: MenuItem, automation_id: PageOrientationGallery}, expected: {type: expanded}}
       - {id: 3, intent: select_item, target: {names: [Landscape, Ngang], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: sheet.page_orientation, op: eq, value: 2}, unverified: true}
     success_check: {type: com_check, prop: sheet.page_orientation, op: eq, value: 2}
+
+  - id: font_size_up
+    title: Cách tăng cỡ chữ trong Excel
+    keywords: [tăng cỡ chữ, chữ to hơn, phóng to chữ, cỡ chữ, font size, tăng kích thước chữ, chỉnh cỡ chữ]
+    fixture_id: sales_table_basic
+    preconditions: [{type: select_range, ref: "A1:D1"}]
+    example: "Chọn dòng tiêu đề A1:D1 (cỡ chữ 11), nhấn Increase Font Size hai lần, chữ tiêu đề lên cỡ 14 — to và dễ đọc hơn phần dữ liệu."
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 12}}
+      - {id: 3, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 14}, capture_result: true}
+    success_check: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 14}
