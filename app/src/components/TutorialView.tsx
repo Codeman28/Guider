@@ -72,7 +72,7 @@ function Step({ t, s, n, big }: { t: Tutorial; s: TutorialStep; n: number; big: 
 }
 
 export function TutorialView({ t }: { t: Tutorial }) {
-  const { mode, setMode, stepIndex, setStep, exportTutorial } = useApp();
+  const { mode, setMode, stepIndex, setStep, exportTutorial, rewriting } = useApp();
   const [traceOpen, setTraceOpen] = useState(false);
   const i = Math.min(stepIndex[t.tutorial_id] ?? 0, t.steps.length - 1);
 
@@ -92,6 +92,11 @@ export function TutorialView({ t }: { t: Tutorial }) {
       <header className="border-b border-edge pb-4">
         <h1 className="text-title font-bold leading-tight">{t.title}</h1>
         <p className="mt-1 text-small text-lunar">{t.env_label}</p>
+        {rewriting[t.tutorial_id] && (
+          <p role="status" className="mt-1 text-small text-lunar">
+            Guider đang viết lại lời văn cho tự nhiên hơn — bài sẽ tự cập nhật.
+          </p>
+        )}
         <div className="no-print mt-4 flex flex-wrap items-center gap-2 text-small">
           <div role="group" aria-label="Cách đọc" className="flex overflow-hidden rounded-sheet border border-ink">
             {(["article", "steps"] as const).map((m) => (

@@ -99,7 +99,8 @@ export class PreviewTransport implements Transport {
         excel: { ok: true, version: "16.0", build: "preview", ui_lang: "en-US" },
         model: { ok: true, provider: "ollama", model: "preview", missing: [] },
       });
-    if (method === "tutorial.list" || method === "settings.get") return this.reply(id, method === "settings.get" ? {} : []);
+    if (method === "tutorial.list" || method === "settings.get")
+      return this.reply(id, method === "settings.get" ? { provider: "ollama", has_key: { gemini: false } } : []);
     if (method === "tutorial.create") {
       const sid = "preview";
       this.reply(id, { session_id: sid });

@@ -5,9 +5,9 @@ import { StepStack } from "./StepStack";
 
 const EXAMPLES = [
   "Làm sao tạo PivotTable tổng hợp doanh số?",
-  "Cách vẽ biểu đồ cột cho bảng số liệu",
-  "Giữ dòng tiêu đề đứng yên khi cuộn",
-  "Tô màu các ô có giá trị lớn hơn 100",
+  "Giữ dòng tiêu đề Excel đứng yên khi cuộn",
+  "Tạo mục lục tự động trong Word",
+  "Thêm hiệu ứng chuyển trang cho slide PowerPoint",
 ];
 
 const STATUS: Record<string, string> = {
@@ -18,7 +18,8 @@ const STATUS: Record<string, string> = {
 };
 
 export function ChatColumn() {
-  const { chat, demo, ask, cancel, open, tabs } = useApp();
+  const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile } = useApp();
+  const fileName = sourceFile?.split(/[\/]/).pop();
   const [text, setText] = useState("");
   const input = useRef<HTMLTextAreaElement>(null);
   const scroller = useRef<HTMLDivElement>(null);
@@ -105,6 +106,23 @@ export function ChatColumn() {
           </button>
         </div>
       )}
+
+      <div className="mx-5 mb-2 flex flex-none items-center gap-2 text-small">
+        {sourceFile ? (
+          <>
+            <span className="min-w-0 flex-1 truncate" title={sourceFile}>
+              Làm mẫu trên bản sao của <span className="font-medium">{fileName}</span>
+            </span>
+            <button type="button" disabled={!!demo} onClick={clearFile} aria-label="Bỏ chọn file" className="rounded-sheet border border-edge px-2 py-0.5 disabled:opacity-40">
+              Bỏ chọn
+            </button>
+          </>
+        ) : (
+          <button type="button" disabled={!!demo} onClick={() => void pickFile()} className="underline underline-offset-4 disabled:opacity-40">
+            Dùng file của bạn…
+          </button>
+        )}
+      </div>
 
       <form
         className="mx-5 mb-5 flex flex-none gap-2"

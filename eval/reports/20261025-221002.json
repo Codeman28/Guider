@@ -1,0 +1,40 @@
+[
+ {
+  "pass": 1,
+  "id": "w15",
+  "query": "làm lề trang Word hẹp lại",
+  "expect_task": "word_narrow_margins",
+  "task": "word_narrow_margins",
+  "ok": true,
+  "seconds": 21.0,
+  "kind": "tutorial",
+  "status": "ok",
+  "llm_calls": 0,
+  "plan_source": "card",
+  "writer_source": "llm_pending",
+  "steps": 3,
+  "steps_verified": 3,
+  "ambiguous": 0,
+  "answer": null,
+  "path": "D:\\kem\\engine\\.out\\eval-20261025-221002\\tutorials\\20261025-221002-fd042b_word_narrow_margins"
+ },
+ {
+  "pass": 2,
+  "id": "w15",
+  "query": "làm lề trang Word hẹp lại",
+  "expect_task": "word_narrow_margins",
+  "task": "word_narrow_margins",
+  "ok": true,
+  "seconds": 21.4,
+  "kind": "tutorial",
+  "status": "ok",
+  "llm_calls": 0,
+  "plan_source": "recipe",
+  "writer_source": "recipe",
+  "steps": 3,
+  "steps_verified": 3,
+  "ambiguous": 0,
+  "answer": null,
+  "path": "D:\\kem\\engine\\.out\\eval-20261025-221002\\tutorials\\20261025-221054-f341ff_word_narrow_margins"
+ }
+]

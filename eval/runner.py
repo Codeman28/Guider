@@ -24,6 +24,8 @@ def main() -> int:
     ap.add_argument("--no-cards", action="store_true")
     ap.add_argument("--no-replay", action="store_true")
     ap.add_argument("--tasks", default="tasks.yaml", help="task file in eval/ (tasks_word.yaml, …)")
+    ap.add_argument("--defer-writer", action="store_true",
+                    help="as in the app (ADR-0003): time to tutorial.done, LLM Writer in background")
     args = ap.parse_args()
     for s in (sys.stdout, sys.stderr):
         s.reconfigure(encoding="utf-8")
@@ -51,9 +53,12 @@ def main() -> int:
     passes = [1] if args.no_replay else [1, 2]
     for p in passes:
         for t in tasks:
+            for b in svc.background:  # let the previous background Writer finish outside the timing
+                b.join(120)
             t0 = time.monotonic()
             try:
-                r = svc.create(t["query"], success_check=cards[t["expect_task"]].to_plan().success_check)
+                r = svc.create(t["query"], success_check=cards[t["expect_task"]].to_plan().success_check,
+                               on_text_updated=(lambda tid: None) if args.defer_writer else None)
                 d = r.to_dict()
             except Exception as e:  # keep going; record the crash
                 d = {"kind": "error", "answer": repr(e)}

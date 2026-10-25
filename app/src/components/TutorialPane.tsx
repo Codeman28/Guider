@@ -3,6 +3,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { Cross } from "../lib/icons";
 import { useApp } from "../stores/app";
 import { Library } from "./Library";
+import { Settings } from "./Settings";
 import { TutorialView } from "./TutorialView";
 
 export function TutorialPane() {
@@ -14,6 +15,9 @@ export function TutorialPane() {
         <Tabs.List aria-label="Hướng dẫn đã mở" className="no-print flex min-h-14 flex-none items-end gap-1 overflow-x-auto px-6 pt-2">
           <Tabs.Trigger value="library" className="px-4 py-2.5 text-small text-ink data-[state=active]:border-t-4 data-[state=active]:border-glue data-[state=active]:bg-paper data-[state=active]:font-medium data-[state=inactive]:bg-edge">
             Thư viện
+          </Tabs.Trigger>
+          <Tabs.Trigger value="settings" className="px-4 py-2.5 text-small text-ink data-[state=active]:border-t-4 data-[state=active]:border-glue data-[state=active]:bg-paper data-[state=active]:font-medium data-[state=inactive]:bg-edge">
+            Cài đặt
           </Tabs.Trigger>
           {tabs.map((t) => (
             <div key={t.id} className="flex items-stretch">
@@ -28,6 +32,9 @@ export function TutorialPane() {
         </Tabs.List>
         <Tabs.Content value="library" className="min-h-0 flex-1 overflow-y-auto bg-paper">
           <Library />
+        </Tabs.Content>
+        <Tabs.Content value="settings" className="min-h-0 flex-1 overflow-y-auto bg-paper">
+          <Settings />
         </Tabs.Content>
         {tabs.map((t) => (
           <Tabs.Content key={t.id} value={t.id} className="min-h-0 flex-1 overflow-y-auto bg-paper">

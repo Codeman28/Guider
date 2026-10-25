@@ -18,6 +18,7 @@ fn engine_status(engine: tauri::State<'_, Engine>) -> String {
 
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init()) // "Chọn file của bạn" (ADR-0003): open dialog only
         .setup(|app| {
             let engine = Engine::spawn(app.handle().clone());
             app.manage(engine);

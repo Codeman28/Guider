@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { RpcClient, RpcError } from "../rpc/client";
-import type { CreateResult, Progress, SystemCheck, Tutorial, TutorialMeta } from "../rpc/types";
+import type { CloudCheck, CreateResult, Progress, Settings, SystemCheck, Tutorial, TutorialMeta } from "../rpc/types";
 
 export interface DoneStep {
   n: number;
@@ -61,6 +61,11 @@ interface State {
   mode: ViewMode;
   stepIndex: Record<string, number>;
   notice: string | null;
+  sourceFile: string | null; // user-file mode (ADR-0003): Guider demonstrates on a private copy
+  rewriting: Record<string, boolean>; // tutorial ids whose text the background Writer is still improving
+  settings: Settings | null;
+  cloud: CloudCheck | null;
+  savingCloud: boolean;
 
   init(client: RpcClient): void;
   runCheck(): Promise<void>;
@@ -76,7 +81,15 @@ interface State {
   exportTutorial(id: string, format: "md" | "html"): Promise<string | null>;
   onProgress(p: Progress): void;
   onDone(r: CreateResult): void;
+  onUpdated(id: string): Promise<void>;
+  pickFile(): Promise<void>;
+  clearFile(): void;
+  loadSettings(): Promise<void>;
+  useProvider(p: "ollama" | "gemini"): Promise<void>;
+  saveGeminiKey(key: string): Promise<void>;
 }
+
+const FILE_TYPES = ["xlsx", "xlsm", "xls", "csv", "docx", "docm", "doc", "pptx", "pptm", "ppt"];
 
 export const useApp = create<State>((set, get) => ({
   client: null,
@@ -94,12 +107,19 @@ export const useApp = create<State>((set, get) => ({
   mode: "article",
   stepIndex: {},
   notice: null,
+  sourceFile: null,
+  rewriting: {},
+  settings: null,
+  cloud: null,
+  savingCloud: false,
 
   init(client) {
     set({ client });
     client.on("tutorial.progress", (p: Progress) => get().onProgress(p));
     client.on("tutorial.done", (r: CreateResult) => get().onDone(r));
+    client.on("tutorial.updated", (u: { tutorial_id: string }) => void get().onUpdated(u.tutorial_id));
     void get().refreshLibrary();
+    void get().loadSettings();
   },
 
   async runCheck() {
@@ -129,7 +149,8 @@ export const useApp = create<State>((set, get) => ({
       demo: { sid: null, question: q, startedAt: Date.now(), phase: "planning", current: null, done: [], recovered: false },
     }));
     try {
-      const { session_id } = await c.call<{ session_id: string }>("tutorial.create", { query: q });
+      const file = get().sourceFile;
+      const { session_id } = await c.call<{ session_id: string }>("tutorial.create", file ? { query: q, source_file: file } : { query: q });
       set((s) => (s.demo ? { demo: { ...s.demo, sid: session_id } } : {}));
     } catch (e) {
       const busy = e instanceof RpcError && e.code === -32001;
@@ -172,14 +193,88 @@ export const useApp = create<State>((set, get) => ({
     if (d?.sid && r.session_id !== d.sid) return;
     const seconds = Math.round((Date.now() - (d?.startedAt ?? Date.now())) / 1000);
     if (r.kind === "tutorial" && r.tutorial_id) {
+      const pending = r.writer_source === "llm_pending";
       set((s) => ({
         demo: null,
+        rewriting: pending ? { ...s.rewriting, [r.tutorial_id!]: true } : s.rewriting,
         chat: [...s.chat, { kind: "result", tutorialId: r.tutorial_id!, status: r.status ?? "ok", steps: d?.done.length ?? 0, seconds }],
       }));
       void get().open(r.tutorial_id);
       void get().refreshLibrary();
     } else {
       set((s) => ({ demo: null, chat: [...s.chat, { kind: "answer", text: r.answer ?? "Guider chưa trả lời được câu này." }] }));
+    }
+  },
+
+  async onUpdated(id) {
+    // the background Writer replaced the template text: reload the tutorial if it is loaded
+    const c = get().client;
+    set((s) => {
+      const { [id]: _, ...rest } = s.rewriting;
+      return { rewriting: rest };
+    });
+    if (!c || !get().tutorials[id]) return;
+    try {
+      const t = await c.call<Tutorial>("tutorial.get", { tutorial_id: id });
+      set((s) => ({
+        tutorials: { ...s.tutorials, [id]: t },
+        tabs: s.tabs.map((x) => (x.id === id ? { ...x, title: t.title } : x)),
+      }));
+    } catch {
+      /* keep the template text that is already on screen */
+    }
+  },
+
+  async pickFile() {
+    try {
+      const { open } = await import("@tauri-apps/plugin-dialog");
+      const picked = await open({
+        multiple: false,
+        directory: false,
+        title: "Chọn file để Guider làm mẫu (Guider dùng bản sao, không sửa file này)",
+        filters: [{ name: "Excel, Word, PowerPoint", extensions: FILE_TYPES }],
+      });
+      if (typeof picked === "string") set({ sourceFile: picked });
+    } catch (e) {
+      set({ notice: `Không mở được hộp chọn file: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  clearFile: () => set({ sourceFile: null }),
+
+  async loadSettings() {
+    const c = get().client;
+    if (!c) return;
+    try {
+      set({ settings: await c.call<Settings>("settings.get") });
+    } catch {
+      /* settings are optional: the local model stays the default */
+    }
+  },
+
+  async useProvider(p) {
+    const c = get().client;
+    if (!c) return;
+    try {
+      set({ settings: await c.call<Settings>("settings.set", { provider: p }), cloud: null });
+    } catch (e) {
+      set({ notice: `Không đổi được model: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async saveGeminiKey(key) {
+    const c = get().client;
+    if (!c) return;
+    set({ savingCloud: true, cloud: null });
+    try {
+      await c.call("settings.set_api_key", { provider: "gemini", key: key.trim() || null });
+      const cloud = key.trim() ? await c.call<CloudCheck>("settings.check_cloud", { provider: "gemini" }) : null;
+      set({ cloud, settings: await c.call<Settings>("settings.get") });
+      if (cloud?.ok) await get().useProvider("gemini");
+    } catch (e) {
+      set({ cloud: { ok: false, error: e instanceof Error ? e.message : String(e) } });
+    } finally {
+      set({ savingCloud: false });
     }
   },
 

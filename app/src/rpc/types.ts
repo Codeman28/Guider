@@ -20,6 +20,7 @@ export interface CreateResult {
   path?: string | null;
   llm_calls?: number;
   seconds?: number;
+  writer_source?: string | null; // "llm_pending": template text now, tutorial.updated follows
 }
 
 export interface TutorialStep {
@@ -42,6 +43,7 @@ export interface TraceStep {
   grounding_score?: number | null;
   inserted_reason?: string | null;
   error?: string | null;
+  verify_note?: string | null;
 }
 
 export interface Tutorial {
@@ -53,7 +55,7 @@ export interface Tutorial {
   env_label: string;
   status: "ok" | "partial" | "failed" | "cancelled";
   dir: string;
-  trace?: { llm_calls?: number; steps: TraceStep[] };
+  trace?: { llm_calls?: number; user_file?: boolean; steps: TraceStep[] };
 }
 
 export interface TutorialMeta {
@@ -69,4 +71,16 @@ export interface TutorialMeta {
 export interface SystemCheck {
   excel: { ok: boolean; version?: string; build?: string; ui_lang?: string; error?: string };
   model: { ok: boolean; provider?: string; model?: string; missing?: string[]; error?: string; note?: string };
+}
+
+export interface Settings {
+  provider?: "ollama" | "gemini";
+  has_key: { gemini: boolean };
+}
+
+export interface CloudCheck {
+  ok: boolean;
+  model?: string;
+  seconds?: number;
+  error?: string;
 }

@@ -156,5 +156,5 @@ cards:
     steps:
       - {id: 1, intent: select_ribbon_tab, target: {names: [Layout, Bố cục], control_type: TabItem}, expected: {type: tab_selected}}
       - {id: 2, intent: expand, target: {names: [Margins, Lề], control_type: MenuItem, automation_id: PageMarginsGallery}, expected: {type: expanded}}
-      - {id: 3, intent: select_item, target: {names: [Narrow, Hẹp], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}, capture_result: true, unverified: true}
+      - {id: 3, intent: select_item, target: {names: [Narrow Margins, Lề Hẹp], control_type: ListItem}, expected: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}, capture_result: true}
     success_check: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}
