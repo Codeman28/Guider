@@ -104,7 +104,7 @@ def ground(target: Target, intent: Intent, elements: list[Element],
     aliases = aliases if aliases is not None else load_aliases()
     types = _types(target.control_type)
     wanted = expand_names(target.names, aliases)
-    pool = [e for e in elements if e.enabled and e.control_type in types]
+    pool = [e for e in elements if (e.enabled or target.allow_disabled) and e.control_type in types]
 
     containers = _containers(target, elements, aliases)
     if containers:  # group visible on the ribbon → only accept elements inside it

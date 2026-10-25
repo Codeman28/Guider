@@ -3,8 +3,7 @@
 # Items inside a menu/gallery are `unverified: true` until an eval run has grounded them. Vietnamese
 # names are unverified aliases (no VI-UI Office on the build machine yet). Fixture: word_report_basic
 # (6 paragraphs: p1 title, p2 "Giới thiệu" (Heading 1), p3 body, p4 "Kết quả" (Heading 1), p5, p6 body).
-# Not carded: inserting a table — Word reports the 'NxM Table' grid cells as disabled over UIA and
-# invoking 'Insert Table...' does not open its dialog (Phase 4 eval, see docs/phase4/ACCEPTANCE.md).
+# Table grid cells ('NxM Table') report disabled over UIA but act on Invoke → `allow_disabled: true`.
 version: 1
 app: word
 cards:
@@ -98,6 +97,17 @@ cards:
       - {id: 3, intent: select_item, target: {names: [Landscape, Ngang], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.page.orientation, op: eq, value: 1}, capture_result: true, unverified: true}
     success_check: {type: com_check, prop: word.page.orientation, op: eq, value: 1}
 
+  - id: word_table
+    title: Cách chèn bảng 3 cột 3 dòng trong Word
+    keywords: [chèn bảng, tạo bảng, insert table, kẻ bảng, thêm bảng]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p6"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Table, Bảng], control_type: MenuItem, automation_id: TableInsertGallery}, expected: {type: expanded}}
+      - {id: 3, intent: invoke, target: {names: [3x3 Table, Bảng 3x3], control_type: ListItem, allow_disabled: true}, expected: {type: com_check, prop: word.tables, op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: word.tables, op: gte, value: 1}
+
   - id: word_toc
     title: Cách chèn mục lục tự động trong Word
     keywords: [mục lục, mục lục tự động, table of contents, toc, tạo mục lục]
@@ -108,3 +118,43 @@ cards:
       - {id: 2, intent: expand, target: {names: [Table of Contents, Mục lục], control_type: MenuItem, automation_id: TableOfContentsGallery}, expected: {type: expanded}}
       - {id: 3, intent: select_item, target: {names: [Automatic Table 1, Bảng Tự động 1], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.toc, op: gte, value: 1}, capture_result: true, unverified: true}
     success_check: {type: com_check, prop: word.toc, op: gte, value: 1}
+
+  - id: word_strikethrough
+    title: Cách gạch ngang chữ trong Word
+    keywords: [gạch ngang, gạch giữa chữ, strikethrough, gạch bỏ chữ]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p6"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Strikethrough, Gạch ngang], control_type: Button, automation_id: Strikethrough, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.strike, ref: "6", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.strike, ref: "6", op: "true"}
+
+  - id: word_page_break
+    title: Cách ngắt trang (sang trang mới) trong Word
+    keywords: [ngắt trang, sang trang mới, page break, qua trang mới, chèn trang mới]
+    fixture_id: word_report_basic
+    preconditions: [{type: select_range, ref: "p4"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Insert, Chèn], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Page Break, Ngắt Trang], control_type: Button, automation_id: PageBreakInsertWord, within: {names: [Pages, Trang], control_type: Group}}, expected: {type: com_check, prop: word.pages, op: gte, value: 2}, capture_result: true}
+    success_check: {type: com_check, prop: word.pages, op: gte, value: 2}
+
+  - id: word_two_columns
+    title: Cách chia văn bản thành 2 cột trong Word
+    keywords: [chia cột, hai cột, 2 cột, columns, chia văn bản thành cột]
+    fixture_id: word_report_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Layout, Bố cục], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Columns, Cột], control_type: MenuItem, automation_id: TableColumnsGallery}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Two, Hai], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.page.columns, op: eq, value: 2}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: word.page.columns, op: eq, value: 2}
+
+  - id: word_narrow_margins
+    title: Cách thu hẹp lề trang (Narrow) trong Word
+    keywords: [lề trang, căn lề, margins, lề hẹp, chỉnh lề, thu hẹp lề]
+    fixture_id: word_report_basic
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Layout, Bố cục], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Margins, Lề], control_type: MenuItem, automation_id: PageMarginsGallery}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Narrow, Hẹp], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: word.page.left_margin, op: eq, value: 36}

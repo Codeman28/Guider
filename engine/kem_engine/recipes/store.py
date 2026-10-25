@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import threading
 import time
 from pathlib import Path
 
@@ -47,6 +48,7 @@ class Store:
     def __init__(self, path: Path | None = None):
         self.path = path or default_db()
         self.db = sqlite3.connect(self.path, check_same_thread=False)
+        self.lock = threading.RLock()  # the background Writer (ADR-0003) shares this connection
         self.db.executescript("""
             CREATE TABLE IF NOT EXISTS recipes (
               key TEXT PRIMARY KEY, app TEXT, task TEXT, plan_json TEXT, knowledge_version TEXT,
@@ -65,12 +67,20 @@ class Store:
             return False
         env = trace.env
         p = plan_with_locators(plan, trace)
-        self.db.execute("INSERT OR REPLACE INTO recipes VALUES (?,?,?,?,?,?,?,?,?,0,?)",
-                        (recipe_key(plan.app, plan.task_canonical, env), plan.app, plan.task_canonical,
-                         p.model_dump_json(), knowledge_version, env.office_build, env.ui_lang, env.scale_pct,
-                         time.time(), tutorial.model_dump_json() if tutorial else None))
-        self.db.commit()
+        with self.lock:
+            self.db.execute("INSERT OR REPLACE INTO recipes VALUES (?,?,?,?,?,?,?,?,?,0,?)",
+                            (recipe_key(plan.app, plan.task_canonical, env), plan.app, plan.task_canonical,
+                             p.model_dump_json(), knowledge_version, env.office_build, env.ui_lang, env.scale_pct,
+                             time.time(), tutorial.model_dump_json() if tutorial else None))
+            self.db.commit()
         return True
+
+    def update_recipe_text(self, app: str, task: str, env: EnvProfile, tutorial: Tutorial):
+        """The background Writer finished: keep its text with the recipe for the next replay."""
+        with self.lock:
+            self.db.execute("UPDATE recipes SET tutorial_json=? WHERE key=?",
+                            (tutorial.model_dump_json(), recipe_key(app, task, env)))
+            self.db.commit()
 
     def get_recipe(self, app: str, task: str, env: EnvProfile) -> tuple[Plan, Tutorial | None] | None:
         """(plan, stored tutorial text) — the text is reused on replay when the steps come out the same."""

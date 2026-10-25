@@ -21,11 +21,13 @@ base_url = "https://openrouter.ai/api/v1"
 api_key_env = "OPENROUTER_API_KEY"
 models = []              # "<id>:free" entries — TODO(verify): https://openrouter.ai/models?q=free
 
-[gemini]                 # optional; the UI must warn about free-tier data use before enabling
-enabled = false
-base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"  # TODO(verify) OpenAI-compat endpoint
-api_key_env = "GEMINI_API_KEY"
-model = ""               # TODO(verify): current flash / flash-lite id
+[gemini]                 # optional (ADR-0003): the user picks it in Settings and pastes their own AI Studio key
+enabled = false          # turned on by the app's choice (settings.json "provider"); key stored with DPAPI
+base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"  # checked 25/10/2026 on ai.google.dev/gemini-api/docs/openai
+api_key_env = "GEMINI_API_KEY"   # optional developer override; the app uses secrets.bin
+model = "gemini-3.5-flash-lite"  # stable, free tier (ai.google.dev/gemini-api/docs/models, 25/10/2026)
+reasoning_effort = "low"         # Gemini 3 cannot turn thinking off; "low" keeps it short
+timeout_s = 30
 
 [budget]
 max_llm_calls_per_tutorial = 3

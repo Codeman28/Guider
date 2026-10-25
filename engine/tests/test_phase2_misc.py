@@ -215,7 +215,7 @@ class FakeService:
         self.store = store
         self.done = done
 
-    def create(self, query, app_hint, progress, cancel_event):
+    def create(self, query, app_hint, progress, cancel_event, on_text_updated=None, source_file=None):
         from kem_engine.orchestrator.service import CreateResult
         progress({"state": "PLAN", "message": "x"})
         if self.done:
@@ -288,7 +288,8 @@ def test_rpc_list_get_export_settings(tmp_path):
     assert m[2]["result"]["dir"] == str(d)
     assert m[3]["result"]["path"].endswith("tutorial.html")
     assert m[4]["error"]["code"] == -32602
-    assert m[5]["result"] == {} and m[7]["result"] == {"accent": "#123456"}
+    assert m[5]["result"] == {"has_key": {"gemini": False}}
+    assert m[7]["result"] == {"accent": "#123456", "has_key": {"gemini": False}}
     assert m[8]["result"] == {"ok": False}
     assert len(m) == 8  # the notification without id got no reply
 

@@ -58,6 +58,12 @@ def test_disabled_elements_are_ignored(make_el):
     assert r.element is None and r.repair is None
 
 
+def test_allow_disabled_opt_in_for_reviewed_cards(make_el):
+    els = [make_el(1, "3x3 Table", "ListItem", patterns=["Invoke"], enabled=False)]
+    r = ground(Target(names=["3x3 Table"], control_type="ListItem", allow_disabled=True), "invoke", els, ALIASES)
+    assert r.element is not None and r.element.name == "3x3 Table"
+
+
 def test_collapsed_group_proposes_expand_repair(make_el):
     els = [make_el(1, "Insert", "TabItem", patterns=["SelectionItem"]),
            make_el(2, "Tables", "MenuItem", (10, 100, 80, 220), patterns=["ExpandCollapse"])]

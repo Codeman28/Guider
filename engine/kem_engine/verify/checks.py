@@ -98,6 +98,10 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "word.toc": lambda d, r: int(d.TablesOfContents.Count),
     "word.page_numbers": lambda d, r: int(d.Sections(1).Footers(1).PageNumbers.Count)
     + int(d.Sections(1).Headers(1).PageNumbers.Count),
+    "word.pages": lambda d, r: int(d.ComputeStatistics(2)),  # wdStatisticPages
+    "word.par.font.strike": lambda d, r: int(d.Paragraphs(int(r)).Range.Font.StrikeThrough),
+    "word.page.columns": lambda d, r: int(d.PageSetup.TextColumns.Count),
+    "word.page.left_margin": lambda d, r: round(float(d.PageSetup.LeftMargin)),  # points; Narrow = 36
     # PowerPoint (doc = Presentation; ref = slide number, or "slide.shape")
     "ppt.slides": lambda d, r: int(d.Slides.Count),
     "ppt.slide.shapes": lambda d, r: int(d.Slides(int(r)).Shapes.Count),
@@ -109,6 +113,9 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "ppt.shape.bullet_type": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Bullet.Type),  # 2 = numbered
     "ppt.shape.alignment": lambda d, r: int(_ppt_shape(d, r).TextFrame.TextRange.ParagraphFormat.Alignment),
     "ppt.slide.has_picture_or_chart": lambda d, r: any(int(s.Type) in (3, 13) for s in d.Slides(int(r)).Shapes),
+    "ppt.shape.font.strike": lambda d, r: int(_ppt_shape(d, r).TextFrame2.TextRange.Font.Strike),  # 0 = none
+    "ppt.slide.layout": lambda d, r: int(d.Slides(int(r)).Layout),  # 11 = ppLayoutTitleOnly
+    "ppt.slide.hidden": lambda d, r: int(d.Slides(int(r)).SlideShowTransition.Hidden),
 }
 
 

@@ -105,3 +105,45 @@ cards:
       - {id: 1, intent: select_ribbon_tab, target: {names: [Animations, Hoạt hình], control_type: TabItem}, expected: {type: tab_selected}}
       - {id: 2, intent: select_item, target: {names: [Appear, Xuất hiện], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.animations, ref: "3", op: gte, value: 1}, capture_result: true}
     success_check: {type: com_check, prop: ppt.slide.animations, ref: "3", op: gte, value: 1}
+
+  - id: ppt_strikethrough
+    title: Cách gạch ngang chữ trong PowerPoint
+    keywords: [gạch ngang, gạch giữa chữ, strikethrough, gạch bỏ chữ]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3.2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Strikethrough, Gạch ngang], control_type: Button, automation_id: Strikethrough, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: ppt.shape.font.strike, ref: "3.2", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.shape.font.strike, ref: "3.2", op: gte, value: 1}
+
+  - id: ppt_layout_title_only
+    title: Cách đổi bố cục trang chiếu sang "Chỉ tiêu đề" trong PowerPoint
+    keywords: [bố cục slide, đổi bố cục, layout, title only, chỉ tiêu đề, đổi layout]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Layout, Bố trí], control_type: MenuItem, automation_id: SlideLayoutGallery, within: {names: [Slides, Trang chiếu], control_type: Group}}, expected: {type: expanded}}
+      - {id: 3, intent: select_item, target: {names: [Title Only, Chỉ Tiêu đề], control_type: ListItem|MenuItem|Button}, expected: {type: com_check, prop: ppt.slide.layout, ref: "3", op: eq, value: 11}, capture_result: true, unverified: true}
+    success_check: {type: com_check, prop: ppt.slide.layout, ref: "3", op: eq, value: 11}
+
+  - id: ppt_hide_slide
+    title: Cách ẩn một trang chiếu khi trình chiếu trong PowerPoint
+    keywords: [ẩn slide, ẩn trang chiếu, hide slide, không chiếu slide]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s3"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Slide Show, Trình Chiếu], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: invoke, target: {names: [Hide Slide, Ẩn Trang chiếu], control_type: Button, automation_id: HideSlide}, expected: {type: com_check, prop: ppt.slide.hidden, ref: "3", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.hidden, ref: "3", op: "true"}
+
+  - id: ppt_transition_apply_all
+    title: Cách áp dụng một hiệu ứng chuyển trang cho tất cả slide trong PowerPoint
+    keywords: [áp dụng cho tất cả, tất cả slide, apply to all, cùng hiệu ứng cho mọi slide, mọi trang chiếu]
+    fixture_id: ppt_deck_basic
+    preconditions: [{type: select_range, ref: "s2"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Transitions, Chuyển tiếp], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 2, intent: select_item, target: {names: [Fade, Mờ dần], control_type: ListItem}, expected: {type: com_check, prop: ppt.slide.transition, ref: "2", op: gte, value: 1}}
+      - {id: 3, intent: invoke, target: {names: [Apply To All, Áp dụng cho Tất cả], control_type: Button, automation_id: SlideTransitionApplyToAll}, expected: {type: com_check, prop: ppt.slide.transition, ref: "1", op: gte, value: 1}, capture_result: true}
+    success_check: {type: com_check, prop: ppt.slide.transition, ref: "1", op: gte, value: 1}

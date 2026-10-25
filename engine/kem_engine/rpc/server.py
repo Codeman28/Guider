@@ -15,6 +15,7 @@ PARSE_ERROR, INVALID_REQUEST, METHOD_NOT_FOUND, INVALID_PARAMS, INTERNAL = -3270
 BUSY = -32001
 
 SETTINGS_KEYS = {"provider", "planner_model", "writer_model", "accent", "output_lang"}
+PROVIDERS = {"ollama", "gemini"}  # choices the app offers (ADR-0003)
 
 
 class RpcError(Exception):
@@ -30,8 +31,12 @@ def check_model() -> dict:
     try:
         cfg = LLMConfig.load()
         conf = cfg.providers.get(cfg.provider)
-        if conf is None or not conf.is_local:
-            return {"ok": True, "provider": cfg.provider, "note": "cloud provider"}
+        if conf is not None and not conf.is_local:
+            ok = conf.api_key() is not None
+            return {"ok": ok, "provider": cfg.provider, "model": conf.models[0] if conf.models else "",
+                    **({} if ok else {"error": "Chưa nhập API key cho " + cfg.provider})}
+        if conf is None:
+            return {"ok": False, "provider": cfg.provider, "error": "Provider không có trong cấu hình"}
         with urllib.request.urlopen(conf.base_url.rstrip("/") + "/api/tags", timeout=3) as r:
             names = {m["name"] for m in json.loads(r.read()).get("models", [])}
         wanted = {cfg.planner_model, cfg.writer_model}
@@ -59,6 +64,7 @@ class Server:
             "tutorial.list": self.tutorial_list, "tutorial.export": self.tutorial_export,
             "settings.get": self.settings_get, "settings.set": self.settings_set,
             "system.check": self.system_check,
+            "settings.set_api_key": self.settings_set_api_key, "settings.check_cloud": self.settings_check_cloud,
         }
 
     @staticmethod
@@ -117,6 +123,11 @@ class Server:
         query = params.get("query")
         if not isinstance(query, str) or not query.strip():
             raise RpcError(INVALID_PARAMS, "query is required")
+        source_file = params.get("source_file")
+        if source_file is not None:
+            from ..sandbox.office import app_for_file
+            if not isinstance(source_file, str) or app_for_file(source_file) is None or not Path(source_file).is_file():
+                raise RpcError(INVALID_PARAMS, "Chỉ chọn được file Excel, Word hoặc PowerPoint có trên máy.")
         if not self._lock.acquire(blocking=False):
             raise RpcError(BUSY, "Guider đang làm mẫu một tutorial khác")
         import uuid
@@ -132,7 +143,10 @@ class Server:
             import pythoncom
             pythoncom.CoInitializeEx(0)  # COINIT_MULTITHREADED — same apartment as the UIA stack
             try:
-                res = self.service.create(query, params.get("app_hint"), progress=progress, cancel_event=cancel)
+                res = self.service.create(query, params.get("app_hint"), progress=progress, cancel_event=cancel,
+                                          source_file=source_file,
+                                          on_text_updated=lambda tid: self.notify("tutorial.updated",
+                                                                                  {"tutorial_id": tid}))
                 self.notify("tutorial.done", {"session_id": sid, **res.to_dict()})
             except Exception as e:  # report, never crash the server
                 traceback.print_exc(file=sys.stderr)
@@ -165,10 +179,11 @@ class Server:
         trace = p / "trace.json"
         if trace.exists():  # "Xem Guider đã làm gì" (SPEC §8): what was clicked, verified, retried
             t = json.loads(trace.read_text(encoding="utf-8"))
-            data["trace"] = {"env": t.get("env"), "llm_calls": t.get("llm_calls"),
+            data["trace"] = {"env": t.get("env"), "llm_calls": t.get("llm_calls"), "user_file": t.get("user_file", False),
                              "steps": [{k: s.get(k) for k in ("id", "intent", "element_name", "control_type",
                                                              "verified", "attempts", "grounding_score",
-                                                             "inserted_reason", "error")} for s in t.get("steps", [])]}
+                                                             "inserted_reason", "error", "verify_note")}
+                                       for s in t.get("steps", [])]}
         return data
 
     def tutorial_list(self, params):
@@ -182,19 +197,59 @@ class Server:
             raise RpcError(INVALID_PARAMS, str(e)) from e
 
     def settings_get(self, params):
-        if self.settings_path.exists():
-            return json.loads(self.settings_path.read_text(encoding="utf-8"))
-        return {}
+        from ..llm.secrets import has_key
+        cur = json.loads(self.settings_path.read_text(encoding="utf-8")) if self.settings_path.exists() else {}
+        return {**cur, "has_key": {p: has_key(p) for p in PROVIDERS - {"ollama"}}}  # never the key itself
 
     def settings_set(self, params):
         bad = set(params) - SETTINGS_KEYS
         if bad:
             raise RpcError(INVALID_PARAMS, f"unknown settings: {sorted(bad)}")
+        if "provider" in params and params["provider"] not in PROVIDERS:
+            raise RpcError(INVALID_PARAMS, f"unknown provider: {params['provider']}")
         cur = self.settings_get({})
+        cur.pop("has_key", None)
         cur.update(params)
         self.settings_path.parent.mkdir(parents=True, exist_ok=True)
         self.settings_path.write_text(json.dumps(cur, ensure_ascii=False, indent=2), encoding="utf-8")
-        return cur
+        return self.settings_get({})
+
+    def settings_set_api_key(self, params):
+        """The user pastes their own key; stored with DPAPI, never echoed back or logged."""
+        from ..llm.secrets import set_key
+        provider, key = params.get("provider"), params.get("key")
+        if provider not in PROVIDERS - {"ollama"}:
+            raise RpcError(INVALID_PARAMS, "unknown cloud provider")
+        if key is not None and (not isinstance(key, str) or len(key) > 512):
+            raise RpcError(INVALID_PARAMS, "invalid key")
+        set_key(provider, key)
+        return {"ok": True}
+
+    def settings_check_cloud(self, params):
+        """One tiny call to the cloud provider (no user data) so the app can say whether the key works."""
+        import time
+
+        from pydantic import BaseModel
+
+        from ..llm.client import Budget, LLMClient
+        from ..llm.config import LLMConfig
+        from ..llm.providers.openai_compat import OpenAICompatProvider
+
+        class Ping(BaseModel):
+            ok: bool
+
+        provider = params.get("provider", "gemini")
+        cfg = LLMConfig.load()
+        conf = cfg.providers.get(provider)
+        if conf is None or conf.is_local:
+            raise RpcError(INVALID_PARAMS, "unknown cloud provider")
+        client = LLMClient(cfg, providers=[OpenAICompatProvider(conf)], budget=Budget(2))
+        t0 = time.monotonic()
+        try:
+            client.complete("writer", "Trả JSON {\"ok\": true}.", {"ping": True}, Ping, max_repairs=0)
+            return {"ok": True, "model": conf.models[0] if conf.models else "", "seconds": round(time.monotonic() - t0, 1)}
+        except Exception as e:
+            return {"ok": False, "error": str(e)[:300]}
 
     # ---- dispatch --------------------------------------------------------------------------
     def handle_line(self, line: str):
@@ -238,6 +293,8 @@ class Server:
             ev.set()
         for t in self.workers:
             t.join(timeout)
+        for t in getattr(self._service, "background", []):  # deferred Writer: brief grace, never blocks quit
+            t.join(5.0)
 
 
 def main():

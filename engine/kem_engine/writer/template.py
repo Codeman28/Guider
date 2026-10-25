@@ -48,8 +48,9 @@ def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
     return f"{s.intent} {n}", f"Thực hiện {s.intent} với {n}."
 
 
-def env_label(env: EnvProfile) -> str:
-    return f"Chụp trên {APP_NAME.get(env.app, env.app)} của bạn · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
+def env_label(env: EnvProfile, user_file: bool = False) -> str:
+    where = "bản sao file của bạn" if user_file else f"{APP_NAME.get(env.app, env.app)} của bạn"
+    return f"Chụp trên {where} · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
 
 
 def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
@@ -68,12 +69,15 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
                                   demonstrated=s.verified))
     intro = (f"Hướng dẫn này được Guider làm mẫu ngay trên {app} trong Microsoft 365 của bạn, "
              "nên các nút trong ảnh giống hệt những gì bạn đang thấy.")
+    if trace.user_file:
+        intro = (f"Hướng dẫn này được Guider làm mẫu trên một bản sao file của bạn trong {app}; file gốc "
+                 "không bị thay đổi. Các nút trong ảnh giống hệt những gì bạn đang thấy.")
     outro = {"ok": "Xong. Bạn có thể làm lại các bước trên với dữ liệu của mình.",
              "partial": "Guider chưa làm mẫu được hết các bước; phần còn lại được mô tả bằng chữ.",
              "failed": "Guider chưa làm mẫu được tác vụ này trên máy bạn.",
              "cancelled": "Bạn đã dừng phiên làm mẫu."}[status]
     return Tutorial(tutorial_id=tutorial_id, title=title, intro=intro, steps=steps, outro=outro,
-                    env_label=env_label(trace.env), status=status)
+                    env_label=env_label(trace.env, trace.user_file), status=status)
 
 
 def bold_labels(text: str) -> list[str]:

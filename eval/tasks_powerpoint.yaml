@@ -12,3 +12,7 @@ tasks:
   - {id: p08, expect_task: ppt_transition_push, query: "hiệu ứng chuyển slide kiểu đẩy trong PowerPoint"}
   - {id: p09, expect_task: ppt_animation_fly_in, query: "cho chữ bay vào trên slide PowerPoint"}
   - {id: p10, expect_task: ppt_animation_appear, query: "cho từng dòng hiện ra khi bấm chuột trong PowerPoint"}
+  - {id: p11, expect_task: ppt_strikethrough, query: "gạch ngang chữ trên slide PowerPoint"}
+  - {id: p12, expect_task: ppt_layout_title_only, query: "đổi bố cục slide chỉ còn tiêu đề trong PowerPoint"}
+  - {id: p13, expect_task: ppt_hide_slide, query: "ẩn một slide để không chiếu trong PowerPoint"}
+  - {id: p14, expect_task: ppt_transition_apply_all, query: "áp dụng hiệu ứng chuyển trang cho tất cả slide PowerPoint"}

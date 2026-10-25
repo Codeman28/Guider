@@ -3,7 +3,7 @@
 > Tên sản phẩm: **Guider** (đổi từ tên làm việc "Kèm" ngày 23/10/2026). Tên kỹ thuật nội bộ (`kem`, `kem_engine`, repo `kem`) giữ nguyên.
 
 Agent tạo tutorial ngay trên máy người dùng · Microsoft 365 desktop · Windows · Model miễn phí
-Phiên bản 1.2 · 23/10/2026 (cập nhật sau Phase 0 và Phase 2, xem docs/adr/0001-phase0-findings.md và docs/adr/0002-phase2-design.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
+Phiên bản 1.3 · 25/10/2026 (cập nhật sau Phase 0, Phase 2 và phản hồi dùng thử; xem docs/adr/0001-phase0-findings.md, docs/adr/0002-phase2-design.md, docs/adr/0003-user-file-gemini-async-writer.md). Chuyển từ bản đặc tả Word gốc (các mục 0–16). Sơ đồ (Hình 1–3) chỉ có trong bản Word.
 
 ## 1. Bài toán và định vị sản phẩm
 
@@ -309,7 +309,7 @@ Writer: như 6.10.
 ## 8. Quyền riêng tư và bất biến an toàn (KHÔNG được vi phạm)
 
 - Whitelist HWND: Engine chỉ đọc cây UIA, chụp ảnh và gửi input tới HWND cửa sổ sandbox và các cửa sổ phụ của nó. Spike S3 cho thấy popup ribbon có owner là một cửa sổ ẩn, không phải HWND chính, nên "owner là sandbox" không đủ. Định nghĩa: (Excel/Word, process riêng) cửa sổ top-level cùng PID với sandbox; (PowerPoint, chung process) cửa sổ top-level cùng PID **xuất hiện sau một hành động của Guider** trong phiên và giao/kề rect cửa sổ sandbox — cửa sổ có từ trước phiên luôn bị cấm. Bỏ qua cửa sổ `MSO_BORDEREFFECT_WINDOW_CLASS`. Phát hiện cửa sổ khác ở foreground lúc chuẩn bị gửi input → dừng, không gửi.
-- Không đọc file người dùng. Không mở, liệt kê, hay đọc tài liệu có sẵn. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
+- File người dùng (v1.3, ADR-0003): mặc định không mở, liệt kê hay đọc tài liệu có sẵn. Chỉ khi người dùng **tự chọn một file trong app**, engine copy file đó vào `%LOCALAPPDATA%\Kem\work\<session>\` và mở **bản sao** trong sandbox (macro tắt, không cập nhật liên kết, không thêm vào file gần đây); file gốc không bao giờ được mở bằng Office hay ghi đè; bản sao bị xóa khi teardown. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
 - Blocklist hành động: không bao giờ invoke các phần tử thuộc nhóm File/Backstage → Account, Share, Save/Save As/Export tới vị trí ngoài temp, Send/Email, Sign in/out, Options → Trust Center, Add-ins store, Macro/VBA, Copilot. Danh sách lưu trong safety/blocklist.yaml (EN+VI), có test.
 - Không mạng từ engine ngoài lời gọi LLM đã cấu hình.
 - Ảnh và trace ở local. Không upload ảnh. Không telemetry mặc định; nếu có telemetry sau này thì opt-in và chỉ số liệu ẩn danh.
@@ -387,12 +387,13 @@ kem/
 | Method | Params | Result / Notification |
 |---|---|---|
 | env.probe | {} | EnvProfile |
-| tutorial.create | {query, app_hint?} | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message} |
+| tutorial.create | {query, app_hint?, source_file?} | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message}, tutorial.done, và (v1.3) tutorial.updated {tutorial_id} khi Writer LLM chạy nền viết xong |
 | tutorial.cancel | {session_id} | {ok} |
 | tutorial.get | {tutorial_id} | Tutorial |
 | tutorial.list | {} | [TutorialMeta] |
 | tutorial.export | {tutorial_id, format: md\|html\|pdf} | {path} |
 | settings.get/set |  | provider, model, màu nhấn, ngôn ngữ đầu ra |
+| settings.set_api_key | {provider, key} | {ok} — key lưu bằng DPAPI, không bao giờ trả về qua RPC (v1.3) |
 
 ## 12. Lộ trình theo phase và tiêu chí nghiệm thu
 

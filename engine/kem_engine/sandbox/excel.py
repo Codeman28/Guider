@@ -13,6 +13,21 @@ def _fill(doc, fx: dict) -> None:
     ws.Range("A1").Select()
 
 
+def _open(app, path: str):
+    app.DisplayAlerts = False
+    return app.Workbooks.Open(path, UpdateLinks=0, ReadOnly=False, AddToMru=False)
+
+
+def _map_ref(doc, ref: str) -> str:
+    """Cards select fixture ranges (A1:D21 = the table, D2 = a value cell). In the user's file: the used
+    range of the active sheet, or its first cell in the last column below the header."""
+    used = doc.ActiveSheet.UsedRange
+    if ":" in ref:
+        return str(used.Address)
+    rows, cols = int(used.Rows.Count), int(used.Columns.Count)
+    return str(used.Cells(2 if rows > 1 else 1, cols).Address)
+
+
 SPEC = office.AppSpec(
     name="Excel",
     progid="Excel.Application",
@@ -27,6 +42,8 @@ SPEC = office.AppSpec(
     close_doc=lambda doc: doc.Close(SaveChanges=False),
     doc_count=lambda app: app.Workbooks.Count,
     ping=lambda app: app.Ready,
+    open_doc=_open,
+    map_ref=_map_ref,
 )
 
 

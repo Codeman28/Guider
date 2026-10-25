@@ -1,8 +1,10 @@
-"""OpenAI-compatible cloud providers (OpenRouter; Gemini via its OpenAI-compat endpoint — TODO(verify)).
+"""OpenAI-compatible cloud providers (OpenRouter; Gemini via its OpenAI-compat endpoint, checked 25/10/2026).
 
 Only ever receives sanitized payloads (the client enforces this for every non-local provider).
 """
 from __future__ import annotations
+
+import json
 
 from ..config import ProviderConf
 from .base import LLMError, LLMTimeout, ProviderUnavailable, QuotaExceeded
@@ -21,18 +23,30 @@ class OpenAICompatProvider:
         if self._client is None:
             key = self.conf.api_key()
             if not key:
-                raise ProviderUnavailable(f"{self.name}: env {self.conf.api_key_env} is not set")
+                raise ProviderUnavailable(f"{self.name}: chưa có API key (nhập trong Cài đặt của Guider)")
             from openai import OpenAI
             self._client = OpenAI(base_url=self.conf.base_url, api_key=key, timeout=self.conf.timeout_s)
         return self._client
 
     def complete_json(self, model, system, user, schema, temperature=0.2, max_tokens=2000, timeout=None) -> str:
         import openai
+        extra = {"reasoning_effort": self.conf.reasoning_effort} if self.conf.reasoning_effort else {}
+        messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         try:
-            r = self._c().chat.completions.create(
-                model=model, temperature=temperature, max_tokens=max_tokens, timeout=timeout or self.conf.timeout_s,
-                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                response_format={"type": "json_schema", "json_schema": {"name": "out", "schema": schema}})
+            try:
+                r = self._c().chat.completions.create(
+                    model=model, temperature=temperature, max_tokens=max_tokens,
+                    timeout=timeout or self.conf.timeout_s, messages=messages, **extra,
+                    response_format={"type": "json_schema", "json_schema": {"name": "out", "schema": schema}})
+            except openai.BadRequestError:
+                # Some endpoints reject parts of a pydantic JSON Schema ($defs, enums…): ask for plain JSON
+                # with the schema in the prompt; the client still validates the result with pydantic.
+                messages[0] = {"role": "system", "content": system + " JSON schema bắt buộc: "
+                               + json.dumps(schema, ensure_ascii=False)}
+                r = self._c().chat.completions.create(
+                    model=model, temperature=temperature, max_tokens=max_tokens,
+                    timeout=timeout or self.conf.timeout_s, messages=messages, **extra,
+                    response_format={"type": "json_object"})
         except openai.APITimeoutError as e:
             raise LLMTimeout(f"{self.name}: {e}") from e
         except openai.RateLimitError as e:  # OpenRouter: 429 + X-RateLimit-* headers

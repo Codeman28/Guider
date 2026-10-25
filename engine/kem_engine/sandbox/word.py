@@ -26,6 +26,22 @@ def _select(doc, ref: str) -> None:
     doc.Range(start, end).Select()
 
 
+def _open(app, path: str):
+    app.DisplayAlerts = 0
+    return app.Documents.Open(path, ConfirmConversions=False, ReadOnly=False, AddToRecentFiles=False,
+                              Visible=True)
+
+
+def _map_ref(doc, ref: str) -> str:
+    """Paragraph refs of the fixture → the same numbers clamped to the user's document."""
+    if ref == "all":
+        return ref
+    n = int(doc.Paragraphs.Count)
+    a, _, b = ref.partition("-")
+    pa = min(int(a[1:]), n)
+    return f"p{pa}" if not b else f"p{pa}-p{max(pa, min(int(b[1:]), n))}"
+
+
 SPEC = office.AppSpec(
     name="Word",
     progid="Word.Application",
@@ -40,4 +56,6 @@ SPEC = office.AppSpec(
     close_doc=lambda doc: doc.Close(SaveChanges=WD_DO_NOT_SAVE),
     doc_count=lambda app: app.Documents.Count,
     ping=lambda app: app.Documents.Count,
+    open_doc=_open,
+    map_ref=_map_ref,
 )

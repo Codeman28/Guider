@@ -23,6 +23,9 @@ class Target(BaseModel):
     control_type: str  # "Button|SplitButton" = any of
     within: Optional[Within] = None
     automation_id: Optional[str] = None
+    # Reviewed cards only (never set by the LLM): Word's "NxM Table" grid cells report IsEnabled=false
+    # over UIA yet act on Invoke (Phase 4 eval).
+    allow_disabled: bool = False
 
 
 class Expected(BaseModel):
@@ -115,6 +118,7 @@ class TraceStep(BaseModel):
     verified: bool = False
     attempts: int = 0
     error: Optional[str] = None
+    verify_note: Optional[str] = None  # e.g. user-file mode: the card's COM check could not apply
 
 
 class Trace(BaseModel):
@@ -124,6 +128,7 @@ class Trace(BaseModel):
     steps: list[TraceStep] = []
     state: str = "IDLE"
     llm_calls: int = 0
+    user_file: bool = False  # demonstrated on a private copy of the user's own file (ADR-0003)
 
 
 class TutorialStep(BaseModel):

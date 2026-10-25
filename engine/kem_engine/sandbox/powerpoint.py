@@ -12,7 +12,7 @@ PP_LAYOUT_TITLE, PP_LAYOUT_TEXT = 1, 2  # PpSlideLayout.ppLayoutTitle / ppLayout
 
 
 def _hwnd(app, doc) -> int:
-    title = str(doc.Name)
+    title = str(doc.Name).rsplit(".", 1)[0]  # a user's file shows its name with or without extension
     for _ in range(40):
         for h in win32.top_level_windows():
             if win32.class_name(h) == "PPTFrameClass" and win32.window_text(h).startswith(title):
@@ -48,6 +48,26 @@ def _close(doc) -> None:
     doc.Close()
 
 
+def _open(app, path: str):
+    return app.Presentations.Open(path, ReadOnly=0, Untitled=0, WithWindow=-1)
+
+
+def _map_ref(doc, ref: str) -> str:
+    """Slide refs clamped to the user's deck; "sN.M" falls back to the first shape on that slide with text."""
+    slide_no, _, shape_no = ref[1:].partition(".")
+    n = max(1, min(int(slide_no), int(doc.Slides.Count)))
+    if not shape_no:
+        return f"s{n}"
+    shapes = doc.Slides(n).Shapes
+    m = int(shape_no)
+    if m <= shapes.Count and shapes(m).HasTextFrame and shapes(m).TextFrame.HasText:
+        return f"s{n}.{m}"
+    for i in range(1, shapes.Count + 1):
+        if shapes(i).HasTextFrame and shapes(i).TextFrame.HasText:
+            return f"s{n}.{i}"
+    return f"s{n}"
+
+
 SPEC = office.AppSpec(
     name="PowerPoint",
     progid="PowerPoint.Application",
@@ -62,4 +82,6 @@ SPEC = office.AppSpec(
     close_doc=_close,
     doc_count=lambda app: app.Presentations.Count,
     ping=lambda app: app.Presentations.Count,
+    open_doc=_open,
+    map_ref=_map_ref,
 )

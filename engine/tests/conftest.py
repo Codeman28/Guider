@@ -1,4 +1,10 @@
+import os
+
 import pytest
+
+# Tests never read the real user's app settings or saved API keys.
+os.environ["KEM_SETTINGS"] = os.path.join(os.path.dirname(__file__), "_no_settings.json")
+os.environ["KEM_SECRETS"] = os.path.join(os.path.dirname(__file__), "_no_secrets.bin")
 
 from kem_engine.models import Rect
 from kem_engine.uia.element import Element

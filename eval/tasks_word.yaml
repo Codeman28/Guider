@@ -11,4 +11,9 @@ tasks:
   - {id: w07, expect_task: word_highlight, query: "tô vàng một câu quan trọng trong Word"}
   - {id: w08, expect_task: word_font_color_red, query: "đổi chữ thành màu đỏ trong Word"}
   - {id: w09, expect_task: word_landscape, query: "xoay trang giấy nằm ngang trong Word"}
+  - {id: w10, expect_task: word_table, query: "chèn một cái bảng vào tài liệu Word"}
   - {id: w11, expect_task: word_toc, query: "tạo mục lục tự động cho tài liệu Word"}
+  - {id: w12, expect_task: word_strikethrough, query: "gạch ngang dòng chữ trong Word"}
+  - {id: w13, expect_task: word_page_break, query: "cho phần Kết quả sang trang mới trong Word"}
+  - {id: w14, expect_task: word_two_columns, query: "chia tài liệu Word thành hai cột như báo"}
+  - {id: w15, expect_task: word_narrow_margins, query: "làm lề trang Word hẹp lại"}
