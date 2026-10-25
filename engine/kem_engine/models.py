@@ -132,6 +132,7 @@ class Trace(BaseModel):
     user_file: bool = False  # demonstrated on a private copy of the user's own file (ADR-0003)
     selection: list[str] = []  # precondition refs selected before step 1 (for the worked example)
     example: Optional[str] = None  # the card's own example text, if it has one
+    final_image: Optional[str] = None  # whole window after the last step, selection removed: the end result
 
 
 class TutorialStep(BaseModel):

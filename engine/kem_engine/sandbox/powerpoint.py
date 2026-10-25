@@ -84,4 +84,5 @@ SPEC = office.AppSpec(
     ping=lambda app: app.Presentations.Count,
     open_doc=_open,
     map_ref=_map_ref,
+    deselect=lambda doc: doc.Windows(1).Selection.Unselect(),
 )

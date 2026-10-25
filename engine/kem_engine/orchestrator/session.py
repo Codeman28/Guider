@@ -26,7 +26,7 @@ from ..sandbox.registry import SPECS
 from ..sandbox.com import com_retry, is_busy_error
 from ..uia import actuator
 from ..uia.snapshot import snapshot
-from ..verify.checks import COM_COUNTERS, com_check, poll
+from ..verify.checks import COM_COUNTERS, com_check
 from ..writer.template import validate_labels, write
 
 log = structlog.get_logger()
@@ -107,6 +107,20 @@ class Session:
         if win32.escape_pressed() or (self.cancel_event is not None and self.cancel_event.is_set()):
             raise Cancelled()
 
+    def _poll(self, check, timeout: float) -> bool:
+        """verify.poll that also stops the moment the user cancels (button, Esc, mouse or keyboard)."""
+        deadline = time.monotonic() + timeout
+        while True:
+            self._check_cancel()  # outside the try: verify.poll swallows exceptions
+            try:
+                if check():
+                    return True
+            except Exception:
+                pass
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.1)
+
     def _windows(self) -> list[int]:
         # S3: popups are owned by a hidden window, so whitelist = all windows of our own process.
         wins = office.sandbox_windows(self.sb)
@@ -182,23 +196,23 @@ class Session:
         if exp.type == "none":
             return True
         if exp.type == "tab_selected":
-            return poll(lambda: actuator.is_selected(el), timeout=ui_t)
+            return self._poll(lambda: actuator.is_selected(el), timeout=ui_t)
         if exp.type == "expanded":
-            return poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before),
+            return self._poll(lambda: actuator.is_expanded(el) or bool(set(self._windows()) - windows_before),
                         timeout=ui_t)
         if exp.type == "dialog_opened":
-            return poll(lambda: bool(set(office.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
+            return self._poll(lambda: bool(set(office.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
         if exp.type == "dialog_closed":
-            return poll(lambda: not (set(office.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
+            return self._poll(lambda: not (set(office.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
         if exp.type == "com_check" and exp.ref is not None and self.sb.user_file:
             # The ref names a cell/paragraph/shape of the card's fixture; it means nothing in the user's
             # own file. Accept the step when the action itself succeeded, and say so in the trace.
             time.sleep(0.8)
             return self._acted_ok
         if exp.type == "com_check":
-            return poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=com_t)
+            return self._poll(lambda: com_check(self.sb.doc, exp.prop, exp.ref, exp.op, exp.value), timeout=com_t)
         counter = COM_COUNTERS[exp.type]
-        return poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=com_t)
+        return self._poll(lambda: counter(self.sb.doc) >= exp.min_count, timeout=com_t)
 
     def _run_step(self, step: Step, plan_step_id: int | None, reason: str | None = None, repairs: int = 0):
         assert self.trace is not None
@@ -344,6 +358,7 @@ class Session:
                     self._skipped.add(step.id)
                     self.trace.steps.pop()
                     log.warning("session.step_skipped", plan_step=step.id)
+            self._final_capture()
             sc = self.plan.success_check
             if sc is not None and not self._verify(Step(id=0, intent="wait_for", expected=sc), None, set(), set()):
                 status = "partial"
@@ -376,6 +391,22 @@ class Session:
         self._emit("DONE", f"Xong ({status})")
         return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0, self.trace, writer_source,
                          self.ribbon_tabs)
+
+    def _final_capture(self):
+        """What the user will see when done: close leftovers, drop the selection,
+        let Office repaint, capture the whole window — no crop, no arrow."""
+        if not any(s.verified for s in self.trace.steps):
+            return
+        self._check_cancel()
+        try:
+            if len(self._windows()) > 1:  # a menu/gallery still open after the last click
+                office.unstick(self.sb)
+            office.deselect(self.sb)
+            time.sleep(0.8)
+            _, ident = snapshot([self.sb.hwnd])
+            self.trace.final_image = self._capture(None, 0, ident, "final.png")
+        except Exception as e:  # the tutorial stands without it
+            log.warning("session.final_capture_failed", error=repr(e))
 
     def _add_undemonstrated_steps(self):
         """Plan steps never reached still appear, as text only (SPEC §9 error state)."""

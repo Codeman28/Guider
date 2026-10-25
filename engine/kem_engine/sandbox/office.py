@@ -67,6 +67,7 @@ class AppSpec:
     ping: Callable[[Any], Any]  # cheap COM call that fails "busy" while Office is in an edit/modal state
     open_doc: Callable[[Any, str], Any] | None = None  # user-file mode: open the private copy
     map_ref: Callable[[Any, str], str] | None = None  # card ref (fixture layout) → ref in the user's file
+    deselect: Callable[[Any], None] | None = None  # before the final screenshot: selection shading hides results
 
 
 @dataclass
@@ -180,6 +181,11 @@ def select(h: SandboxHandle, ref: str, timeout: float = 5.0) -> None:
     if h.user_file and h.spec.map_ref is not None:  # card refs describe the fixture; adapt to the real file
         ref = com_retry(lambda: h.spec.map_ref(h.doc, ref), timeout=timeout)
     com_retry(lambda: h.spec.select(h.doc, ref), timeout=timeout)
+
+
+def deselect(h: SandboxHandle, timeout: float = 3.0) -> None:
+    if h.spec.deselect is not None:
+        com_retry(lambda: h.spec.deselect(h.doc), timeout=timeout)
 
 
 def ping(h: SandboxHandle, timeout: float = 1.0):

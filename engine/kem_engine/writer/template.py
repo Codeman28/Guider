@@ -81,7 +81,8 @@ def example(trace: Trace) -> TutorialExample | None:
     if not done:
         return None
     app = trace.env.app
-    image = next((s.result_image or s.image for s in reversed(done) if s.result_image or s.image), None)
+    image = trace.final_image or next((s.result_image or s.image for s in reversed(done)
+                                       if s.result_image or s.image), None)
     if trace.example:
         own = trace.example.replace("**", "").strip().removeprefix("Ví dụ:").strip()  # bold = trace names only
         return TutorialExample(text="Ví dụ: " + own, image=image)
@@ -92,7 +93,8 @@ def example(trace: Trace) -> TutorialExample | None:
     clicks = ", rồi ".join(labels) if labels else ""
     text = f"Ví dụ: trên {data}" + (f", chọn {sel}" if sel else "") + (f", mở thẻ {tab}" if tab else "")
     text += (f", nhấn {clicks}." if clicks else ".")
-    text += " Kết quả như ảnh dưới đây — bạn làm y hệt trên dữ liệu của mình." if image else ""
+    text += (" Ảnh dưới là kết quả sau cùng — bạn làm y hệt trên dữ liệu của mình." if trace.final_image
+             else " Kết quả như ảnh dưới đây — bạn làm y hệt trên dữ liệu của mình." if image else "")
     return TutorialExample(text=text, image=image)
 
 

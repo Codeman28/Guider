@@ -58,7 +58,8 @@ def main() -> int:
             t0 = time.monotonic()
             try:
                 r = svc.create(t["query"], success_check=cards[t["expect_task"]].to_plan().success_check,
-                               on_text_updated=(lambda tid: None) if args.defer_writer else None)
+                               on_text_updated=(lambda tid: None) if args.defer_writer else None,
+                               guard_input=False)  # eval measures Guider, not the person at the desk
                 d = r.to_dict()
             except Exception as e:  # keep going; record the crash
                 d = {"kind": "error", "answer": repr(e)}

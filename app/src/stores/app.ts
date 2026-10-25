@@ -18,6 +18,7 @@ export interface Demo {
   current: { n: number; total: number; intent?: string; label?: string } | null;
   done: DoneStep[];
   recovered: boolean;
+  stopping?: boolean; // Dừng pressed: shown at once, sent as soon as the engine has named the session
 }
 
 export type ChatEntry =
@@ -179,6 +180,7 @@ export const useApp = create<State>((set, get) => ({
       const file = get().sourceFile;
       const { session_id } = await c.call<{ session_id: string }>("tutorial.create", file ? { query: q, source_file: file } : { query: q });
       set((s) => (s.demo ? { demo: { ...s.demo, sid: session_id } } : {}));
+      if (get().demo?.stopping) await c.call("tutorial.cancel", { session_id }); // Dừng pressed before the id came back
     } catch (e) {
       const busy = e instanceof RpcError && e.code === -32001;
       set((s) => ({
@@ -190,7 +192,9 @@ export const useApp = create<State>((set, get) => ({
 
   async cancel() {
     const d = get().demo;
-    if (d?.sid && get().client) await get().client!.call("tutorial.cancel", { session_id: d.sid });
+    if (!d || d.stopping) return;
+    set({ demo: { ...d, stopping: true } });
+    if (d.sid && get().client) await get().client!.call("tutorial.cancel", { session_id: d.sid });
   },
 
   onProgress(p) {

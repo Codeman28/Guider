@@ -58,4 +58,5 @@ SPEC = office.AppSpec(
     ping=lambda app: app.Documents.Count,
     open_doc=_open,
     map_ref=_map_ref,
+    deselect=lambda doc: doc.Application.Selection.Collapse(0),  # wdCollapseEnd: caret only, no highlight
 )

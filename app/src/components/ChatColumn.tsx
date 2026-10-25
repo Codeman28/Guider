@@ -98,11 +98,11 @@ export function ChatColumn() {
           <p className="flex-1">
             {demo.recovered
               ? "Có phím gõ lọt vào cửa sổ mẫu — Guider đã khôi phục. Đừng gõ phím hay bấm chuột nhé."
-              : "Guider đang làm mẫu — đừng gõ phím hay bấm chuột."}{" "}
-            Nhấn <kbd className="font-semibold">Esc</kbd> để dừng.
+              : "Guider đang làm mẫu."}{" "}
+            Di chuột, bấm chuột, gõ phím hoặc nhấn <kbd className="font-semibold">Esc</kbd> là Guider dừng ngay.
           </p>
-          <button type="button" onClick={() => void cancel()} className="rounded-sheet border border-ink px-3 py-1 font-medium">
-            Dừng
+          <button type="button" disabled={demo.stopping} onClick={() => void cancel()} className="rounded-sheet border border-ink px-3 py-1 font-medium disabled:opacity-40">
+            {demo.stopping ? "Đang dừng…" : "Dừng"}
           </button>
         </div>
       )}

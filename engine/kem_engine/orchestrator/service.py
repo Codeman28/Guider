@@ -30,6 +30,31 @@ from .session import Session
 
 log = structlog.get_logger()
 
+class _Stopped(Exception):
+    pass
+
+
+def _until_cancel(fn, cancel_event, poll: float = 0.1):
+    """Run a blocking call (an LLM request) in a thread; return as soon as the user stops, leaving it behind."""
+    box: dict = {}
+
+    def run():
+        try:
+            box["value"] = fn()
+        except BaseException as e:  # re-raised in the caller
+            box["error"] = e
+
+    t = threading.Thread(target=run, name="cancellable", daemon=True)
+    t.start()
+    while t.is_alive():
+        if cancel_event is not None and cancel_event.is_set():
+            raise _Stopped()
+        t.join(poll)
+    if "error" in box:
+        raise box["error"]
+    return box["value"]
+
+
 REWRITE_SECONDS = 90.0  # background Writer: after tutorial.done, outside the 2-minute budget
 
 
@@ -88,7 +113,22 @@ class TutorialService:
                progress: Callable[[dict], None] | None = None, cancel_event=None,
                success_check: Expected | None = None,
                on_text_updated: Callable[[str], None] | None = None,
-               source_file: str | None = None) -> CreateResult:
+               source_file: str | None = None, guard_input: bool = True) -> CreateResult:
+        """guard_input: the user touching mouse/keyboard stops the run."""
+        import contextlib
+
+        from ..env.input_guard import InputGuard
+        cancel_event = cancel_event or threading.Event()
+        guard = InputGuard(cancel_event) if guard_input else contextlib.nullcontext()
+        with guard:
+            res = self._create(query, app_hint, progress, cancel_event, success_check, on_text_updated, source_file)
+        if guard_input and guard.reason:
+            log.info("service.stopped_by_user_input", reason=guard.reason)
+        return res
+
+    def _create(self, query: str, app_hint: str | None, progress: Callable[[dict], None] | None, cancel_event,
+                success_check: Expected | None, on_text_updated: Callable[[str], None] | None,
+                source_file: str | None) -> CreateResult:
         """success_check: eval-only hook — asserts the task's outcome when the plan has no check of its
         own (LLM-written plans), so eval scores outcomes instead of the model's task naming."""
         t0 = time.monotonic()
@@ -132,7 +172,9 @@ class TutorialService:
             planner = Planner(pack, llm, app=app, use_cards_directly=self.use_cards_directly,
                               reserve=self.cfg.planner_reserve_s)
             try:
-                pr = planner.plan(query, env, tabs)
+                pr = _until_cancel(lambda: planner.plan(query, env, tabs), cancel_event)
+            except _Stopped:
+                return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
             except LLMError as e:
                 log.warning("service.planner_failed", error=str(e))
                 return CreateResult("text", answer="Guider chưa lập được kế hoạch cho câu hỏi này "
@@ -164,6 +206,8 @@ class TutorialService:
         session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
                           writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
                           cancel_event=cancel_event, allow_skip=source == "llm", source_file=source_file)
+        if cancel_event is not None and cancel_event.is_set():  # stopped between planning and Office start-up
+            return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
         res = session.run()
 
         # 4) remember

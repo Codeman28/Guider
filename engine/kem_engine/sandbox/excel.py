@@ -28,6 +28,14 @@ def _map_ref(doc, ref: str) -> str:
     return str(used.Cells(2 if rows > 1 else 1, cols).Address)
 
 
+def _deselect(doc) -> None:
+    """Select one empty cell just outside the data, so the result (colours, borders, a chart) is not
+    hidden under the selection shading."""
+    ws = doc.Application.ActiveSheet
+    used = ws.UsedRange
+    ws.Cells(int(used.Row) + int(used.Rows.Count) + 1, int(used.Column) + int(used.Columns.Count) + 1).Select()
+
+
 SPEC = office.AppSpec(
     name="Excel",
     progid="Excel.Application",
@@ -44,6 +52,7 @@ SPEC = office.AppSpec(
     ping=lambda app: app.Ready,
     open_doc=_open,
     map_ref=_map_ref,
+    deselect=_deselect,
 )
 
 

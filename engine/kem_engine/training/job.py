@@ -166,6 +166,7 @@ class TrainingJob:
             self._check()
             self._p("demo", f"Guider đang làm mẫu thử: {card['title']} — đừng chạm vào máy", i, len(cards))
             ok, reason = self._demonstrate(app, card) if self.demonstrate else (False, "chưa chạy thử")
+            self._check()  # stopped mid-demonstration: neither keep nor blame the card
             if ok:
                 self.memory.add_card(app, card)
                 stats["added"] += 1
@@ -205,7 +206,9 @@ class TrainingJob:
             run_root = self.out_root / "_training_runs"
             run_root.mkdir(parents=True, exist_ok=True)
             plan = Card(card["id"], card["title"], card["keywords"], card, app).to_plan()
-            res = Session(plan, run_root, cancel_event=self.cancel).run()
+            from ..env.input_guard import InputGuard
+            with InputGuard(self.cancel):  # the developer touching the machine stops training
+                res = Session(plan, run_root, cancel_event=self.cancel).run()
             if res.tutorial.status == "ok":
                 return True, ""
             bad = next((s for s in res.trace.steps if not s.verified), None)

@@ -160,7 +160,8 @@ export function TutorialView({ t }: { t: Tutorial }) {
           </p>
           {t.example.image && (
             <div className="mt-3">
-              <Shot dir={t.dir} file={t.example.image} alt="Kết quả của ví dụ" />
+              <p className="mb-2 text-small text-lunar">{t.example.image === "final.png" ? "Kết quả sau cùng" : "Kết quả"}</p>
+              <Shot dir={t.dir} file={t.example.image} alt="Kết quả sau cùng của ví dụ" />
             </div>
           )}
         </section>
