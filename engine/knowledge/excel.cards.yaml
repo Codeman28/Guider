@@ -176,7 +176,7 @@ cards:
 
   - id: fill_color
     title: Cách tô màu nền cho ô
-    keywords: [tô màu nền, màu nền, fill color, tô màu ô, đổ màu]
+    keywords: [tô màu nền, màu nền, fill color, tô màu ô, đổ màu, tô màu bảng, tô màu cho bảng]
     fixture_id: sales_table_basic
     preconditions: [{type: select_range, ref: "A1:D1"}]
     steps:
