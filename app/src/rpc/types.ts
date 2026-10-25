@@ -54,6 +54,7 @@ export interface Tutorial {
   outro: string;
   env_label: string;
   status: "ok" | "partial" | "failed" | "cancelled";
+  example?: { text: string; image?: string | null } | null;
   dir: string;
   trace?: { llm_calls?: number; user_file?: boolean; steps: TraceStep[] };
 }
@@ -83,4 +84,68 @@ export interface CloudCheck {
   model?: string;
   seconds?: number;
   error?: string;
+}
+
+// Training area (ADR-0004, developer build only)
+export interface TrainStatus {
+  available: boolean;
+  model?: string;
+  cloud?: boolean;
+  research?: boolean;
+  running?: boolean;
+  job_id?: string | null;
+}
+
+export interface TrainProgress {
+  job_id: string;
+  phase: "read" | "research" | "think" | "demo" | "skip" | string;
+  message: string;
+  done: number;
+  total: number;
+}
+
+export interface TrainSourceEntry {
+  kind: string;
+  name: string;
+  ref: string;
+  date: string;
+  summary: string;
+  added: number;
+  merged: number;
+  pending: number;
+  notes: number;
+  skipped?: boolean;
+}
+
+export interface TrainDone {
+  job_id: string;
+  ok: boolean;
+  error?: string;
+  model?: string;
+  sources?: TrainSourceEntry[];
+  chunks?: number;
+  relevant?: number;
+  tasks_found?: number;
+  added?: number;
+  merged?: number;
+  pending?: number;
+  rejected?: number;
+  notes_added?: number;
+  notes_merged?: number;
+  cancelled?: boolean;
+  seconds?: number;
+  llm_calls?: number;
+}
+
+export interface TrainMemory {
+  apps: Record<string, { cards: { id: string; title: string; source: string }[]; extends: number; pending: { id: string; title: string; reason: string }[] }>;
+  notes: number;
+  recent_notes: { id: string; app: string; topic: string; fact: string; sources: string[] }[];
+  sources: TrainSourceEntry[];
+}
+
+export interface TrainAnswer {
+  answer: string;
+  citations: { n: number; text: string; source: string }[];
+  model?: string;
 }

@@ -24,7 +24,7 @@ SYSTEM = (
     "hướng dẫn quen thuộc. Mỗi bước trong 'steps' đầu vào thành đúng một bước đầu ra, cùng thứ tự, cùng id. "
     "Câu ngắn, mỗi bước một hành động. Nhãn nút in đậm bằng **...** và phải giữ NGUYÊN chuỗi element_name. "
     "Không thêm bước, không bịa phím tắt (chỉ nhắc access_key nếu có), không nói 'theo hình'. "
-    "Bước có verified=false: nói rõ Guider chưa làm mẫu được bước này trên máy bạn. Chỉ trả JSON."
+    "Bước có verified=false: nói rõ Guider chưa làm mẫu được bước này trên máy bạn. Chỉ trả JSON. Thêm 'example': MỘT ví dụ cụ thể 1–3 câu bắt đầu bằng 'Ví dụ:', kể việc làm trên dữ liệu mẫu (sample_data) với vùng đã chọn (selection) và kết quả người dùng sẽ thấy; chỉ in đậm tên nút có trong steps."
 )
 
 
@@ -40,6 +40,7 @@ class WOut(BaseModel):
     intro: str
     steps: list[WStep]
     outro: str
+    example: str = ""  # one concrete worked example on the sample data ("Ví dụ: …")
 
 
 def _names(trace: Trace) -> set[str]:
@@ -75,6 +76,8 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClien
     payload = {
         "title": title,
         "env": {"app": trace.env.app, "ui_lang": trace.env.ui_lang, "office_build": trace.env.office_build},
+        "sample_data": "file của người dùng" if trace.user_file else template.SAMPLE_DATA.get(trace.env.app, ""),
+        "selection": trace.selection,
         "steps": [{"id": s.id, "intent": s.intent, "element_name": template.clean(s.element_name or ""),
                    "control_type": s.control_type, "access_key": s.access_key, "value": s.value,
                    "verified": s.verified, "inserted_reason": s.inserted_reason} for s in trace.steps],
@@ -100,7 +103,17 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClien
         tip = ws.tip if (ws.tip and ts.access_key and ts.access_key in ws.tip) else bs.tip
         steps.append(bs.model_copy(update={"body": body, "tip": tip}))
     outro = out.outro if status == "ok" and out.outro else base.outro
-    tut = base.model_copy(update={"outro": outro, "steps": steps})
+    ex = base.example
+    if ex is not None and not trace.example and out.example.strip():
+        text = out.example.strip()
+        text = text if text.lower().startswith("ví dụ") else "Ví dụ: " + text
+        bold = set(template.bold_labels(text))
+        clicked = {template.clean(st.element_name or "") for st in trace.steps
+                   if st.verified and st.element_name and st.intent != "select_ribbon_tab"}
+        # keep the model's wording only when it is tied to the real buttons: every clicked one, nothing invented
+        if bold <= _names(trace) and clicked <= bold:
+            ex = ex.model_copy(update={"text": text})
+    tut = base.model_copy(update={"outro": outro, "steps": steps, "example": ex})
     if template.validate_labels(tut, trace):  # should be impossible after _fix_labels
         return base, "template"
     return tut, "llm"

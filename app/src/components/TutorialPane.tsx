@@ -4,10 +4,11 @@ import { Cross } from "../lib/icons";
 import { useApp } from "../stores/app";
 import { Library } from "./Library";
 import { Settings } from "./Settings";
+import { Training } from "./Training";
 import { TutorialView } from "./TutorialView";
 
 export function TutorialPane() {
-  const { tabs, active, setActive, close, tutorials, notice } = useApp();
+  const { tabs, active, setActive, close, tutorials, notice, train } = useApp();
 
   return (
     <main className="flex min-h-0 flex-col bg-shell">
@@ -19,6 +20,11 @@ export function TutorialPane() {
           <Tabs.Trigger value="settings" className="px-4 py-2.5 text-small text-ink data-[state=active]:border-t-4 data-[state=active]:border-glue data-[state=active]:bg-paper data-[state=active]:font-medium data-[state=inactive]:bg-edge">
             Cài đặt
           </Tabs.Trigger>
+          {train?.available && (
+            <Tabs.Trigger value="training" className="px-4 py-2.5 text-small text-ink data-[state=active]:border-t-4 data-[state=active]:border-glue data-[state=active]:bg-paper data-[state=active]:font-medium data-[state=inactive]:bg-edge">
+              Huấn luyện
+            </Tabs.Trigger>
+          )}
           {tabs.map((t) => (
             <div key={t.id} className="flex items-stretch">
               <Tabs.Trigger value={t.id} className="max-w-[260px] px-4 py-2 text-left text-small leading-snug data-[state=active]:border-t-4 data-[state=active]:border-glue data-[state=active]:bg-paper data-[state=active]:font-medium data-[state=inactive]:bg-edge">
@@ -36,6 +42,11 @@ export function TutorialPane() {
         <Tabs.Content value="settings" className="min-h-0 flex-1 overflow-y-auto bg-paper">
           <Settings />
         </Tabs.Content>
+        {train?.available && (
+          <Tabs.Content value="training" className="min-h-0 flex-1 overflow-y-auto bg-paper">
+            <Training />
+          </Tabs.Content>
+        )}
         {tabs.map((t) => (
           <Tabs.Content key={t.id} value={t.id} className="min-h-0 flex-1 overflow-y-auto bg-paper">
             {tutorials[t.id] && <TutorialView t={tutorials[t.id]} />}

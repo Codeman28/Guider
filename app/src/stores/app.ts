@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { RpcClient, RpcError } from "../rpc/client";
-import type { CloudCheck, CreateResult, Progress, Settings, SystemCheck, Tutorial, TutorialMeta } from "../rpc/types";
+import type { CloudCheck, CreateResult, Progress, Settings, SystemCheck, TrainAnswer, TrainDone, TrainMemory, TrainProgress, TrainStatus, Tutorial, TutorialMeta } from "../rpc/types";
 
 export interface DoneStep {
   n: number;
@@ -66,6 +66,13 @@ interface State {
   settings: Settings | null;
   cloud: CloudCheck | null;
   savingCloud: boolean;
+  // training area (ADR-0004, developer build only)
+  train: TrainStatus | null;
+  trainJob: { id: string; progress: TrainProgress | null } | null;
+  trainLast: TrainDone | null;
+  trainMemory: TrainMemory | null;
+  trainAnswer: TrainAnswer | null;
+  asking: boolean;
 
   init(client: RpcClient): void;
   runCheck(): Promise<void>;
@@ -87,6 +94,12 @@ interface State {
   loadSettings(): Promise<void>;
   useProvider(p: "ollama" | "gemini"): Promise<void>;
   saveGeminiKey(key: string): Promise<void>;
+  loadTraining(): Promise<void>;
+  startTraining(kind: "file" | "link" | "research", ref: string): Promise<void>;
+  pickTrainingFile(): Promise<void>;
+  cancelTraining(): Promise<void>;
+  removeLearned(kind: "card" | "note", id: string, app?: string): Promise<void>;
+  askKnowledge(q: string): Promise<void>;
 }
 
 const FILE_TYPES = ["xlsx", "xlsm", "xls", "csv", "docx", "docm", "doc", "pptx", "pptm", "ppt"];
@@ -112,6 +125,12 @@ export const useApp = create<State>((set, get) => ({
   settings: null,
   cloud: null,
   savingCloud: false,
+  train: null,
+  trainJob: null,
+  trainLast: null,
+  trainMemory: null,
+  trainAnswer: null,
+  asking: false,
 
   init(client) {
     set({ client });
@@ -120,6 +139,14 @@ export const useApp = create<State>((set, get) => ({
     client.on("tutorial.updated", (u: { tutorial_id: string }) => void get().onUpdated(u.tutorial_id));
     void get().refreshLibrary();
     void get().loadSettings();
+    client.on("training.progress", (p: TrainProgress) =>
+      set((s) => (s.trainJob && s.trainJob.id === p.job_id ? { trainJob: { ...s.trainJob, progress: p } } : {})));
+    client.on("training.done", (d: TrainDone) => {
+      set({ trainJob: null, trainLast: d });
+      void get().loadTraining();
+      void get().refreshLibrary();
+    });
+    void get().loadTraining();
   },
 
   async runCheck() {
@@ -275,6 +302,70 @@ export const useApp = create<State>((set, get) => ({
       set({ cloud: { ok: false, error: e instanceof Error ? e.message : String(e) } });
     } finally {
       set({ savingCloud: false });
+    }
+  },
+
+  async loadTraining() {
+    const c = get().client;
+    if (!c) return;
+    try {
+      const train = await c.call<TrainStatus>("training.status");
+      set({ train });
+      if (train.available) set({ trainMemory: await c.call<TrainMemory>("training.memory") });
+      if (train.running && train.job_id && !get().trainJob) set({ trainJob: { id: train.job_id, progress: null } });
+    } catch {
+      set({ train: { available: false } });
+    }
+  },
+
+  async startTraining(kind, ref) {
+    const c = get().client;
+    if (!c || get().trainJob) return;
+    try {
+      const { job_id } = await c.call<{ job_id: string }>("training.start", { kind, ref });
+      set({ trainJob: { id: job_id, progress: null }, trainLast: null });
+    } catch (e) {
+      set({ notice: `Chưa bắt đầu huấn luyện được: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async pickTrainingFile() {
+    try {
+      const { open } = await import("@tauri-apps/plugin-dialog");
+      const picked = await open({
+        multiple: false,
+        directory: false,
+        title: "Chọn sách, giáo trình hoặc ghi chú để Guider học",
+        filters: [{ name: "PDF, Word, văn bản", extensions: ["pdf", "docx", "txt", "md"] }],
+      });
+      if (typeof picked === "string") await get().startTraining("file", picked);
+    } catch (e) {
+      set({ notice: `Không mở được hộp chọn file: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async cancelTraining() {
+    const j = get().trainJob;
+    if (j && get().client) await get().client!.call("training.cancel", { job_id: j.id });
+  },
+
+  async removeLearned(kind, id, app) {
+    const c = get().client;
+    if (!c) return;
+    await c.call("training.remove", { kind, id, app });
+    set({ trainMemory: await c.call<TrainMemory>("training.memory") });
+  },
+
+  async askKnowledge(q) {
+    const c = get().client;
+    if (!c || !q.trim()) return;
+    set({ asking: true, trainAnswer: null });
+    try {
+      set({ trainAnswer: await c.call<TrainAnswer>("training.ask", { question: q }) });
+    } catch (e) {
+      set({ trainAnswer: { answer: `Chưa trả lời được: ${e instanceof Error ? e.message : e}`, citations: [] } });
+    } finally {
+      set({ asking: false });
     }
   },
 

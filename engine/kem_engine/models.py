@@ -61,6 +61,7 @@ class Plan(BaseModel):
     preconditions: list[Precondition] = []
     steps: list[Step]
     success_check: Optional[Expected] = None  # task-level COM assertion (cards, eval)
+    example: Optional[str] = None  # card's worked example (Vietnamese); else the Writer builds one
 
 
 class EnvProfile(BaseModel):
@@ -129,6 +130,8 @@ class Trace(BaseModel):
     state: str = "IDLE"
     llm_calls: int = 0
     user_file: bool = False  # demonstrated on a private copy of the user's own file (ADR-0003)
+    selection: list[str] = []  # precondition refs selected before step 1 (for the worked example)
+    example: Optional[str] = None  # the card's own example text, if it has one
 
 
 class TutorialStep(BaseModel):
@@ -141,6 +144,11 @@ class TutorialStep(BaseModel):
     demonstrated: bool = True
 
 
+class TutorialExample(BaseModel):
+    text: str
+    image: Optional[str] = None  # the final result screenshot of the demonstration
+
+
 class Tutorial(BaseModel):
     tutorial_id: str
     title: str
@@ -149,3 +157,4 @@ class Tutorial(BaseModel):
     outro: str
     env_label: str
     status: Literal["ok", "partial", "failed", "cancelled"]
+    example: Optional[TutorialExample] = None  # "Ví dụ" section

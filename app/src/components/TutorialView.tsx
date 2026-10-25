@@ -150,6 +150,22 @@ export function TutorialView({ t }: { t: Tutorial }) {
         </div>
       )}
 
+      {t.example && (mode === "article" || i === t.steps.length - 1) && (
+        <section aria-labelledby={`ex-${t.tutorial_id}`} className="mt-6 rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white px-5 py-4">
+          <h2 id={`ex-${t.tutorial_id}`} className="font-semibold">
+            Ví dụ
+          </h2>
+          <p className="mt-2 max-w-[680px]">
+            <Rich text={t.example.text.replace(/^Ví dụ:\s*/, "")} />
+          </p>
+          {t.example.image && (
+            <div className="mt-3">
+              <Shot dir={t.dir} file={t.example.image} alt="Kết quả của ví dụ" />
+            </div>
+          )}
+        </section>
+      )}
+
       {(mode === "article" || i === t.steps.length - 1) && (
         <p className={`mt-6 max-w-[680px] border-t border-edge pt-4 ${t.status === "ok" ? "" : "text-sunday"}`}>{t.outro}</p>
       )}

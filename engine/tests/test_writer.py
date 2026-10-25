@@ -66,3 +66,25 @@ def test_empty_name_is_never_bolded():
     tr = trace(TraceStep(id=1, plan_step_id=1, intent="select_item", element_name=None, verified=False))
     tut = write(tr, "t", "id", "partial")
     assert "****" not in tut.steps[0].heading + tut.steps[0].body
+
+
+def test_every_tutorial_has_a_worked_example():
+    tr = trace(ts(1, "select_ribbon_tab", "Insert", "TabItem"), ts(2, "invoke", "PivotTable", result_image="r2.png"),
+               ts(3, "invoke", "OK", result_image="r3.png"))
+    tr.selection = ["A1:D21"]
+    ex = write(tr, "T", "id", "ok").example
+    assert ex.text.startswith("Ví dụ: trên bảng doanh số mẫu") and "vùng A1:D21" in ex.text
+    assert "**PivotTable**" in ex.text and "**OK**" in ex.text and ex.image == "r3.png"
+
+
+def test_card_example_wins_but_cannot_bold_invented_labels():
+    tr = trace(ts(1, "select_ribbon_tab", "Home", "TabItem"), ts(2, "invoke", "Bold"))
+    tr.example = "Chọn dòng tiêu đề rồi bấm **Đậm** — chữ đậm lên."
+    tut = write(tr, "T", "id", "ok")
+    assert tut.example.text == "Ví dụ: Chọn dòng tiêu đề rồi bấm Đậm — chữ đậm lên."
+    assert validate_labels(tut, tr) == []
+
+
+def test_no_example_when_nothing_was_demonstrated():
+    tr = trace(ts(1, "select_ribbon_tab", "Home", "TabItem", verified=False))
+    assert write(tr, "T", "id", "failed").example is None

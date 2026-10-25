@@ -45,6 +45,7 @@ class XTask(BaseModel):
     keywords: list[str] = Field(description="3–8 cách người dùng Việt hay hỏi việc này")
     selection: Selection
     steps: list[XStep]
+    example: str = Field("", description="Ví dụ cụ thể 1–2 câu trên file mẫu: chọn gì, bấm gì, ra kết quả gì")
 
 
 class XNote(BaseModel):
@@ -146,6 +147,7 @@ def build_card(t: XTask, source: str, where: str) -> tuple[dict | None, str]:
     card = {"id": slug(t.app, t.title), "title": t.title.strip(),
             "keywords": sorted({k.strip() for k in t.keywords if 2 < len(k.strip()) < 80})[:10],
             "fixture_id": FIXTURE[t.app], "steps": steps,
+            **({"example": t.example.strip()[:400]} if t.example.strip() else {}),
             "learned": {"source": source[:160], "where": where[:200], "names_checked": not unverified}}
     ref = SELECT.get(t.app, {}).get(t.selection)
     if ref:

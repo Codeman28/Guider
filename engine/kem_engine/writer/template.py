@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 
-from ..models import EnvProfile, Trace, TraceStep, Tutorial, TutorialStep
+from ..models import EnvProfile, Trace, TraceStep, Tutorial, TutorialExample, TutorialStep
 
 LANG_LABEL = {"en-US": "giao diện tiếng Anh", "vi-VN": "giao diện tiếng Việt"}
 APP_NAME = {"excel": "Excel", "word": "Word", "powerpoint": "PowerPoint"}
@@ -53,6 +53,49 @@ def env_label(env: EnvProfile, user_file: bool = False) -> str:
     return f"Chụp trên {where} · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
 
 
+SAMPLE_DATA = {  # what the fixtures contain (engine/fixtures), for the worked example
+    "excel": "bảng doanh số mẫu gồm 4 cột Tháng, Khu vực, Sản phẩm, Doanh số (20 dòng)",
+    "word": "bản báo cáo mẫu 6 đoạn (đoạn 1 là tiêu đề, đoạn 2 và 4 là đề mục)",
+    "powerpoint": "bài thuyết trình mẫu 3 slide (slide 1 tiêu đề, slide 2–3 có tiêu đề và các ý gạch đầu dòng)",
+}
+
+
+def _selection_text(ref: str, app: str, user_file: bool) -> str:
+    if user_file:
+        return {"excel": "vùng dữ liệu đang dùng trong file", "word": "đoạn văn cần làm",
+                "powerpoint": "slide cần làm"}.get(app, "phần cần làm")
+    if app == "excel":
+        return f"vùng {ref}" if ":" in ref else f"ô {ref}"
+    if app == "word":
+        if ref == "all":
+            return "toàn bộ văn bản"
+        a, _, b = ref.partition("-")
+        return f"đoạn {a[1:]}" if not b else f"đoạn {a[1:]} đến {b[1:]}"
+    slide, _, shape = ref[1:].partition(".")
+    return f"slide {slide}" if not shape else ("tiêu đề" if shape == "1" else "nội dung") + f" của slide {slide}"
+
+
+def example(trace: Trace) -> TutorialExample | None:
+    """'Ví dụ' section: the demonstration itself, told as a concrete case, with its final screenshot."""
+    done = [s for s in trace.steps if s.verified and s.element_name]
+    if not done:
+        return None
+    app = trace.env.app
+    image = next((s.result_image or s.image for s in reversed(done) if s.result_image or s.image), None)
+    if trace.example:
+        own = trace.example.replace("**", "").strip().removeprefix("Ví dụ:").strip()  # bold = trace names only
+        return TutorialExample(text="Ví dụ: " + own, image=image)
+    data = "bản sao file của bạn" if trace.user_file else SAMPLE_DATA.get(app, "file mẫu")
+    sel = ", ".join(_selection_text(r, app, trace.user_file) for r in trace.selection)
+    labels = [_label(s.element_name or "") for s in done if s.intent != "select_ribbon_tab"]
+    tab = next((_label(s.element_name or "") for s in done if s.intent == "select_ribbon_tab"), None)
+    clicks = ", rồi ".join(labels) if labels else ""
+    text = f"Ví dụ: trên {data}" + (f", chọn {sel}" if sel else "") + (f", mở thẻ {tab}" if tab else "")
+    text += (f", nhấn {clicks}." if clicks else ".")
+    text += " Kết quả như ảnh dưới đây — bạn làm y hệt trên dữ liệu của mình." if image else ""
+    return TutorialExample(text=text, image=image)
+
+
 def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
     steps: list[TutorialStep] = []
     app = APP_NAME.get(trace.env.app, trace.env.app)
@@ -77,7 +120,8 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
              "failed": "Guider chưa làm mẫu được tác vụ này trên máy bạn.",
              "cancelled": "Bạn đã dừng phiên làm mẫu."}[status]
     return Tutorial(tutorial_id=tutorial_id, title=title, intro=intro, steps=steps, outro=outro,
-                    env_label=env_label(trace.env, trace.user_file), status=status)
+                    env_label=env_label(trace.env, trace.user_file), status=status,
+                    example=example(trace) if status in ("ok", "partial") else None)
 
 
 def bold_labels(text: str) -> list[str]:
@@ -91,4 +135,6 @@ def validate_labels(tut: Tutorial, trace: Trace) -> list[str]:
     for st in tut.steps:
         for part in (st.heading, st.body, st.tip or ""):
             bad += [b for b in bold_labels(part) if b not in names]
+    if tut.example:
+        bad += [b for b in bold_labels(tut.example.text) if b not in names]
     return bad

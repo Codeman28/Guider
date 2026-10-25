@@ -42,7 +42,7 @@ class Card:
         r = self.raw
         return Plan(task_canonical=self.id, title=self.title, fixture_id=r.get("fixture_id"), app=self.app,
                     preconditions=r.get("preconditions", []), steps=r["steps"],
-                    success_check=r.get("success_check"))
+                    success_check=r.get("success_check"), example=r.get("example"))
 
     def summary(self) -> str:
         """Compact text for the Planner prompt."""

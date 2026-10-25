@@ -317,7 +317,8 @@ class Session:
             self.scale = env.dpi / 96
             self.style = Style.load(self.scale)
             self.trace = Trace(session_id=self.session_id, task_canonical=self.plan.task_canonical, env=env,
-                               user_file=self.sb.user_file)
+                               user_file=self.sb.user_file, example=self.plan.example,
+                               selection=[p.ref for p in self.plan.preconditions])
             self._check_cancel()  # Office start-up is the longest wait; honour an Esc pressed during it
             for pre in self.plan.preconditions:
                 office.select(self.sb, pre.ref)

@@ -25,6 +25,10 @@ def to_markdown(t: Tutorial) -> str:
             out += [f"![Kết quả]({s.result_image})", ""]
         if s.tip:
             out += [f"> {s.tip}", ""]
+    if t.example:
+        out += ["## Ví dụ", "", t.example.text, ""]
+        if t.example.image:
+            out += [f"![Ví dụ]({t.example.image})", ""]
     out += [t.outro, ""]
     return "\n".join(out)
 
@@ -34,7 +38,7 @@ def _md_inline(text: str) -> str:
 
 
 def _img(dir_: Path, name: str | None, alt: str) -> str:
-    if not name:
+    if not name or not (dir_ / name).is_file():
         return ""
     data = base64.b64encode((dir_ / name).read_bytes()).decode()
     return f'<img alt="{html.escape(alt)}" src="data:image/png;base64,{data}">'
@@ -47,6 +51,9 @@ def to_html(t: Tutorial, dir_: Path, accent: str = "#E5484D") -> str:
         parts.append(f"<section><h2>{_md_inline(s.heading)}</h2>{_img(dir_, s.image, s.heading)}"
                      f"<p>{_md_inline(s.body)}</p>{_img(dir_, s.result_image, 'Kết quả')}"
                      + (f'<p class="tip">{_md_inline(s.tip)}</p>' if s.tip else "") + "</section>")
+    if t.example:
+        parts.append(f'<section class="example"><h2>Ví dụ</h2><p>{_md_inline(t.example.text)}</p>'
+                     f"{_img(dir_, t.example.image, 'Ví dụ')}</section>")
     parts.append(f"<p>{_md_inline(t.outro)}</p>")
     css = (f":root{{--accent:{accent}}}body{{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;"
            "padding:0 16px;color:#1f1d1a;background:#fbfaf7}}h2{{margin-top:2rem}}img{{max-width:100%;"

@@ -154,7 +154,9 @@ class TutorialService:
                 steps = [b.model_copy(update={"heading": o.heading, "body": o.body, "tip": o.tip})
                          for b, o in zip(base.steps, stored_text.steps)]
                 return base.model_copy(update={"title": stored_text.title, "intro": stored_text.intro,
-                                               "outro": stored_text.outro, "steps": steps}), "recipe"
+                                               "outro": stored_text.outro, "steps": steps,
+                                               "example": (base.example.model_copy(update={"text": stored_text.example.text})
+                                                           if base.example and stored_text.example else base.example)}), "recipe"
             if on_text_updated is not None:  # deferred: answer now with the template text
                 return template.write(trace, title, tid, status), "template"
             return llm_writer.write(trace, title, tid, status, llm)
