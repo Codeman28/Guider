@@ -27,6 +27,7 @@ class ProviderConf:
     think: bool | None = None
     keep_alive: str | None = None
     reasoning_effort: str | None = None  # OpenAI-compat providers that think (Gemini 3: lowest is "low")
+    num_ctx: int | None = None  # Ollama context window; its default (4096) is smaller than a training call
 
     @property
     def is_local(self) -> bool:

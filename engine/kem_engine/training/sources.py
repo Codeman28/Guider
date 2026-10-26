@@ -24,10 +24,12 @@ MAX_FILE_BYTES = 300 * 1024 * 1024
 USER_AGENT = "GuiderTraining/0.1 (+desktop app; reads pages the developer pasted)"
 MAX_PAGE_BYTES = 3 * 1024 * 1024
 
-# Words that mark a passage as describing Office operations (folded, no diacritics).
-CUES = ["ribbon", "tab", "nhan", "chon", "bam", "click", "select", "menu", "hop thoai", "dialog", "insert", "home",
-        "format", "dinh dang", "chen", "excel", "word", "powerpoint", "slide", "trang chieu", "o ", "cot", "dong",
-        "bang", "bieu do", "chart", "table", "font", "layout", "design", "review", "view", "data", "formulas"]
+# A passage teaches an Office operation when it both tells the reader to act and names a piece of the UI
+# (folded, no diacritics). 26/10/2026: the old single word list kept 99 of 102 chunks of a 226-page book.
+ACTIONS = ["click", "select", "choose", "tap", "press", "drag", "type", "go to", "open the", "nhan", "chon", "bam",
+           "nhap", "keo", "go ", "mo the", "vao the"]
+UI = ["tab", "ribbon", "button", "menu", "dialog", "group", "gallery", "toolbar", "pane", "nut", "the ", "hop thoai",
+      "nhom", "thanh cong cu", "bang chon"]
 
 
 @dataclass
@@ -65,7 +67,9 @@ def _split(text: str, size: int) -> list[str]:
 def relevant(text: str) -> bool:
     """Cheap filter before the LLM: keep passages that look like Office how-to text."""
     t = f" {fold(text)} "
-    return sum(t.count(f" {c}") for c in CUES) >= 4
+    acts = sum(t.count(f" {c}") for c in ACTIONS)
+    ui = sum(t.count(f" {c}") for c in UI)
+    return acts >= 2 and ui >= 1
 
 
 def read_file(path: str | Path, chunk_chars: int) -> Source:

@@ -30,13 +30,17 @@ reasoning_effort = "low"         # Gemini 3 cannot turn thinking off; "low" keep
 timeout_s = 30
 
 [training]               # developer-only training area (ADR-0004); reads books, links, research
-cloud_model = "gemini-3.8-flash"   # stable, free tier (ai.google.dev/gemini-api/docs/models, 25/10/2026); used when a Gemini key is saved
+# 26/10/2026: gemini-3.8-flash timed out (>180 s) on this key while gemini-3.5-flash-lite answered in 2 s.
+cloud_model = "gemini-3.5-flash-lite"  # stable, free tier; used when a Gemini key is saved
 local_model = "qwen3:4b"           # fallback without key: slower but far better than 1.7b at reading long text
-chunk_chars_cloud = 12000
-chunk_chars_local = 4000
+chunk_chars_cloud = 6000             # ~3 pages per call: bigger chunks made the model skip tasks (26/10/2026)
+chunk_chars_local = 3000           # fits the local context window with room for the answer
+local_num_ctx = 8192               # Ollama defaults to 4096: prompt + schema + answer did not fit
+workers_cloud = 4                  # chunks read in parallel
+cloud_rpm = 15                     # request starts per minute (this key got HTTP 429 at ~20/min, 26/10/2026)
 max_pages = 20                     # per pasted link (same site, same folder)
-local_timeout_s = 900
-cloud_timeout_s = 120
+local_timeout_s = 600
+cloud_timeout_s = 60
 
 [budget]
 max_llm_calls_per_tutorial = 3

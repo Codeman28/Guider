@@ -103,6 +103,7 @@ export function Training() {
           ) : (
             <p className="text-sunday">Chưa học được: {trainLast.error}</p>
           )}
+          {trainLast.warning && <p className="mt-2 text-sunday">{trainLast.warning}</p>}
         </div>
       )}
 

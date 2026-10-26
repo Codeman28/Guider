@@ -8,6 +8,7 @@ from __future__ import annotations
 import re
 import shutil
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable
 
@@ -133,14 +134,41 @@ class TrainingJob:
         stats["chunks"] += len(src.chunks)
         stats["relevant"] += len(chunks)
         summaries, cards = [], []
-        for i, ch in enumerate(chunks, start=1):
+
+        def think(ch):
+            """One chunk → model outputs. Runs in worker threads; memory is written by the caller only."""
             self._check()
-            self._p("think", f"AI đang suy nghĩ đoạn {i}/{len(chunks)} ({ch.where})", i, len(chunks))
+            if self.llm.cloud_down:
+                return ch, []
             try:
-                out = self.llm.complete(SYSTEM, f"Nguồn: {src.name} — {ch.where}\n\n{ch.text}", XOut)
+                return ch, [self.llm.complete(SYSTEM, f"Nguồn: {src.name} — {ch.where}\n\n{ch.text}", XOut)]
             except LLMError as e:
                 log.warning("training.chunk_failed", where=ch.where, error=str(e)[:200])
-                continue
+                return ch, []
+
+        workers = self.llm.workers
+        self._p("think", f"AI đang đọc {len(chunks)} đoạn ({workers} đoạn cùng lúc, model {self.llm.label})…",
+                0, len(chunks))
+        ex = ThreadPoolExecutor(max_workers=workers, thread_name_prefix="think")
+        futures = [ex.submit(think, ch) for ch in chunks]
+        results, read = [], 0
+        try:
+            for done, fut in enumerate(as_completed(futures), start=1):
+                ch, outs = fut.result()
+                read += bool(outs)
+                self._p("think", f"AI đã đọc {done}/{len(chunks)} đoạn ({ch.where})", done, len(chunks))
+                results += [(ch, out) for out in outs]
+                if self.llm.cloud_down:
+                    break  # keep what was learned; say why below
+        except Cancelled:
+            ex.shutdown(wait=False, cancel_futures=True)
+            raise
+        ex.shutdown(wait=True, cancel_futures=True)
+        if self.llm.cloud_down:
+            stats["warning"] = (f"{self.llm.label} lỗi liên tục ({self.llm.cloud_down}). Đã dừng sau {read}/{len(chunks)} "
+                                "đoạn, phần đã học được giữ lại — đưa lại file này sau ít phút để học tiếp.")
+        order = {id(c): k for k, c in enumerate(chunks)}
+        for ch, out in sorted(results, key=lambda r: order[id(r[0])]):  # book order for summaries/citations
             if not META.search(out.summary):  # small models sometimes describe the task instead of the text
                 summaries.append(out.summary)
             cite = f"{src.name} · {ch.where}"
@@ -177,7 +205,7 @@ class TrainingJob:
                 entry["pending"] += 1
         if summaries:
             entry["summary"] = self._summarize(src.name, summaries)
-        entry["complete"] = True
+        entry["complete"] = not self.llm.cloud_down  # an interrupted source is read again next time
         self.memory.add_log(entry)
         return entry
 

@@ -134,6 +134,7 @@ export interface TrainDone {
   notes_added?: number;
   notes_merged?: number;
   cancelled?: boolean;
+  warning?: string; // the cloud model kept failing: stopped early, what was learned is kept
   seconds?: number;
   llm_calls?: number;
 }

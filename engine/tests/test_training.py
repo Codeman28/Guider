@@ -135,3 +135,15 @@ def test_group_named_as_a_step_becomes_within():
     assert why == "" and [s["target"]["names"][0] for s in card["steps"]] == ["Home", "Superscript"]
     assert card["steps"][1]["target"]["within"] == {"names": ["Font"], "control_type": "Group"}
     assert [s["id"] for s in card["steps"]] == [1, 2]
+
+
+def test_pacer_keeps_requests_under_the_minute_limit(monkeypatch):
+    from kem_engine.training import llm as tllm
+    clock = {"t": 0.0}
+    slept = []
+    monkeypatch.setattr(tllm.time, "monotonic", lambda: clock["t"])
+    monkeypatch.setattr(tllm.time, "sleep", lambda d: (slept.append(d), clock.__setitem__("t", clock["t"] + d)))
+    p = tllm._Pacer(3)
+    for _ in range(4):
+        p.wait()
+    assert len(slept) == 1 and 59 < slept[0] <= 60.1  # the 4th start waited for the window

@@ -25,7 +25,8 @@ class OpenAICompatProvider:
             if not key:
                 raise ProviderUnavailable(f"{self.name}: chưa có API key (nhập trong Cài đặt của Guider)")
             from openai import OpenAI
-            self._client = OpenAI(base_url=self.conf.base_url, api_key=key, timeout=self.conf.timeout_s)
+            # no silent SDK retries: a stuck model must fail fast so the caller can fall back (25/10/2026)
+            self._client = OpenAI(base_url=self.conf.base_url, api_key=key, timeout=self.conf.timeout_s, max_retries=0)
         return self._client
 
     def complete_json(self, model, system, user, schema, temperature=0.2, max_tokens=2000, timeout=None) -> str:

@@ -1,18 +1,153 @@
 # Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
 # the base pack is <app>.cards.yaml.
 notes:
+- id: n2948633733
+  app: excel
+  topic: Create a Document
+  fact: Tạo bảng mới bằng cách chọn Home > New > Blank Workbook. Đây là cách cơ bản để bắt đầu một bảng Excel.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
+- id: n2951141051
+  app: excel
+  topic: Cursor Management
+  fact: Cursor vị trí hiện thị bằng chữ đen trong chế độ dark mode cho biết vị trí con trỏ đang điểm vào
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
 - id: n2944326911
   app: excel
   topic: Tăng số chữ số thập phân
   fact: Nút Decrease Decimal nằm ngay bên cạnh để bớt số lẻ
   sources:
   - meo_office.md · đoạn 1
+- id: n2951141158
+  app: excel
+  topic: Workbook Management
+  fact: Mỗi workbook có 3 worksheets, có thể tăng số lượng sheet
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
+- id: n2948633765
+  app: powerpoint
+  topic: Create a Document
+  fact: Tạo bài thuyết trình mới bằng cách chọn Home > New > Blank Presentation. Đây là cách cơ bản để bắt đầu một bài thuyết trình PowerPoint.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
 - id: n2944326999
   app: powerpoint
   topic: Đổ bóng cho chữ
   fact: Chữ sẽ có bóng mờ phía sau giúp dễ đọc trên nền ảnh
   sources:
   - meo_office.md · đoạn 1
+- id: n2948633696
+  app: word
+  topic: Create a Document
+  fact: Tạo tài liệu mới bằng cách chọn Home > New > Blank Document. Đây là cách cơ bản để bắt đầu một tài liệu Word.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
+- id: n2950952391
+  app: word
+  topic: Document Views
+  fact: The View tab allows switching between different document views (Print Layout, Full Screen Reading, Web Layout, Outline, Draft). Print
+    Layout is recommended for final document preparation.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
+- id: n2949686332
+  app: word
+  topic: Email Feature
+  fact: Send as Attachment opens Outlook with document attached; Send as PDF creates PDF file directly.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2949686186
+  app: word
+  topic: File Operations
+  fact: Save button in Quick Access Toolbar is faster than File > Save; Save As creates new file with different name.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2949686045
+  app: word
+  topic: Indentation
+  fact: First Line indentation is the default for most documents; use Paragraph group to adjust.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2950502983
+  app: word
+  topic: Keyboard Shortcuts
+  fact: 'Phím tắt để mở thanh công cụ: Ctrl + Q (truy cập Quick Access Toolbar), Ctrl + P (in), Ctrl + S (lưu).'
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 21–25
+- id: n2949685999
+  app: word
+  topic: Line Spacing
+  fact: No Spacing option in Styles group tightens line spacing without changing paragraph indentation.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2950503040
+  app: word
+  topic: Page Layout
+  fact: Trang Layout có thể thay đổi định dạng trang, bao gồm độ rộng, khoảng cách, và màu nền.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 21–25
+- id: n2949686290
+  app: word
+  topic: Print Options
+  fact: Print dialog in File tab allows landscape/portrait, double-sided, paper size, and printer selection.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2948748793
+  app: word
+  topic: Quick Access Toolbar
+  fact: Quick Access Toolbar có thể được tùy chỉnh để thêm các lệnh thường dùng, giúp tiết kiệm thời gian khi làm việc với Word.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
+- id: n2950502926
+  app: word
+  topic: Quick Access Toolbar
+  fact: Bạn có thể truy cập nhanh các chức năng thường dùng qua Quick Access Toolbar (thêm vào thanh công cụ trên cùng của cửa sổ Word).
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 21–25
+- id: n2948748760
+  app: word
+  topic: Ribbon
+  fact: Trong Word 2010, Ribbon thay thế Command Line, giúp truy cập nhanh các tính năng thông qua các tab như File, Home, Insert, v.v.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
+- id: n2950952261
+  app: word
+  topic: Spelling & Grammar Check
+  fact: Spelling & Grammar check is an automated process that goes through the entire document. It's useful for catching errors before finalizing
+    the document.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
+- id: n2948987887
+  app: word
+  topic: Spelling and Grammar
+  fact: Word's spelling checks are generally accurate but grammar suggestions may require manual review. Right-clicking a word allows ignoring
+    suggested revisions and removing underlines.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 5–12
+- id: n2950607309
+  app: word
+  topic: Table of Contents
+  fact: Để tạo Table of Contents, cần dùng heading styles cho các mục cần bao gồm. Chọn Automatic Table 2 để tạo bảng mục lục tự động.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 21–25
+- id: n2948906590
+  app: word
+  topic: Tạo tài liệu
+  fact: Bạn có thể tạo tài liệu từ mẫu (templates) qua File > New > Templates, hoặc từ Internet (nếu có kết nối).
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 5–12
+- id: n2949686089
+  app: word
+  topic: Text Alignment
+  fact: Center alignment is useful for titles or headings; Justify aligns text to both margins for clean layouts.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n2949686133
+  app: word
+  topic: Text Color
+  fact: Font Color and Text Highlight Color are separate features; highlight color changes text background.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
 - id: n2944326971
   app: word
   topic: Thụt lề đoạn văn
@@ -25,3 +160,10 @@ notes:
   fact: 'Phím tắt: Ctrl+Shift+='
   sources:
   - meo_office.md · đoạn 1
+- id: n2950952327
+  app: word
+  topic: Word Count
+  fact: Word Count provides statistics for pages, words, paragraphs, lines, etc. It's helpful for tracking document length and ensuring content
+    meets requirements.
+  sources:
+  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32

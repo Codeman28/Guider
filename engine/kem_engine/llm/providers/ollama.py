@@ -19,6 +19,7 @@ class OllamaProvider:
         self.timeout = conf.timeout_s
         self.think = conf.think
         self.keep_alive = conf.keep_alive
+        self.num_ctx = conf.num_ctx
 
     def _post(self, body: dict, timeout: float) -> dict:
         req = urllib.request.Request(self.base + "/api/chat", json.dumps(body).encode(),
@@ -36,7 +37,8 @@ class OllamaProvider:
     def complete_json(self, model, system, user, schema, temperature=0.2, max_tokens=2000, timeout=None) -> str:
         wait = min(self.timeout, timeout) if timeout else self.timeout
         body = {"model": model, "stream": False, "format": schema,
-                "options": {"temperature": temperature, "num_predict": max_tokens},
+                "options": {"temperature": temperature, "num_predict": max_tokens,
+                            **({"num_ctx": self.num_ctx} if self.num_ctx else {})},
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         if self.think is not None:
             body["think"] = self.think
