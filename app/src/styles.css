@@ -1,3 +1,7 @@
+/* Hallmark · checked: 2026-10-26 · genre: editorial (inferred) · shape: app screen
+ * floor: 0 FAIL · fixed: 16 (7a, 19, 20, 34, 48, 63, 67) + reflex 26b · structural: 0 printed
+ * built: the project (Lịch bloc, DESIGN.md) · redesign: polish · v2.0.0 */
+/* Hallmark · dismissed 70 · the training progress bar follows training.progress notifications from the engine, a real running job */
 @import "tailwindcss";
 @import "./tokens.css";
 
@@ -6,7 +10,7 @@
   body,
   #root {
     height: 100%;
-    overflow: hidden; /* the two columns scroll on their own; no outer page scrollbar */
+    overflow: clip; /* the two columns scroll on their own; clip, never hidden (no stray scroll container) */
   }
   body {
     background: var(--color-shell);
@@ -29,9 +33,17 @@
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
   }
+  /* Pressed and unavailable, on every control (Hallmark 26b, 39a: three channels for disabled). */
+  :is(button, [role="tab"], a):not(:disabled):active {
+    transform: translateY(1px);
+  }
+  :is(button, input, textarea):disabled {
+    cursor: not-allowed;
+  }
   h1,
   h2 {
     text-wrap: balance;
+    min-width: 0;
   }
   /* Long Vietnamese strings and Office names wrap, never truncate (PRODUCT.md, WCAG). */
   h1,
@@ -39,7 +51,13 @@
   p,
   li,
   button {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(button, [role="tab"], a):not(:disabled):active {
+    transform: none;
   }
 }
 
@@ -73,6 +91,6 @@
   body,
   #root {
     overflow: visible;
-    background: #fff;
+    background: var(--color-white);
   }
 }

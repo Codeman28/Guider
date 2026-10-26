@@ -41,7 +41,7 @@ export function Settings() {
           checked={provider === "gemini"}
           onSelect={() => hasKey && void useProvider("gemini")}
           title="Gemini miễn phí (Google)"
-          detail={hasKey ? "Nhanh hơn nhiều. Lỗi mạng hoặc hết lượt thì Guider tự dùng model trên máy." : "Cần API key của bạn — nhập ở dưới."}
+          detail={hasKey ? "Nhanh hơn nhiều. Lỗi mạng hoặc hết lượt thì Guider tự dùng model trên máy." : "Cần API key của bạn, nhập ở dưới."}
         />
       </div>
 
@@ -53,7 +53,7 @@ export function Settings() {
           Tạo miễn phí tại <span className="font-medium text-ink">{AI_STUDIO}</span> rồi dán vào đây. Key được mã hoá theo tài khoản Windows của bạn và chỉ nằm trên máy này.
         </p>
         <p className="mt-2 text-small">
-          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút — không bao giờ gửi ảnh chụp hay nội dung file của bạn.
+          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút, không bao giờ gửi ảnh chụp hay nội dung file của bạn.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <input
@@ -63,7 +63,7 @@ export function Settings() {
             spellCheck={false}
             value={key}
             onChange={(e) => setKey(e.target.value)}
-            placeholder={hasKey ? "Đã lưu một key — dán key mới để thay" : "Dán API key"}
+            placeholder={hasKey ? "Đã lưu một key; dán key mới để thay" : "Dán API key"}
             className="min-w-0 flex-1 rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar"
           />
           <button

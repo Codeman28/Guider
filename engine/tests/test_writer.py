@@ -92,3 +92,12 @@ def test_card_example_wins_but_cannot_bold_invented_labels():
 def test_no_example_when_nothing_was_demonstrated():
     tr = trace(ts(1, "select_ribbon_tab", "Home", "TabItem", verified=False))
     assert write(tr, "T", "id", "failed").example is None
+
+
+def test_copy_has_no_dashes_or_dot_strings():
+    from kem_engine.writer.template import tidy
+    assert tidy("Kết quả — như ảnh") == "Kết quả, như ảnh"
+    assert tidy("A – B") == "A, B"
+    tr = trace(ts(1, "select_ribbon_tab", "Home", "TabItem"), ts(2, "invoke", "Bold", result_image="r.png"))
+    tut = write(tr, "T", "id", "ok")
+    assert "—" not in tut.example.text and " · " not in tut.env_label

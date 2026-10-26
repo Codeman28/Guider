@@ -30,7 +30,7 @@ export function Consent() {
   const excelDetail = checking
     ? "Guider đang mở Excel trong vài giây để đọc phiên bản và ngôn ngữ giao diện…"
     : excel?.ok
-      ? `Microsoft 365 · build ${excel.build} · giao diện ${excel.ui_lang === "vi-VN" ? "tiếng Việt" : "tiếng Anh"}`
+      ? `Microsoft 365, build ${excel.build}, giao diện ${excel.ui_lang === "vi-VN" ? "tiếng Việt" : "tiếng Anh"}`
       : (excel?.error ?? checkError ?? "Chưa kiểm tra");
   const modelDetail = checking
     ? "Đang kiểm tra model trên máy…"
@@ -38,7 +38,7 @@ export function Consent() {
       ? `Model ${model.model ?? ""} sẵn sàng, chạy ngay trên máy`
       : model?.missing?.length
         ? `Thiếu model ${model.missing.join(", ")}. Mở PowerShell và chạy: ollama pull ${model.missing[0]}`
-        : (model?.error ?? "Chưa kiểm tra") + " — Guider vẫn làm mẫu được, phần lời văn sẽ dùng mẫu có sẵn.";
+        : (model?.error ?? "Chưa kiểm tra") + ". Guider vẫn làm mẫu được; phần lời văn sẽ dùng mẫu có sẵn.";
 
   return (
     <main className="grid h-full place-items-center overflow-auto bg-shell p-4">

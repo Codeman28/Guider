@@ -37,10 +37,10 @@ typography:
     fontWeight: 500
     lineHeight: 1.55
   numeral-caption:
-    fontFamily: "Oswald, Be Vietnam Pro, sans-serif"
+    fontFamily: "Be Vietnam Pro, sans-serif"
     fontSize: "14px"
     fontWeight: 400
-    letterSpacing: "0.12em"
+    letterSpacing: "0"
 rounded:
   sheet: "6px"
 spacing:
@@ -133,7 +133,7 @@ Bảng màu của một tờ lịch in: giấy ngà, mực đen ấm, hai sắc 
 - **Đỏ keo** (glue-red): dải keo ở mép trên của tờ lịch. Viền trên 6 px cho tờ/ô lịch (tờ bước, ô thư viện, thẻ kết quả trong chat, hộp đồng ý), 4 px cho tab đang mở và gạch dưới thanh thương hiệu. Không dùng cho chữ, nền hay nút.
 
 ### Tertiary
-- **Xám âm lịch** (lunar-slate): chữ in phụ như dòng âm lịch: nhãn môi trường ("Chụp trên Excel của bạn · build … "), số giây, chú thích BƯỚC / TRÊN n / THÁNG n, mẹo, trạng thái ổn, placeholder của ô nhập.
+- **Xám âm lịch** (lunar-slate): chữ in phụ như dòng âm lịch: nhãn môi trường ("Chụp trên Excel của bạn, build …"), số giây, chú thích Bước / trên n / tháng n, mẹo, trạng thái ổn, placeholder của ô nhập.
 
 ### Neutral
 - **Mực lịch** (calendar-ink): toàn bộ chữ chính, nền nút chính, viền nút viền, vòng focus, nền vùng chọn.
@@ -163,12 +163,12 @@ Bảng màu của một tờ lịch in: giấy ngà, mực đen ấm, hai sắc 
 - **Title** (Be Vietnam Pro 600, 16 px): tiêu đề của từng bước và nhãn nút Office in đậm (tên UIA thật).
 - **Body** (Be Vietnam Pro 400, 16 px, line-height 1.55): lời văn; đoạn văn trong bài giới hạn 680 px.
 - **Label** (Be Vietnam Pro 500, 14 px): nút, tab, trạng thái, mẹo, nhật ký.
-- **Numeral caption** (Oswald, 14 px, letter-spacing 0.12em, chữ in hoa, xám âm lịch): BƯỚC, TRÊN n, THÁNG n, và số giây (tabular-nums).
+- **Numeral caption** (Be Vietnam Pro, 14 px, chữ thường, không giãn chữ, xám âm lịch): Bước, trên n, tháng n, và số giây (tabular-nums). Đổi từ chữ in hoa giãn cách sang chữ thường trong lần đánh bóng Hallmark 26/10/2026 (gate 67).
 
 ### Named Rules
 **The Three Sizes Rule.** Văn bản chỉ có ba cỡ: 28, 16, 14 px (`--text-title`, `--text-body`, `--text-small`). Con số Oswald là một thang riêng và không bao giờ dùng cho chữ.
 
-**The Numeral Caption Rule.** Chữ in hoa giãn cách chỉ tồn tại như chú thích gắn liền với một con số (BƯỚC trên số, TRÊN n dưới số, THÁNG n trên ngày), giống chữ in trên tờ lịch. Không dùng làm dòng dẫn phía trên tiêu đề hay nhãn mục.
+**The Numeral Caption Rule.** Chú thích chỉ tồn tại gắn liền với một con số (Bước trên số, trên n dưới số, tháng n trên ngày), giống chữ in trên tờ lịch, viết thường bằng font thân bài, không giãn chữ, không in hoa. Không dùng làm dòng dẫn phía trên tiêu đề hay nhãn mục. Không nối các mẩu thông tin bằng dấu chấm giữa (" · ") và không dùng gạch dài trong câu chữ; dùng dấu phẩy, dấu hai chấm hoặc xuống dòng.
 
 **The Verbatim Label Rule.** Tên nút Office trong lời văn luôn in đậm và giữ nguyên chuỗi thật; không được cắt bớt. Chuỗi dài tiếng Việt và tên Office dài luôn xuống dòng (overflow-wrap: anywhere), không bao giờ dùng dấu "…".
 
@@ -224,13 +224,13 @@ Rõ ràng và điềm tĩnh, như nút trên một tờ giấy in.
 ### Navigation
 - **Thanh thương hiệu:** cao 56 px, chữ "Guider" đậm, gạch dưới đỏ keo 4 px.
 - **Tab:** Label 14 px; tab mở nền giấy lịch, chữ 500, dải keo 4 px trên; tab không mở nền mép giấy. Tiêu đề tab xuống dòng (tối đa 260 px), nút đóng là dấu chéo nét đơn trong cùng ô màu.
-- **Điều hướng bước:** Lùi (viền) · "i / n" Oswald xám âm lịch · Bước tiếp (chính); phím ← / → đổi bước.
+- **Điều hướng bước:** Lùi (viền), "Bước i trên n" xám âm lịch, Bước tiếp (chính), không mũi tên dính vào chữ nút; phím ← / → đổi bước.
 
 ### Calendar Sheet (signature)
-Tờ lịch của bước đang chạy trong cột chat: giấy trắng, dải keo 6 px, chú thích BƯỚC, con số 92 px, TRÊN n, hành động với tên nút in đậm, và số giây đã trôi qua. Bên dưới là mẩu tờ kế tiếp, rồi danh sách cuống các bước đã xong (dấu đạt · Bước n · hành động · số giây Oswald). Khi một bước được xác minh, tờ trên cùng bị xé: dịch lên 36 px, xoay −4°, mờ dần trong 420 ms với cubic-bezier(0.4, 0, 1, 1), điểm xoay ở góc trên trái. Với prefers-reduced-motion, tờ biến mất ngay.
+Tờ lịch của bước đang chạy trong cột chat: giấy trắng, dải keo 6 px, chú thích Bước, con số 92 px, trên n, hành động với tên nút in đậm, và số giây đã trôi qua. Bên dưới là mẩu tờ kế tiếp, rồi danh sách cuống các bước đã xong (dấu đạt, "Bước n: hành động", số giây Oswald). Khi một bước được xác minh, tờ trên cùng bị xé: dịch lên 36 px, xoay −4°, mờ dần trong 420 ms với cubic-bezier(0.4, 0, 1, 1), điểm xoay ở góc trên trái. Với prefers-reduced-motion, tờ biến mất ngay.
 
 ### Library Cell
-Lịch sử hướng dẫn là các ô lịch nguyên tờ trong lưới tự lấp (tối thiểu 180 px): THÁNG n, ngày tạo bằng con số 48 px (đỏ Chủ nhật nếu là Chủ nhật), tiêu đề, trạng thái. Hover viền mực.
+Lịch sử hướng dẫn là các ô lịch nguyên tờ trong lưới tự lấp (tối thiểu 180 px): tháng n, ngày tạo bằng con số 48 px (đỏ Chủ nhật nếu là Chủ nhật), tiêu đề, trạng thái. Hover viền mực.
 
 ### Demo Notice
 Hộp giấy trắng viền đỏ Chủ nhật 1 px, chữ 14 px, nằm trên ô nhập trong suốt lúc làm mẫu: "đừng gõ phím hay bấm chuột", phím Esc, và nút viền Dừng.
@@ -239,7 +239,7 @@ Hộp giấy trắng viền đỏ Chủ nhật 1 px, chữ 14 px, nằm trên ô
 
 ### Do:
 - **Do** lấy mọi màu, phông và cỡ chữ từ design/tokens.json để giao diện và ảnh chú thích luôn cùng một bảng màu.
-- **Do** cho mỗi bước một con số Oswald lớn kèm chú thích BƯỚC / TRÊN n, và chỉ một hành động.
+- **Do** cho mỗi bước một con số Oswald lớn kèm chú thích Bước / trên n, và chỉ một hành động.
 - **Do** dùng dải keo đỏ sẫm (4–6 px, mép trên) để đánh dấu tờ hoặc tab đang hoạt động.
 - **Do** hiển thị mọi ảnh chụp ở cùng một hệ số tỉ lệ trên cùng đường nền.
 - **Do** để chuỗi tiếng Việt dài và tên nút Office dài xuống dòng thay vì cắt.

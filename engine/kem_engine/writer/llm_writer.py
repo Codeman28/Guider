@@ -116,4 +116,4 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str, llm: LLMClien
     tut = base.model_copy(update={"outro": outro, "steps": steps, "example": ex})
     if template.validate_labels(tut, trace):  # should be impossible after _fix_labels
         return base, "template"
-    return tut, "llm"
+    return template.tidy_tutorial(tut), "llm"

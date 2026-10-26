@@ -52,7 +52,7 @@ export function StepStack({ demo }: { demo: Demo }) {
           <li key={d.n} className="grid grid-cols-[20px_1fr_auto] items-baseline gap-2">
             <Check className="translate-y-0.5" />
             <span>
-              Bước {d.n} · <Rich text={actionText(d.intent, d.label)} />
+              Bước {d.n}: <Rich text={actionText(d.intent, d.label)} />
             </span>
             <span className="font-num tabular-nums tracking-wide text-lunar">{seconds(d.seconds)}</span>
           </li>
@@ -67,9 +67,9 @@ function Sheet({ n, total, text, sub, className = "" }: { n: number | null; tota
     <div className={`rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white px-4 pb-3 pt-3 ${className}`}>
       {n !== null && (
         <>
-          <p className="font-num text-small tracking-[0.12em] text-lunar">BƯỚC</p>
+          <p className="text-small text-lunar">Bước</p>
           <p className="font-num text-[92px] font-bold leading-none">{n}</p>
-          {total > 0 && <p className="mt-2 font-num text-small tracking-[0.12em] text-lunar">TRÊN {total}</p>}
+          {total > 0 && <p className="mt-2 text-small text-lunar">trên {total}</p>}
         </>
       )}
       <p className="mt-1.5 font-medium">

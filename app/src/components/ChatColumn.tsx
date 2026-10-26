@@ -76,7 +76,7 @@ export function ChatColumn() {
               <li key={i} className="rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white px-3.5 py-3">
                 {e.title && <p className="font-medium">{e.title}</p>}
                 <p className={`text-small tabular-nums ${e.status === "ok" ? "text-lunar" : "text-sunday"}`}>
-                  {STATUS[e.status] ?? e.status} · {e.steps} bước · {e.seconds} giây
+                  {STATUS[e.status] ?? e.status}, {e.steps} bước trong {e.seconds} giây
                 </p>
                 <button type="button" onClick={() => void open(e.tutorialId)} className="mt-2 text-small font-medium underline underline-offset-4">
                   Mở hướng dẫn
@@ -97,7 +97,7 @@ export function ChatColumn() {
         <div role="status" className="mx-5 mb-3 flex items-start gap-3 rounded-sheet border border-sunday bg-white px-3 py-2.5 text-small">
           <p className="flex-1">
             {demo.recovered
-              ? "Có phím gõ lọt vào cửa sổ mẫu — Guider đã khôi phục. Đừng gõ phím hay bấm chuột nhé."
+              ? "Có phím gõ lọt vào cửa sổ mẫu; Guider đã khôi phục. Đừng gõ phím hay bấm chuột nhé."
               : "Guider đang làm mẫu."}{" "}
             Di chuột, bấm chuột, gõ phím hoặc nhấn <kbd className="font-semibold">Esc</kbd> là Guider dừng ngay.
           </p>

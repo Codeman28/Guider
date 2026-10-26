@@ -128,7 +128,7 @@ class TrainingJob:
                  "date": time.strftime("%Y-%m-%d %H:%M"), "summary": "", "added": 0, "merged": 0,
                  "pending": 0, "notes": 0}
         if prev and prev.get("complete"):
-            self._p("skip", f"Đã học nguồn này rồi ({prev['date']}) — bỏ qua.")
+            self._p("skip", f"Đã học nguồn này rồi ({prev['date']}), bỏ qua.")
             return {**prev, "skipped": True}
         chunks = [c for c in src.chunks if relevant(c.text)]
         stats["chunks"] += len(src.chunks)
@@ -166,12 +166,12 @@ class TrainingJob:
         ex.shutdown(wait=True, cancel_futures=True)
         if self.llm.cloud_down:
             stats["warning"] = (f"{self.llm.label} lỗi liên tục ({self.llm.cloud_down}). Đã dừng sau {read}/{len(chunks)} "
-                                "đoạn, phần đã học được giữ lại — đưa lại file này sau ít phút để học tiếp.")
+                                "đoạn. Phần đã học được giữ lại; đưa lại file này sau ít phút để học tiếp.")
         order = {id(c): k for k, c in enumerate(chunks)}
         for ch, out in sorted(results, key=lambda r: order[id(r[0])]):  # book order for summaries/citations
             if not META.search(out.summary):  # small models sometimes describe the task instead of the text
                 summaries.append(out.summary)
-            cite = f"{src.name} · {ch.where}"
+            cite = f"{src.name}, {ch.where}"
             for n in out.notes:
                 r = self.memory.add_note(n.app, n.topic, n.fact, cite)
                 stats["notes_added" if r == "added" else "notes_merged"] += 1
@@ -192,7 +192,7 @@ class TrainingJob:
                     cards.append((t.app, card))
         for i, (app, card) in enumerate(cards, start=1):
             self._check()
-            self._p("demo", f"Guider đang làm mẫu thử: {card['title']} — đừng chạm vào máy", i, len(cards))
+            self._p("demo", f"Guider đang làm mẫu thử: {card['title']}. Đừng chạm vào máy.", i, len(cards))
             ok, reason = self._demonstrate(app, card) if self.demonstrate else (False, "chưa chạy thử")
             self._check()  # stopped mid-demonstration: neither keep nor blame the card
             if ok:

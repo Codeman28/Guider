@@ -37,7 +37,7 @@ export default function App() {
       <TutorialPane />
       {!inTauri() && (
         <p className="no-print fixed bottom-2 right-3 rounded-sheet bg-ink px-2 py-1 text-small text-paper">
-          Bản xem thử giao diện — không chạy Excel thật
+          Bản xem thử giao diện, không chạy Excel thật
         </p>
       )}
     </div>

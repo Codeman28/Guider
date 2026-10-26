@@ -61,7 +61,7 @@ export function Library() {
           className="min-w-0 flex-1 rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar"
         />
         <span className="text-small tabular-nums text-lunar">
-          {query ? `${shown.length}/${library.length} bài` : `${library.length} bài`} · {mb(total)}
+          {query ? `${shown.length}/${library.length} bài` : `${library.length} bài`}, {mb(total)}
         </span>
         {query && shown.length > 0 && (
           <button
@@ -84,12 +84,12 @@ export function Library() {
             return (
               <li key={m.tutorial_id} className="relative">
                 <button type="button" onClick={() => void open(m.tutorial_id)} className="flex h-full w-full flex-col items-start justify-start rounded-b-sheet border border-edge border-t-[6px] border-t-glue bg-white p-3 pr-9 text-left hover:border-ink">
-                  <span className="block font-num text-small tracking-[0.12em] text-lunar">THÁNG {d.getMonth() + 1}</span>
+                  <span className="block text-small text-lunar">tháng {d.getMonth() + 1}</span>
                   <span className={`block font-num text-[48px] font-bold leading-none ${d.getDay() === 0 ? "text-sunday" : ""}`}>{d.getDate()}</span>
                   <span className="mt-2 block font-medium">{m.title}</span>
                   <span className={`mt-1 block text-small ${m.status === "ok" ? "text-lunar" : "text-sunday"}`}>
                     {STATUS[m.status] ?? m.status}
-                    {m.bytes ? <span className="text-lunar"> · {mb(m.bytes)}</span> : null}
+                    {m.bytes ? <span className="block text-lunar">{mb(m.bytes)}</span> : null}
                   </span>
                 </button>
                 <button

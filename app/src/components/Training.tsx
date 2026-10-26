@@ -15,7 +15,7 @@ function SourceRow({ s }: { s: { kind: string; name: string; date: string; summa
       </p>
       {s.summary && <p className="mt-1 text-small">{s.summary}</p>}
       <p className="mt-1 text-small tabular-nums text-lunar">
-        {s.date} · {s.added} việc mới · {s.merged} gộp vào việc có sẵn · {s.pending} chờ xem · {s.notes} ghi chú
+        {s.date}: {s.added} việc mới, {s.merged} gộp vào việc có sẵn, {s.pending} chờ xem, {s.notes} ghi chú
       </p>
     </li>
   );
@@ -37,9 +37,9 @@ export function Training() {
         Huấn luyện
       </h2>
       <p className="mt-2 text-small text-lunar">
-        Đưa sách, giáo trình, link hoặc để Guider tự research. Guider đọc hết, rút ra việc làm được kèm các bước, tự làm mẫu thử từng việc trong Office, rồi chỉ lưu bản tóm gọn đã kiểm chứng — không lưu nguyên văn. Model đang dùng:{" "}
+        Đưa sách, giáo trình, link hoặc để Guider tự research. Guider đọc hết, rút ra việc làm được kèm các bước, tự làm mẫu thử từng việc trong Office, rồi chỉ lưu bản tóm gọn đã kiểm chứng (không lưu nguyên văn). Model đang dùng:{" "}
         <span className="font-medium text-ink">{train?.model}</span>
-        {train && !train.cloud && " (trên máy — chậm; nhập key Gemini ở tab Cài đặt để nhanh hơn)"}.
+        {train && !train.cloud && " (trên máy, chậm; nhập key Gemini ở tab Cài đặt để nhanh hơn)"}.
       </p>
 
       <div className="mt-6 grid gap-3">
@@ -70,7 +70,7 @@ export function Training() {
           }}
         >
           <label htmlFor="train-topic" className="sr-only">Chủ đề research</label>
-          <input id="train-topic" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Chủ đề để tự research — để trống: Guider tự chọn việc còn thiếu" className="min-w-0 flex-1 rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar" />
+          <input id="train-topic" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Chủ đề để tự research (để trống: Guider tự chọn việc còn thiếu)" className="min-w-0 flex-1 rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar" />
           <button type="submit" disabled={busy || !train?.research} title={train?.research ? undefined : "Cần API key Gemini"} className="rounded-sheet border border-ink px-4 py-2 font-medium disabled:opacity-40">
             Tự research
           </button>
@@ -86,7 +86,7 @@ export function Training() {
               <div className="h-2 bg-sunday" style={{ width: `${Math.round((100 * p.done) / p.total)}%` }} />
             </div>
           )}
-          {p?.phase === "demo" && <p className="mt-2 text-small text-sunday">Guider đang mở Office để làm mẫu thử — đừng gõ phím hay bấm chuột.</p>}
+          {p?.phase === "demo" && <p className="mt-2 text-small text-sunday">Guider đang mở Office để làm mẫu thử. Đừng gõ phím hay bấm chuột.</p>}
           <button type="button" onClick={() => void cancelTraining()} className="mt-3 rounded-sheet border border-ink px-3 py-1 text-small font-medium">
             Dừng
           </button>
@@ -96,10 +96,18 @@ export function Training() {
       {trainLast && (
         <div aria-live="polite" className="mt-6 rounded-sheet border border-edge bg-white px-4 py-3 text-small">
           {trainLast.ok ? (
-            <p>
-              {trainLast.cancelled ? "Đã dừng. " : "Học xong. "}
-              Đọc {trainLast.relevant}/{trainLast.chunks} đoạn có thao tác · tìm thấy {trainLast.tasks_found} việc · <span className="font-medium">{trainLast.added} việc mới đã làm mẫu đúng</span> · {trainLast.merged} gộp · {trainLast.pending} chờ xem · {trainLast.rejected} bị loại (nút không có thật) · {trainLast.notes_added} ghi chú mới · {trainLast.seconds} giây.
-            </p>
+            <>
+              <p className="font-medium">{trainLast.cancelled ? "Đã dừng" : "Học xong"} sau {trainLast.seconds} giây</p>
+              <ul className="mt-1 grid gap-x-6 tabular-nums min-[700px]:grid-cols-2">
+                <li>Đọc {trainLast.relevant}/{trainLast.chunks} đoạn có thao tác</li>
+                <li>Tìm thấy {trainLast.tasks_found} việc</li>
+                <li className="font-medium">{trainLast.added} việc mới đã làm mẫu đúng</li>
+                <li>{trainLast.merged} gộp vào việc có sẵn</li>
+                <li>{trainLast.pending} chờ xem</li>
+                <li>{trainLast.rejected} bị loại (nút không có thật)</li>
+                <li>{trainLast.notes_added} ghi chú mới</li>
+              </ul>
+            </>
           ) : (
             <p className="text-sunday">Chưa học được: {trainLast.error}</p>
           )}
@@ -137,12 +145,15 @@ export function Training() {
       )}
 
       <h3 className="mt-8 font-medium">
-        Bộ nhớ đã học <span className="text-small font-normal text-lunar">· {learned} việc · {trainMemory?.notes ?? 0} ghi chú</span>
+        Bộ nhớ đã học
+        <span className="block text-small font-normal text-lunar">
+          {learned} việc, {trainMemory?.notes ?? 0} ghi chú
+        </span>
       </h3>
       {apps.map(([app, a]) =>
         a.cards.length || a.pending.length ? (
           <div key={app} className="mt-3">
-            <p className="text-small font-medium">{APP_NAME[app] ?? app}{a.extends ? ` · thêm ${a.extends} cách hỏi cho việc có sẵn` : ""}</p>
+            <p className="text-small font-medium">{APP_NAME[app] ?? app}{a.extends ? `, thêm ${a.extends} cách hỏi cho việc có sẵn` : ""}</p>
             <ul>
               {a.cards.map((c) => (
                 <li key={c.id} className="flex items-start gap-2 border-t border-edge py-2 text-small">

@@ -50,7 +50,7 @@ def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
 
 def env_label(env: EnvProfile, user_file: bool = False) -> str:
     where = "bản sao file của bạn" if user_file else f"{APP_NAME.get(env.app, env.app)} của bạn"
-    return f"Chụp trên {where} · build {env.office_build} · {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
+    return f"Chụp trên {where}, build {env.office_build}, {LANG_LABEL.get(env.ui_lang, env.ui_lang)}"
 
 
 SAMPLE_DATA = {  # what the fixtures contain (engine/fixtures), for the worked example
@@ -93,8 +93,8 @@ def example(trace: Trace) -> TutorialExample | None:
     clicks = ", rồi ".join(labels) if labels else ""
     text = f"Ví dụ: trên {data}" + (f", chọn {sel}" if sel else "") + (f", mở thẻ {tab}" if tab else "")
     text += (f", nhấn {clicks}." if clicks else ".")
-    text += (" Ảnh dưới là kết quả sau cùng — bạn làm y hệt trên dữ liệu của mình." if trace.final_image
-             else " Kết quả như ảnh dưới đây — bạn làm y hệt trên dữ liệu của mình." if image else "")
+    text += (" Ảnh dưới là kết quả sau cùng; bạn làm y hệt trên dữ liệu của mình." if trace.final_image
+             else " Kết quả như ảnh dưới đây; bạn làm y hệt trên dữ liệu của mình." if image else "")
     return TutorialExample(text=text, image=image)
 
 
@@ -129,6 +129,22 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
     return Tutorial(tutorial_id=tutorial_id, title=title, intro=intro, steps=steps, outro=outro,
                     env_label=env_label(trace.env, trace.user_file), status=status,
                     example=example(trace) if status in ("ok", "partial") else None)
+
+
+_DASH = re.compile(r"\s*[—–]\s*")
+
+
+def tidy(text: str) -> str:
+    """House style (Hallmark polish, 26/10/2026): no em/en dashes in copy, a comma reads the same."""
+    return _DASH.sub(", ", text or "").replace(", ,", ",")
+
+
+def tidy_tutorial(tut: Tutorial) -> Tutorial:
+    steps = [s.model_copy(update={"heading": tidy(s.heading), "body": tidy(s.body), "tip": tidy(s.tip) if s.tip else s.tip})
+             for s in tut.steps]
+    ex = tut.example.model_copy(update={"text": tidy(tut.example.text)}) if tut.example else None
+    return tut.model_copy(update={"title": tidy(tut.title), "intro": tidy(tut.intro), "outro": tidy(tut.outro),
+                                  "steps": steps, "example": ex})
 
 
 def bold_labels(text: str) -> list[str]:
