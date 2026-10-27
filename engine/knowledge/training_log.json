@@ -1,6 +1,19 @@
 [
  {
   "kind": "file",
+  "name": "[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf",
+  "ref": "[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf",
+  "sha": "acf01f68d60f535314fb61332687c23a1dcdaafc530ccccbed3e46a8a037a955",
+  "date": "2026-10-26 14:03",
+  "summary": "Tài liệu hướng dẫn ôn tập chứng chỉ Microsoft Excel Expert (MO-201) cung cấp kiến thức về các hàm nâng cao, định dạng dữ liệu và công cụ phân tích. Người học được hướng dẫn chi tiết cách sử dụng Flash Fill, Data Validation, Conditional Formatting và các hàm logic, tìm kiếm phức tạp.",
+  "added": 6,
+  "merged": 0,
+  "pending": 12,
+  "notes": 24,
+  "complete": true
+ },
+ {
+  "kind": "file",
   "name": "meo_office.md",
   "ref": "meo_office.md",
   "sha": "4751f28d578f705ef6e4f4dce6b506bedd970ae933f1f2d27f1ccbabbc966f3a",

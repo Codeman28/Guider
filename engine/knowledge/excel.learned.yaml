@@ -2,8 +2,861 @@
 # the base pack is <app>.cards.yaml.
 version: 1
 app: excel
-cards: []
+cards:
+- id: learn_exc_cach_dung_flash_fill_dien_du_lieu_tu_don_3eaa
+  title: Cách dùng Flash Fill điền dữ liệu tự động trong Excel
+  keywords:
+  - Flash Fill
+  - nhận diện mẫu dữ liệu
+  - tự động điền dữ liệu
+  - điền nhanh dữ liệu
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      - Dữ liệu
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Flash Fill
+      - Tự động điền
+      control_type: Button
+      automation_id: QuickCode
+    expected:
+      type: none
+    capture_result: true
+  example: Trên bảng dữ liệu, chọn ô B3 bên cạnh ô B2 đã được nhập mẫu, vào thẻ Data và bấm Flash Fill để Excel tự động điền các dòng còn lại.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 12–17
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_flash_fill_trong_excel_3d43
+  title: Cách dùng Flash Fill trong Excel
+  keywords:
+  - Flash Fill
+  - nhận diện mẫu
+  - tách họ tên
+  - điền dữ liệu tự động
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Flash Fill
+      control_type: Button
+      automation_id: QuickCode
+    expected:
+      type: none
+    capture_result: true
+  example: Trên bảng dữ liệu mẫu có cột họ tên, gõ tên riêng ở ô B2, sau đó chọn ô B3 và bấm Flash Fill để tự động điền các tên còn lại.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 12–17
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_thiet_lap_data_validation_trong_exc_39ad
+  title: Cách thiết lập Data Validation trong Excel
+  keywords:
+  - data validation excel
+  - giới hạn nhập dữ liệu
+  - kiểm tra dữ liệu nhập
+  - tạo danh sách thả xuống excel
+  - chặn nhập sai dữ liệu excel
+  - cách dùng data validation
+  - giới hạn giá trị nhập vào excel
+  - tạo quy tắc nhập liệu excel
+  - Cách thiết lập Data Validation trong Excel
+  - chặn nhập sai số
+  - giới hạn dữ liệu nhập
+  - kiểm tra dữ liệu nhập vào
+  - tạo validation trong excel
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Data Validation...
+      control_type: SplitButton
+    expected:
+      type: none
+    capture_result: true
+  example: Trên cột Doanh số, chọn các ô dữ liệu, vào tab Data và bấm Data Validation để mở hộp thoại thiết lập quy tắc.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 26–29
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_tao_quy_tac_dinh_dang_co_dieu_kien_1781
+  title: Cách tạo quy tắc định dạng có điều kiện trong Excel
+  keywords:
+  - new rule conditional formatting
+  - tạo conditional formatting
+  - tạo quy tắc mới
+  - định dạng có điều kiện
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Conditional Formatting
+      - Định dạng có điều kiện
+      control_type: MenuItem
+      automation_id: ConditionalFormattingMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - New Rule...
+      - Quy tắc Mới...
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: invoke
+    target:
+      names:
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Chọn cột Doanh số, mở menu Conditional Formatting và bấm New Rule để mở hộp thoại tạo quy tắc mới.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 43–46
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_chen_ham_logic_trong_excel_9ef3
+  title: Cách chèn hàm logic trong Excel
+  keywords:
+  - chèn hàm logic
+  - hàm and or not
+  - hàm if trong excel
+  - insert logical function
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Logical
+      control_type: MenuItem
+      automation_id: FunctionsLogicalInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - IF
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn một ô trống trên bảng 20 dòng, vào tab Formulas, bấm nút Logical và chọn IF để bắt đầu lập công thức.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 55–58
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_chen_ham_switch_trong_excel_4fdd
+  title: Cách chèn hàm SWITCH trong Excel
+  keywords:
+  - chèn hàm SWITCH
+  - dùng SWITCH
+  - so khớp nhiều giá trị
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Logical
+      control_type: MenuItem
+      automation_id: FunctionsLogicalInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - SWITCH
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô cần chèn, vào tab Formulas, bấm Logical và chọn SWITCH để trả về giá trị dựa trên danh sách so khớp.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 64–67
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_tong_tu_dong_autosum_trong_exc_ed0f
+  title: Cách tính tổng tự động AutoSum trong Excel
+  keywords:
+  - autosum
+  - hàm sum
+  - tính tổng
+  - tổng nhanh
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - AutoSum
+      - Tự động tính tổng
+      control_type: SplitButton
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn vùng H23:H28, vào tab Home và bấm nút AutoSum để tính tổng nhanh cho các hàng.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 28–32
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_tao_ten_vung_bang_hop_ten_trong_exc_ab86
+  title: Cách tạo tên vùng bằng hộp tên trong Excel
+  keywords:
+  - dùng name box
+  - tạo range name
+  - đặt tên cho dải ô
+  - đặt tên cho ô
+  - đặt tên vùng trong excel
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Name Box
+      - Hộp tên
+      control_type: ComboBox
+      automation_id: '13'
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô F3, gõ 'east' vào Name box rồi nhấn Enter để đặt tên cho ô F3 thành east.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 36–39
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_an_cot_trong_excel_a3b7
+  title: Cách ẩn cột trong Excel
+  keywords:
+  - giấu cột
+  - hide column
+  - ẩn bớt cột
+  - ẩn cột
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Format
+      - Định dạng
+      control_type: MenuItem
+      automation_id: FormatCellsMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: expand
+    target:
+      names:
+      - Hide & Unhide
+      - Ẩn và Hiện
+      control_type: MenuItem
+    expected:
+      type: expanded
+  - id: 4
+    intent: invoke
+    target:
+      names:
+      - Hide Columns
+      - Ẩn cột
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn các cột B đến G, bấm thẻ Home, vào Format trong nhóm Cells, chọn Hide & Unhide rồi bấm Hide Columns để ẩn các cột này đi.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 55–58
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_doi_huong_chu_trong_excel_e045
+  title: Cách đổi hướng chữ trong Excel
+  keywords:
+  - chữ dọc
+  - orientation
+  - xoay chữ
+  - đổi hướng chữ
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Orientation
+      - Hướng chữ
+      control_type: MenuItem
+      automation_id: OrientationMenu
+    expected:
+      type: expanded
+    capture_result: true
+  example: Trên file mẫu, chọn cột chứa dữ liệu, vào Home và mở Orientation để đổi hướng chữ thành dọc.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 93–97
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_ngat_dong_van_ban_trong_o_excel_3ad0
+  title: Cách ngắt dòng văn bản trong ô Excel
+  keywords:
+  - ngắt dòng
+  - wrap text
+  - xuống dòng trong ô
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Wrap Text
+      - Ngắt dòng
+      control_type: Button
+      automation_id: WrapText
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn vùng dữ liệu, bấm Wrap Text trên tab Home để nội dung hiển thị gọn trong ô.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 93–97
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_dinh_dang_ngay_thang_trong_excel_cec4
+  title: Cách định dạng ngày tháng trong Excel
+  keywords:
+  - chuyển số serial thành ngày
+  - format cells date
+  - định dạng ngày tháng
+  - đổi sê ri thành ngày tháng
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Number Format
+      - Định dạng Số
+      control_type: ComboBox
+      automation_id: NumberFormatGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - More Number Formats...
+      - Thêm định dạng số...
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: select_item
+    target:
+      names:
+      - Date
+      - Ngày tháng
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 5
+    intent: invoke
+    target:
+      names:
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Trên bảng dữ liệu mẫu, chọn các ô chứa số sê-ri ngày, mở hộp thoại Format Cells, chọn mục Date và bấm OK để hiển thị lại dưới dạng
+    ngày tháng chuẩn.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 98–102
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_co_dinh_hang_va_cot_trong_excel_cd15
+  title: Cách cố định hàng và cột trong Excel
+  keywords:
+  - cố định cột
+  - cố định dòng
+  - freeze panes
+  - giữ tiêu đề khi cuộn
+  - khóa dòng cột
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - View
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Freeze Panes
+      control_type: MenuItem
+      automation_id: ViewFreezePanesGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Freeze Panes
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Trên bảng dữ liệu 20 dòng, chọn ô C9 rồi bấm View, Freeze Panes, Freeze Panes để luôn giữ lại cột A, B và các hàng tiêu đề phía trên
+    khi cuộn bảng.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 148–150
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_hien_thi_cong_thuc_trong_excel_b6ef
+  title: Cách hiển thị công thức trong Excel
+  keywords:
+  - hiển thị công thức
+  - hiện công thức ô
+  - show formulas
+  - xem công thức trong bảng tính
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Show Formulas
+      control_type: Button
+      automation_id: ShowFormulas
+    expected:
+      type: none
+    capture_result: true
+  example: Trên file mẫu, chọn một ô bất kỳ chứa công thức, bấm nút Show Formulas trên thẻ Formulas để chuyển đổi qua lại giữa việc hiển thị kết
+    quả và hiển thị công thức trong các ô.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 190–195
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_hien_thi_o_tien_nhiem_trong_excel_55fd
+  title: Cách hiển thị ô tiền nhiệm trong Excel
+  keywords:
+  - Trace Precedents
+  - kiểm tra công thức
+  - tìm ô tiền nhiệm
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Trace Precedents
+      control_type: Button
+      automation_id: TracePrecedents
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô chứa doanh số tổng, bấm Trace Precedents để hiển thị mũi tên xanh chỉ đến các ô tháng và khu vực cấu thành.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 190–195
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_hien_thi_o_phu_thuoc_trong_excel_e3c2
+  title: Cách hiển thị ô phụ thuộc trong Excel
+  keywords:
+  - Trace Dependents
+  - kiểm tra công thức
+  - tìm ô phụ thuộc
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Trace Dependents
+      control_type: Button
+      automation_id: TraceDependents
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô tháng, bấm Trace Dependents để xem công thức doanh số nào đang phụ thuộc vào ô đó.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 190–195
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_xoa_mui_ten_kiem_tra_cong_thuc_tron_50cb
+  title: Cách xóa mũi tên kiểm tra công thức trong Excel
+  keywords:
+  - Remove Arrows
+  - xóa mũi tên
+  - ẩn mũi tên
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Remove Arrows
+      control_type: SplitButton
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô đang có mũi tên, bấm Remove Arrows để làm sạch giao diện bảng tính.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 190–195
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_o_phu_thuoc_trong_excel_9671
+  title: Cách tìm ô phụ thuộc trong Excel
+  keywords:
+  - kiểm tra công thức
+  - trace dependents
+  - tìm cell ảnh hưởng
+  - tìm ô phụ thuộc
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Trace Dependents
+      control_type: Button
+      automation_id: TraceDependents
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô chứa giả định tăng trưởng giá, bấm Trace Dependents để xem các ô doanh thu và lợi nhuận phụ thuộc vào giá trị này.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 196–201
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_o_tien_de_trong_excel_2957
+  title: Cách tìm ô tiền đề trong Excel
+  keywords:
+  - kiểm tra nguồn gốc công thức
+  - trace precedents
+  - tìm cell gốc
+  - tìm ô tiền đề
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Trace Precedents
+      control_type: Button
+      automation_id: TracePrecedents
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô lợi nhuận năm 1, bấm Trace Precedents để hiển thị các ô doanh thu và chi phí dùng để tính toán.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 196–201
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tao_bieu_do_scatter_trong_excel_9217
+  title: Cách tạo biểu đồ Scatter trong Excel
+  keywords:
+  - biểu đồ phân tán
+  - chart từ data table
+  - insert scatter chart
+  - tạo biểu đồ
+  - vẽ biểu đồ scatter
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Insert
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Insert Scatter (X, Y) or Bubble Chart
+      - Chèn biểu đồ Phân tán (X-Y) hoặc Bong bóng
+      control_type: MenuItem
+      automation_id: ChartTypeXYScatterInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Scatter with Smooth Lines
+      - Phân tán có Đường mượt
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn vùng H28:O43, vào tab Insert, bấm nút Insert Scatter or Bubble Chart và chọn Scatter with Smooth Lines để vẽ biểu đồ.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 211–213
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2:D21
 extends:
   increase_decimal:
   - Increase Decimal
   - Tăng số chữ số thập phân
+  insert_table:
+  - create table
+  - format as table
+  - lập bảng
+  - tạo bảng
+  - Cách tạo bảng trong Excel
+  pivot_basic:
+  - chèn bảng pivot
+  - insert pivot table
+  - tạo pivot table
+  - tổng hợp dữ liệu pivot
+  - Cách tạo PivotTable trong Excel
+  - chèn bảng tổng hợp
+  - summarize data with PivotTable
+  - tạo PivotTable
+  - tạo báo cáo PivotTable
+  - chèn pivottable
+  - insert pivottable
+  - Cách chèn PivotTable trong Excel
+  - chèn Pivot Table
+  - làm PivotTable
+  chart_column:
+  - clustered column
+  - insert column chart
+  - tạo biểu đồ cột
+  - ve biểu đồ cột
+  - Cách tạo biểu đồ cột Clustered Column trong Excel
+  - Cách tạo biểu đồ cột trong Excel
+  - biểu đồ mục tiêu
+  - thermometer chart
+  - tạo biểu đồ nhiệt kế
+  - vẽ biểu đồ tiến độ
+  - Cách tạo biểu đồ nhiệt kế trong Excel
+  - Cách vẽ biểu đồ cột trong Excel
+  - chèn biểu đồ cột
+  - clustered column chart
+  chart_pie:
+  - insert pie or doughnut chart
+  - làm biểu đồ hình tròn
+  - tạo biểu đồ tròn
+  - vẽ pie chart
+  - Cách tạo biểu đồ tròn trong Excel

@@ -1,30 +1,2561 @@
 # Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
 # the base pack is <app>.cards.yaml.
 notes:
-- id: n2948633733
+- id: n3008113036
   app: excel
-  topic: Create a Document
-  fact: Tạo bảng mới bằng cách chọn Home > New > Blank Workbook. Đây là cách cơ bản để bắt đầu một bảng Excel.
+  topic: 3D Map Mapping Confidence
+  fact: Bạn có thể kiểm tra độ chính xác của vị trí địa lý trong 3D Map bằng cách bấm nút 100% trong ngăn Layer.
   sources:
-  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 1–4
-- id: n2951141051
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 689–695
+- id: n3008112394
   app: excel
-  topic: Cursor Management
-  fact: Cursor vị trí hiện thị bằng chữ đen trong chế độ dark mode cho biết vị trí con trỏ đang điểm vào
+  topic: 3D Maps
+  fact: Khi đóng cửa sổ 3D Map, bản đồ sẽ tự động được lưu lại dưới dạng một tour và bạn có thể quản lý hoặc phát lại tour này bất cứ lúc nào.
   sources:
-  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
-- id: n2944326911
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 682–688
+- id: n3008112710
   app: excel
-  topic: Tăng số chữ số thập phân
-  fact: Nút Decrease Decimal nằm ngay bên cạnh để bớt số lẻ
+  topic: 3D Maps
+  fact: Công cụ 3D Maps cho phép trực quan hóa dữ liệu theo không gian địa lý và thời gian, giúp phân tích sự thay đổi của dữ liệu qua các năm.
   sources:
-  - meo_office.md · đoạn 1
-- id: n2951141158
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 682–688
+- id: n3009919230
   app: excel
-  topic: Workbook Management
-  fact: Mỗi workbook có 3 worksheets, có thể tăng số lượng sheet
+  topic: 3D Maps
+  fact: Khi đóng cửa sổ 3D Map, bản đồ của bạn sẽ được lưu tự động thành một tour và bạn có thể tạo nhiều tour trong cùng một bảng tính.
   sources:
-  - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 682–688
+- id: n3008082148
+  app: excel
+  topic: Advanced Filter
+  fact: Các điều kiện nằm trên các dòng khác nhau trong bảng tiêu chí của Advanced Filter sẽ được hiểu là điều kiện HOẶC (OR).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3009884026
+  app: excel
+  topic: Advanced Filter
+  fact: Khi sử dụng Advanced Filter với các dòng điều kiện khác nhau, Excel sẽ hiểu là điều kiện kết hợp theo kiểu HOẶC (OR).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3008082349
+  app: excel
+  topic: Advanced Filter Unique Records
+  fact: Khi sử dụng Advanced Filter, bạn có thể tích chọn ô Unique Records Only để loại bỏ các bản ghi trùng lặp và chỉ trả về các kết quả duy
+    nhất.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 467–470
+- id: n3008075502
+  app: excel
+  topic: Analysis ToolPak
+  fact: Nếu không thấy Data Analysis trên thẻ Data, cần vào Options để bật Add-in Analysis ToolPak.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 388–391
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 400–404
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 743–747
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 768–770
+- id: n3008116829
+  app: excel
+  topic: Analysis ToolPak
+  fact: Cần cài đặt add-in Analysis ToolPak từ mục Options trước khi sử dụng được các công cụ phân tích nâng cao như Correlation.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 723–728
+- id: n3008121763
+  app: excel
+  topic: Anova Two-Factor with Replication
+  fact: Khi chạy phân tích phương sai hai yếu tố có lặp lại trong Excel, bạn cần đảm bảo dữ liệu đầu vào có các nhãn cho từng mức độ của cột và
+    hàng, đồng thời xác định chính xác số lượng hàng cho mỗi mẫu (Rows Per Sample).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 771–775
+- id: n3009826923
+  app: excel
+  topic: Áp dụng tên vùng cho toàn bộ bảng tính
+  fact: Bạn có thể chọn toàn bộ worksheet bằng cách bấm vào nút tam giác giao giữa các tiêu đề hàng và cột trước khi áp dụng tên vùng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 46–50
+- id: n3008083788
+  app: excel
+  topic: Array Formulas
+  fact: Khi chỉnh sửa công thức mảng cho nhiều ô, cần chọn toàn bộ vùng mảng, nhấn phím F2, sửa nội dung và kết thúc bằng tổ hợp phím Ctrl+Shift+Enter.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 479–481
+- id: n3008079215
+  app: excel
+  topic: AutoFilter
+  fact: Tính năng AutoFilter tự động thêm các mũi tên thả xuống vào hàng tiêu đề của bảng giúp dễ dàng truy vấn dữ liệu theo các điều kiện AND.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 434–439
+- id: n3008080641
+  app: excel
+  topic: AutoFilter
+  fact: Ban co the them lenh AutoFilter vao Quick Access Toolbar de loc nhanh du lieu trong bang ma khong can phai vao lai tab Data.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 448–454
+- id: n3008103282
+  app: excel
+  topic: Bar of Pie Chart
+  fact: Biểu đồ Bar of Pie rất hữu ích khi bạn có nhiều danh mục nhỏ giúp giảm bớt sự lộn xộn bằng cách tách chúng sang một biểu đồ cột phụ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 631–638
+- id: n3009906936
+  app: excel
+  topic: Biểu đồ 3-D
+  fact: Nên tránh sử dụng các tùy chọn biểu đồ cột 3-D vì hiệu ứng không gian làm việc so sánh giá trị dữ liệu trở nên khó khăn hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 617–622
+- id: n3009909412
+  app: excel
+  topic: Biểu đồ Bar of Pie
+  fact: Sử dụng biểu đồ Bar of Pie giúp giảm độ rối khi có quá nhiều danh mục nhỏ bằng cách gộp chúng vào một thanh riêng biệt.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 631–638
+- id: n3008105348
+  app: excel
+  topic: Biểu đồ bong bóng
+  fact: Biểu đồ bong bóng cho phép tóm tắt trực quan ba biến số, với kích thước mỗi bong bóng tỷ lệ thuận với giá trị dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 644–649
+- id: n3009910910
+  app: excel
+  topic: Biểu đồ bong bóng
+  fact: Biểu đồ bong bóng cho phép trực quan hóa mối quan hệ giữa ba biến số khác nhau trên cùng một biểu đồ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 644–649
+- id: n3008099034
+  app: excel
+  topic: Biểu đồ cột
+  fact: Có thể làm biểu đồ sinh động hơn bằng cách thay thế các cột thông thường bằng hình ảnh minh họa.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 617–622
+- id: n3008098393
+  app: excel
+  topic: Biểu đồ cột 3D
+  fact: Nên tránh dùng biểu đồ cột dạng 3-D vì giá trị diện tích và thể tích làm cho việc so sánh dữ liệu trực quan trở nên khó khăn hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 617–622
+- id: n3008101608
+  app: excel
+  topic: Biểu đồ cột và nhãn năm
+  fact: Khi tạo biểu đồ cột, nếu vùng chọn bao gồm ô tiêu đề năm ở góc trên bên trái, Excel có thể nhận diện sai năm thành một chuỗi dữ liệu thay
+    vì nhãn trục ngang.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 631–638
+- id: n3009912328
+  app: excel
+  topic: Biểu đồ dải
+  fact: Sử dụng biểu đồ cột chồng (Stacked Column) kết hợp với các giá trị giới hạn trên và dưới giúp theo dõi sự thay đổi của dữ liệu theo thời
+    gian so với mức chuẩn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 650–655
+- id: n3008106951
+  app: excel
+  topic: Biểu đồ dải (Band Chart)
+  fact: Sử dụng biểu đồ cột chồng (Stacked Column) là một cách hiệu quả để theo dõi dữ liệu nằm trong khoảng giới hạn trên và dưới theo thời gian.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 650–655
+- id: n3009907461
+  app: excel
+  topic: Biểu đồ hình ảnh
+  fact: Có thể thay thế các cột đơn điệu trong biểu đồ bằng hình ảnh sản phẩm để trực quan hóa dữ liệu tốt hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 617–622
+- id: n3009908943
+  app: excel
+  topic: Biểu đồ hình tròn
+  fact: Nên tránh sử dụng biểu đồ hình tròn dạng 3D (3-D Pie) vì kiểu hiển thị này có xu hướng làm bóp méo và hiển thị sai lệch tỷ lệ thực tế
+    của dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 631–638
+- id: n3008100169
+  app: excel
+  topic: Biểu đồ kết hợp
+  fact: Sử dụng biểu đồ kết hợp (Combo chart) giúp dễ dàng so sánh hai chuỗi dữ liệu có đặc tính hoặc đơn vị khác nhau trên cùng một biểu đồ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 623–630
+- id: n3008075962
+  app: excel
+  topic: Biểu đồ Pareto
+  fact: Biểu đồ Pareto kết hợp giữa cột và đường để thể hiện quy tắc 80-20, trong đó các giá trị cột được sắp xếp giảm dần và đường thể hiện phần
+    trăm tích lũy.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 400–404
+- id: n3009917611
+  app: excel
+  topic: Biểu đồ Sunburst
+  fact: Khi biểu đồ Treemap gặp lỗi thiếu không gian hiển thị nhãn (như các danh mục quá nhỏ), sử dụng biểu đồ Sunburst là một giải pháp thay
+    thế hiệu quả.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 669–675
+- id: n3009917189
+  app: excel
+  topic: Biểu đồ Treemap
+  fact: Biểu đồ Treemap giúp hiển thị dữ liệu phân cấp và tỷ trọng, trong đó các mục có cùng cấp cha sẽ hiển thị cùng màu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 669–675
+- id: n3008110897
+  app: excel
+  topic: Biểu đồ Treemap và Sunburst
+  fact: Biểu đồ Treemap phù hợp để hiển thị dữ liệu phân cấp nhiều tầng nhưng có thể bị hạn chế không gian hiển thị nhãn, trong khi biểu đồ Sunburst
+    giải quyết tốt hơn vấn đề này bằng dạng hình tròn đồng tâm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 669–675
+- id: n3008102517
+  app: excel
+  topic: Biểu đồ tròn 3D
+  fact: Nên hạn chế sử dụng biểu đồ tròn 3D vì hiệu ứng không gian có thể làm méo mó và khó so sánh chính xác các số liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 631–638
+- id: n3008064451
+  app: excel
+  topic: Biểu đồ từ bảng dữ liệu
+  fact: Trước khi vẽ biểu đồ từ bảng dữ liệu hai chiều, bạn cần sao chép bảng ra một vùng khác và xóa giá trị ở ô góc trên bên trái của vùng sao
+    chép.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 211–213
+- id: n3009850111
+  app: excel
+  topic: Biểu đồ từ bảng dữ liệu
+  fact: Trước khi vẽ biểu đồ từ bảng dữ liệu hai chiều, bạn nên sao chép dữ liệu sang vùng khác và xóa ô giao nhau trống để Excel nhận diện đúng
+    các chuỗi dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 211–213
+- id: n3009908514
+  app: excel
+  topic: Biểu đồ và dữ liệu trống
+  fact: Khi biểu đồ có dữ liệu trống, bạn có thể cấu hình để Excel hiển thị dạng số không, để trống hoặc nối đường thẳng giữa các điểm liền kề.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 623–630
+- id: n3008110507
+  app: excel
+  topic: Biểu đồ Waterfall
+  fact: Biểu đồ Waterfall rất hữu ích để minh họa tiến trình dòng tiền hoặc phân tách doanh thu thành chi phí và lợi nhuận.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3009916624
+  app: excel
+  topic: Biểu đồ Waterfall
+  fact: Biểu đồ thác nước rất hữu ích để minh họa quá trình chuyển biến từ doanh thu ban đầu qua các khoản chi phí để đạt được lợi nhuận cuối
+    cùng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3008079483
+  app: excel
+  topic: Biểu tượng bộ lọc
+  fact: Khi một cột được áp dụng bộ lọc, biểu tượng mũi tên trên tiêu đề cột sẽ chuyển thành hình chiếc phễu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 440–447
+- id: n3009871667
+  app: excel
+  topic: Bin Ranges trong Histogram
+  fact: Nên tự định nghĩa các khoảng bin (từ 8 đến 15 khoảng đều nhau) thay vì để Excel tự chọn để biểu đồ dễ đọc và trực quan hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 388–391
+- id: n3008077689
+  app: excel
+  topic: Boxplot
+  fact: Biểu đồ hộp hiển thị năm giá trị thống kê quan trọng bao gồm giá trị nhỏ nhất, lớn nhất, tứ phân vị thứ nhất, trung vị và tứ phân vị thứ
+    ba.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 416–420
+- id: n3008124182
+  app: excel
+  topic: Các loại Engine trong Solver
+  fact: Excel Solver cung cấp 3 engine chính gồm Simplex LP cho bài toán tuyến tính, GRG Nonlinear cho bài toán phi tuyến tính và Evolutionary
+    Solver cho các hàm phi mượt chứa hàm điều kiện hoặc thống kê.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 843–846
+- id: n3008124562
+  app: excel
+  topic: Cài đặt Solver
+  fact: Nếu không thấy Solver trong tab Data, bạn cần vào File > Options > Add-Ins để kích hoạt tiện ích này trước khi sử dụng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 847–849
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 876–879
+- id: n3008089813
+  app: excel
+  topic: Calculated Field
+  fact: Trường tính toán cho phép bạn tạo công thức dựa trên các trường khác sẵn có trong PivotTable để phân tích dữ liệu chi tiết hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 541–546
+- id: n3008074665
+  app: excel
+  topic: Cập nhật dữ liệu
+  fact: Sử dụng tính năng Refresh All trong thẻ Data giúp cập nhật nhanh chóng tất cả các công thức có gắn kiểu dữ liệu trong bảng tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 368–374
+- id: n3009894159
+  app: excel
+  topic: Cập nhật dữ liệu PivotTable
+  fact: Khi nguồn dữ liệu gốc thay đổi, bạn có thể nhấp chuột phải vào PivotTable và chọn Refresh để cập nhật các tính toán mới nhất.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 528–534
+- id: n3009910448
+  app: excel
+  topic: Chart Elements
+  fact: Nút Chart Elements (dấu cộng) xuất hiện bên phải biểu đồ giúp bạn nhanh chóng thêm hoặc bớt các thành phần như nhãn dữ liệu và tiêu đề.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 639–643
+- id: n3008060809
+  app: excel
+  topic: Chèn thời gian tĩnh
+  fact: Có thể nhanh chóng chèn thời gian hiện tại cố định vào một ô bằng cách nhấn tổ hợp phím tắt Ctrl+Shift+;
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 175–180
+- id: n3008107715
+  app: excel
+  topic: Chọn vùng dữ liệu không liền kề
+  fact: Có thể sử dụng phím Ctrl kết hợp nhấp chuột để chọn nhiều vùng dữ liệu khác nhau không nằm cạnh nhau trên bảng tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 656–658
+- id: n3008059001
+  app: excel
+  topic: Circular References
+  fact: Tham chiếu vòng xảy ra khi các ô phụ thuộc lẫn nhau tạo thành một vòng lặp, Excel có thể giải quyết việc này tự động nếu bật tính năng
+    tính toán lặp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 141–144
+- id: n3008059489
+  app: excel
+  topic: Circular References
+  fact: Bạn cần bật tùy chọn Enable Iterative Calculation trong Excel Options khi bảng tính có chứa các tham chiếu vòng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 155–157
+- id: n3008063084
+  app: excel
+  topic: Clean Cell Formatting
+  fact: Tính năng Clean Excess Cell Formatting giúp loại bỏ các định dạng không cần thiết ở các ô nằm ngoài vùng dữ liệu thực tế để tối ưu hóa
+    tệp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 202–206
+- id: n3008063206
+  app: excel
+  topic: Cố định giá trị Data Table
+  fact: Không thể xóa hoặc chỉnh sửa từng phần lẻ của một Data Table; nếu muốn giữ nguyên giá trị cố định, bạn cần sao chép vùng bảng và dán dưới
+    dạng giá trị (Paste Special - Values), nhưng khi đó bảng sẽ không tự cập nhật theo ô đầu vào nữa.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 207–210
+- id: n3008072593
+  app: excel
+  topic: Combo Box và List Box
+  fact: Sử dụng Combo Box hoặc List Box giúp người dùng chọn giá trị từ danh sách có sẵn thay vì gõ tay, hạn chế tối đa lỗi chính tả.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 332–335
+- id: n3008081284
+  app: excel
+  topic: Computed Criteria
+  fact: Khi thiết lập điều kiện tính toán (computed criteria) trong Excel, nhãn ở dòng trên cùng của vùng điều kiện không được trùng với tên cột
+    có sẵn trong cơ sở dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3009882330
+  app: excel
+  topic: Computed Criteria trong DSUM
+  fact: Khi thiết lập điều kiện tính toán (computed criterion) cho hàm DSUM, tiêu đề ở ô đầu tiên phía trên công thức không được trùng với tên
+    cột có sẵn trong bảng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3008066900
+  app: excel
+  topic: Conditional Formatting
+  fact: Tính năng Conditional Formatting giúp tự động thay đổi định dạng ô dựa trên giá trị của ô đó.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 269–272
+- id: n3008067291
+  app: excel
+  topic: Conditional Formatting
+  fact: Bạn có thể dùng Conditional Formatting để nhanh chóng nhận biết các giá trị lớn hoặc nhỏ trong bảng dữ liệu bằng màu sắc hoặc biểu tượng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 269–272
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 283–288
+- id: n3008068718
+  app: excel
+  topic: Conditional Formatting
+  fact: Bạn có thể dùng Conditional Formatting để nhanh chóng làm nổi bật các dữ liệu thỏa mãn điều kiện số học mà không cần tô thủ công.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 283–288
+- id: n3008071062
+  app: excel
+  topic: Conditional Formatting
+  fact: Khi tạo quy tắc dùng công thức trong bảng, cần lưu ý việc đặt dấu đô la ($) để định dạng tự động mở rộng khi có dòng dữ liệu mới được
+    thêm vào.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 318–321
+- id: n3008127159
+  app: excel
+  topic: Conditional Formatting
+  fact: Sử dụng Conditional Formatting giúp tự động làm nổi bật các dòng dữ liệu thỏa mãn điều kiện, rất hữu ích khi phân tích kết quả từ Solver.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 876–879
+- id: n3009855233
+  app: excel
+  topic: Conditional Formatting
+  fact: Định dạng có điều kiện giúp tự động thay đổi giao diện ô tính dựa trên giá trị của ô đó mà không cần thủ công.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 269–272
+- id: n3009857783
+  app: excel
+  topic: Conditional Formatting
+  fact: Bạn có thể dùng Conditional Formatting để nhanh chóng làm nổi bật các xu hướng dữ liệu như tăng hoặc giảm vượt ngưỡng bằng màu sắc.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 283–288
+- id: n3009860906
+  app: excel
+  topic: Conditional Formatting
+  fact: Sử dụng định dạng có điều kiện giúp tự động làm nổi bật các ô hoặc dòng dữ liệu thỏa mãn điều kiện logic hoặc công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 302–305
+- id: n3009857432
+  app: excel
+  topic: Conditional Formatting Icon Sets
+  fact: Bạn có thể tùy chỉnh hiển thị hoặc ẩn bớt các biểu tượng trong icon sets tùy thuộc vào nhu cầu phân tích dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 283–288
+- id: n3008067590
+  app: excel
+  topic: Conditional Formatting Rules
+  fact: Các quy tắc định dạng tạo sau sẽ có ưu tiên cao hơn các quy tắc tạo trước đó trên cùng một vùng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 273–277
+- id: n3008068153
+  app: excel
+  topic: Conditional Formatting Rules Manager
+  fact: Bạn có thể dễ dàng tạo, sửa, xóa hoặc thay đổi thứ tự ưu tiên của các quy tắc định dạng trong bảng tính thông qua hộp thoại quản lý quy
+    tắc.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 273–277
+- id: n3009856094
+  app: excel
+  topic: Conditional Formatting Rules Precedence
+  fact: Các quy tắc định dạng tạo sau sẽ có ưu tiên áp dụng cao hơn các quy tắc tạo trước đó trừ khi thay đổi thứ tự trong bảng quản lý.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 273–277
+- id: n3008072094
+  app: excel
+  topic: Conditional Formatting với công thức
+  fact: Bạn có thể dùng công thức logic kết hợp với ô trạng thái như F1 để bật tắt định dạng có điều kiện cho một vùng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 327–331
+- id: n3009865297
+  app: excel
+  topic: Conditional Formatting với công thức
+  fact: Sử dụng công thức trong Conditional Formatting giúp áp dụng định dạng linh hoạt dựa trên giá trị của ô khác hoặc trạng thái của hộp kiểm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 327–331
+- id: n3008061352
+  app: excel
+  topic: Công thức 3D trong Excel
+  fact: Công thức 3D cho phép tính toán xuyên suốt nhiều worksheet, ví dụ =SUM(East:West!C5) để tổng hợp dữ liệu từ sheet East đến West.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 186–189
+- id: n3008082582
+  app: excel
+  topic: Công thức mảng
+  fact: Trong các phiên bản Excel cũ, bạn phải nhấn Ctrl+Shift+Enter sau khi nhập công thức mảng, nhưng với Office 365 thì chỉ cần nhấn Enter.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 467–470
+- id: n3008082776
+  app: excel
+  topic: Công thức mảng
+  fact: Trong Office 365, công thức mảng tự động tràn giá trị (spill) sang các ô lân cận mà không cần nhấn Ctrl+Shift+Enter như các phiên bản
+    cũ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 471–473
+- id: n3009886811
+  app: excel
+  topic: Công thức mảng
+  fact: Khi sử dụng hằng số mảng trong công thức, các giá trị được đặt trong dấu ngoặc nhọn và văn bản cần nằm trong dấu ngoặc kép.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 479–481
+- id: n3008097147
+  app: excel
+  topic: Consolidate Links
+  fact: Chọn Create Links to Source Data khi dùng Consolidate giúp bảng tổng hợp tự động cập nhật khi dữ liệu nguồn thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 605–610
+- id: n3008097535
+  app: excel
+  topic: Consolidate với liên kết nguồn
+  fact: Khi tổng hợp dữ liệu, việc chọn tạo liên kết giúp bảng tính tự động cập nhật khi dữ liệu ở file nguồn thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 605–610
+- id: n3009883239
+  app: excel
+  topic: Criteria Range Tricks
+  fact: Có thể dùng các ký tự đại diện như dấu hỏi chấm và dấu sao trong vùng điều kiện của Excel để lọc chuỗi văn bản linh hoạt hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3008081090
+  app: excel
+  topic: Criteria trong hàm Database
+  fact: Trong vùng điều kiện của hàm database, các tiêu chí nằm trên cùng một hàng được tính là điều kiện VÀ (AND), trong khi các tiêu chí nằm
+    ở các hàng khác nhau được tính là điều kiện HOẶC (OR).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3008085626
+  app: excel
+  topic: Custom Data Validation Formula
+  fact: Bạn có thể sử dụng các hàm như ISNUMBER trong phần Custom của Data Validation để kiểm soát chặt chẽ kiểu dữ liệu của ô tính dựa trên công
+    thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 501–506
+- id: n3009877788
+  app: excel
+  topic: Custom List
+  fact: Bạn có thể tạo một danh sách tự động điền (Custom List) bằng cách nhập trực tiếp các mục hoặc import từ một vùng ô có sẵn trong phần Excel
+    Options.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 429–433
+- id: n3008078792
+  app: excel
+  topic: Custom Lists
+  fact: Tính năng Custom Lists cho phép bạn tự tạo các thứ tự sắp xếp riêng hoặc dùng để kéo chuột điền dữ liệu tự động cho các chuỗi văn bản
+    lặp lại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 429–433
+- id: n3009834703
+  app: excel
+  topic: Đảm bảo IRR duy nhất
+  fact: Một dự án được đảm bảo có một IRR duy nhất nếu chuỗi dòng tiền của nó chỉ chứa đúng một lần thay đổi dấu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 119–122
+- id: n3008055092
+  app: excel
+  topic: Dán danh sách tên vùng
+  fact: Nhấn phím F3 sau đó chọn Paste List giúp bạn nhanh chóng chèn toàn bộ danh sách tên vùng và địa chỉ ô tương ứng vào bảng tính bắt đầu
+    từ ô hiện tại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 46–50
+- id: n3008121277
+  app: excel
+  topic: Đánh giá giá trị p trong ANOVA
+  fact: Nếu giá trị p nhỏ hơn 0.15, yếu tố hàng hoặc cột có ảnh hưởng đáng kể đến doanh số.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 771–775
+- id: n3008120506
+  app: excel
+  topic: Đánh giá giá trị p-value trong ANOVA
+  fact: Nếu giá trị p-value nhỏ hơn hoặc bằng 0.15, các nhóm có sự khác biệt có ý nghĩa thống kê; ngược lại nếu lớn hơn 0.15 thì các nhóm có trung
+    bình giống nhau.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 763–767
+- id: n3009914348
+  app: excel
+  topic: Đảo ngược thứ tự trục trong biểu đồ
+  fact: Trong bảng Format Axis của biểu đồ, chọn Categories in Reverse Order giúp hiển thị các hạng mục từ trên xuống dưới theo thứ tự tự nhiên
+    thay vì đảo ngược.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 659–663
+- id: n3008055338
+  app: excel
+  topic: Đặt tên dải ô (Named Range)
+  fact: Nên đặt tên cho dải ô bảng dữ liệu (table range) để dễ quản lý công thức, tránh việc phải nhớ địa chỉ ô cụ thể và giúp công thức không
+    bị lỗi khi sao chép.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 51–54
+- id: n3008065368
+  app: excel
+  topic: Đặt tên vùng dữ liệu
+  fact: Tính năng Create from Selection trong thẻ Formulas cho phép nhanh chóng đặt tên cho các cột dựa trên hàng tiêu đề.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 231–234
+- id: n3009825604
+  app: excel
+  topic: Đặt tên vùng không liên tục
+  fact: Bạn có thể giữ phím Ctrl để chọn nhiều vùng ô rời nhau và đặt chung một tên để dùng trong các công thức tính toán.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 36–39
+- id: n3008117991
+  app: excel
+  topic: Data Analysis Add-in
+  fact: Nếu không thấy Data Analysis trên tab Data, bạn cần bật nó trong phần Excel Add-Ins của Excel Options.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 733–737
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 755–759
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 388–391
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 763–767
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 768–770
+- id: n3008068315
+  app: excel
+  topic: Data Bars
+  fact: Bạn có thể chọn tùy chọn Show Bar Only trong hộp thoại chỉnh sửa quy tắc để chỉ hiển thị thanh màu mà không hiện giá trị số trong ô.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 278–282
+- id: n3008104877
+  app: excel
+  topic: Data Labels
+  fact: Có thể lấy trực tiếp giá trị của nhãn dữ liệu từ một vùng ô bất kỳ trên bảng tính Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 639–643
+- id: n3009901371
+  app: excel
+  topic: Data Model
+  fact: Data Model giúp xử lý lượng dữ liệu lớn hơn giới hạn của bảng tính thông thường và kết hợp dữ liệu từ nhiều bảng mà không cần dùng hàm
+    VLOOKUP.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 573–579
+- id: n3008093954
+  app: excel
+  topic: Data Model PivotTable
+  fact: Trước khi tạo PivotTable từ nhiều bảng, bạn cần thiết lập mối quan hệ (relationship) giữa các bảng đó để Excel nhận diện được dữ liệu
+    tương ứng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 573–579
+- id: n3009901799
+  app: excel
+  topic: Data Model PivotTable
+  fact: Excel sẽ yêu cầu tạo mối quan hệ giữa các bảng nếu bạn cố gắng tạo PivotTable trước khi thiết lập liên kết dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 573–579
+- id: n3008096394
+  app: excel
+  topic: Data Model Relationships
+  fact: Việc tạo mối quan hệ giữa các bảng trong Diagram View của Power Pivot có thể thay thế cho việc sử dụng nhiều hàm VLOOKUP phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 594–598
+- id: n3008081481
+  app: excel
+  topic: Data Table
+  fact: Công cụ Data Table trong nhóm Forecast (thẻ Data) rất hữu ích để tự động tính toán và điền hàng loạt kết quả cho các tổ hợp giá trị khác
+    nhau.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3008074103
+  app: excel
+  topic: Data Types
+  fact: Excel trên Office 365 hỗ trợ các kiểu dữ liệu thông minh để lấy thông tin trực tiếp từ internet vào công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 362–367
+- id: n3008075048
+  app: excel
+  topic: Data Types
+  fact: Excel cung cấp nhiều kiểu dữ liệu thông minh như Stocks, Geography, Universities, Foods, Movies, Music giúp trích xuất thông tin chi tiết
+    bằng công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 375–380
+- id: n3008075251
+  app: excel
+  topic: Data Types
+  fact: Excel hỗ trợ nhiều kiểu dữ liệu thông minh như People, City, và Automatic để dễ dàng trích xuất thông tin chi tiết bằng công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 381–387
+- id: n3008085081
+  app: excel
+  topic: Data Validation
+  fact: Sử dụng tính năng Data Validation giúp giảm thiểu lỗi nhập liệu sai bằng cách giới hạn trước các giá trị được phép nhập vào ô.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 495–500
+- id: n3008085848
+  app: excel
+  topic: Data Validation
+  fact: Bạn có thể dùng phím F5, chọn Special sau đó bấm Data Validation để nhanh chóng tìm ra tất cả các ô đang áp dụng tính năng kiểm tra dữ
+    liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 507–509
+- id: n3008086119
+  app: excel
+  topic: Data Validation
+  fact: Bạn có thể sử dụng Data Validation để giới hạn kiểu dữ liệu, độ dài ký tự hoặc dùng hàm COUNTIF, RIGHT, ISTEXT để kiểm tra dữ liệu nhập
+    vào.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 507–509
+- id: n3008085417
+  app: excel
+  topic: Data Validation Error Alert
+  fact: Excel có mặc định hiển thị thông báo lỗi khi dữ liệu nhập vào không khớp với thiết lập Data Validation, và bạn có thể tùy chỉnh lại tiêu
+    đề, biểu tượng và nội dung thông báo này.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 501–506
+- id: n3009889600
+  app: excel
+  topic: Data Validation Error Alert
+  fact: Excel có sẵn phản hồi mặc định khi dữ liệu không hợp lệ nhưng người dùng có thể tùy chỉnh thông báo, biểu tượng và tiêu đề cảnh báo trong
+    tab Error Alert.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 501–506
+- id: n3008096038
+  app: excel
+  topic: DAX Functions
+  fact: Nhiều hàm DAX trong Power Pivot như YEAR, MONTH, DAY có cú pháp và cách hoạt động tương tự như các hàm thông thường trong Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 594–598
+- id: n3009883632
+  app: excel
+  topic: DGET Function
+  fact: 'Hàm DGET trả về giá trị lỗi #VALUE nếu không tìm thấy bản ghi thỏa mãn điều kiện hoặc #NUM nếu có nhiều hơn một bản ghi.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3008061534
+  app: excel
+  topic: Di chuyển giữa các sheet
+  fact: Dùng tổ hợp phím Ctrl+Page Down hoặc Ctrl+Page Up để chuyển đổi nhanh giữa sheet kế tiếp và sheet phía trước.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 186–189
+- id: n3008071478
+  app: excel
+  topic: Di chuyển hoặc thay đổi kích thước điều khiển
+  fact: Nhấn giữ phím Ctrl và click chuột vào điều khiển để chọn, sau đó kéo thả để di chuyển hoặc thay đổi kích thước.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 322–326
+- id: n3009824639
+  app: excel
+  topic: Địa chỉ tuyệt đối
+  fact: Thêm dấu đô la trước số hàng hoặc tên cột trong công thức giúp giữ nguyên tham chiếu đó khi sao chép sang các ô khác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 28–32
+- id: n3008086656
+  app: excel
+  topic: Điều hướng giữa các worksheet
+  fact: Sử dụng phím tắt Ctrl+Page Up và Ctrl+Page Down để di chuyển nhanh chóng giữa các worksheet trước và sau trong workbook.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 514–520
+- id: n3008066669
+  app: excel
+  topic: Định dạng file chứa Macro
+  fact: Các file Excel có sử dụng hàm macro dạng ẩn như GET.Workbook phải được lưu dưới định dạng .xlsm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 265–268
+- id: n3008056770
+  app: excel
+  topic: Định dạng ngày tháng tùy chỉnh
+  fact: Sử dụng mã mmm hoặc mmmm trong định dạng tùy chỉnh để hiển thị tên tháng viết tắt hoặc đầy đủ từ một giá trị ngày tháng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 93–97
+- id: n3009908003
+  app: excel
+  topic: Định dạng nhanh dữ liệu
+  fact: Bạn có thể bôi đậm các nhãn dữ liệu trên biểu đồ một cách nhanh chóng bằng cách chọn chúng và sử dụng phím tắt Ctrl+B.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 623–630
+- id: n3008060710
+  app: excel
+  topic: Định dạng thời gian trên 24 giờ
+  fact: Để hiển thị tổng thời gian vượt quá 24 giờ trong Excel, cần chọn định dạng thời gian tùy chỉnh có dạng [h]:mm:ss thay vì định dạng h:mm
+    thông thường.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 175–180
+- id: n3008106308
+  app: excel
+  topic: Định dạng trục biểu đồ
+  fact: Thay đổi giới hạn trục tung giúp tránh việc biểu đồ làm phóng đại các thay đổi nhỏ về doanh số.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 644–649
+- id: n3008116180
+  app: excel
+  topic: Độ dốc đường cong lũy thừa
+  fact: Mỗi khi số lượng sản phẩm lũy tiến tăng gấp đôi, chi phí hoặc thời gian sản xuất sẽ giảm theo một tỷ lệ phần trăm cố định tùy thuộc vào
+    ngành nghề.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 719–722
+- id: n3009874411
+  app: excel
+  topic: Độ lệch chuẩn mẫu và tổng thể
+  fact: Trong Excel, hàm STDEV.S dùng cho mẫu và STDEV.P dùng cho tổng thể, tương tự VAR.S và VAR.P dùng cho phương sai.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 409–412
+- id: n3008122135
+  app: excel
+  topic: Độ lệch chuẩn sai số dự báo
+  fact: Độ lệch chuẩn của sai số dự báo trong phân tích ANOVA được tính bằng căn bậc hai của phương sai sai số trong nhóm (mean squared within
+    error).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 776–780
+- id: n3008076846
+  app: excel
+  topic: Độ lệch (Skewness)
+  fact: Giá trị độ lệch lớn hơn +1 hoặc nhỏ hơn -1 cho thấy dữ liệu có độ lệch cao, khi đó nên dùng trung vị (median) thay vì số trung bình (mean).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 405–408
+- id: n3008077034
+  app: excel
+  topic: Độ nhọn (Kurtosis)
+  fact: Hàm KURT trong Excel giúp tính toán độ nhọn của tập dữ liệu để so sánh độ nhọn với đường cong chuẩn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 405–408
+- id: n3009920075
+  app: excel
+  topic: Độ tin cậy vị trí bản đồ 3D
+  fact: Bạn có thể kiểm tra mức độ chính xác của vị trí địa lý trên bản đồ 3D bằng cách xem báo cáo Mapping Confidence để thêm kinh độ và vĩ độ
+    nếu cần thiết.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 689–695
+- id: n3009929677
+  app: excel
+  topic: Đọc giá trị p-value trong ANOVA
+  fact: Nếu giá trị p-value nhỏ hơn 0.15 thì nhân tố đó có tác động đáng kể đến doanh số.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 771–775
+- id: n3008109543
+  app: excel
+  topic: Đổi màu biểu đồ
+  fact: Bạn có thể thay đổi màu của chuỗi dữ liệu trong biểu đồ bằng cách bấm vào biểu tượng cây cọ (Chart Styles) và chọn tab Color.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3009915451
+  app: excel
+  topic: Đổi màu biểu đồ
+  fact: Có thể dễ dàng thay đổi màu sắc của bất kỳ chuỗi dữ liệu nào trên biểu đồ bằng cách dùng công cụ Chart Styles với biểu tượng cọ vẽ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3008090350
+  app: excel
+  topic: Drill down
+  fact: Bạn có thể bấm đúp chuột vào bất kỳ ô nào trong PivotTable để mở một bảng tính mới hiển thị toàn bộ chi tiết dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 547–553
+- id: n3009897939
+  app: excel
+  topic: Drill Down
+  fact: Bạn có thể xem dữ liệu chi tiết của một ô trong PivotTable bằng cách nhấp đúp chuột vào ô đó để Excel tự động mở một bảng tính mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 547–553
+- id: n3008131331
+  app: excel
+  topic: Dừng Solver
+  fact: Bạn có thể nhấn phím Esc bất cứ lúc nào để dừng quá trình chạy của Solver.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 910–913
+- id: n3008115848
+  app: excel
+  topic: Đường cong học tập
+  fact: Đường cong học tập (learning curve) thể hiện mối quan hệ giữa số lượng sản phẩm sản xuất lũy tiến và thời gian hoặc chi phí sản xuất đơn
+    vị cuối cùng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 719–722
+- id: n3009923010
+  app: excel
+  topic: Đường cong học tập
+  fact: Đường cong học tập biểu diễn mối quan hệ giữa sản lượng tích lũy và thời gian hoặc chi phí sản xuất đơn vị cuối cùng, giúp dự báo chi
+    phí khi quy mô sản xuất tăng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 719–722
+- id: n3008114607
+  app: excel
+  topic: Đường xu hướng (Trendline)
+  fact: Excel sử dụng phương pháp bình phương tối thiểu để tính toán đường xu hướng, giúp giảm thiểu tổng bình phương các khoảng cách thẳng đứng
+    từ các điểm dữ liệu đến đường này.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 701–705
+- id: n3008093294
+  app: excel
+  topic: Dynamic Array vs PivotTable
+  fact: Sử dụng các hàm mảng động như UNIQUE, TRANSPOSE và SUMIFS giúp tự động cập nhật dữ liệu mà không cần phải nhấn Refresh như PivotTable
+    truyền thống.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 565–569
+- id: n3009913391
+  app: excel
+  topic: Dynamic Chart Title
+  fact: Có thể liên kết tiêu đề hoặc nhãn của biểu đồ với một ô trong bảng tính bằng cách nhập dấu bằng trên thanh công thức và chọn ô đó.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 656–658
+- id: n3008065804
+  app: excel
+  topic: Dynamic Range
+  fact: Sử dụng hàm OFFSET kết hợp với COUNTA trong Name Manager giúp vùng dữ liệu tự động mở rộng khi người dùng thêm dòng hoặc cột mới mà không
+    cần sửa lại công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 251–254
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 255–257
+- id: n3008056149
+  app: excel
+  topic: Evaluate Formula
+  fact: Bạn có thể dùng tính năng Evaluate Formula trong thẻ Formulas để theo dõi từng bước tính toán của công thức phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 72–75
+- id: n3008083583
+  app: excel
+  topic: Evaluate Formula
+  fact: Tính năng Evaluate Formula giúp người dùng theo dõi từng bước Excel tính toán giá trị của một công thức phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 479–481
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 482–486
+- id: n3009887223
+  app: excel
+  topic: Evaluate Formula
+  fact: Sử dụng tính năng Evaluate Formula trong nhóm Formula Auditing trên tab Formulas để xem từng bước Excel tính toán kết quả của công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 482–486
+- id: n3008132107
+  app: excel
+  topic: Evolutionary Solver
+  fact: Evolutionary Solver dựa trên thuật toán di truyền, rất hữu ích cho các bài toán tối ưu hóa không trơn (nonsmooth optimization) nơi đạo
+    hàm không tồn tại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 910–913
+- id: n3008133197
+  app: excel
+  topic: Evolutionary Solver
+  fact: Evolutionary Solver xử lý rất tốt các hàm không trơn (như IF, MAX, MIN) nhưng lại kém hiệu quả với các ràng buộc phi tuyến.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 921–924
+- id: n3008133604
+  app: excel
+  topic: Evolutionary Solver
+  fact: Khi sử dụng phương pháp Evolutionary trong Solver, hãy dùng càng ít ô thay đổi (changing cells) càng tốt để giúp phần mềm tìm ra giải
+    pháp tối ưu nhanh hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 925–930
+- id: n3008070167
+  app: excel
+  topic: Excel Table Dynamic Range
+  fact: Khi sử dụng bảng Excel (Table), vùng dữ liệu và các định dạng sẽ tự động mở rộng khi bạn thêm dòng hoặc cột mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 306–310
+- id: n3008114949
+  app: excel
+  topic: Exponential Growth
+  fact: Hàm tăng trưởng mũ trong Excel giúp mô hình hóa doanh thu hoặc dữ liệu tăng trưởng theo tỷ lệ phần trăm cố định qua mỗi chu kỳ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 709–713
+- id: n3008111987
+  app: excel
+  topic: Filled Map
+  fact: Biểu đồ bản đồ phẳng (filled map) hoạt động giống như bản đồ nhiệt 2D, giúp hiển thị dữ liệu gắn liền với các vị trí địa lý.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 676–681
+- id: n2998332133
+  app: excel
+  topic: Flash Fill
+  fact: Flash Fill giúp tự động nhận diện mẫu và điền dữ liệu cho các ô bên dưới mà không cần dùng hàm phức tạp.
+  sources:
+  - '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf, trang 12–17'
+  - '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf, trang 18–21'
+- id: n3008056293
+  app: excel
+  topic: Flash Fill
+  fact: Phím tắt Ctrl+E giúp thực hiện nhanh Flash Fill sau khi bạn nhập mẫu ở dòng đầu tiên.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 88–92
+- id: n3008065649
+  app: excel
+  topic: Flash Fill
+  fact: Phím tắt Ctrl+E giúp tự động nhận diện mẫu và điền dữ liệu nhanh chóng cho các ô bên dưới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 251–254
+- id: n3009829955
+  app: excel
+  topic: Flash Fill
+  fact: Phím tắt Ctrl+E giúp kích hoạt Flash Fill để tự động nhận diện và điền dữ liệu dựa trên mẫu người dùng cung cấp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 88–92
+- id: n3008129664
+  app: excel
+  topic: Forecast Sheet
+  fact: Tính năng Forecast Sheet giúp tự động phân tích dữ liệu lịch sử để dự báo xu hướng tương lai kèm theo khoảng tin cậy 95%.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 892–895
+- id: n3008056463
+  app: excel
+  topic: Format Cells
+  fact: Sử dụng phím tắt Ctrl+F1 khi đang chọn ô để nhanh chóng mở hộp thoại Format Cells và xem mã định dạng Custom.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 88–92
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 93–97
+- id: n3008071848
+  app: excel
+  topic: Format Control Shortcut
+  fact: Nếu nhấp chuột phải không mở được hộp thoại Format Control, hãy thử giữ phím Ctrl và nhấp vào control đó.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 327–331
+- id: n3008069681
+  app: excel
+  topic: Format Painter
+  fact: Có thể nhấp đúp vào nút Format Painter để áp dụng định dạng cho nhiều vùng không liền kề nhau và nhấp lại một lần nữa để tắt.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 292–299
+- id: n3009860479
+  app: excel
+  topic: Format Painter
+  fact: Bạn có thể nhấp đúp vào nút Format Painter để giữ công cụ này luôn bật, cho phép sao chép định dạng liên tục đến nhiều vùng dữ liệu không
+    liền kề nhau.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 292–299
+- id: n3008070342
+  app: excel
+  topic: Formula AutoComplete
+  fact: Tính năng Formula AutoComplete giúp bạn nhanh chóng chọn tên bảng hoặc tên cột bằng cách nhấn phím Tab hoặc nhấp đúp vào gợi ý.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 306–310
+- id: n3009862352
+  app: excel
+  topic: Formula AutoComplete
+  fact: Tính năng Formula AutoComplete giúp bạn dễ dàng chọn tên bảng và tên cột khi nhập công thức mà không cần gõ thủ công địa chỉ ô.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 306–310
+- id: n3008059097
+  app: excel
+  topic: Freeze Panes
+  fact: Tính năng Freeze Panes giúp giữ lại các dòng và cột quan trọng hiển thị trên màn hình ngay cả khi bạn cuộn xem các vùng dữ liệu khác bên
+    dưới hoặc sang phải.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 148–150
+- id: n3008090595
+  app: excel
+  topic: GETPIVOTDATA
+  fact: Hàm GETPIVOTDATA giúp trích xuất chính xác giá trị từ PivotTable ngay cả khi bố cục bảng thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 547–553
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 554–558
+- id: n3008077225
+  app: excel
+  topic: Giá trị ngoại lệ (Outlier)
+  fact: Trong thống kê, một quan sát được coi là outlier nếu nó nằm cách trung bình (mean) lớn hơn 2 lần độ lệch chuẩn (standard deviation).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 409–412
+- id: n3008059981
+  app: excel
+  topic: Giới hạn hàm IF
+  fact: Từ phiên bản Excel 2016 và 365, bạn có thể lồng tối đa 64 hàm IF trong một ô.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 158–161
+- id: n3008064719
+  app: excel
+  topic: Goal Seek
+  fact: Tính năng Goal Seek chỉ trả về một nghiệm duy nhất ngay cả khi bài toán có nhiều nghiệm và có thể cần chỉnh lại thiết lập Maximum Change
+    nếu kết quả chưa đủ chính xác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 217–220
+- id: n3008064978
+  app: excel
+  topic: Goal Seek
+  fact: Công cụ Goal Seek hoạt động như một bộ giải phương trình đại số, giúp tìm giá trị đầu vào phù hợp để đạt được kết quả mong muốn trong
+    công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 217–220
+- id: n3009895511
+  app: excel
+  topic: Group Data
+  fact: Trong PivotTable, bạn có thể nhóm dữ liệu số như độ tuổi theo các khoảng thời gian tùy chỉnh bằng cách nhấp chuột phải và chọn Group.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 535–540
+- id: n3008088717
+  app: excel
+  topic: Grouping Data in PivotTable
+  fact: Tính năng Group trong PivotTable giúp gom nhóm dữ liệu số theo khoảng giá trị tùy chỉnh như độ tuổi hoặc mức lương.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 535–540
+- id: n3008059888
+  app: excel
+  topic: Hàm AGGREGATE
+  fact: Hàm AGGREGATE cho phép thực hiện các phép tính toán học và tự động bỏ qua các giá trị lỗi hoặc dòng bị ẩn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 158–161
+- id: n3008070708
+  app: excel
+  topic: Hàm AGGREGATE với Slicer
+  fact: Khi dùng hàm SUM với dữ liệu có Slicer, Excel vẫn tính cả các dòng bị ẩn. Nên dùng hàm AGGREGATE với tham số ẩn dòng để tính toán chính
+    xác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 311–317
+- id: n3008123005
+  app: excel
+  topic: Hàm BINOM.DIST
+  fact: Hàm BINOM.DIST dùng để tính xác suất phân phối nhị thức, tham số cuối cùng là 0 để tính xác suất tại một giá trị cụ thể hoặc 1 để tính
+    xác suất tích lũy.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 805–808
+- id: n3008123426
+  app: excel
+  topic: Hàm BINOM.INV
+  fact: Hàm BINOM.INV giúp tìm số lần thành công nhỏ nhất thỏa mãn một ngưỡng xác suất alpha cho trước.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 805–808
+- id: n3009931857
+  app: excel
+  topic: Hàm BINOM.INV
+  fact: Hàm BINOM.INV trả về số lần thành công nhỏ nhất sao cho xác suất tích lũy đạt mức alpha cho trước.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 805–808
+- id: n3008060207
+  app: excel
+  topic: Hàm CHOOSE
+  fact: Hàm CHOOSE trả về giá trị từ một danh sách dựa trên vị trí chỉ định, cú pháp là CHOOSE(index_num, value1, [value2], ...).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 162–166
+- id: n3009841851
+  app: excel
+  topic: Hàm CHOOSE
+  fact: Hàm CHOOSE trả về giá trị từ danh sách dựa trên vị trí chỉ định, hữu ích để thay thế VLOOKUP hoặc kết hợp với SUM.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 162–166
+- id: n3008116502
+  app: excel
+  topic: Hàm CORREL
+  fact: Có thể dùng hàm CORREL thay cho công cụ Data Analysis nếu chỉ muốn tính hệ số tương quan giữa hai dãy dữ liệu cụ thể.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 723–728
+- id: n3008065243
+  app: excel
+  topic: Hàm COUNTIF
+  fact: Hàm COUNTIF dùng để đếm số ô trong một vùng thỏa mãn một điều kiện nhất định, với các tiêu chí dạng chữ hoặc biểu thức so sánh phải được
+    đặt trong dấu ngoặc kép.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 231–234
+- id: n3009832447
+  app: excel
+  topic: Hàm DATEVALUE
+  fact: Bạn có thể dùng hàm DATEVALUE kết hợp với chuỗi ngày trong ngoặc kép để chuyển nhanh ngày thành số serial tương ứng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+- id: n3009881946
+  app: excel
+  topic: Hàm DCOUNT và DCOUNTA
+  fact: Hàm DCOUNT chỉ đếm các ô chứa số, trong khi hàm DCOUNTA có thể đếm cả các ô chứa văn bản.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3009851659
+  app: excel
+  topic: Hàm đếm dữ liệu
+  fact: Sử dụng COUNT để đếm số, COUNTA để đếm ô không trống và COUNTBLANK để đếm ô trống.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 231–234
+- id: n3008130038
+  app: excel
+  topic: Hàm dự báo FORECAST.ETS
+  fact: Bạn có thể dùng hàm FORECAST.ETS kết hợp với FORECAST.ETS.CONFINT để tính toán giá trị dự báo và khoảng tin cậy 95 phần trăm cho dữ liệu
+    theo tháng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 896–901
+- id: n3008057712
+  app: excel
+  topic: Hàm EOMONTH và EDATE
+  fact: EOMONTH trả về ngày cuối cùng của tháng cách một số tháng nhất định, trong khi EDATE trả về đúng ngày đó trong tháng tương lai hoặc quá
+    khứ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 106–109
+- id: n3008084624
+  app: excel
+  topic: Hàm FILTER
+  fact: Hàm FILTER trong Excel cho phép trích xuất dữ liệu dựa trên điều kiện logic và có thể trả về giá trị thông báo tùy chỉnh nếu không tìm
+    thấy kết quả phù hợp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 490–494
+- id: n3008058374
+  app: excel
+  topic: Hàm FV (Future Value)
+  fact: Hàm FV tính giá trị tương lai của một khoản đầu tư với lãi suất không đổi và các khoản thanh toán định kỳ. Các khoản tiền chi ra phải
+    được đặt dấu âm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3009836911
+  app: excel
+  topic: Hàm FV trong Excel
+  fact: Hàm FV dùng để tính giá trị tương lai của khoản đầu tư dựa trên lãi suất và các khoản thanh toán cố định, với đối số type xác định thời
+    điểm đóng tiền đầu hoặc cuối kỳ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3008115477
+  app: excel
+  topic: Hàm GROWTH
+  fact: Trong Office 365, hàm GROWTH tự động tràn dữ liệu mà không cần nhấn phím tắt tổ hợp Ctrl+Shift+Enter.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 714–718
+- id: n3008060113
+  app: excel
+  topic: Hàm IFS
+  fact: Hàm IFS giúp thay thế các câu lệnh IF lồng nhau phức tạp, chỉ cần dùng một cặp ngoặc đơn duy nhất và cần đặt điều kiện TRUE ở cuối để
+    chỉ định giá trị mặc định.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 158–161
+- id: n3008055768
+  app: excel
+  topic: Hàm INDEX
+  fact: Hàm INDEX trong Excel giúp trả về giá trị tại một ô xác định nằm ở giao điểm của một hàng và một cột cụ thể trong mảng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 63–67
+- id: n3009828601
+  app: excel
+  topic: Hàm INDEX
+  fact: Hàm INDEX(array, row_number, column_number) dùng để trích xuất giá trị tại giao điểm của một hàng và cột cụ thể trong vùng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 63–67
+- id: n3008066197
+  app: excel
+  topic: Hàm INDIRECT
+  fact: Hàm INDIRECT giúp giữ nguyên tham chiếu vùng dữ liệu ngay cả khi có các thao tác chèn thêm dòng hoặc cột mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 261–264
+- id: n3009853811
+  app: excel
+  topic: Hàm INDIRECT
+  fact: Hàm INDIRECT chuyển đổi một chuỗi văn bản thành một tham chiếu ô hợp lệ, giúp công thức không bị thay đổi vùng tham chiếu khi chèn thêm
+    hàng hoặc cột mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 261–264
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 265–268
+- id: n3008057790
+  app: excel
+  topic: Hàm IRR
+  fact: Hàm IRR trong Excel dùng để tính tỷ suất hoàn vốn nội bộ của chuỗi dòng tiền, với đối số dự đoán (guess) mặc định là 10% nếu không được
+    nhập.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 119–122
+- id: n3008118642
+  app: excel
+  topic: Ham LINEST
+  fact: Ham LINEST trong Excel giup tinh toan va tra ve cac ket qua cua phan tich hoi quy tuyen tinh boi truc tiep tren bang tinh ma khong can
+    dung Data Analysis.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 738–742
+- id: n3008119776
+  app: excel
+  topic: Hàm LOGEST
+  fact: Hàm LOGEST được dùng để tính toán các hệ số cho mô hình hồi quy hàm mũ, hữu ích khi phân tích xu hướng và tính mùa vụ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 752–754
+- id: n3008069222
+  app: excel
+  topic: Hàm logic
+  fact: Các hàm OR, AND, NOT trả về giá trị True hoặc False giúp kiểm tra nhiều điều kiện kết hợp trong bảng tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 289–291
+- id: n3008059353
+  app: excel
+  topic: Hàm logic kết hợp
+  fact: Hàm IF có thể kết hợp với các hàm AND hoặc OR để kiểm tra nhiều điều kiện khác nhau và trả về các kết quả tùy chỉnh.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 151–154
+- id: n3008084426
+  app: excel
+  topic: Hàm mảng động
+  fact: Với Office 365, bạn không cần phải chọn trước vùng hiển thị kết quả hay bấm tổ hợp phím Ctrl+Shift+Enter, chỉ cần nhập công thức và nhấn
+    Enter.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 487–489
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 467–470
+- id: n2998336810
+  app: excel
+  topic: Hàm MATCH
+  fact: Hàm MATCH trả về vị trí tương đối của giá trị tìm kiếm trong một hàng hoặc cột thay vì trả về giá trị trực tiếp.
+  sources:
+  - '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf, trang 72–76'
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 68–71
+- id: n3008083186
+  app: excel
+  topic: Hàm MID kết hợp VALUE
+  fact: Có thể dùng hàm MID bên trong hàm VALUE và SUM để trích xuất và tính tổng các ký tự số nằm ở vị trí bất kỳ trong chuỗi văn bản.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 474–478
+- id: n3008057951
+  app: excel
+  topic: Hàm MIRR và IRR
+  fact: 'Hàm IRR sẽ bỏ qua các ô trống về cả dòng tiền lẫn kỳ hạn, trong khi hàm MIRR sẽ trả về lỗi #NUM! nếu có ô trống.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 123–127
+- id: n3009923423
+  app: excel
+  topic: Hàm mũ trong công thức
+  fact: Ký hiệu caret (^) nằm trên phím số 6 được dùng để tính lũy thừa cho một số trong công thức Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 719–722
+- id: n3009913900
+  app: excel
+  topic: Hàm NA trong biểu đồ
+  fact: 'Nếu một ô chứa lỗi #N/A, Excel sẽ bỏ qua điểm dữ liệu đó và không vẽ lên biểu đồ, rất hữu ích khi kết hợp với hộp kiểm để ẩn hiện chuỗi
+    dữ liệu.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 659–663
+- id: n3008058892
+  app: excel
+  topic: Hàm NPER
+  fact: Hàm NPER giúp xác định số kỳ hạn cần thiết để trả hết một khoản vay dựa trên lãi suất, khoản thanh toán định kỳ và số tiền vay ban đầu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 131–133
+- id: n3009837275
+  app: excel
+  topic: Hàm PMT trong Excel
+  fact: Hàm PMT tính toán số tiền trả góp hàng kỳ cho khoản vay và thường trả về giá trị âm trừ khi được đặt dấu trừ đằng trước công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3008058030
+  app: excel
+  topic: Hàm PV
+  fact: Hàm PV giúp tính toán giá trị hiện tại của một chuỗi dòng tiền đều nhau (annuity) nhanh chóng thay vì dùng hàm NPV.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 123–127
+- id: n3008058285
+  app: excel
+  topic: Hàm PV (Present Value)
+  fact: Hàm PV tính giá trị hiện tại của chuỗi tiền thanh toán đều đặn. Tham số type có giá trị 0 nếu thanh toán vào cuối kỳ và 1 nếu thanh toán
+    vào đầu kỳ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3008058788
+  app: excel
+  topic: Hàm RATE
+  fact: Hàm RATE giúp tính toán lãi suất của một khoản vay dựa trên số kỳ hạn, khoản thanh toán mỗi kỳ và giá trị hiện tại của khoản vay.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 131–133
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3008066519
+  app: excel
+  topic: Hàm SHEET
+  fact: Hàm SHEET() giúp trả về số thứ tự của sheet hiện tại trong workbook.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 265–268
+- id: n3008084842
+  app: excel
+  topic: Hàm SORTBY kết hợp INDIRECT
+  fact: Kết hợp SORTBY và INDIRECT giúp tự động thay đổi cột sắp xếp dựa trên tên vùng dữ liệu được chọn trong một ô tham chiếu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 490–494
+- id: n3008098111
+  app: excel
+  topic: Hàm SUBTOTAL
+  fact: Dùng các số hàm từ 1 đến 11 để tính toán toàn bộ dữ liệu, và từ 101 đến 111 để bỏ qua các dòng bị ẩn thủ công.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 611–616
+- id: n3008084224
+  app: excel
+  topic: Hàm SUMPRODUCT
+  fact: Có thể dùng dấu hai dấu trừ (--) trong hàm SUMPRODUCT để chuyển đổi các giá trị TRUE và FALSE thành 1 và 0 nhằm thực hiện các phép đếm
+    và tính tổng theo điều kiện.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 482–486
+- id: n3009885552
+  app: excel
+  topic: Hàm SUMPRODUCT
+  fact: Hàm SUMPRODUCT tính tổng các tích của các dải ô hoặc mảng tương ứng, rất hữu ích trong phân tích dữ liệu và tối ưu hóa.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 471–473
+- id: n3008060303
+  app: excel
+  topic: Hàm SWITCH
+  fact: Hàm SWITCH so sánh một biểu thức với danh sách giá trị và trả về kết quả tương ứng với giá trị khớp đầu tiên, hỗ trợ tối đa 126 giá trị.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 162–166
+- id: n3008058468
+  app: excel
+  topic: Hàm tài chính FV và PMT
+  fact: Hàm FV giúp tính giá trị tương lai của khoản đầu tư với lãi suất kép, trong khi hàm PMT tính toán khoản trả góp hàng kỳ cho một khoản
+    vay.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 128–130
+- id: n3009881206
+  app: excel
+  topic: Hàm thống kê cơ sở dữ liệu
+  fact: Thêm tiền tố D vào các hàm như SUM hay AVERAGE (ví dụ DSUM) giúp thực hiện tính toán dựa trên các tiêu chí lọc cụ thể.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 455–459
+- id: n3008058681
+  app: excel
+  topic: Hàm tích lũy (CUMPRINC, CUMIPMT)
+  fact: CUMPRINC và CUMIPMT giúp tính tổng tiền gốc hoặc tiền lãi đã trả cộng dồn giữa hai kỳ hạn bất kỳ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 131–133
+- id: n3008076615
+  app: excel
+  topic: Hàm tìm mốt
+  fact: Hàm MODE.MULT cho phép tìm tất cả các mốt trong tập dữ liệu có nhiều hơn một giá trị xuất hiện nhiều nhất.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 405–408
+- id: n3009843115
+  app: excel
+  topic: Hàm TIMEVALUE
+  fact: Hàm TIMEVALUE chuyển đổi chuỗi văn bản thành dạng số thập phân từ 0 đến 1 biểu diễn thời gian và bỏ qua phần ngày tháng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 171–174
+- id: n3009873666
+  app: excel
+  topic: Hàm tính độ lệch (Skewness)
+  fact: Bạn có thể dùng hàm SKEW trong Excel để tính toán độ lệch của một tập dữ liệu nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 405–408
+- id: n3008058584
+  app: excel
+  topic: Hàm tính lãi suất và gốc (IPMT, PPMT)
+  fact: Hàm IPMT tính tiền lãi và PPMT tính tiền gốc trả hàng tháng trong một khoản vay, thường cần thêm dấu trừ phía trước kết quả để hiển thị
+    số dương.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 131–133
+- id: n3008057371
+  app: excel
+  topic: Hàm TODAY
+  fact: Sử dụng hàm TODAY() để hiển thị ngày hiện tại tự động trong một ô của bảng tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+- id: n3009832766
+  app: excel
+  topic: Hàm TODAY
+  fact: Nhập hàm TODAY() vào ô bất kỳ giúp tự động cập nhật và hiển thị ngày hiện tại của hệ thống.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+- id: n3008082984
+  app: excel
+  topic: Hàm TRANSPOSE
+  fact: Hàm TRANSPOSE giúp chuyển đổi dữ liệu từ dạng cột sang dạng hàng và tự động cập nhật khi dữ liệu gốc thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 471–473
+- id: n3008080440
+  app: excel
+  topic: Hàm UNIQUE
+  fact: Hàm UNIQUE trong Office 365 có thể thay thế cho tính năng Remove Duplicates mà không làm mất dữ liệu gốc.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 448–454
+- id: n3009880396
+  app: excel
+  topic: Hàm UNIQUE
+  fact: Trong Office 365, bạn có thể dùng hàm UNIQUE để lấy danh sách không trùng lặp thay vì phải dùng công cụ Remove Duplicates.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 448–454
+- id: n3008055260
+  app: excel
+  topic: Hàm VLOOKUP
+  fact: Hàm VLOOKUP thực hiện tìm kiếm theo chiều dọc ở cột đầu tiên của dải ô và trả về giá trị từ cột tương ứng. Khi tham số range_lookup là
+    True hoặc bỏ trống, dữ liệu ở cột đầu tiên phải được sắp xếp theo thứ tự tăng dần.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 51–54
+- id: n3009827302
+  app: excel
+  topic: Hàm VLOOKUP
+  fact: Đối số range_lookup bằng 1 tương đương True (tìm khớp gần đúng), còn 0 tương đương False (tìm khớp chính xác).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 51–54
+- id: n3008055594
+  app: excel
+  topic: Hàm VLOOKUP và HLOOKUP
+  fact: 'Khi cột đầu tiên của bảng dữ liệu không được sắp xếp theo thứ tự tăng dần, cần đặt tham số range_lookup thành False để tìm kiếm chính
+    xác và tránh lỗi #N/A.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 55–58
+- id: n3008057625
+  app: excel
+  topic: Hàm WEEKNUM
+  fact: Hàm WEEKNUM giúp xác định số tuần trong năm của một ngày, với nhiều tùy chọn ngày bắt đầu tuần khác nhau.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 106–109
+- id: n3008057457
+  app: excel
+  topic: Hàm WORKDAY
+  fact: Hàm WORKDAY giúp tính toán ngày làm việc sau một số ngày chỉ định, có thể loại trừ cuối tuần và các ngày lễ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+- id: n3008055475
+  app: excel
+  topic: Hàm XLOOKUP
+  fact: XLOOKUP là hàm tìm kiếm mạnh mẽ trong Office 365, cho phép tìm kiếm trong một mảng và trả về kết quả từ một mảng khác mà không phụ thuộc
+    vào thứ tự cột.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 51–54
+- id: n3008131722
+  app: excel
+  topic: Hạn chế của GRG Nonlinear
+  fact: Động cơ GRG sẽ gặp lỗi khi hàm mục tiêu chứa các hàm không mượt như MAX, MIN, ABS, IF vì tại đó độ dốc không xác định.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 910–913
+- id: n3008117146
+  app: excel
+  topic: Hệ số tương quan và R-squared
+  fact: Hệ số tương quan giữa hai tập dữ liệu bằng căn bậc hai của R-squared, với dấu của căn bậc hai được lấy theo dấu của độ dốc đường xu hướng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 729–732
+- id: n3008057203
+  app: excel
+  topic: Hệ thống lưu trữ ngày tháng của Excel
+  fact: Excel lưu trữ ngày tháng dưới dạng số sê-ri, đại diện cho tổng số ngày tính từ mốc 1 tháng 1 năm 1900.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+- id: n3008064168
+  app: excel
+  topic: Hiện lại tất cả hàng và cột bị ẩn
+  fact: Bạn có thể chọn toàn bộ bảng tính bằng cách bấm nút ở góc trên bên trái giao diện, sau đó dùng tính năng Unhide trong menu Format để hiển
+    thị lại mọi hàng hoặc cột đang bị ẩn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 211–213
+- id: n3009849687
+  app: excel
+  topic: Hiện tất cả hàng và cột bị ẩn
+  fact: Để nhanh chóng hiển thị lại toàn bộ hàng và cột đang bị ẩn, hãy bấm nút Select All ở góc trên bên trái bảng tính rồi dùng tính năng Unhide
+    trong nhóm Cells trên tab Home.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 211–213
+- id: n3009856986
+  app: excel
+  topic: Hiển thị ẩn dòng
+  fact: Để bỏ ẩn các dòng bị giấu, hãy chọn hai dòng kẹp giữa vùng ẩn, nhấn chuột phải và chọn Unhide.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 278–282
+- id: n3008061649
+  app: excel
+  topic: Hiển thị công thức nhanh
+  fact: Có thể dùng phím tắt Ctrl+~ để nhanh chóng bật hoặc tắt chế độ hiển thị công thức trong bảng tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 190–195
+- id: n3008062358
+  app: excel
+  topic: Hiển thị Ribbon
+  fact: Bạn có thể nhấn tổ hợp phím Ctrl+F1 để ẩn hoặc hiện toàn bộ thanh Ribbon.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 196–201
+- id: n3008071305
+  app: excel
+  topic: Hiển thị tab Developer
+  fact: Để bật tab Developer, vào File chọn Options, chọn Customize Ribbon rồi tích chọn Developer trong danh sách Main Tabs.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 322–326
+- id: n3009864028
+  app: excel
+  topic: Hiển thị tab Developer
+  fact: Tab Developer không hiển thị mặc định; bạn cần vào File > Options > Customize Ribbon để bật nó lên.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 322–326
+- id: n3008075671
+  app: excel
+  topic: Histogram tự cập nhật
+  fact: Sử dụng tính năng bảng (Ctrl+T) trước khi vẽ histogram giúp biểu đồ tự động cập nhật khi có dữ liệu mới được thêm vào.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 392–399
+- id: n3008117574
+  app: excel
+  topic: Hồi quy về giá trị trung bình
+  fact: Hiện tượng hồi quy về giá trị trung bình thể hiện qua việc giá trị dự đoán của biến phụ thuộc sẽ nằm gần giá trị trung bình hơn so với
+    biến độc lập tùy thuộc vào hệ số tương quan.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 729–732
+- id: n3009925089
+  app: excel
+  topic: Hồi quy về phía trung bình
+  fact: Giá trị dự đoán của biến phụ thuộc thường nằm gần giá trị trung bình hơn so với biến độc lập khi hệ số tương quan nằm trong khoảng từ
+    -1 đến +1.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 729–732
+- id: n3008059748
+  app: excel
+  topic: IFERROR
+  fact: 'Hàm IFERROR giúp thay thế các giá trị lỗi như #N/A thành một giá trị tùy chỉnh (như khoảng trắng hoặc số 0) để các hàm tính toán như
+    AVERAGE hoạt động chính xác.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 155–157
+- id: n3009890005
+  app: excel
+  topic: Input Message
+  fact: Bạn có thể hiển thị một tin nhắn hướng dẫn dưới dạng chú thích trong ô được chọn thông qua tab Input Message của hộp thoại Data Validation.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 501–506
+- id: n3008062970
+  app: excel
+  topic: Inquire Add-in
+  fact: Công cụ Inquire trong Excel giúp phân tích cấu trúc bảng tính, tìm mối liên kết giữa các tệp hoặc trang tính và truy vết các ô phụ thuộc
+    hay tiền nhiệm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 202–206
+- id: n3009848009
+  app: excel
+  topic: Inquire Add-in
+  fact: Công cụ Inquire giúp phân tích cấu trúc tệp, mối liên kết giữa các worksheet, workbook và tìm precedents/dependents.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 202–206
+- id: n3008081950
+  app: excel
+  topic: Kết hợp ô với toán tử so sánh
+  fact: 'Sử dụng dấu và (&) kết hợp với toán tử so sánh trong ngoặc kép (ví dụ: ">"&T10) giúp tạo điều kiện động dựa trên giá trị của một ô cụ
+    thể.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3008094760
+  app: excel
+  topic: Kích hoạt Power Pivot
+  fact: Tính năng Power Pivot không hiển thị mặc định trên ribbon mà cần bật thủ công trong mục Add-Ins của Excel Options.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 580–585
+- id: n3008119293
+  app: excel
+  topic: Kiểm định mô hình hồi quy
+  fact: Nên giữ lại một phần dữ liệu không dùng để chạy mô hình nhằm kiểm tra độ chính xác khi dự báo trên dữ liệu mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 748–751
+- id: n3009870031
+  app: excel
+  topic: Kiểu dữ liệu cổ phiếu và tiền tệ
+  fact: Bạn có thể sử dụng các kiểu dữ liệu có sẵn trong Excel như cổ phiếu hoặc mã tiền tệ phân cách bằng dấu xẹt để tự động trích xuất thông
+    tin tài chính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 368–374
+- id: n3009828227
+  app: excel
+  topic: Ký tự đại diện trong tìm kiếm
+  fact: Có thể kết hợp dấu hoa thị (*) với ô chứa dữ liệu để tìm kiếm gần đúng khi dữ liệu không khớp hoàn toàn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 55–58
+- id: n3008108087
+  app: excel
+  topic: Liên kết nhãn biểu đồ
+  fact: Có thể liên kết tiêu đề hoặc tên chuỗi dữ liệu trong biểu đồ trực tiếp với một ô tính chứa công thức để tạo nhãn động.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 656–658
+- id: n3008080873
+  app: excel
+  topic: Lọc dữ liệu với hàm DSUM
+  fact: Hàm DSUM và các hàm thống kê cơ sở dữ liệu khác cho phép tính toán trên một tập hợp con các dòng được chỉ định bởi vùng điều kiện.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 455–459
+- id: n3009880783
+  app: excel
+  topic: Lọc nhanh dữ liệu
+  fact: Sử dụng tính năng AutoFilter trên Quick Access Toolbar giúp lọc dữ liệu ngay lập tức chỉ với một cú click chuột vào ô chứa giá trị cần
+    lọc.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 448–454
+- id: n3009869542
+  app: excel
+  topic: 'Lỗi dữ liệu #FIELD và #SPILL'
+  fact: 'Lỗi #FIELD xuất hiện khi Excel không tìm thấy thông tin cụ thể (ví dụ nhiều hơn một quận), còn lỗi #SPILL xảy ra khi không đủ ô trống
+    để hiển thị kết quả trả về.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 368–374
+- id: n3008074263
+  app: excel
+  topic: 'Lỗi #FIELD khi dùng Data Types'
+  fact: 'Lỗi #FIELD xuất hiện khi Excel không thể tìm thấy hoặc trả về một thuộc tính cụ thể do ô dữ liệu chứa quá nhiều thông tin phức tạp như
+    một thành phố có nhiều hơn một quận.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 368–374
+- id: n3008108500
+  app: excel
+  topic: 'Lỗi #N/A trong biểu đồ'
+  fact: 'Nếu Excel phát hiện lỗi #N/A trong một ô, ô đó sẽ không hiển thị điểm dữ liệu trên biểu đồ, rất hữu ích khi muốn ẩn tạm thời một chuỗi
+    dữ liệu.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 659–663
+- id: n3009834392
+  app: excel
+  topic: 'Lỗi #NUM!'
+  fact: 'Excel trả về lỗi #NUM! khi không tìm thấy tỷ suất hoàn vốn nội bộ hoặc dự án không có IRR nào thỏa mãn.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 119–122
+- id: n3008057867
+  app: excel
+  topic: 'Lỗi #NUM! trong hàm IRR'
+  fact: 'Khi Excel không thể tìm được mức lãi suất làm cho NPV bằng 0, hàm IRR sẽ trả về lỗi #NUM!.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 119–122
+- id: n3008074427
+  app: excel
+  topic: 'Lỗi #SPILL trong Excel'
+  fact: 'Lỗi #SPILL xảy ra khi kết quả của công thức trả về nhiều giá trị nhưng các ô xung quanh không trống để hiển thị.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 368–374
+- id: n3008107331
+  app: excel
+  topic: Lưu mẫu biểu đồ
+  fact: Bạn có thể lưu bất kỳ biểu đồ nào thành template để tái sử dụng cho các tập dữ liệu khác bằng cách nhấp chuột phải vào biểu đồ và chọn
+    Save As Template.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 656–658
+- id: n3008063320
+  app: excel
+  topic: Lưu ý khi lập bảng hai chiều
+  fact: Khi thiết lập bảng dữ liệu hai chiều, cần phân biệt chính xác ô đầu vào theo cột (column input cell) và theo hàng (row input cell) để
+    tránh nhận kết quả sai lệch.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 207–210
+- id: n3008086886
+  app: excel
+  topic: Mở bảng PivotTable Fields
+  fact: Nếu bảng PivotTable Fields bị ẩn, bạn có thể nhấp chuột phải vào bất kỳ ô nào trong PivotTable và chọn Show Field List để mở lại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 514–520
+- id: n3008122559
+  app: excel
+  topic: Moving Average
+  fact: Sử dụng đường trung bình động 4 kỳ trong Excel giúp loại bỏ các yếu tố ảnh hưởng theo mùa và biến động ngẫu nhiên, giúp nhận thấy rõ xu
+    hướng tăng trưởng dài hạn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 781–784
+- id: n3009826253
+  app: excel
+  topic: Name Manager
+  fact: Bạn có thể dễ dàng quản lý, chỉnh sửa hoặc xóa các tên vùng đã tạo bằng cách mở công cụ Name Manager trên thẻ Formulas.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 40–45
+- id: n3008072761
+  app: excel
+  topic: Nhập dữ liệu từ Word sang Excel
+  fact: Trước khi nhập tài liệu Microsoft Word vào Excel để phân tích, bạn cần lưu tài liệu đó dưới định dạng tệp văn bản (.txt) trước.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 336–338
+- id: n3008091786
+  app: excel
+  topic: Nhiều nguồn dữ liệu
+  fact: Khi tạo PivotTable từ nhiều dải ô bằng Wizard, các tiêu đề cột của các dải ô phải giống hệt nhau.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 559–564
+- id: n3008060399
+  app: excel
+  topic: Nhóm hàm IS
+  fact: Các hàm IS như ISTEXT, ISNUMBER, ISBLANK, ISERROR giúp kiểm tra trạng thái hoặc kiểu dữ liệu của ô và trả về giá trị TRUE hoặc FALSE.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 162–166
+- id: n3009842482
+  app: excel
+  topic: Nhóm hàm IS
+  fact: Các hàm IS giúp kiểm tra thông tin về giá trị hoặc ô, ví dụ ISTEXT kiểm tra văn bản, ISNUMBER kiểm tra số, và ISERROR kiểm tra lỗi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 162–166
+- id: n3008072420
+  app: excel
+  topic: Option Button
+  fact: Khi liên kết nhiều Option Button trong cùng một Group Box với một ô, ô đó sẽ trả về số thứ tự của nút được chọn (1, 2, 3...).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 332–335
+- id: n3008118317
+  app: excel
+  topic: P-value trong Regression
+  fact: Giá trị p-value nhỏ hơn hoặc bằng 0.05 cho thấy biến độc lập đó thực sự có ích cho việc dự đoán.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 733–737
+- id: n3008061027
+  app: excel
+  topic: Paste Link
+  fact: Khi sử dụng Paste Link thay vì OK trong Paste Special, dữ liệu được dán sẽ liên kết trực tiếp với dữ liệu gốc, giúp mọi thay đổi ở bảng
+    gốc tự động cập nhật sang bảng mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 181–185
+- id: n3008060916
+  app: excel
+  topic: Paste Special Transpose
+  fact: Khi sử dụng tính năng Transpose trong Paste Special, dữ liệu từ hàng sẽ tự động đổi thành cột và ngược lại mà vẫn giữ nguyên giá trị.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 175–180
+- id: n3009844192
+  app: excel
+  topic: Paste Special Transpose
+  fact: Khi sử dụng tính năng Transpose để chuyển dữ liệu giữa cột và hàng, hãy cẩn thận không dán đè lên vùng dữ liệu gốc nếu không muốn làm
+    mất công thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 175–180
+- id: n3009844516
+  app: excel
+  topic: Paste Special Transpose
+  fact: Tính năng Transpose giúp xoay dữ liệu từ hàng thành cột hoặc ngược lại, có thể liên kết với dữ liệu gốc bằng Paste Link.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 181–185
+- id: n3009930527
+  app: excel
+  topic: Phân tích ANOVA hai nhân tố
+  fact: Trong ANOVA, nếu giá trị p nhỏ hơn 0.15 thì hiệu ứng hoặc tương tác giữa các nhân tố được coi là có ý nghĩa thống kê.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 776–780
+- id: n3008130831
+  app: excel
+  topic: Phát hiện Outlier
+  fact: Một quan sát được xem là điểm ngoại lệ (outlier) nếu giá trị tuyệt đối của sai số dự báo lớn hơn hai lần độ lệch chuẩn của phần dư.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 902–905
+- id: n3008063771
+  app: excel
+  topic: Phím F9
+  fact: Bạn có thể nhấn phím F9 để tính toán lại thủ công các bảng dữ liệu khi tắt chế độ tính toán tự động.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 207–210
+- id: n3009846831
+  app: excel
+  topic: Phím tắt ẩn hiện ribbon
+  fact: Bạn có thể dùng tổ hợp phím Ctrl+F1 để thu gọn hoặc mở rộng thanh ribbon nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 196–201
+- id: n3008109876
+  app: excel
+  topic: Phím tắt bảng Excel
+  fact: Sử dụng phím tắt Ctrl+T giúp nhanh chóng chuyển đổi vùng dữ liệu thành bảng thông minh tự động cập nhật.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3008128523
+  app: excel
+  topic: Phím tắt chọn nhanh dữ liệu
+  fact: Sử dụng tổ hợp phím Ctrl+Shift+mũi tên xuống giúp nhanh chóng chọn toàn bộ dữ liệu từ ô hiện tại đến ô cuối cùng có chứa dữ liệu trong
+    cột.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 884–887
+- id: n3008061135
+  app: excel
+  topic: Phím tắt chọn vùng dữ liệu
+  fact: Sử dụng tổ hợp phím Ctrl + Shift kết hợp các phím mũi tên giúp chọn nhanh các dải dữ liệu dài theo chiều dọc hoặc chiều ngang.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 181–185
+- id: n3009824933
+  app: excel
+  topic: Phím tắt F4
+  fact: Nhấn phím F4 liên tục khi đang chỉnh sửa công thức sẽ giúp thay đổi qua lại các kiểu khóa hàng và cột một cách nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 28–32
+- id: n3008069392
+  app: excel
+  topic: Phím tắt F4 trong công thức
+  fact: Khi viết công thức trong hộp thoại định dạng, nhấn phím F4 để nhanh chóng thay đổi kiểu khóa địa chỉ ô (từ tương đối sang tuyệt đối và
+    ngược lại).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 292–299
+- id: n3009859731
+  app: excel
+  topic: Phím tắt F4 trong công thức
+  fact: Khi nhập tham chiếu ô trong hộp thoại công thức, nhấn phím F4 giúp nhanh chóng thêm hoặc xóa dấu đô la để chuyển đổi giữa các kiểu tham
+    chiếu tuyệt đối và tương đối.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 292–299
+- id: n3008065506
+  app: excel
+  topic: Phím tắt F9
+  fact: Bạn có thể nhấn phím F9 sau khi bôi đen một phần công thức để xem trước giá trị mà đoạn đó trả về, nhớ bấm Esc để thoát.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 251–254
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 261–264
+- id: n3009852370
+  app: excel
+  topic: Phím tắt F9 trong công thức
+  fact: Khi đang chỉnh sửa một phần của công thức, nhấn F9 để xem trước giá trị mà phần đó trả về, sau đó nhấn Esc để quay lại công thức ban đầu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 251–254
+- id: n3008060499
+  app: excel
+  topic: Phím tắt Format Cells
+  fact: Sử dụng phím tắt Ctrl+1 để mở nhanh hộp thoại Format Cells khi cần thay đổi định dạng dữ liệu trong ô.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 171–174
+- id: n3009858612
+  app: excel
+  topic: Phím tắt Go To Special
+  fact: Nhấn phím F5 rồi chọn Special giúp nhanh chóng chọn tất cả các ô trong bảng tính đang áp dụng định dạng có điều kiện.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 289–291
+- id: n2998332939
+  app: excel
+  topic: Phím tắt mở Format Cells
+  fact: Bạn có thể nhấn tổ hợp phím Ctrl+1 trên bàn phím để nhanh chóng mở hộp thoại Format Cells.
+  sources:
+  - '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf, trang 26–29'
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 98–102
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 93–97
+- id: n3008088157
+  app: excel
+  topic: Phím tắt tạo bảng
+  fact: Sử dụng phím tắt Ctrl+T là cách nhanh chóng để chuyển đổi một vùng dữ liệu thành bảng Excel Table chính thức.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 528–534
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 311–317
+- id: n3008062472
+  app: excel
+  topic: Phím tắt tìm ô phụ thuộc
+  fact: Nhấn Ctrl+] để xem ô phụ thuộc trực tiếp hoặc Ctrl+Shift+] để xem tất cả các ô phụ thuộc của ô đang chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 196–201
+- id: n3008072923
+  app: excel
+  topic: Phương pháp tách cột trong Text Import Wizard
+  fact: Bạn có thể chọn phương pháp Fixed-width để để Excel tự đoán vị trí ngắt cột hoặc chọn phương pháp Delimited dựa trên các ký tự phân tách
+    như dấu phẩy hoặc khoảng trắng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 336–338
+- id: n3008087614
+  app: excel
+  topic: PivotChart
+  fact: PivotChart giúp trực quan hóa dữ liệu của PivotTable và các thay đổi trên biểu đồ sẽ tự động cập nhật khi bạn thay đổi bố cục của PivotTable.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 521–527
+- id: n3008089072
+  app: excel
+  topic: PivotTable
+  fact: Sử dụng PivotTable giúp tổng hợp và phân tích nhanh chóng mối quan hệ giữa các trường dữ liệu khác nhau như thu nhập và quy mô gia đình.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 535–540
+- id: n3009894691
+  app: excel
+  topic: PivotTable Analyze
+  fact: Bạn có thể dễ dàng thay đổi phạm vi dữ liệu hoặc di chuyển vị trí của PivotTable thông qua các tùy chọn có sẵn trên tab PivotTable Analyze.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 528–534
+- id: n3008092939
+  app: excel
+  topic: PivotTable Default Layout
+  fact: Bạn có thể thay đổi thiết lập bố cục mặc định cho tất cả các PivotTable trong tùy chọn Data của Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 565–569
+- id: n3008087126
+  app: excel
+  topic: PivotTable Design
+  fact: Bạn có thể nhanh chóng làm mới giao diện của bảng PivotTable bằng cách chọn một ô bất kỳ và mở thẻ Design trên thanh ribbon.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 514–520
+- id: n3008089433
+  app: excel
+  topic: PivotTable Fields
+  fact: Có thể dễ dàng kéo thả các trường vào các hộp Rows, Columns, Filters, Values trong khung PivotTable Fields để thay đổi cách hiển thị báo
+    cáo nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 541–546
+- id: n3009896559
+  app: excel
+  topic: PivotTable Fields
+  fact: Có thể sắp xếp lại bố cục dữ liệu trong PivotTable bằng cách kéo thả các trường vào các hộp Rows, Columns, Filters và Values ở khung bên
+    phải.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 541–546
+- id: n3008087371
+  app: excel
+  topic: PivotTable Filtering
+  fact: Bạn có thể lọc nhanh dữ liệu trong PivotTable theo các tiêu chí như Top 10 hoặc phần trăm doanh thu bằng cách sử dụng Value Filters.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 521–527
+- id: n3009892507
+  app: excel
+  topic: PivotTable Layout
+  fact: Bạn có thể dễ dàng chuyển đổi các trường dữ liệu giữa hàng và cột trong PivotTable để thay đổi góc nhìn báo cáo.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 514–520
+- id: n3008086343
+  app: excel
+  topic: PivotTable Requirements
+  fact: Để tạo được PivotTable, bảng dữ liệu của bạn bắt buộc phải có dòng tiêu đề ở hàng đầu tiên.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 510–513
+- id: n3009899610
+  app: excel
+  topic: PivotTable Running Total
+  fact: Tính năng Running Total trong Show Values As giúp nhanh chóng tính tổng doanh thu cộng dồn từ đầu năm đến hết tháng hiện tại mà không
+    cần dùng công thức phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 554–558
+- id: n3009895101
+  app: excel
+  topic: PivotTable Summary
+  fact: Bạn có thể dễ dàng đổi hàm tổng hợp từ Sum sang Average bằng cách nhấp chuột phải vào trường dữ liệu trong PivotTable.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 535–540
+- id: n3008088404
+  app: excel
+  topic: PivotTable Value Field Settings
+  fact: Bạn có thể nhanh chóng đổi cách tính tổng (Sum) sang trung bình (Average) bằng cách nhấp chuột phải vào giá trị trong PivotTable và chọn
+    Summarize Values By.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 535–540
+- id: n3008091504
+  app: excel
+  topic: PivotTable Wizard
+  fact: Bạn có thể sử dụng tổ hợp phím Alt+D+P để mở nhanh hộp thoại PivotTable and PivotChart Wizard trong Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 559–564
+- id: n3008094351
+  app: excel
+  topic: Power Pivot
+  fact: Power Pivot là tiện ích bổ sung trong Excel giúp xử lý hàng triệu dòng dữ liệu từ nhiều nguồn khác nhau và tạo các hàm tính toán phức
+    tạp bằng DAX.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 580–585
+- id: n3009902599
+  app: excel
+  topic: Power Pivot Add-in
+  fact: Bạn cần kích hoạt COM Add-Ins cho Microsoft Power Pivot trong phần Options của Excel để hiển thị tab Power Pivot trên thanh ribbon.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 580–585
+- id: n3008096747
+  app: excel
+  topic: Power Pivot Formatting
+  fact: Định dạng áp dụng trong các tab dữ liệu của Power Pivot sẽ được giữ nguyên khi đưa vào PivotTables.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 599–604
+- id: n3009904361
+  app: excel
+  topic: Power Pivot Formatting
+  fact: Trong Power Pivot, định dạng được áp dụng tại các tab dữ liệu bên dưới sẽ tự động đồng bộ sang PivotTable, khác với PivotTable thông thường.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 599–604
+- id: n3008095066
+  app: excel
+  topic: Power Pivot và PivotTable
+  fact: Power Pivot cho phép xử lý và phân tích hàng triệu dòng dữ liệu vượt quá giới hạn thôngsheet của Excel thông qua việc tạo mối quan hệ
+    giữa các bảng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 586–593
+- id: n3008073362
+  app: excel
+  topic: Power Query
+  fact: Bạn có thể sử dụng Power Query để nhập, làm sạch và tự động cập nhật dữ liệu từ nhiều nguồn khác nhau như web hoặc tệp văn bản vào Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 339–347
+- id: n3009867882
+  app: excel
+  topic: Power Query
+  fact: Công cụ Get & Transform Data trên thẻ Data giúp nhập và tự động cập nhật dữ liệu từ nhiều nguồn khác nhau như web hoặc tệp văn bản.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 339–347
+- id: n3008073938
+  app: excel
+  topic: Power Query Append
+  fact: Khi gộp nhiều bảng bằng tính năng Append trong Power Query, thứ tự các bảng trong danh sách sẽ quyết định thứ tự xuất hiện của dữ liệu
+    trong bảng kết quả.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 362–367
+- id: n3008073766
+  app: excel
+  topic: Power Query Refresh
+  fact: Sau khi thiết lập các bước biến đổi dữ liệu trong Power Query, khi có dữ liệu mới thêm vào tệp nguồn, bạn chỉ cần bấm Refresh để cập nhật
+    kết quả tự động.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 356–361
+- id: n3009874824
+  app: excel
+  topic: Quy tắc ngón tay cái cho Outlier
+  fact: Các quan sát có giá trị cách xa giá trị trung bình từ 2 độ lệch chuẩn trở lên được coi là giá trị ngoại lệ (outlier).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 409–412
+- id: n3008068966
+  app: excel
+  topic: Quy tắc ưu tiên
+  fact: Trong trình quản lý quy tắc Conditional Formatting Rules Manager, các quy tắc nằm phía trên sẽ có độ ưu tiên áp dụng cao hơn khi xảy ra
+    xung đột điều kiện.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 289–291
+- id: n3008058115
+  app: excel
+  topic: Quy ước dấu trong hàm tài chính
+  fact: Khi dùng các hàm tài chính như PV trong Excel, tiền nhận về mang dấu dương còn tiền chi ra mang dấu âm.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 123–127
+- id: n3009825230
+  app: excel
+  topic: Range names
+  fact: Tên vùng trong Excel không phân biệt chữ hoa và chữ thường, giúp công thức dễ đọc hơn so với việc dùng địa chỉ ô thông thường.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 36–39
+- id: n3008073602
+  app: excel
+  topic: Refresh Power Query
+  fact: Bạn có thể nhấp chuột phải vào bảng dữ liệu được tạo từ Power Query và chọn Refresh để cập nhật dữ liệu mới nhất từ nguồn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 348–355
+- id: n3009928000
+  app: excel
+  topic: Regression Analysis
+  fact: Trong phân tích hồi quy, bạn có thể kiểm tra tính phi tuyến bằng cách thêm bình phương của biến độc lập và kiểm tra sự tương tác bằng
+    cách thêm tích của các biến độc lập.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 755–759
+- id: n3008071673
+  app: excel
+  topic: Resize Control
+  fact: Bạn có thể giữ phím Ctrl và kéo các góc điều chỉnh để thay đổi kích thước của các control trên trang tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 327–331
+- id: n3008059264
+  app: excel
+  topic: Sao chép công thức nhanh
+  fact: Bạn có thể nhấp đúp vào góc dưới bên phải của một ô chứa công thức để tự động sao chép công thức xuống các dòng phía dưới dựa trên dữ
+    liệu ở cột bên trái.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 151–154
+- id: n3009824221
+  app: excel
+  topic: Sao chép công thức nhanh
+  fact: Sử dụng tổ hợp phím Ctrl+C và Ctrl+V hoặc kéo điền ô (fill handle) ở góc dưới bên phải ô để sao chép công thức cho cả một vùng dữ liệu
+    lớn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 28–32
+- id: n3008079665
+  app: excel
+  topic: Sao chép dữ liệu đã lọc
+  fact: Khi sao chép các ô đã lọc sang một bảng tính mới, các thiết lập bộ lọc trên tiêu đề cột sẽ không được giữ lại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 440–447
+- id: n3008080235
+  app: excel
+  topic: Sao lưu dữ liệu
+  fact: Nên sao lưu một bản dữ liệu trước khi sử dụng tính năng Remove Duplicates vì thao tác này sẽ xóa vĩnh viễn các dòng trùng lặp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 448–454
+- id: n3008077966
+  app: excel
+  topic: Sắp xếp dữ liệu
+  fact: Bạn có thể truy cập các tính năng sắp xếp nâng cao nhanh chóng thông qua nhóm Sort & Filter trên tab Data.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 421–423
+- id: n3009877362
+  app: excel
+  topic: Sắp xếp dữ liệu
+  fact: Khi sắp xếp dữ liệu nhiều cột bằng các nút Sort A to Z trên ribbon, luôn nhớ chọn Expand the Selection trong hộp thoại cảnh báo để giữ
+    đồng bộ toàn bộ bảng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 429–433
+- id: n3008079028
+  app: excel
+  topic: Sắp xếp dữ liệu ngang
+  fact: Theo mặc định Excel sắp xếp theo chiều dọc (trên xuống dưới), nhưng bạn có thể dùng tính năng Sort Options trong hộp thoại Sort để chuyển
+    sang sắp xếp theo chiều ngang (trái qua phải).
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 429–433
+- id: n3008078606
+  app: excel
+  topic: Sắp xếp nhanh
+  fact: Bạn có thể dùng nút Sort A to Z hoặc Sort Z to A trên thẻ Data để sắp xếp nhanh dữ liệu theo cột được chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 429–433
+- id: n3008078414
+  app: excel
+  topic: Sắp xếp theo màu
+  fact: Bạn có thể sắp xếp các dòng dữ liệu dựa trên màu nền của ô hoặc màu chữ thông qua hộp thoại Sort.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 424–428
+- id: n3008065113
+  app: excel
+  topic: Scenario Manager
+  fact: Công cụ Scenario Manager giúp bạn dễ dàng so sánh nhiều kịch bản khác nhau trên cùng một mô hình tính toán và xuất báo cáo tổng hợp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 225–230
+- id: n3009851311
+  app: excel
+  topic: Scenario Manager
+  fact: Có thể chọn nhiều vùng không liền nhau cho ô kết quả bằng cách phân tách chúng bằng dấu phẩy hoặc giữ phím Ctrl khi chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 225–230
+- id: n3008092515
+  app: excel
+  topic: Show Report Filter Pages
+  fact: Tính năng này giúp tự động tạo ra các trang PivotTable riêng biệt dựa trên các mục trong bộ lọc báo cáo một cách nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 559–564
+- id: n3008124898
+  app: excel
+  topic: Simplex LP Solver
+  fact: Nên chọn phương pháp Simplex LP khi mô hình tuyến tính để Solver chạy hiệu quả và đảm bảo tìm được nghiệm tối ưu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 850–854
+- id: n3008095602
+  app: excel
+  topic: Slicer Selection
+  fact: Bạn có thể sử dụng phím Shift hoặc Ctrl khi bấm chuột để chọn nhiều mục khác nhau cùng lúc trong một slicer.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 586–593
+- id: n3009893762
+  app: excel
+  topic: Slicer trong PivotTable
+  fact: Slicer cung cấp giao diện trực quan để lọc dữ liệu trong PivotTable, giúp người xem dễ dàng nhận biết các khoảng thời gian hoặc danh mục
+    đang được hiển thị.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 528–534
+- id: n3008087904
+  app: excel
+  topic: Slicer và PivotTable
+  fact: Bạn có thể dùng Slicer để lọc trực quan nhiều trường dữ liệu cùng lúc thay cho bộ lọc Filter thông thường.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 528–534
+- id: n3008090099
+  app: excel
+  topic: Slicer và PivotTable
+  fact: Bạn có thể dùng Slicer như một bộ lọc trực quan thay cho Filter truyền thống để lọc dữ liệu trong PivotTable nhanh chóng hơn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 547–553
+- id: n3009876603
+  app: excel
+  topic: Số lượng điều kiện sắp xếp
+  fact: Từ phiên bản Excel 2007 trở đi, người dùng có thể áp dụng tối đa 64 tiêu chí sắp xếp trong một lần thao tác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 424–428
+- id: n3009845211
+  app: excel
+  topic: Số lượng sheet mặc định
+  fact: Có thể thay đổi số lượng sheet mặc định khi tạo workbook mới trong phần Options của tab File.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 186–189
+- id: n3008078223
+  app: excel
+  topic: Số lượng tiêu chí sắp xếp
+  fact: Các phiên bản Excel hiện đại cho phép áp dụng tối đa 64 tiêu chí sắp xếp khác nhau trong một lần thao tác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 424–428
+- id: n3008062856
+  app: excel
+  topic: So sánh tệp Excel
+  fact: Công cụ Compare Files trong thẻ Inquire giúp nhanh chóng phát hiện các thay đổi về dữ liệu, công thức hoặc cột giữa hai phiên bản bảng
+    tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 196–201
+- id: n3008125258
+  app: excel
+  topic: Solver Add-in
+  fact: Công cụ Solver nằm trong tab Data, hỗ trợ giải các bài toán tối ưu hóa và phân tích dữ liệu phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 850–854
+- id: n3008126837
+  app: excel
+  topic: Solver Add-in
+  fact: Công cụ Solver không hiển thị sẵn trên tab Data mà cần được kích hoạt thông qua phần Excel Add-Ins trong mục Options của Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 872–875
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 902–905
+- id: n3008128137
+  app: excel
+  topic: Solver Automatic Scaling
+  fact: Khi mô hình Solver chứa các số rất lớn hoặc rất nhỏ, nên bật tùy chọn Use Automatic Scaling trong hộp thoại Options để giúp Solver nhận
+    diện chính xác mô hình tuyến tính.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 880–883
+- id: n3008125707
+  app: excel
+  topic: Solver Feasible Solution
+  fact: Thông báo Solver could not find a feasible solution cho thấy tài nguyên hiện tại không đủ để đáp ứng mọi nhu cầu, không phải do lỗi mô
+    hình.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 855–858
+- id: n3008132667
+  app: excel
+  topic: Solver Multistart
+  fact: Nên sử dụng tính năng Multistart trong Solver khi mô hình có nhiều đỉnh và thung lũng để tìm ra giải pháp tối ưu toàn cục tốt nhất.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 914–920
+- id: n3008126088
+  app: excel
+  topic: Solver Simplex LP
+  fact: Khi mô hình có hàm mục tiêu và các ràng buộc đều là tuyến tính, bạn nên chọn công cụ giải Simplex LP trong Solver để đạt hiệu quả tối
+    ưu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 859–862
+- id: n3009920552
+  app: excel
+  topic: Sparkline Update
+  fact: Để sparkline tự động cập nhật khi có dữ liệu mới, hãy chuyển đổi vùng dữ liệu nguồn thành Excel Table có tiêu đề.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 696–700
+- id: n3008113409
+  app: excel
+  topic: Sparklines
+  fact: Sparkline loại Win/Loss quy đổi số dương thành khối trên, số âm thành khối dưới và số không thành khoảng trống, rất thích hợp để theo
+    dõi tiến độ đạt mục tiêu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 696–700
+- id: n3008077502
+  app: excel
+  topic: Status Bar Statistics
+  fact: Bạn có thể nhấp chuột phải vào thanh trạng thái ở góc dưới cùng bên phải của Excel để tùy chỉnh hiển thị thêm các thống kê như Minimum
+    và Maximum cho vùng dữ liệu được chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 413–415
+- id: n3008111536
+  app: excel
+  topic: Stock Chart
+  fact: Excel cung cấp nhiều tùy chọn biểu đồ chứng khoán để tóm tắt xu hướng giá và khối lượng giao dịch.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 669–675
+- id: n3009932767
+  app: excel
+  topic: Stock Data Type
+  fact: Bạn có thể chuyển đổi mã quỹ hoặc hàng hóa thành kiểu dữ liệu Stock và mở bảng Data Selector bằng cách nhấp chuột phải chọn Data Type
+    và Change.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 837–842
+- id: n3008123774
+  app: excel
+  topic: STOCKHISTORY function
+  fact: Hàm STOCKHISTORY hiện không hỗ trợ hai chỉ số DOW và NASDAQ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 837–842
+- id: n3009915913
+  app: excel
+  topic: Sử dụng bảng Excel
+  fact: Khi chuyển vùng dữ liệu thành Table, các biểu đồ hoặc PivotTable dựa trên bảng đó sẽ tự động cập nhật khi có thêm dữ liệu mới.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 664–668
+- id: n3009904865
+  app: excel
+  topic: Sử dụng Consolidate
+  fact: Tính năng Consolidate giúp tự động gộp dữ liệu từ nhiều nguồn khác nhau và có thể tạo liên kết để cập nhật ngay lập tức khi bảng dữ liệu
+    gốc thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 605–610
+- id: n3009882774
+  app: excel
+  topic: Sử dụng Data Table
+  fact: Công cụ Data Table trong What-If Analysis cho phép tự động tính toán và điền kết quả cho nhiều tổ hợp giá trị khác nhau dựa trên công
+    thức mẫu ban đầu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 460–462
+- id: n3009859374
+  app: excel
+  topic: Sử dụng dấu đô la ($) trong công thức điều kiện
+  fact: Khi dùng công thức trong Conditional Formatting, việc đặt dấu $ chính xác giúp cố định dòng hoặc cột khi áp dụng cho toàn bộ vùng chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 289–291
+- id: n3009890403
+  app: excel
+  topic: Sử dụng dấu thăng trong Data Validation
+  fact: Thêm dấu thăng (#) vào sau công thức mảng động ở phần nguồn giúp danh sách thả xuống tự động cập nhật khi dữ liệu thay đổi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 507–509
+- id: n3008106585
+  app: excel
+  topic: Sử dụng font Wingdings 3
+  fact: Font Wingdings 3 giúp chuyển đổi các ký tự chữ cái thường như h, i, g thành các biểu tượng mũi tên hướng lên, xuống hoặc sang phải để
+    minh họa dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 650–655
+- id: n3009911825
+  app: excel
+  topic: Sử dụng font Wingdings 3 tạo mũi tên
+  fact: Bạn có thể dùng font Wingdings 3 kết hợp với hàm IF để tự động hiển thị các ký tự mũi tên hướng lên, xuống hoặc sang phải dựa trên sự
+    thay đổi thứ hạng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 650–655
+- id: n3008058201
+  app: excel
+  topic: Sử dụng giá trị Logic cho đối số type
+  fact: Bạn có thể dùng giá trị True thay cho 1 và False thay cho 0 trong các hàm tài chính khi xác định thời điểm thanh toán.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 123–127
+- id: n3008128897
+  app: excel
+  topic: Su dung ham VLOOKUP
+  fact: Ham VLOOKUP ho tro tim kiem gia tri cua doi nha va doi khach trong bang phu tham de tinh toan diem so du doan.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 884–887
+- id: n3008081747
+  app: excel
+  topic: Sử dụng ký tự đại diện trong tiêu chí
+  fact: Có thể dùng dấu chấm hỏi (?) để đại diện cho một ký tự bất kỳ và dấu sao (*) để đại diện cho một chuỗi ký tự khi thiết lập điều kiện lọc
+    dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 463–466
+- id: n3009885993
+  app: excel
+  topic: Sử dụng phím F9 trong công thức mảng
+  fact: Khi viết công thức mảng trong Excel, bạn có thể bôi đen một phần công thức trên thanh công thức và nhấn F9 để xem trước kết quả trung
+    gian mà hàm đó tạo ra dưới dạng mảng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 474–478
+- id: n3008129297
+  app: excel
+  topic: Sử dụng Solver
+  fact: Công cụ Solver giúp tìm ra tổ hợp giá trị tối ưu cho các hằng số làm mượt nhằm giảm thiểu sai số dự báo.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 892–895
+- id: n3008126499
+  app: excel
+  topic: Sử dụng Solver với biến nhị phân
+  fact: Khi giải quyết các bài toán quyết định làm hoặc không làm (chọn hoặc không chọn), bạn có thể dùng các ô thay đổi nhị phân (binary changing
+    cell) chỉ nhận giá trị 0 hoặc 1 bằng cách thêm ràng buộc tương ứng trong Solver.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 867–871
+- id: n3008097833
+  app: excel
+  topic: Sử dụng Subtotal
+  fact: Trước khi dùng tính năng Subtotal, cần sắp xếp dữ liệu theo cột muốn tạo nhóm tổng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 611–616
+- id: n3009825904
+  app: excel
+  topic: Sử dụng tên vùng
+  fact: Việc đặt tên vùng giúp công thức trở nên dễ đọc và dễ hiểu hơn rất nhiều so với việc dùng địa chỉ ô thông thường như A1 hay B5.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 40–45
+- id: n3008080042
+  app: excel
+  topic: Sử dụng Text Filters
+  fact: Tính năng Text Filters cho phép lọc nhanh các dòng dữ liệu thỏa mãn điều kiện chuỗi như bắt đầu bằng, kết thúc bằng hoặc chứa một ký tự.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 440–447
+- id: n3008061246
+  app: excel
+  topic: Tạo hyperlink nhanh
+  fact: Có thể sử dụng phím tắt Ctrl+K để nhanh chóng mở hộp thoại Insert Hyperlink trong Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 186–189
+- id: n3008069965
+  app: excel
+  topic: Tạo Table nhanh
+  fact: Bạn có thể dùng phím tắt Ctrl+T để mở nhanh hộp thoại tạo bảng trong Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 302–305
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 311–317
+- id: n3008067760
+  app: excel
+  topic: Text That Contains
+  fact: Tính năng tìm kiếm văn bản trong định dạng có điều kiện không phân biệt chữ hoa và chữ thường.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 273–277
+- id: n3008056218
+  app: excel
+  topic: Text to Columns
+  fact: Tính năng Text to Columns giúp nhanh chóng tách dữ liệu trong một cột thành nhiều cột dựa vào các ký tự phân cách như dấu cộng, dấu phẩy
+    hoặc khoảng trắng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 84–87
+- id: n3009829539
+  app: excel
+  topic: Text to Columns
+  fact: Tính năng Text to Columns giúp chia nhanh một cột dữ liệu thành nhiều cột dựa vào ký tự phân tách mà không cần dùng hàm phức tạp.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 84–87
+- id: n3009830298
+  app: excel
+  topic: TEXTJOIN
+  fact: Hàm TEXTJOIN giúp nối chuỗi với ký tự phân cách chung và có tùy chọn bỏ qua các ô trống.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 88–92
+- id: n3008056368
+  app: excel
+  topic: TEXTJOIN function
+  fact: Hàm TEXTJOIN giúp nối chuỗi với ký tự phân cách chung mà không cần lặp lại ký tự đó nhiều lần.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 88–92
+- id: n3009838517
+  app: excel
+  topic: Tham chiếu vòng (Circular Reference)
+  fact: Tham chiếu vòng xảy ra khi các ô phụ thuộc lẫn nhau tạo thành một vòng lặp, ví dụ ô A1 ảnh hưởng D3, D3 ảnh hưởng F6 và F6 quay lại ảnh
+    hưởng A1.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 141–144
+- id: n3008055978
+  app: excel
+  topic: Tham số match_type trong MATCH
+  fact: Khi tìm kiếm trên dữ liệu chưa sắp xếp, nên dùng match_type bằng 0 để tìm kết quả khớp chính xác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 68–71
+- id: n3009861653
+  app: excel
+  topic: Thẻ Design của Table
+  fact: Thẻ ngữ cảnh Design chỉ xuất hiện trên ribbon khi ô hiện tại đang nằm bên trong một bảng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 302–305
+- id: n3008104251
+  app: excel
+  topic: Thêm nhãn nhanh
+  fact: Bạn có thể nhanh chóng thêm nhãn dữ liệu vào biểu đồ bằng cách bấm vào nút dấu cộng (Chart Elements) nằm ở phía bên phải của biểu đồ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 639–643
+- id: n3008076435
+  app: excel
+  topic: Thống kê mô tả
+  fact: Bạn có thể sử dụng công cụ Data Analysis trong thẻ Data để nhanh chóng tạo bảng thống kê mô tả cho dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 405–408
+- id: n3009856595
+  app: excel
+  topic: Thứ tự ưu tiên quy tắc
+  fact: Quy tắc nằm phía trên trong danh sách quản lý sẽ được ưu tiên áp dụng trước khi có xung đột định dạng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 273–277
+- id: n3008069535
+  app: excel
+  topic: Tính năng Stop If True
+  fact: Chọn Stop If True trong quản lý quy tắc sẽ giúp bỏ qua tất cả các quy tắc có độ ưu tiên thấp hơn nếu ô đã thỏa mãn quy tắc hiện tại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 292–299
+- id: n3008091076
+  app: excel
+  topic: Tính năng Timeline
+  fact: Bạn có thể giữ phím Shift để chọn nhiều khoảng thời gian liên tiếp nhau trên Timeline nhằm lọc dữ liệu nhanh chóng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 554–558
+- id: n3009838879
+  app: excel
+  topic: Tính toán lặp (Iterative Calculation)
+  fact: Khi bật tính toán lặp, Excel sẽ dùng phương pháp toán học để tìm nghiệm cho hệ phương trình có chứa tham chiếu vòng thay vì báo lỗi.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 141–144
+- id: n3009906121
+  app: excel
+  topic: Tổng phụ lồng nhau
+  fact: Khi tạo tổng phụ lồng nhau (nested subtotals), ở lần chạy Subtotal thứ hai, cần bỏ chọn mục Replace Current Totals để giữ lại kết quả
+    tổng phụ trước đó.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 611–616
+- id: n3008062075
+  app: excel
+  topic: Trace Precedents và Dependents
+  fact: Excel sử dụng các đường kẻ và mũi tên màu xanh để trực quan hóa mối quan hệ giữa ô chứa công thức và các ô dữ liệu liên quan.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 190–195
+- id: n3008114222
+  app: excel
+  topic: Trendline trong Excel
+  fact: Đường xu hướng Linear (tuyến tính) phù hợp nhất khi các điểm dữ liệu trên biểu đồ phân tán cho thấy xu hướng tăng hoặc giảm theo một đường
+    thẳng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 701–705
+- id: n3008105712
+  app: excel
+  topic: Trục biểu đồ
+  fact: Excel tự động quyết định số hàng và cột để đưa lên trục ngang dựa trên số lượng lớn hơn, nhưng người dùng có thể dễ dàng hoán đổi lại.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 644–649
+- id: n3009911414
+  app: excel
+  topic: Trục biểu đồ
+  fact: Thay đổi giới hạn tối thiểu và tối đa của trục dọc giúp biểu đồ trực quan hơn, tránh làm người xem hiểu lầm về tốc độ tăng trưởng thực
+    tế.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 644–649
+- id: n3008103863
+  app: excel
+  topic: Trực quan hóa dữ liệu x-axis
+  fact: Khi tạo biểu đồ phân tán (Scatter chart), dữ liệu cần vẽ cho trục x phải luôn nằm ở bên trái của dữ liệu vẽ cho trục y.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 639–643
+- id: n3009872033
+  app: excel
+  topic: Tùy chỉnh biểu đồ Histogram
+  fact: Bạn có thể giảm khoảng cách giữa các cột trong biểu đồ bằng cách chỉnh thuộc tính Gap Width thành 0%.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 388–391
+- id: n3008113900
+  app: excel
+  topic: Vẽ biểu đồ Scatter
+  fact: Cột dữ liệu dùng cho trục x bắt buộc phải nằm bên trái cột dữ liệu dùng cho trục y thì Excel mới vẽ biểu đồ phân tán chính xác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 701–705
+- id: n3008061966
+  app: excel
+  topic: Watch Window
+  fact: Cửa sổ Watch Window giúp bạn theo dõi giá trị của các ô quan trọng ngay cả khi đang làm việc ở sheet hoặc workbook khác.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 190–195
+- id: n3009831265
+  app: excel
+  topic: Wrap Text
+  fact: Tính năng Wrap Text giúp hiển thị toàn bộ nội dung dài bên trong một ô bằng cách tự động xuống dòng.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 93–97
+- id: n3009875286
+  app: excel
+  topic: Xem thống kê nhanh
+  fact: Bạn có thể nhấp chuột phải vào thanh trạng thái (status bar) ở góc dưới bên phải màn hình để bật hoặc tắt các chỉ số thống kê như giá
+    trị lớn nhất, nhỏ nhất hay trung bình của vùng dữ liệu đang chọn.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 413–415
+- id: n3008093672
+  app: excel
+  topic: Xóa dữ liệu khỏi Data Model
+  fact: Để loại bỏ một bảng khỏi Data Model, hãy mở bảng đó, vào tab Design và chọn Convert to Range trong nhóm Tools.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 573–579
+- id: n3008056875
+  app: excel
+  topic: Xoay hướng chữ
+  fact: Tính năng Orientation trong thẻ Home giúp thay đổi góc hiển thị của văn bản trong ô rất hữu ích khi làm biểu đồ dạng bảng nhỏ.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 93–97
+- id: n3008100928
+  app: excel
+  topic: Xử lý dữ liệu trống trên biểu đồ
+  fact: Bạn có thể dùng tùy chọn Hidden and Empty Cells trong hộp thoại Select Data Source để hiển thị các giá trị bị thiếu dưới dạng số không,
+    ô trống hoặc đường nối.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 623–630
+- id: n3008109132
+  app: excel
+  topic: Xử lý dữ liệu trùng lặp khi xếp hạng
+  fact: Kết hợp hàm RANK và COUNTIF giúp tạo ra các thứ hạng duy nhất khi có các giá trị trùng nhau trong bảng dữ liệu.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 659–663
+- id: n3009886407
+  app: excel
+  topic: 'Xử lý lỗi #VALUE! khi trích xuất ký tự'
+  fact: 'Khi dùng hàm MID trên các ô có độ dài khác nhau, ô nào thiếu ký tự sẽ trả về lỗi #VALUE!. Bạn có thể kết hợp thêm hàm IF và LEN để lọc
+    hoặc thay thế giá trị lỗi bằng 0.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 474–478
+- id: n3008083386
+  app: excel
+  topic: Xử lý lỗi với ISERROR
+  fact: 'Kết hợp hàm ISERROR với hàm IF giúp thay thế các thông báo lỗi như #NA thành các giá trị thân thiện hơn như Yes hoặc No.'
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 474–478
 - id: n2948633765
   app: powerpoint
   topic: Create a Document
@@ -50,6 +2581,13 @@ notes:
     Layout is recommended for final document preparation.
   sources:
   - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 26–32
+- id: n3009867523
+  app: word
+  topic: Đổi tên để tránh lỗi cột
+  fact: Khi dữ liệu có khoảng trắng làm phân cách, hãy dùng tính năng Replace để rút gọn các cụm từ dài thành một từ duy nhất nhằm tránh bị tách
+    thành nhiều cột không mong muốn khi sang Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 336–338
 - id: n2949686332
   app: word
   topic: Email Feature
@@ -80,6 +2618,13 @@ notes:
   fact: No Spacing option in Styles group tightens line spacing without changing paragraph indentation.
   sources:
   - 1702861677MICROSOFT-OFFICE-BOOK.pdf · trang 13–20
+- id: n3008073160
+  app: word
+  topic: Lưu tệp dạng văn bản thô
+  fact: Khi lưu tệp Word sang định dạng Plain Text (*.txt), mọi định dạng nâng cao sẽ bị xóa để dữ liệu có thể dễ dàng nhập vào các ứng dụng khác
+    như Excel.
+  sources:
+  - Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf, trang 336–338
 - id: n2950503040
   app: word
   topic: Page Layout
