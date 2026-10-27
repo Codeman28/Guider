@@ -53,6 +53,7 @@ class TrainingJob:
         self.progress = progress
         self.office_lock = office_lock
         self.cancel = cancel
+        self.stop_reason = ""  # what the InputGuard saw (di chuột, bấm chuột, gõ phím), shown to the developer
         self.memory = memory or Memory()
         self.llm = llm or TrainingLLM()
         self.demonstrate = demonstrate
@@ -166,6 +167,7 @@ class TrainingJob:
                     stats["sources"].append(self._learn(src, stats))
         except Cancelled:
             stats["cancelled"] = True
+            stats["stop_reason"] = self.stop_reason
         for app in ("excel", "word", "powerpoint"):  # tidy the waiting list: one card per distinct task
             try:
                 stats.setdefault("compacted", {})[app] = self.memory.compact_pending(app)
@@ -314,8 +316,9 @@ class TrainingJob:
             run_root.mkdir(parents=True, exist_ok=True)
             plan = Card(card["id"], card["title"], card["keywords"], card, app).to_plan()
             from ..env.input_guard import InputGuard
-            with InputGuard(self.cancel):  # the developer touching the machine stops training
+            with InputGuard(self.cancel) as guard:  # the developer touching the machine stops training
                 res = Session(plan, run_root, cancel_event=self.cancel).run()
+            self.stop_reason = guard.reason or self.stop_reason
             if res.tutorial.status == "ok":
                 return True, ""
             bad = next((s for s in res.trace.steps if not s.verified), None)
