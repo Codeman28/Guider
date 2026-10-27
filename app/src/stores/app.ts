@@ -97,8 +97,10 @@ interface State {
   useProvider(p: "ollama" | "gemini"): Promise<void>;
   saveGeminiKey(key: string): Promise<void>;
   loadTraining(): Promise<void>;
-  startTraining(kind: "file" | "link" | "research", ref: string): Promise<void>;
-  pickTrainingFile(): Promise<void>;
+  startTraining(kind: "file" | "link" | "research" | "verify", ref: string): Promise<void>;
+  pickTrainingFile(folder?: boolean): Promise<void>;
+  demonstrateNow: boolean;
+  setDemonstrateNow(v: boolean): void;
   cancelTraining(): Promise<void>;
   removeLearned(kind: "card" | "note", id: string, app?: string): Promise<void>;
   askKnowledge(q: string): Promise<void>;
@@ -133,6 +135,8 @@ export const useApp = create<State>((set, get) => ({
   trainMemory: null,
   trainAnswer: null,
   asking: false,
+  demonstrateNow: true,
+  setDemonstrateNow: (v) => set({ demonstrateNow: v }),
 
   init(client) {
     set({ client });
@@ -327,21 +331,21 @@ export const useApp = create<State>((set, get) => ({
     const c = get().client;
     if (!c || get().trainJob) return;
     try {
-      const { job_id } = await c.call<{ job_id: string }>("training.start", { kind, ref });
+      const { job_id } = await c.call<{ job_id: string }>("training.start", { kind, ref, demonstrate: get().demonstrateNow });
       set({ trainJob: { id: job_id, progress: null }, trainLast: null });
     } catch (e) {
       set({ notice: `Chưa bắt đầu huấn luyện được: ${e instanceof Error ? e.message : e}` });
     }
   },
 
-  async pickTrainingFile() {
+  async pickTrainingFile(folder = false) {
     try {
       const { open } = await import("@tauri-apps/plugin-dialog");
       const picked = await open({
         multiple: false,
-        directory: false,
-        title: "Chọn sách, giáo trình hoặc ghi chú để Guider học",
-        filters: [{ name: "PDF, Word, văn bản", extensions: ["pdf", "docx", "txt", "md"] }],
+        directory: folder,
+        title: folder ? "Chọn thư mục tài liệu để Guider học" : "Chọn sách, giáo trình, file Excel hoặc file zip để Guider học",
+        filters: folder ? undefined : [{ name: "PDF, Word, Excel, văn bản, zip", extensions: ["pdf", "docx", "txt", "md", "xlsx", "xlsm", "zip"] }],
       });
       if (typeof picked === "string") await get().startTraining("file", picked);
     } catch (e) {

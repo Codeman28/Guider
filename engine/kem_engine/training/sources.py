@@ -45,6 +45,7 @@ class Source:
     ref: str  # path or URL (shown to the developer, logged; never the text)
     sha: str
     chunks: list[Chunk] = field(default_factory=list)
+    all_relevant: bool = False  # spreadsheets and the formula catalogue: every chunk teaches something
 
 
 def _split(text: str, size: int) -> list[str]:
@@ -69,21 +70,27 @@ def relevant(text: str) -> bool:
     t = f" {fold(text)} "
     acts = sum(t.count(f" {c}") for c in ACTIONS)
     ui = sum(t.count(f" {c}") for c in UI)
-    return acts >= 2 and ui >= 1
+    formulas = len(_FUNC.findall(text.upper()))  # formula-led books ("type =VLOOKUP(...)") teach too
+    return (acts >= 2 and ui >= 1) or (formulas >= 2 and acts >= 1)
 
 
-def read_file(path: str | Path, chunk_chars: int) -> Source:
-    p = Path(path)
+def read_file(path: str | Path, chunk_chars: int, data: bytes | None = None, name: str | None = None) -> Source:
+    """`data`/`name`: an item read out of a .zip (never written to disk)."""
+    p = Path(name or path)
     ext = p.suffix.lower()
-    if ext not in FILE_TYPES or not p.is_file():
-        raise ValueError("Chỉ đọc được file PDF, DOCX, TXT hoặc MD có trên máy.")
-    if p.stat().st_size > MAX_FILE_BYTES:
+    if ext in SHEET_TYPES:
+        return read_workbook(path, chunk_chars, data=data, label=p.name)
+    if ext not in FILE_TYPES or (data is None and not Path(path).is_file()):
+        raise ValueError("Chỉ đọc được file PDF, DOCX, TXT, MD, XLSX hoặc thư mục/zip chứa chúng.")
+    if data is None and Path(path).stat().st_size > MAX_FILE_BYTES:
         raise ValueError("File quá lớn (tối đa 300 MB).")
-    raw = p.read_bytes()
-    src = Source("file", p.name, str(p), hashlib.sha256(raw).hexdigest())
+    raw = data if data is not None else Path(path).read_bytes()
+    src = Source("file", p.name, p.name, hashlib.sha256(raw).hexdigest())
     if ext == ".pdf":
+        import io
+
         from pypdf import PdfReader
-        reader = PdfReader(str(p))
+        reader = PdfReader(io.BytesIO(raw))
         buf, first = "", 1
         for i, page in enumerate(reader.pages, start=1):
             try:
@@ -97,7 +104,8 @@ def read_file(path: str | Path, chunk_chars: int) -> Source:
                 buf, first = "", i + 1
     else:
         if ext == ".docx":
-            with zipfile.ZipFile(p) as z:
+            import io
+            with zipfile.ZipFile(io.BytesIO(raw)) as z:
                 root = ElementTree.fromstring(z.read("word/document.xml"))
             ns = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
             text = "\n\n".join("".join(t.text or "" for t in para.iter(f"{ns}t")) for para in root.iter(f"{ns}p"))
@@ -209,3 +217,122 @@ def fetch_url(url: str, chunk_chars: int, max_pages: int = 20, crawl: bool = Tru
         raise ValueError("Không đọc được trang nào từ link này (bị chặn, cần đăng nhập, hoặc không phải trang web).")
     src.sha = digest.hexdigest()
     return src
+
+
+# ---- spreadsheets and archives (27/10/2026: a course's 1,770 practice workbooks) --------------------------
+SHEET_TYPES = {".xlsx", ".xlsm"}
+_NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+_FUNC = re.compile(r"\b([A-Z][A-Z0-9\.]{1,20})\(")
+MAX_CELLS_PER_SHEET = 4000
+
+
+def _xlsx_cells(data: bytes):
+    """Yield (sheet_name, ref, formula or None, shown text) from an .xlsx/.xlsm in memory — stdlib only."""
+    import io
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        shared = []
+        if "xl/sharedStrings.xml" in z.namelist():
+            root = ElementTree.fromstring(z.read("xl/sharedStrings.xml"))
+            shared = ["".join(t.text or "" for t in si.iter(f"{_NS}t")) for si in root.iter(f"{_NS}si")]
+        wb = ElementTree.fromstring(z.read("xl/workbook.xml"))
+        names = [sh.get("name") for sh in wb.iter(f"{_NS}sheet")]
+        sheets = sorted(n for n in z.namelist() if re.match(r"xl/worksheets/sheet\d+\.xml$", n))
+        sheets.sort(key=lambda n: int(re.search(r"(\d+)\.xml$", n).group(1)))
+        for k, path in enumerate(sheets):
+            sname = names[k] if k < len(names) else path
+            root = ElementTree.fromstring(z.read(path))
+            for n, c in enumerate(root.iter(f"{_NS}c")):
+                if n > MAX_CELLS_PER_SHEET:
+                    break
+                f = c.find(f"{_NS}f")
+                v = c.find(f"{_NS}v")
+                text = v.text if v is not None else ""
+                if c.get("t") == "s" and text:
+                    try:
+                        text = shared[int(text)]
+                    except (ValueError, IndexError):
+                        pass
+                yield sname, c.get("r"), (f.text if f is not None and f.text else None), text or ""
+
+
+def read_workbook(path: str | Path, chunk_chars: int, data: bytes | None = None, label: str | None = None) -> Source:
+    """A workbook as teaching text: per sheet, its labels and the formulas it uses (with the cell they sit in)."""
+    p = Path(path)
+    raw = data if data is not None else p.read_bytes()
+    src = Source("file", label or p.name, label or p.name, hashlib.sha256(raw).hexdigest())
+    lines: list[str] = []
+    cur = None
+    for sheet, ref, formula, text in _xlsx_cells(raw):
+        if sheet != cur:
+            lines.append(f"\n## Sheet {sheet}")
+            cur = sheet
+        if formula:
+            lines.append(f"{ref}: ={formula}")
+        elif text and not re.fullmatch(r"[-0-9.,E+ ]+", text) and len(text) < 80:
+            lines.append(f"{ref}: {text}")
+    src.all_relevant = True
+    text = f"Workbook {src.name}\n" + "\n".join(lines)
+    for n, part in enumerate(_split(text, chunk_chars), start=1):
+        src.chunks.append(Chunk(part, f"{src.name}, phần {n}"))
+    return src
+
+
+def formula_catalog(workbooks: list[tuple[str, bytes]], chunk_chars: int, per_function: int = 6) -> Source:
+    """Many workbooks → one compact catalogue: each Excel function, how often it is used, real examples with the
+    labels around them. The model reads the catalogue (tens of calls), not every file (thousands)."""
+    from collections import Counter, defaultdict
+    counts: Counter = Counter()
+    examples: dict[str, list[str]] = defaultdict(list)
+    digest = hashlib.sha256()
+    for name, data in workbooks:
+        digest.update(hashlib.sha256(data).digest())
+        labels: dict[tuple[str, str], list[str]] = defaultdict(list)  # (sheet, row) → labels on that row
+        try:
+            cells = list(_xlsx_cells(data))
+        except Exception:
+            continue
+        for sheet, ref, formula, text in cells:
+            if not formula and text and len(text) < 40 and not re.fullmatch(r"[-0-9.,E+ ]+", text):
+                labels[(sheet, re.sub(r"[A-Z]+", "", ref))].append(text)
+        per_file: Counter = Counter()
+        for sheet, ref, formula, text in cells:
+            if not formula:
+                continue
+            for fn in set(_FUNC.findall(formula.upper())):
+                counts[fn] += 1
+                if len(examples[fn]) < per_function and len(formula) < 160 and per_file[fn] < 2:
+                    per_file[fn] += 1  # at most two examples per file: variety across the course
+                    near = labels.get((sheet, re.sub(r"[A-Z]+", "", ref)), [])[:3]
+                    examples[fn].append(f"={formula}   ({name}, {sheet}!{ref}{'; nhãn cùng dòng: ' + ', '.join(near) if near else ''})")
+    src = Source("file", f"Danh mục hàm từ {len(workbooks)} file Excel", "formula-catalog", digest.hexdigest())
+    blocks = [f"### {fn}: dùng {n} lần\n" + "\n".join(examples[fn]) for fn, n in counts.most_common()]
+    text = "Danh mục hàm Excel lấy từ các file bài tập thật. Mỗi mục: tên hàm, số lần dùng, ví dụ công thức.\n\n" + \
+           "\n\n".join(blocks)
+    for n, part in enumerate(_split(text, chunk_chars), start=1):
+        src.chunks.append(Chunk(part, f"danh mục hàm, phần {n}"))
+    src.all_relevant = True  # every block teaches a function
+    return src
+
+
+def expand_inputs(path: str | Path) -> list[tuple[str, Path | None, bytes | None]]:
+    """A file, a folder or a .zip → [(display name, path or None, bytes or None)] of readable items."""
+    p = Path(path)
+    out: list[tuple[str, Path | None, bytes | None]] = []
+    ok = FILE_TYPES | SHEET_TYPES
+    if p.is_dir():
+        for f in sorted(p.rglob("*")):
+            if f.is_file() and f.suffix.lower() in ok | {".zip"}:
+                out += expand_inputs(f) if f.suffix.lower() == ".zip" else [(f.name, f, None)]
+    elif p.suffix.lower() == ".zip":
+        with zipfile.ZipFile(p) as z:
+            for info in z.infolist():
+                name = info.filename
+                suffix = Path(name).suffix.lower()
+                if info.is_dir() or "/." in name or name.startswith(".") or suffix not in ok:
+                    continue
+                if info.file_size > MAX_FILE_BYTES:
+                    continue
+                out.append((Path(name).name, None, z.read(info)))
+    elif p.is_file():
+        out.append((p.name, p, None))
+    return out

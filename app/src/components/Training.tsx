@@ -22,7 +22,7 @@ function SourceRow({ s }: { s: { kind: string; name: string; date: string; summa
 }
 
 export function Training() {
-  const { train, trainJob, trainLast, trainMemory, trainAnswer, asking, startTraining, pickTrainingFile, cancelTraining, removeLearned, askKnowledge } = useApp();
+  const { train, trainJob, trainLast, trainMemory, trainAnswer, asking, startTraining, pickTrainingFile, cancelTraining, removeLearned, askKnowledge, demonstrateNow, setDemonstrateNow } = useApp();
   const [link, setLink] = useState("");
   const [topic, setTopic] = useState("");
   const [question, setQuestion] = useState("");
@@ -47,8 +47,23 @@ export function Training() {
           <button type="button" disabled={busy} onClick={() => void pickTrainingFile()} className="rounded-sheet bg-ink px-4 py-2 font-medium text-paper disabled:opacity-40">
             Tải file lên…
           </button>
-          <span className="text-small text-lunar">PDF, DOCX, TXT, MD</span>
+          <button type="button" disabled={busy} onClick={() => void pickTrainingFile(true)} className="rounded-sheet border border-ink px-4 py-2 font-medium disabled:opacity-40">
+            Chọn thư mục…
+          </button>
+          <span className="text-small text-lunar">PDF, DOCX, TXT, MD, XLSX, ZIP</span>
         </div>
+        <label className="flex items-center gap-2 text-small">
+          <input type="checkbox" checked={demonstrateNow} onChange={(e) => setDemonstrateNow(e.target.checked)} className="accent-[var(--color-sunday)]" />
+          Làm mẫu thử từng việc ngay sau khi đọc (máy phải để yên). Bỏ chọn để chỉ đọc, làm mẫu sau.
+        </label>
+        {(trainMemory?.not_tried ?? 0) > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" disabled={busy} onClick={() => void startTraining("verify", "")} className="rounded-sheet border border-ink px-4 py-2 font-medium disabled:opacity-40">
+              Làm mẫu thử {trainMemory?.not_tried} việc chưa chạy thử
+            </button>
+            <span className="text-small text-lunar">Chạy khi máy rảnh: chạm chuột hay bàn phím là dừng.</span>
+          </div>
+        )}
         <form
           className="flex flex-wrap gap-2"
           onSubmit={(e) => {

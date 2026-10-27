@@ -102,6 +102,9 @@ class Memory:
             p["cards"] = [x for x in p["cards"] if x["card"]["id"] != card["id"]] + [{"reason": reason, "card": card}]
             _save_yaml(self.pending_path(app), p, HEADER)
 
+    def pending(self, app: str) -> list[dict]:
+        return _load_yaml(self.pending_path(app), {"cards": []}).get("cards", [])
+
     def drop_pending(self, app: str, card_id: str) -> bool:
         with _lock:
             path = self.pending_path(app)
@@ -183,4 +186,6 @@ class Memory:
                 "pending": [{"id": x["card"]["id"], "title": x["card"]["title"], "reason": x["reason"]} for x in pend],
             }
         notes = self.notes()
-        return {"apps": apps, "notes": len(notes), "recent_notes": notes[-8:][::-1], "sources": self.log()[:50]}
+        not_tried = sum(1 for a in APPS for x in self.pending(a) if x["reason"] == "chưa chạy thử")
+        return {"apps": apps, "notes": len(notes), "recent_notes": notes[-8:][::-1], "sources": self.log()[:50],
+                "not_tried": not_tried}

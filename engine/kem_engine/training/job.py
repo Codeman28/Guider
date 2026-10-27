@@ -19,12 +19,15 @@ from ..llm.providers.base import LLMError
 from .extract import SYSTEM, XOut, build_card
 from .llm import TrainingLLM, search_web
 from .memory import Memory
-from .sources import Source, fetch_url, read_file, relevant
+from .sources import SHEET_TYPES, Source, expand_inputs, fetch_url, formula_catalog, read_file, relevant
 
 log = structlog.get_logger()
 
 
 META = re.compile(r"(tôi sẽ|rút ra các|theo yêu cầu|đoạn văn tài liệu hướng dẫn)", re.IGNORECASE)
+
+
+NOT_TRIED = "chưa chạy thử"  # read but not demonstrated yet (training phase 1)
 
 
 class Cancelled(Exception):
@@ -63,9 +66,31 @@ class TrainingJob:
     # ---- sources ----------------------------------------------------------------------------
     def _sources(self) -> list[Source]:
         size, cap = self.llm.chunk_chars, self.llm.conf.max_pages
-        if self.kind == "file":
-            self._p("read", "Đang đọc file…")
-            return [read_file(self.ref, size)]
+        if self.kind == "file":  # a file, a folder or a .zip (27/10/2026)
+            self._p("read", "Đang mở file…")
+            items = expand_inputs(self.ref)
+            if not items:
+                raise ValueError("Không có file PDF, DOCX, TXT, MD hay XLSX nào đọc được ở đây.")
+            books = [(n, p, d) for n, p, d in items if Path(n).suffix.lower() not in SHEET_TYPES]
+            sheets = [(n, p, d) for n, p, d in items if Path(n).suffix.lower() in SHEET_TYPES]
+            out = []
+            for k, (n, p, d) in enumerate(books, start=1):
+                self._check()
+                self._p("read", f"Đang đọc {n} ({k}/{len(books)})", k, len(books))
+                try:
+                    out.append(read_file(p or n, size, data=d, name=n))
+                except Exception as e:
+                    log.warning("training.read_failed", name=n, error=str(e)[:160])
+            if len(sheets) > 20:  # a course's practice files: one catalogue of the functions they use
+                self._p("read", f"Đang gom công thức từ {len(sheets)} file Excel…")
+                out.append(formula_catalog([(n, d if d is not None else p.read_bytes()) for n, p, d in sheets], size))
+            else:
+                for n, p, d in sheets:
+                    try:
+                        out.append(read_file(p or n, size, data=d, name=n))
+                    except Exception as e:
+                        log.warning("training.read_failed", name=n, error=str(e)[:160])
+            return out
         if self.kind == "link":
             return [fetch_url(self.ref, size, max_pages=cap, cancel=self.cancel,
                               on_page=lambda n, u: self._p("read", f"Đang đọc trang {n}: {u}", n, cap))]
@@ -112,9 +137,12 @@ class TrainingJob:
                  "relevant": 0, "tasks_found": 0, "added": 0, "merged": 0, "pending": 0, "rejected": 0,
                  "notes_added": 0, "notes_merged": 0, "cancelled": False}
         try:
-            for src in self._sources():
-                self._check()
-                stats["sources"].append(self._learn(src, stats))
+            if self.kind == "verify":  # phase 2: demonstrate the cards read earlier ("chưa chạy thử")
+                stats["sources"].append(self._verify_pending(stats))
+            else:
+                for src in self._sources():
+                    self._check()
+                    stats["sources"].append(self._learn(src, stats))
         except Cancelled:
             stats["cancelled"] = True
         stats["seconds"] = round(time.monotonic() - t0)
@@ -130,7 +158,7 @@ class TrainingJob:
         if prev and prev.get("complete"):
             self._p("skip", f"Đã học nguồn này rồi ({prev['date']}), bỏ qua.")
             return {**prev, "skipped": True}
-        chunks = [c for c in src.chunks if relevant(c.text)]
+        chunks = list(src.chunks) if src.all_relevant else [c for c in src.chunks if relevant(c.text)]
         stats["chunks"] += len(src.chunks)
         stats["relevant"] += len(chunks)
         summaries, cards = [], []
@@ -193,7 +221,7 @@ class TrainingJob:
         for i, (app, card) in enumerate(cards, start=1):
             self._check()
             self._p("demo", f"Guider đang làm mẫu thử: {card['title']}. Đừng chạm vào máy.", i, len(cards))
-            ok, reason = self._demonstrate(app, card) if self.demonstrate else (False, "chưa chạy thử")
+            ok, reason = self._demonstrate(app, card) if self.demonstrate else (False, NOT_TRIED)
             self._check()  # stopped mid-demonstration: neither keep nor blame the card
             if ok:
                 self.memory.add_card(app, card)
@@ -207,6 +235,28 @@ class TrainingJob:
             entry["summary"] = self._summarize(src.name, summaries)
         entry["complete"] = not self.llm.cloud_down  # an interrupted source is read again next time
         self.memory.add_log(entry)
+        return entry
+
+    def _verify_pending(self, stats: dict) -> dict:
+        """Demonstrate every pending card whose reason is 'chưa chạy thử' (read now, demonstrate when idle)."""
+        todo = [(app, x["card"]) for app in ("excel", "word", "powerpoint")
+                for x in self.memory.pending(app) if x["reason"] == NOT_TRIED]
+        entry = {"kind": "verify", "name": f"Làm mẫu thử {len(todo)} việc đang chờ", "ref": "pending", "sha": "",
+                 "date": time.strftime("%Y-%m-%d %H:%M"), "summary": "", "added": 0, "merged": 0, "pending": 0,
+                 "notes": 0}
+        for i, (app, card) in enumerate(todo, start=1):
+            self._check()
+            self._p("demo", f"Guider đang làm mẫu thử: {card['title']}. Đừng chạm vào máy.", i, len(todo))
+            ok, reason = self._demonstrate(app, card)
+            self._check()
+            if ok:
+                self.memory.add_card(app, card)
+                stats["added"] += 1
+                entry["added"] += 1
+            else:
+                self.memory.add_pending(app, card, reason)
+                stats["pending"] += 1
+                entry["pending"] += 1
         return entry
 
     def _summarize(self, name: str, parts: list[str]) -> str:

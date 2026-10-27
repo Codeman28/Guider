@@ -314,9 +314,9 @@ class Server:
     def training_start(self, params):
         self._need_training()
         kind, ref = params.get("kind"), params.get("ref") or ""
-        if kind not in ("file", "link", "research") or not isinstance(ref, str):
-            raise RpcError(INVALID_PARAMS, "kind must be file, link or research")
-        if kind != "research" and not ref.strip():
+        if kind not in ("file", "link", "research", "verify") or not isinstance(ref, str):
+            raise RpcError(INVALID_PARAMS, "kind must be file, link, research or verify")
+        if kind in ("file", "link") and not ref.strip():
             raise RpcError(INVALID_PARAMS, "ref is required")
         if self._training and self._training["thread"].is_alive():
             raise RpcError(BUSY, "Đang huấn luyện một nguồn khác. Chờ xong hoặc dừng trước.")
@@ -332,7 +332,8 @@ class Server:
             pythoncom.CoInitializeEx(0)
             try:
                 from ..training.job import TrainingJob
-                stats = TrainingJob(kind, ref.strip(), self.out_root, progress, self._lock, cancel).run()
+                stats = TrainingJob(kind, ref.strip(), self.out_root, progress, self._lock, cancel,
+                                    demonstrate=bool(params.get("demonstrate", True))).run()
                 self.notify("training.done", {"job_id": job_id, "ok": True, **stats})
             except Exception as e:
                 traceback.print_exc(file=sys.stderr)
