@@ -233,3 +233,750 @@ cards:
       - {id: 2, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 12}}
       - {id: 3, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 14}, capture_result: true}
     success_check: {type: com_check, prop: range.font.size, ref: "A1:D1", op: gte, value: 14}
+
+  # ---- keyboard-first (27/10/2026): shortcuts before ribbon; `fallback` is the mouse twin ----
+  - id: bold_header_keys
+    title: Cách in đậm dòng tiêu đề bằng phím tắt
+    keywords:
+    - in đậm
+    - chữ đậm
+    - bold
+    - tô đậm
+    - phím tắt cách in đậm dòng tiêu đề
+    - ctrl+b
+    fixture_id: sales_table_basic
+    fallback: bold_header
+    alternative: thẻ Home, nút Bold
+    preconditions:
+    - type: select_range
+      ref: A1:D1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+B
+      expected:
+        type: com_check
+        prop: range.font.bold
+        ref: A1:D1
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: range.font.bold
+      ref: A1:D1
+      op: 'true'
+  - id: italic_text_keys
+    title: Cách in nghiêng chữ bằng phím tắt
+    keywords:
+    - in nghiêng
+    - chữ nghiêng
+    - italic
+    - phím tắt cách in nghiêng chữ
+    - ctrl+i
+    fixture_id: sales_table_basic
+    fallback: italic_text
+    alternative: thẻ Home, nút Italic
+    preconditions:
+    - type: select_range
+      ref: A2:A21
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+I
+      expected:
+        type: com_check
+        prop: range.font.italic
+        ref: A2:A21
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: range.font.italic
+      ref: A2:A21
+      op: 'true'
+  - id: filter_on_keys
+    title: Cách bật bộ lọc (Filter) bằng phím tắt
+    keywords:
+    - lọc
+    - bộ lọc
+    - filter
+    - lọc dữ liệu
+    - autofilter
+    - phím tắt cách bật bộ lọc (filter) cho bảng dữ liệu
+    - ctrl+shift+l
+    fixture_id: sales_table_basic
+    fallback: filter_on
+    alternative: thẻ Data, nút Filter
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Shift+L
+      expected:
+        type: com_check
+        prop: sheet.autofilter
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: sheet.autofilter
+      op: 'true'
+  - id: percent_style_keys
+    title: Cách đổi số sang phần trăm bằng phím tắt
+    keywords:
+    - phần trăm
+    - percent
+    - định dạng phần trăm
+    - '%'
+    - phím tắt cách định dạng số thành phần trăm
+    - ctrl+shift+%
+    fixture_id: sales_table_basic
+    fallback: percent_style
+    alternative: thẻ Home, nút Percent Style
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Shift+%
+      expected:
+        type: com_check
+        prop: range.number_format
+        ref: D2
+        op: contains
+        value: '%'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: range.number_format
+      ref: D2
+      op: contains
+      value: '%'
+  - id: insert_table_keys
+    title: Cách chuyển vùng dữ liệu thành Table bằng phím tắt
+    keywords:
+    - chèn bảng
+    - tạo bảng
+    - table
+    - format as table
+    - định dạng bảng
+    - chuyển thành bảng
+    - phím tắt
+    fixture_id: sales_table_basic
+    fallback: insert_table
+    alternative: thẻ Insert, nút Table, nút OK
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+T
+      expected:
+        type: dialog_opened
+    - id: 2
+      intent: key_combo
+      value: Enter
+      expected:
+        type: com_check
+        prop: sheet.list_objects
+        op: gte
+        value: 1
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: sheet.list_objects
+      op: gte
+      value: 1
+  - id: chart_quick_keys
+    title: Cách chèn nhanh biểu đồ bằng phím tắt
+    keywords:
+    - biểu đồ cột
+    - chart cột
+    - column chart
+    - vẽ biểu đồ cột
+    - đồ thị cột
+    - phím tắt
+    fixture_id: sales_table_basic
+    fallback: chart_column
+    alternative: thẻ Insert, nút Insert Column or Bar Chart, nút Clustered Column
+    preconditions:
+    - type: select_range
+      ref: C1:D9
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Alt+F1
+      expected:
+        type: com_check
+        prop: book.charts
+        op: gte
+        value: 1
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: book.charts
+      op: gte
+      value: 1
+
+  # ---- Excel formulas typed into the cell (keyboard-first, no ribbon) ----
+  - id: formula_sum
+    title: Cách tính tổng bằng hàm SUM
+    keywords:
+    - tính tổng
+    - hàm sum
+    - cộng tổng
+    - tổng doanh số
+    - sum
+    fixture_id: sales_table_basic
+    example: 'Gõ =SUM(D2:D21) vào ô D22: Excel cộng 20 dòng doanh số và hiện tổng ngay dưới cột.'
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - D22
+        control_type: Cell
+      value: =SUM(D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: D22
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D22
+      op: 'true'
+  - id: formula_average
+    title: Cách tính trung bình bằng hàm AVERAGE
+    keywords:
+    - trung bình
+    - hàm average
+    - tính trung bình
+    - average
+    - bình quân
+    fixture_id: sales_table_basic
+    example: Gõ =AVERAGE(D2:D21) vào ô D23 để có doanh số trung bình của 20 dòng.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - D23
+        control_type: Cell
+      value: =AVERAGE(D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: D23
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D23
+      op: 'true'
+  - id: formula_max
+    title: Cách tìm giá trị lớn nhất bằng hàm MAX
+    keywords:
+    - lớn nhất
+    - hàm max
+    - giá trị cao nhất
+    - max
+    fixture_id: sales_table_basic
+    example: Gõ =MAX(D2:D21) để biết doanh số cao nhất trong bảng.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - D22
+        control_type: Cell
+      value: =MAX(D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: D22
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D22
+      op: 'true'
+  - id: formula_min
+    title: Cách tìm giá trị nhỏ nhất bằng hàm MIN
+    keywords:
+    - nhỏ nhất
+    - hàm min
+    - giá trị thấp nhất
+    - min
+    fixture_id: sales_table_basic
+    example: Gõ =MIN(D2:D21) để biết doanh số thấp nhất.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - D22
+        control_type: Cell
+      value: =MIN(D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: D22
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D22
+      op: 'true'
+  - id: formula_count
+    title: Cách đếm số ô có số bằng hàm COUNT
+    keywords:
+    - đếm số ô
+    - hàm count
+    - đếm số dòng
+    - count
+    fixture_id: sales_table_basic
+    example: Gõ =COUNT(D2:D21) để đếm có bao nhiêu ô doanh số là số (ở đây là 20).
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - D22
+        control_type: Cell
+      value: =COUNT(D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: D22
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D22
+      op: 'true'
+  - id: formula_countif
+    title: Cách đếm có điều kiện bằng hàm COUNTIF
+    keywords:
+    - đếm có điều kiện
+    - countif
+    - đếm theo điều kiện
+    - đếm số lần
+    fixture_id: sales_table_basic
+    example: Gõ =COUNTIF(B2:B21,"Bắc") để đếm số dòng của khu vực Bắc.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =COUNTIF(B2:B21,"Bắc")
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_sumif
+    title: Cách cộng có điều kiện bằng hàm SUMIF
+    keywords:
+    - tổng có điều kiện
+    - sumif
+    - cộng theo điều kiện
+    - tổng theo khu vực
+    fixture_id: sales_table_basic
+    example: Gõ =SUMIF(B2:B21,"Bắc",D2:D21) để cộng doanh số của riêng khu vực Bắc.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =SUMIF(B2:B21,"Bắc",D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_averageif
+    title: Cách tính trung bình có điều kiện bằng AVERAGEIF
+    keywords:
+    - trung bình có điều kiện
+    - averageif
+    fixture_id: sales_table_basic
+    example: Gõ =AVERAGEIF(B2:B21,"Nam",D2:D21) để có doanh số trung bình của khu vực Nam.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =AVERAGEIF(B2:B21,"Nam",D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_if
+    title: Cách dùng hàm IF để phân loại
+    keywords:
+    - hàm if
+    - nếu thì
+    - phân loại
+    - điều kiện if
+    - if
+    fixture_id: sales_table_basic
+    example: 'Gõ =IF(D2>100,"Cao","Thấp") vào E2: dòng nào doanh số trên 100 hiện "Cao", còn lại "Thấp".'
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - E2
+        control_type: Cell
+      value: =IF(D2>100,"Cao","Thấp")
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: E2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+  - id: formula_xlookup
+    title: Cách tra cứu bằng hàm XLOOKUP
+    keywords:
+    - tra cứu
+    - xlookup
+    - dò tìm
+    - tìm giá trị
+    - hàm tìm kiếm
+    fixture_id: sales_table_basic
+    example: Gõ =XLOOKUP("Balo",C2:C21,D2:D21) để lấy doanh số của dòng Balo đầu tiên.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =XLOOKUP("Balo",C2:C21,D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_vlookup
+    title: Cách tra cứu bằng hàm VLOOKUP
+    keywords:
+    - vlookup
+    - dò tìm theo cột
+    - tra cứu dọc
+    fixture_id: sales_table_basic
+    example: 'Gõ =VLOOKUP("Balo",C2:D21,2,FALSE): tìm "Balo" ở cột đầu của vùng C2:D21 và trả về cột thứ 2 (Doanh số).'
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =VLOOKUP("Balo",C2:D21,2,FALSE)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_round
+    title: Cách làm tròn số bằng hàm ROUND
+    keywords:
+    - làm tròn
+    - hàm round
+    - round
+    fixture_id: sales_table_basic
+    example: Gõ =ROUND(D2/3,1) để chia doanh số cho 3 và làm tròn còn 1 chữ số thập phân.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - E2
+        control_type: Cell
+      value: =ROUND(D2/3,1)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: E2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+  - id: formula_rank
+    title: Cách xếp hạng bằng hàm RANK
+    keywords:
+    - xếp hạng
+    - hàm rank
+    - thứ hạng
+    - rank
+    fixture_id: sales_table_basic
+    example: Gõ =RANK(D2,$D$2:$D$21) để biết doanh số dòng 2 đứng thứ mấy trong bảng; dấu $ giữ cố định vùng so sánh.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - E2
+        control_type: Cell
+      value: =RANK(D2,$D$2:$D$21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: E2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+  - id: formula_percent_total
+    title: Cách tính tỷ lệ phần trăm trên tổng
+    keywords:
+    - tỷ lệ phần trăm
+    - phần trăm trên tổng
+    - tỉ trọng
+    - tỷ trọng
+    fixture_id: sales_table_basic
+    example: Gõ =D2/SUM($D$2:$D$21) để có tỷ trọng của dòng 2 trong tổng doanh số.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - E2
+        control_type: Cell
+      value: =D2/SUM($D$2:$D$21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: E2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+  - id: formula_concat
+    title: Cách nối chữ bằng hàm CONCAT
+    keywords:
+    - nối chữ
+    - ghép chuỗi
+    - concat
+    - concatenate
+    - nối hai cột
+    fixture_id: sales_table_basic
+    example: Gõ =CONCAT(B2," ",C2) để ghép khu vực và sản phẩm thành một ô, ví dụ "Bắc Bút bi".
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - E2
+        control_type: Cell
+      value: =CONCAT(B2," ",C2)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: E2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+  - id: formula_today
+    title: Cách chèn ngày hôm nay bằng hàm TODAY
+    keywords:
+    - ngày hôm nay
+    - hàm today
+    - ngày hiện tại
+    - today
+    fixture_id: sales_table_basic
+    example: Gõ =TODAY() để ô luôn hiện ngày hôm nay; mở file ngày mai nó tự đổi.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F1
+        control_type: Cell
+      value: =TODAY()
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F1
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F1
+      op: 'true'
+  - id: formula_sumproduct
+    title: Cách nhân rồi cộng bằng hàm SUMPRODUCT
+    keywords:
+    - sumproduct
+    - nhân rồi cộng
+    - tổng tích
+    fixture_id: sales_table_basic
+    example: Gõ =SUMPRODUCT((B2:B21="Bắc")*D2:D21) để cộng doanh số khu vực Bắc theo kiểu nhân rồi cộng.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =SUMPRODUCT((B2:B21="Bắc")*D2:D21)
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_countifs
+    title: Cách đếm nhiều điều kiện bằng COUNTIFS
+    keywords:
+    - countifs
+    - đếm nhiều điều kiện
+    fixture_id: sales_table_basic
+    example: Gõ =COUNTIFS(B2:B21,"Bắc",D2:D21,">100") để đếm dòng thuộc Bắc có doanh số trên 100.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =COUNTIFS(B2:B21,"Bắc",D2:D21,">100")
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_sumifs
+    title: Cách cộng nhiều điều kiện bằng SUMIFS
+    keywords:
+    - sumifs
+    - tổng nhiều điều kiện
+    - cộng nhiều điều kiện
+    fixture_id: sales_table_basic
+    example: Gõ =SUMIFS(D2:D21,B2:B21,"Bắc",C2:C21,"Vở") để cộng doanh số Vở bán ở khu vực Bắc.
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =SUMIFS(D2:D21,B2:B21,"Bắc",C2:C21,"Vở")
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+  - id: formula_iferror
+    title: Cách ẩn lỗi công thức bằng IFERROR
+    keywords:
+    - iferror
+    - ẩn lỗi
+    - 'lỗi #n/a'
+    - bẫy lỗi
+    fixture_id: sales_table_basic
+    example: 'Gõ =IFERROR(XLOOKUP("Cặp",C2:C21,D2:D21),"Không có"): sản phẩm không có trong bảng thì hiện "Không có" thay cho lỗi.'
+    steps:
+    - id: 1
+      intent: type_formula
+      target:
+        names:
+        - F2
+        control_type: Cell
+      value: =IFERROR(XLOOKUP("Cặp",C2:C21,D2:D21),"Không có")
+      expected:
+        type: com_check
+        prop: cell.formula_ok
+        ref: F2
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'

@@ -15,6 +15,13 @@ from ctypes import wintypes
 user32 = ctypes.WinDLL("user32", use_last_error=True)
 VK_MOUSE_BUTTONS = (0x01, 0x02, 0x04, 0x05, 0x06)  # left, right, middle, X1, X2
 MOVE_PX = 60  # cumulative cursor travel that counts as "the user is using the mouse"
+_self_until = 0.0  # Guider's own keystrokes (env/keyboard.py) until this monotonic time
+
+
+def mark_self_input(window: float = 0.4) -> None:
+    """Called around every SendInput Guider makes: input in this window is Guider's, not the user's."""
+    global _self_until
+    _self_until = max(_self_until, time.monotonic() + window)
 
 
 class _LASTINPUTINFO(ctypes.Structure):
@@ -77,7 +84,7 @@ class InputGuard:
 
     def _run(self):
         while not self._stop.wait(self.interval):
-            if time.monotonic() < self._until:  # still in the grace period: move the reference along
+            if time.monotonic() < max(self._until, _self_until):  # grace period or Guider typing: re-baseline
                 self._tick, self._origin = last_input_tick(), cursor()
                 self._last = self._origin
                 continue

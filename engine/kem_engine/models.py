@@ -6,7 +6,10 @@ from typing import Literal, Optional, Union
 from pydantic import BaseModel, Field
 
 Intent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value",
-                 "type_text", "key_combo", "select_range", "wait_for"]
+                 "type_text", "key_combo", "type_formula", "select_range", "wait_for"]
+# Keyboard-first: type_formula = select a cell and type a formula, Enter;
+# key_combo = a shortcut ("Ctrl+B"). Both send real keystrokes to the sandbox only.
+KEY_INTENTS = {"key_combo", "type_formula", "type_text"}
 
 # Expected-condition kinds the Verifier knows. COM checks are a closed set — never evaluated strings.
 ExpectedType = Literal["tab_selected", "expanded", "dialog_opened", "dialog_closed",
@@ -62,6 +65,7 @@ class Plan(BaseModel):
     steps: list[Step]
     success_check: Optional[Expected] = None  # task-level COM assertion (cards, eval)
     example: Optional[str] = None  # card's worked example (Vietnamese); else the Writer builds one
+    alternative: Optional[str] = None  # the mouse way, for a keyboard-first card ("thẻ Home, nút Bold")
 
 
 class EnvProfile(BaseModel):
@@ -133,6 +137,7 @@ class Trace(BaseModel):
     selection: list[str] = []  # precondition refs selected before step 1 (for the worked example)
     example: Optional[str] = None  # the card's own example text, if it has one
     final_image: Optional[str] = None  # whole window after the last step, selection removed: the end result
+    alternative: Optional[str] = None  # the mouse way for a keyboard-first plan
 
 
 class TutorialStep(BaseModel):

@@ -209,6 +209,17 @@ class TutorialService:
         if cancel_event is not None and cancel_event.is_set():  # stopped between planning and Office start-up
             return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
         res = session.run()
+        fb = pack.by_id[plan.task_canonical].raw.get("fallback") if plan.task_canonical in pack.by_id else None
+        if (fb in pack.by_id and res.tutorial.status not in ("ok", "cancelled")
+                and not (cancel_event is not None and cancel_event.is_set())):
+            # keyboard way did not work here (e.g. the sandbox could not get the keyboard): show the mouse way
+            log.info("service.keyboard_fallback", card=plan.task_canonical, fallback=fb)
+            plan = pack.by_id[fb].to_plan()
+            source = "card_mouse_fallback"
+            session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
+                              writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
+                              cancel_event=cancel_event, allow_skip=False, source_file=source_file)
+            res = session.run()
 
         # 4) remember
         if res.trace is not None:

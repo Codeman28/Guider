@@ -48,6 +48,9 @@ def repair(plan: Plan) -> tuple[Plan, list[str]]:
                                 target=Target(names=[real] + [n for n in names if n != real], control_type="TabItem")))
             tab, ctx = real, "ribbon"
             continue
+        if s.intent in ("key_combo", "type_formula", "type_text"):  # keyboard-first steps: no ribbon to check
+            out.append(s.model_copy(update={"id": 0}))
+            continue
         if ctx == "dialog" or not s.target:
             out.append(s.model_copy(update={"id": 0}))
             if first.upper() in DIALOG_CLOSERS:

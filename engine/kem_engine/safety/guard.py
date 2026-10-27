@@ -13,8 +13,8 @@ from ..uia.element import Element
 BLOCKLIST_PATH = Path(__file__).with_name("blocklist.yaml")
 
 ALLOWED_INTENTS = {"select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value",
-                   "type_text", "key_combo", "wait_for"}
-INPUT_INTENTS = {"type_text", "key_combo"}  # SendInput → goes to the foreground window
+                   "type_text", "key_combo", "type_formula", "wait_for"}
+INPUT_INTENTS = {"type_text", "key_combo", "type_formula"}  # SendInput → goes to the foreground window
 
 
 class SafetyViolation(Exception):

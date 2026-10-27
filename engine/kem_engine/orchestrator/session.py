@@ -13,10 +13,10 @@ from typing import Callable
 
 import structlog
 
-from ..annotate.draw import Style, annotate, smart_crop
+from ..annotate.draw import Style, annotate, keycap, smart_crop
 from ..annotate.redact import fallback_identity_rect, redact
 from ..capture.printwindow import capture_composite
-from ..env import win32
+from ..env import keyboard, win32
 from ..env.probe import probe_office
 from ..grounding.grounder import GroundResult, ground, load_aliases
 from ..models import Locator, Plan, Rect, Step, Target, Trace, TraceStep, Tutorial
@@ -172,11 +172,17 @@ class Session:
         self.created_files.append(name)
         return name
 
-    def _capture(self, box: Rect | None, step_no: int, identity: list[Rect], name: str) -> str:
+    def _capture(self, box: Rect | None, step_no: int, identity: list[Rect], name: str,
+                 keys: str | None = None) -> str:
         img, (ox, oy) = capture_composite(self.sb.hwnd, self._windows()[1:])
         local_ident = [Rect(left=r.left - ox, top=r.top - oy, right=r.right - ox, bottom=r.bottom - oy)
                        for r in identity] or [fallback_identity_rect(img.width, self.scale)]
         img = redact(img, local_ident)
+        if keys:  # keyboard-first step: the keys as a label, next to the cell/selection if there is one
+            lb = Rect(left=box.left - ox, top=box.top - oy, right=box.right - ox, bottom=box.bottom - oy) if box else None
+            if lb is not None:
+                img = annotate(img, lb, step_no, self.style)
+            return self._save(keycap(img, keys, self.style, lb), name)
         if box is not None:
             lb = Rect(left=box.left - ox, top=box.top - oy, right=box.right - ox, bottom=box.bottom - oy)
             img = annotate(img, lb, step_no, self.style)
@@ -223,6 +229,8 @@ class Session:
         ts = TraceStep(id=n, plan_step_id=plan_step_id, intent=step.intent, value=step.value,
                        inserted_reason=reason)
         self.trace.steps.append(ts)
+        if step.intent in ("key_combo", "type_formula"):
+            return self._run_keys_step(step, ts, n, t_step)
         self._emit("GROUND", f"Bước {n}: tìm nút", n)
 
         res, ident = self._ground(step)
@@ -315,6 +323,80 @@ class Session:
             _, ident = snapshot(self._windows())
             ts.result_image = self._capture(None, n, ident, f"step_{n:02d}_result.png")
 
+    # ---- keyboard-first steps -----------------------------------
+    def _cell_rect(self, ref: str) -> Rect | None:
+        """Screen rectangle of an Excel range, from COM geometry (points → pixels at the window's zoom/DPI)."""
+        try:
+            app = self.sb.app
+            win = app.ActiveWindow
+            r = app.ActiveSheet.Range(ref)
+            vis = win.VisibleRange
+            k = float(win.Zoom) / 100 * win32.dpi_for_window(self.sb.hwnd) / 72
+            x0, y0 = win.PointsToScreenPixelsX(0), win.PointsToScreenPixelsY(0)
+            left = int(x0 + (float(r.Left) - float(vis.Left)) * k)
+            top = int(y0 + (float(r.Top) - float(vis.Top)) * k)
+            return Rect(left=left, top=top, right=int(left + float(r.Width) * k), bottom=int(top + float(r.Height) * k))
+        except Exception as e:
+            log.info("session.cell_rect_failed", error=repr(e))
+            return None
+
+    def _selection_rect(self) -> Rect | None:
+        if self.plan.app != "excel":
+            return None
+        try:
+            return self._cell_rect(str(self.sb.app.Selection.Address))
+        except Exception:
+            return None
+
+    def _run_keys_step(self, step: Step, ts: TraceStep, n: int, t_step: float):
+        """Type a formula into a cell, or press a shortcut — real keystrokes, only while the sandbox is in front."""
+        guard = SafetyGuard(GuardContext(allowed_hwnds=lambda: set(self._windows()), foreground=win32.foreground))
+        dialogs_before, windows_before = set(office.dialogs(self.sb)), set(self._windows())
+        front = sorted(dialogs_before)[-1] if dialogs_before else self.sb.hwnd  # an open dialog of ours takes keys
+        if step.intent == "type_formula":
+            ref = step.target.names[0] if step.target and step.target.names else "A1"
+            com_retry(lambda: self.sb.app.ActiveSheet.Range(ref).Select(), timeout=3)
+            ts.element_name, ts.control_type = ref, "Cell"
+            box = self._cell_rect(ref)
+        else:
+            ts.element_name, ts.control_type = step.value or "", "Keys"
+            box = self._selection_rect()
+        ts.attempts = 1
+        keyboard.bring_to_front(front)
+        guard.check(step.intent, None)  # refuses unless a sandbox window is in front (§8)
+        self._emit("ACT", f"Bước {n}: {step.intent} “{ts.element_name}”", n, label=ts.element_name, intent=step.intent)
+        _, ident = snapshot([self.sb.hwnd])
+        try:
+            if step.intent == "type_formula":
+                keyboard.type_text(step.value or "", check_foreground=lambda: guard.check("type_text", None))
+                time.sleep(0.35)
+                ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=None) if box else                     self._capture(None, n, ident, f"step_{n:02d}.png", keys=step.value)
+                guard.check("key_combo", None)
+                keyboard.press("Enter")
+            else:
+                ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=step.value)
+                keyboard.press(step.value or "")
+        except (keyboard.KeyComboError, OSError) as e:
+            ts.error = f"không gửi được phím: {e}"
+            raise StepFailed(ts.error)
+        time.sleep(0.3)
+        if self._verify(step, None, dialogs_before, windows_before):
+            ts.verified = True
+        else:
+            ts.error = f"không xác minh được ({step.expected.type})"
+            raise StepFailed(ts.error)
+        self._emit("STEP_DONE", f"Bước {n} xong", n, label=ts.element_name, intent=step.intent,
+                   seconds=round(time.monotonic() - t_step, 1))
+        if step.capture_result:
+            if step.intent == "type_formula":  # back on the cell: the formula bar shows what was typed
+                try:
+                    com_retry(lambda: self.sb.app.ActiveSheet.Range(ts.element_name).Select(), timeout=3)
+                except Exception:
+                    pass
+            time.sleep(0.4)
+            _, ident = snapshot(self._windows())
+            ts.result_image = self._capture(None, n, ident, f"step_{n:02d}_result.png")
+
     # ---- entry ---------------------------------------------------------------------------
     def run(self) -> RunResult:
         t0 = time.monotonic()
@@ -332,6 +414,7 @@ class Session:
             self.style = Style.load(self.scale)
             self.trace = Trace(session_id=self.session_id, task_canonical=self.plan.task_canonical, env=env,
                                user_file=self.sb.user_file, example=self.plan.example,
+                               alternative=self.plan.alternative,
                                selection=[p.ref for p in self.plan.preconditions])
             self._check_cancel()  # Office start-up is the longest wait; honour an Esc pressed during it
             for pre in self.plan.preconditions:

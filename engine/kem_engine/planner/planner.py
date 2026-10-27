@@ -31,17 +31,22 @@ SYSTEM = (
     "để làm mẫu trong một file trống. "
     "Chỉ dùng các intent trong schema. Không sinh tọa độ. Mỗi bước nhắm đúng MỘT nút; target.names là "
     "tên nút đó bằng tiếng Anh và tiếng Việt (tối đa 4 tên), không liệt kê các tab khác. "
-    "Ưu tiên làm theo các thẻ tác vụ mẫu trong 'knowledge' nếu phù hợp. Vùng chọn ban đầu đặt trong "
+    "Ưu tiên làm theo các thẻ tác vụ mẫu trong 'knowledge' nếu phù hợp. ƯU TIÊN BÀN PHÍM: trong Excel, việc tính "
+    "toán thì gõ hàm (intent type_formula: target.names=[ô đích, ví dụ \"F2\"], control_type \"Cell\", value= công "
+    "thức bắt đầu bằng =); việc có phím tắt chuẩn (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+E, Ctrl+Shift+L, Ctrl+T, Alt+=, "
+    "Ctrl+M, Ctrl+Enter…) thì dùng intent key_combo (value = tổ hợp phím, target.names=[tổ hợp phím], control_type "
+    "\"Keys\"); chỉ dùng nút trên ribbon khi không có cách gõ. Vùng chọn ban đầu đặt trong "
     "preconditions (select_range), không phải trong steps. Nếu tác vụ cần tải/cài phần mềm, đăng nhập, "
     "gửi, chia sẻ hoặc không làm được trong một file trống: in_scope=false và reason ngắn bằng tiếng Việt. "
     "Chỉ trả JSON đúng schema."
 )
 
-LLMIntent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value"]
+LLMIntent = Literal["select_ribbon_tab", "invoke", "expand", "select_item", "toggle", "set_value",
+                    "type_formula", "key_combo"]
 
 
 UIAType = Literal["TabItem", "Button", "SplitButton", "MenuItem", "ListItem", "CheckBox", "Edit", "ComboBox",
-                  "RadioButton"]
+                  "RadioButton", "Cell", "Keys"]
 
 
 class LLMTarget(BaseModel):
@@ -91,7 +96,11 @@ def card_is_clear(matches) -> bool:
     ("trộn ô và căn giữa" hits both merge_center and center_align → let the Planner choose)."""
     if not matches or matches[0][0] < CARD_DIRECT_THRESHOLD:
         return False
-    return len(matches) < 2 or matches[1][0] < CARD_RIVAL_THRESHOLD
+    if len(matches) < 2 or matches[1][0] < CARD_RIVAL_THRESHOLD:
+        return True
+    # keyboard-first (27/10/2026): a typed/shortcut card beats an equally good ribbon card without asking
+    from ..intent.knowledge import is_keyboard
+    return is_keyboard(matches[0][1]) and not is_keyboard(matches[1][1]) and matches[0][0] >= matches[1][0]
 
 
 def slug(text: str) -> str:
@@ -142,6 +151,17 @@ DEFAULT_FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "p
 def to_plan(p: LLMPlan, app: str = "excel") -> Plan:
     steps = []
     for i, s in enumerate(p.steps, 1):
+        if s.intent == "key_combo":
+            steps.append(Step(id=i, intent="key_combo", value=s.value or (s.target.names[0] if s.target.names else ""),
+                              expected={"type": "none"}))
+            continue
+        if s.intent == "type_formula":
+            cell = s.target.names[0] if s.target.names else "A1"
+            steps.append(Step(id=i, intent="type_formula", value=s.value or "", capture_result=True,
+                              target=Target(names=[cell], control_type="Cell"),
+                              expected={"type": "com_check", "prop": "cell.formula_ok", "ref": cell, "op": "true"}
+                              if app == "excel" else {"type": "none"}))
+            continue
         within = Within(names=[s.target.within_group], control_type="Group") if s.target.within_group else None
         steps.append(Step(id=i, intent=s.intent, value=s.value,
                           target=Target(names=s.target.names, control_type=s.target.control_type, within=within),

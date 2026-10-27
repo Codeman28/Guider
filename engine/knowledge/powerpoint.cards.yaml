@@ -156,3 +156,184 @@ cards:
     steps:
       - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
       - {id: 2, intent: invoke, target: {names: [Increase Font Size, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncrease, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: none}, capture_result: true}
+
+  # ---- keyboard-first (27/10/2026): shortcuts before ribbon; `fallback` is the mouse twin ----
+  - id: ppt_bold_keys
+    title: Cách in đậm chữ trong PowerPoint bằng phím tắt
+    keywords:
+    - in đậm
+    - chữ đậm
+    - bold
+    - làm đậm chữ
+    - bôi đậm
+    - phím tắt cách in đậm chữ trong powerpoint
+    - ctrl+b
+    fixture_id: ppt_deck_basic
+    fallback: ppt_bold
+    alternative: thẻ Home, nút Bold
+    preconditions:
+    - type: select_range
+      ref: s2.1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+B
+      expected:
+        type: com_check
+        prop: ppt.shape.font.bold
+        ref: '2.1'
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: ppt.shape.font.bold
+      ref: '2.1'
+      op: 'true'
+  - id: ppt_italic_keys
+    title: Cách in nghiêng chữ trong PowerPoint bằng phím tắt
+    keywords:
+    - in nghiêng
+    - chữ nghiêng
+    - italic
+    - làm nghiêng chữ
+    - phím tắt cách in nghiêng chữ trong powerpoint
+    - ctrl+i
+    fixture_id: ppt_deck_basic
+    fallback: ppt_italic
+    alternative: thẻ Home, nút Italic
+    preconditions:
+    - type: select_range
+      ref: s2.1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+I
+      expected:
+        type: com_check
+        prop: ppt.shape.font.italic
+        ref: '2.1'
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: ppt.shape.font.italic
+      ref: '2.1'
+      op: 'true'
+  - id: ppt_underline_keys
+    title: Cách gạch chân chữ trong PowerPoint bằng phím tắt
+    keywords:
+    - gạch chân
+    - gạch dưới
+    - underline
+    - phím tắt cách gạch chân chữ trong powerpoint
+    - ctrl+u
+    fixture_id: ppt_deck_basic
+    fallback: ppt_underline
+    alternative: thẻ Home, nút Underline
+    preconditions:
+    - type: select_range
+      ref: s3.1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+U
+      expected:
+        type: com_check
+        prop: ppt.shape.font.underline
+        ref: '3.1'
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: ppt.shape.font.underline
+      ref: '3.1'
+      op: 'true'
+  - id: ppt_center_keys
+    title: Cách căn giữa chữ trong PowerPoint bằng phím tắt
+    keywords:
+    - căn giữa
+    - canh giữa
+    - center
+    - căn chữ ra giữa
+    - phím tắt cách căn giữa chữ trong powerpoint
+    - ctrl+e
+    fixture_id: ppt_deck_basic
+    fallback: ppt_center
+    alternative: thẻ Home, nút Center
+    preconditions:
+    - type: select_range
+      ref: s2.1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+E
+      expected:
+        type: com_check
+        prop: ppt.shape.alignment
+        ref: '2.1'
+        op: eq
+        value: 2
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: ppt.shape.alignment
+      ref: '2.1'
+      op: eq
+      value: 2
+  - id: ppt_new_slide_keys
+    title: Cách thêm trang chiếu mới bằng phím tắt
+    keywords:
+    - thêm slide
+    - thêm trang
+    - slide mới
+    - new slide
+    - chèn slide
+    - thêm trang chiếu
+    - phím tắt cách thêm trang chiếu mới trong powerpoint
+    - ctrl+m
+    fixture_id: ppt_deck_basic
+    fallback: ppt_new_slide
+    alternative: thẻ Home, nút New Slide
+    preconditions:
+    - type: select_range
+      ref: s3
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+M
+      expected:
+        type: com_check
+        prop: ppt.slides
+        op: gte
+        value: 4
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: ppt.slides
+      op: gte
+      value: 4
+  - id: ppt_font_size_up_keys
+    title: Cách tăng cỡ chữ trong PowerPoint bằng phím tắt
+    keywords:
+    - tăng cỡ chữ
+    - chữ to hơn
+    - phóng to chữ
+    - cỡ chữ
+    - font size
+    - tăng kích thước chữ
+    - chỉnh cỡ chữ
+    - phím tắt cách tăng cỡ chữ trong powerpoint
+    - ctrl+shift+>
+    fixture_id: ppt_deck_basic
+    fallback: ppt_font_size_up
+    alternative: thẻ Home, nút Increase Font Size
+    preconditions:
+    - type: select_range
+      ref: s2.2
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Shift+>
+      expected:
+        type: none
+      capture_result: true

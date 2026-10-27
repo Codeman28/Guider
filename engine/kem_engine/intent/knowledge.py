@@ -30,6 +30,12 @@ def _word_in(w: str, words: list[str]) -> bool:
     return any(fuzz.ratio(w, qw) >= 85 for qw in words)
 
 
+def is_keyboard(card) -> bool:
+    """Typed formula or shortcut steps only (no ribbon hunting): preferred over a mouse card of equal score."""
+    steps = card.raw.get("steps", [])
+    return bool(steps) and all(s.get("intent") in ("key_combo", "type_formula", "type_text") for s in steps)
+
+
 @dataclass
 class Card:
     id: str
@@ -42,7 +48,8 @@ class Card:
         r = self.raw
         return Plan(task_canonical=self.id, title=self.title, fixture_id=r.get("fixture_id"), app=self.app,
                     preconditions=r.get("preconditions", []), steps=r["steps"],
-                    success_check=r.get("success_check"), example=r.get("example"))
+                    success_check=r.get("success_check"), example=r.get("example"),
+                    alternative=r.get("alternative"))
 
     def summary(self) -> str:
         """Compact text for the Planner prompt."""
@@ -104,4 +111,11 @@ class KnowledgePack:
                 best = max(best, (s, len(k)))
             scored.append((best, c))
         scored.sort(key=lambda x: (-x[0][0], -x[0][1]))
+        # Keyboard-first (27/10/2026): a keyboard card names its mouse twin as `fallback`. When both match, the
+        # keyboard card leads and its twin is not a rival (it is the fallback, not another answer).
+        best = {c.id: sc[0] for sc, c in scored}
+        twins = {c.raw.get("fallback") for sc, c in scored if c.raw.get("fallback") and best.get(c.id, 0) > 0}
+        scored = [x for x in scored if not (x[1].id in twins and best[x[1].id] <= max(
+            best[c.id] for _, c in scored if c.raw.get("fallback") == x[1].id))]
+        scored.sort(key=lambda x: (-x[0][0], not is_keyboard(x[1]), -x[0][1]))
         return [(sc[0], c) for sc, c in scored[:top_k]]

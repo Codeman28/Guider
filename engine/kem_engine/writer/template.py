@@ -45,6 +45,12 @@ def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
         return f"Bật {n}", f"Nhấn {n} để bật hoặc tắt."
     if s.intent == "set_value":
         return (f"Nhập giá trị vào ô {n}", f"Gõ “{s.value}” vào ô {n}.")
+    if s.intent == "type_formula":
+        return (f"Gõ công thức vào ô {n}", f"Chọn ô {n}, gõ “{s.value}” rồi nhấn Enter.")
+    if s.intent == "key_combo":
+        if "+" in (s.element_name or "").strip("+"):
+            return (f"Nhấn {n}", f"Nhấn tổ hợp phím {n}: giữ các phím đầu, rồi nhấn phím cuối.")
+        return (f"Nhấn phím {n}", f"Nhấn phím {n}.")
     return f"{s.intent} {n}", f"Thực hiện {s.intent} với {n}."
 
 
@@ -126,6 +132,8 @@ def write(trace: Trace, title: str, tutorial_id: str, status: str) -> Tutorial:
              "partial": "Guider chưa làm mẫu được hết các bước; phần còn lại được mô tả bằng chữ.",
              "failed": "Guider chưa làm mẫu được tác vụ này trên máy bạn.",
              "cancelled": "Bạn đã dừng phiên làm mẫu."}[status]
+    if trace.alternative and status in ("ok", "partial"):  # keyboard-first card: the mouse way, in one line
+        outro += f" Cách khác, dùng chuột: {trace.alternative}."
     return Tutorial(tutorial_id=tutorial_id, title=title, intro=intro, steps=steps, outro=outro,
                     env_label=env_label(trace.env, trace.user_file), status=status,
                     example=example(trace) if status in ("ok", "partial") else None)

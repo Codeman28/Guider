@@ -11,11 +11,11 @@ cards:
     title: Cách in đậm chữ trong Word
     keywords: [in đậm, chữ đậm, bôi đậm, bold, làm đậm chữ]
     fixture_id: word_report_basic
-    preconditions: [{type: select_range, ref: "p2"}]
+    preconditions: [{type: select_range, ref: "p3"}]
     steps:
       - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
-      - {id: 2, intent: invoke, target: {names: [Bold, Đậm], control_type: Button, automation_id: Bold, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.bold, ref: "2", op: "true"}, capture_result: true}
-    success_check: {type: com_check, prop: word.par.font.bold, ref: "2", op: "true"}
+      - {id: 2, intent: invoke, target: {names: [Bold, Đậm], control_type: Button, automation_id: Bold, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.bold, ref: "3", op: "true"}, capture_result: true}
+    success_check: {type: com_check, prop: word.par.font.bold, ref: "3", op: "true"}
 
   - id: word_italic
     title: Cách in nghiêng chữ trong Word
@@ -168,3 +168,197 @@ cards:
       - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem}, expected: {type: tab_selected}}
       - {id: 2, intent: invoke, target: {names: [Grow Font, Tăng Cỡ Phông], control_type: Button, automation_id: FontSizeIncreaseWord, within: {names: [Font, Phông chữ], control_type: Group}}, expected: {type: com_check, prop: word.par.font.size, ref: "1", op: gte, value: 12}, capture_result: true}
     success_check: {type: com_check, prop: word.par.font.size, ref: "1", op: gte, value: 12}
+
+  # ---- keyboard-first (27/10/2026): shortcuts before ribbon; `fallback` is the mouse twin ----
+  - id: word_bold_keys
+    title: Cách in đậm chữ trong Word bằng phím tắt
+    keywords:
+    - in đậm
+    - chữ đậm
+    - bôi đậm
+    - bold
+    - làm đậm chữ
+    - phím tắt cách in đậm chữ trong word
+    - ctrl+b
+    fixture_id: word_report_basic
+    fallback: word_bold
+    alternative: thẻ Home, nút Bold
+    preconditions:
+    - type: select_range
+      ref: p3
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+B
+      expected:
+        type: com_check
+        prop: word.par.font.bold
+        ref: '3'
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.par.font.bold
+      ref: '3'
+      op: 'true'
+  - id: word_italic_keys
+    title: Cách in nghiêng chữ trong Word bằng phím tắt
+    keywords:
+    - in nghiêng
+    - chữ nghiêng
+    - italic
+    - làm nghiêng chữ
+    - phím tắt cách in nghiêng chữ trong word
+    - ctrl+i
+    fixture_id: word_report_basic
+    fallback: word_italic
+    alternative: thẻ Home, nút Italic
+    preconditions:
+    - type: select_range
+      ref: p3
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+I
+      expected:
+        type: com_check
+        prop: word.par.font.italic
+        ref: '3'
+        op: 'true'
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.par.font.italic
+      ref: '3'
+      op: 'true'
+  - id: word_underline_keys
+    title: Cách gạch chân chữ trong Word bằng phím tắt
+    keywords:
+    - gạch chân
+    - gạch dưới
+    - underline
+    - kẻ chân chữ
+    - phím tắt cách gạch chân chữ trong word
+    - ctrl+u
+    fixture_id: word_report_basic
+    fallback: word_underline
+    alternative: thẻ Home, nút Underline
+    preconditions:
+    - type: select_range
+      ref: p4
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+U
+      expected:
+        type: com_check
+        prop: word.par.font.underline
+        ref: '4'
+        op: gte
+        value: 1
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.par.font.underline
+      ref: '4'
+      op: gte
+      value: 1
+  - id: word_center_keys
+    title: Cách căn giữa đoạn văn trong Word bằng phím tắt
+    keywords:
+    - căn giữa
+    - canh giữa
+    - center
+    - căn chữ ra giữa
+    - căn giữa tiêu đề
+    - phím tắt cách căn giữa đoạn văn trong word
+    - ctrl+e
+    fixture_id: word_report_basic
+    fallback: word_center
+    alternative: thẻ Home, nút Center
+    preconditions:
+    - type: select_range
+      ref: p1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+E
+      expected:
+        type: com_check
+        prop: word.par.alignment
+        ref: '1'
+        op: eq
+        value: 1
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.par.alignment
+      ref: '1'
+      op: eq
+      value: 1
+  - id: word_page_break_keys
+    title: Cách ngắt trang trong Word bằng phím tắt
+    keywords:
+    - ngắt trang
+    - sang trang mới
+    - page break
+    - qua trang mới
+    - chèn trang mới
+    - phím tắt cách ngắt trang (sang trang mới) trong word
+    - ctrl+enter
+    fixture_id: word_report_basic
+    fallback: word_page_break
+    alternative: thẻ Insert, nút Page Break
+    preconditions:
+    - type: select_range
+      ref: p4
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Enter
+      expected:
+        type: com_check
+        prop: word.pages
+        op: gte
+        value: 2
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.pages
+      op: gte
+      value: 2
+  - id: word_font_size_up_keys
+    title: Cách tăng cỡ chữ trong Word bằng phím tắt
+    keywords:
+    - tăng cỡ chữ
+    - chữ to hơn
+    - phóng to chữ
+    - cỡ chữ
+    - font size
+    - tăng kích thước chữ
+    - chỉnh cỡ chữ
+    - phím tắt cách tăng cỡ chữ trong word
+    - ctrl+shift+>
+    fixture_id: word_report_basic
+    fallback: word_font_size_up
+    alternative: thẻ Home, nút Grow Font
+    preconditions:
+    - type: select_range
+      ref: p1
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Shift+>
+      expected:
+        type: com_check
+        prop: word.par.font.size
+        ref: '1'
+        op: gte
+        value: 12
+      capture_result: true
+    success_check:
+      type: com_check
+      prop: word.par.font.size
+      ref: '1'
+      op: gte
+      value: 12

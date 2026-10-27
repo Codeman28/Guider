@@ -132,6 +132,26 @@ def annotate(img: Image.Image, box: Rect, step_no: int, style: Style, spotlight:
     return big.resize((W, H), Image.LANCZOS)
 
 
+def keycap(img: Image.Image, keys: str, style: Style, near: Rect | None = None) -> Image.Image:
+    """Keyboard-first steps: the keys to press, drawn as a label in the accent colour ('Ctrl + B'), placed
+    beside the cell or selection it acts on, else at the top centre of the window."""
+    W, H = img.size
+    text = " + ".join(k.strip() for k in keys.split("+") if k.strip()) or keys
+    font = numeral_font(int(style.badge_r * 1.3))
+    d = ImageDraw.Draw(img)
+    l, t, r, b = d.textbbox((0, 0), text, font=font)
+    pad_x, pad_y = int(style.badge_r * 0.9), int(style.badge_r * 0.5)
+    w, h = r - l + 2 * pad_x, b - t + 2 * pad_y
+    if near is not None:
+        x = min(max(4, near.right + int(style.arrow_len * 0.5)), W - w - 4)
+        y = min(max(4, near.top - h - 8), H - h - 4)
+    else:
+        x, y = (W - w) // 2, int(H * 0.28)
+    d.rounded_rectangle((x, y, x + w, y + h), radius=style.radius * 1.5, fill=style.accent)
+    d.text((x + pad_x - l, y + pad_y - t), text, fill=style.on_accent, font=font)
+    return img
+
+
 def smart_crop(img: Image.Image, box: Rect, keep_top: int, min_w: int, margin: int):
     """Crop around a small target but keep the ribbon (rows 0..keep_top). Returns (image, (dx, dy))."""
     W, H = img.size
