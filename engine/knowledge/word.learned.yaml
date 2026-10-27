@@ -72,4 +72,61 @@ cards:
   preconditions:
   - type: select_range
     ref: p3-p5
-extends: {}
+extends:
+  word_bold_keys:
+  - bold chữ
+  - bôi đậm chữ
+  - chữ đậm
+  - làm đậm văn bản
+  - định dạng chữ đậm
+  - Cách bôi đậm văn bản trong Word
+  - định dạng đậm
+  - Cách in đậm văn bản trong Word
+  - bôi đậm
+  - in đậm
+  - làm đậm chữ
+  - Cách in đậm văn bản
+  - chữ nghiêng
+  - gạch chân
+  word_center_keys:
+  - center text
+  - căn giữa
+  - đưa ra giữa
+  - Cách căn giữa văn bản
+  - căn lề
+  - căn phải
+  - căn trái
+  - căn đều
+  - định dạng đoạn văn
+  - Cách căn lề đoạn văn trong Word
+  - align
+  - justify
+  - center
+  - định dạng đoạn
+  word_bullets:
+  - bullets
+  - danh sách
+  - liệt kê
+  - numbering
+  - đánh số
+  - Cách tạo danh sách liệt kê trong Word
+  word_two_columns:
+  - chia cột
+  - chia văn bản thành 2 cột
+  - trình bày báo chí
+  - Cách chia cột văn bản trong Word
+  - chia cột báo
+  - định dạng cột
+  word_page_break_keys:
+  - ngắt trang
+  - page break
+  - xuống trang mới
+  - Cách ngắt trang trong Word
+  - tách trang
+  - Cách ngắt trang văn bản
+  - Cách chèn ngắt trang trong Word
+  word_font_size_up_keys:
+  - chỉ số trên
+  - superscript
+  - định dạng mũ
+  - Cách tạo chỉ số trên trong Word

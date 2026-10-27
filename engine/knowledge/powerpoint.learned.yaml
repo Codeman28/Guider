@@ -1,0 +1,36 @@
+# Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
+# the base pack is <app>.cards.yaml.
+version: 1
+app: powerpoint
+cards: []
+extends:
+  ppt_transition_fade:
+  - chuyển trang
+  - hiệu ứng chuyển slide
+  - transitions
+  - tạo hiệu ứng slide
+  - Cách tạo hiệu ứng chuyển trang (Transitions)
+  ppt_new_slide_keys:
+  - chèn slide
+  - new slide
+  - thêm slide mới
+  - tạo trang chiếu mới
+  - Cách tạo slide mới trong PowerPoint
+  - insert new slide
+  - tạo slide
+  - Cách chèn slide mới trong PowerPoint
+  - thêm trang chiếu
+  - tạo slide mới
+  ppt_bold_keys:
+  - bold text
+  - chữ đậm
+  - in đậm chữ
+  - làm đậm văn bản
+  - Cách định dạng chữ đậm trong PowerPoint
+  - in đậm
+  - làm đậm chữ
+  - apply bold
+  - bôi đậm
+  - phím tắt in đậm
+  - Cách bôi đậm văn bản trong PowerPoint
+  - bold

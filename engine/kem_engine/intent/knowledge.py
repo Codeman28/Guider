@@ -117,5 +117,6 @@ class KnowledgePack:
         twins = {c.raw.get("fallback") for sc, c in scored if c.raw.get("fallback") and best.get(c.id, 0) > 0}
         scored = [x for x in scored if not (x[1].id in twins and best[x[1].id] <= max(
             best[c.id] for _, c in scored if c.raw.get("fallback") == x[1].id))]
-        scored.sort(key=lambda x: (-x[0][0], not is_keyboard(x[1]), -x[0][1]))
+        # ties: keyboard first, then reviewed base cards before learned ones, then the longer keyword
+        scored.sort(key=lambda x: (-x[0][0], not is_keyboard(x[1]), "learned" in x[1].raw, -x[0][1]))
         return [(sc[0], c) for sc, c in scored[:top_k]]

@@ -36,3 +36,951 @@ cards:
       source: meo_office.md
       where: đoạn 1
       names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_thay_doi_bo_cuc_slide_trong_powerpo_f87b
+    title: Cách thay đổi bố cục slide trong PowerPoint
+    keywords:
+    - bố cục
+    - layout
+    - slide
+    - thay đổi
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Layout
+        control_type: MenuItem
+        automation_id: SlideLayoutGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Title and Content
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Tại slide 2, chọn tab Home, bấm nút Layout và chọn 'Title and Content' để thay đổi bố cục slide.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 6–9
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_tao_danh_sach_gach_dau_dong_trong_p_de3d
+    title: Cách tạo danh sách gạch đầu dòng trong PowerPoint
+    keywords:
+    - danh sách gạch đầu dòng
+    - tạo bullet
+    - định dạng danh sách
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Bullets
+        control_type: SplitButton
+        automation_id: BulletsGallery
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn nội dung trong slide 2, nhấn nút Bullets trên tab Home để chuyển văn bản thành danh sách gạch đầu dòng.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 19–22
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: s2.2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_thay_doi_che_do_hien_thi_slide_f20d
+    title: Cách thay đổi chế độ hiển thị slide
+    keywords:
+    - chế độ hiển thị
+    - normal view
+    - slide sorter
+    - xem slide
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - View
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Slide Sorter
+        control_type: Button
+        automation_id: ViewSlideSorterView
+      expected:
+        type: none
+      capture_result: true
+    example: Vào tab View và chọn Slide Sorter để xem tổng quan tất cả các slide dưới dạng thu nhỏ.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 102–109
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_bat_tat_thuoc_ke_effb
+    title: Cách bật tắt thước kẻ
+    keywords:
+    - bật ruler
+    - hiện thước
+    - thước kẻ
+    - ẩn thước
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - View
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: toggle
+      target:
+        names:
+        - Ruler
+        control_type: CheckBox
+        automation_id: ViewRulerPowerPoint
+      expected:
+        type: none
+      capture_result: true
+    example: Vào tab View, tích chọn Ruler để hiển thị thước kẻ giúp căn chỉnh nội dung trên slide.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 102–109
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_tao_hieu_ung_chuyen_canh_cho_slide_111d
+    title: Cách tạo hiệu ứng chuyển cảnh cho slide
+    keywords:
+    - chuyển cảnh slide
+    - cài đặt chuyển slide
+    - hiệu ứng slide
+    - tạo transition
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Transitions
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - More
+        control_type: Button
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Fade
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn slide, vào tab Transitions, mở rộng danh sách hiệu ứng và chọn 'Fade' để tạo hiệu ứng chuyển cảnh.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 102–109
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_tao_photo_album_trong_powerpoint_0c32
+    title: Cách tạo Photo Album trong PowerPoint
+    keywords:
+    - chèn nhiều ảnh
+    - photo album
+    - tạo album ảnh
+    - tạo slide ảnh
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Photo Album...
+        control_type: SplitButton|MenuItem
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - New Photo Album
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn Insert, bấm Photo Album và chọn New Photo Album để mở hộp thoại chèn nhiều ảnh cùng lúc vào các slide mới.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 110–113
+      names_checked: false
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_tap_duyet_thoi_gian_trinh_chieu_reh_2d96
+    title: Cách tập duyệt thời gian trình chiếu (Rehearse Timings)
+    keywords:
+    - căn chỉnh thời gian slide
+    - rehearse timings
+    - tập duyệt thời gian
+    - tự động chuyển slide
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Slide Show
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Rehearse Timings
+        control_type: Button
+        automation_id: SlideShowRehearseTimings
+      expected:
+        type: none
+      capture_result: true
+    example: Vào tab Slide Show và chọn Rehearse Timings để bắt đầu tập duyệt và ghi lại thời gian trình chiếu cho từng slide.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 110–113
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_phan_nhom_slide_section_4509
+    title: Cách phân nhóm Slide (Section)
+    keywords:
+    - chia nhóm slide
+    - phân đoạn slide
+    - quản lý slide
+    - tạo section
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Section
+        control_type: MenuItem
+        automation_id: SectionMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Add Section
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn một slide, vào tab Home, bấm Section và chọn Add Section để nhóm các slide lại với nhau giúp quản lý dễ dàng hơn.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 110–113
+      names_checked: false
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_tao_hieu_ung_tuong_tac_trigger_223f
+    title: Cách tạo hiệu ứng tương tác (Trigger)
+    keywords:
+    - animation trigger
+    - click để hiện đối tượng
+    - hiệu ứng tương tác
+    - tạo trigger
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Animations
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Animation Pane
+        control_type: Button
+        automation_id: AnimationCustom
+      expected:
+        type: none
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - Trigger
+        control_type: MenuItem
+        automation_id: AnimationTriggerAddMenu
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - On Click of
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn đối tượng cần tạo hiệu ứng, vào tab Animations, chọn Trigger và thiết lập On Click of để đối tượng chỉ xuất hiện khi người dùng
+      bấm vào một thành phần khác.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 110–113
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2.2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_trinh_chieu_bai_thuyet_trinh_57b8
+    title: Cách trình chiếu bài thuyết trình
+    keywords:
+    - bắt đầu trình chiếu
+    - phím tắt trình chiếu
+    - trình chiếu slide
+    - xem slide show
+    - bắt đầu chiếu
+    - slideshow
+    - trình chiếu
+    - Cách trình chiếu từ slide đầu tiên trong PowerPoint
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: F5
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: true
+    example: Nhấn phím F5 trên bàn phím để bắt đầu trình chiếu toàn bộ bài thuyết trình từ slide đầu tiên.
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_xoa_slide_hien_thoi_ee0e
+    title: Cách xóa slide hiện thời
+    keywords:
+    - bỏ slide
+    - xóa slide
+    - xóa trang trình chiếu
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Delete
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: true
+    example: Chọn slide cần xóa trong danh sách bên trái, sau đó nhấn phím Delete trên bàn phím để xóa slide đó.
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_truy_cap_slide_master_1a5f
+    title: Cách truy cập Slide Master
+    keywords:
+    - chỉnh slide chủ
+    - thiết kế slide master
+    - định dạng chung
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - View
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Slide Master
+        control_type: Button
+        automation_id: ViewSlideMasterView
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn tab View, bấm nút Slide Master để vào chế độ chỉnh sửa định dạng chung cho toàn bộ các slide.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_them_nut_tac_dong_action_buttons_12e6
+    title: Cách thêm nút tác động (Action Buttons)
+    keywords:
+    - chèn nút tác động
+    - thêm action button
+    - tạo nút điều hướng
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Shapes
+        control_type: MenuItem
+        automation_id: ShapesInsertGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Action Buttons
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn tab Insert, mở menu Shapes, chọn một nút trong nhóm Action Buttons để vẽ nút điều hướng lên slide.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_them_footer_vao_slide_0e1c
+    title: Cách thêm Footer vào slide
+    keywords:
+    - chèn footer
+    - thêm chân trang
+    - đánh số trang
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Header & Footer...
+        control_type: Button
+        automation_id: HeaderFooterInsert
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn tab Insert, bấm Header & Footer, sau đó đánh dấu vào ô Footer và nhập nội dung muốn hiển thị.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_thiet_lap_trinh_chieu_tu_dong_theo_6a5f
+    title: Cách thiết lập trình chiếu tự động theo thời gian
+    keywords:
+    - apply to all
+    - thiết lập thời gian slide
+    - transition after
+    - trình chiếu tự động
+    - tự động chuyển slide
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Transitions
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: set_value
+      target:
+        names:
+        - After
+        control_type: CheckBox
+        automation_id: SlideTransitionAutomaticallyAfter
+      value: '00:05.00'
+      expected:
+        type: none
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - Apply To All
+        control_type: Button
+        automation_id: SlideTransitionApplyToAll
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn tab Transitions, nhập 5 giây vào ô 'After' và nhấn 'Apply to All' để tất cả các slide tự động chuyển sau 5 giây.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 114–116
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_chen_sieu_lien_ket_trong_powerpoint_2f01
+    title: Cách chèn siêu liên kết trong PowerPoint
+    keywords:
+    - chèn siêu liên kết
+    - gắn liên kết
+    - thêm hyperlink
+    - tạo link trong slide
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Link
+        control_type: SplitButton
+        automation_id: InsertLinkGallery
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn một đoạn văn bản trên slide 2, vào thẻ Insert và bấm nút Link để mở hộp thoại chèn siêu liên kết.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 117–123
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: s2.2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_chuyen_sang_che_do_reading_view_tro_af0f
+    title: Cách chuyển sang chế độ Reading View trong PowerPoint
+    keywords:
+    - chế độ đọc
+    - preview slide
+    - reading view
+    - xem bài thuyết trình
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - View
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Reading View
+        control_type: Button
+        automation_id: ViewSlideShowReadingView
+      expected:
+        type: none
+      capture_result: true
+    example: Bấm vào tab View trên ribbon, sau đó chọn Reading View để xem trước bài thuyết trình 3 slide trong cửa sổ riêng biệt.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 78–81
+      names_checked: true
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_ap_dung_chu_de_theme_trong_powerpoi_df2c
+    title: Cách áp dụng chủ đề (Theme) trong PowerPoint
+    keywords:
+    - làm đẹp slide
+    - thay đổi thiết kế
+    - áp dụng theme
+    - đổi giao diện
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Design
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Facet
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn tất cả các slide, vào tab Design, mở rộng thư viện Themes và chọn 'Facet' để thay đổi toàn bộ phong cách của 3 slide.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 78–81
+      names_checked: false
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_sao_chep_hieu_ung_voi_animation_pai_b0f0
+    title: Cách sao chép hiệu ứng với Animation Painter trong PowerPoint
+    keywords:
+    - animation painter
+    - copy hiệu ứng
+    - sao chép animation
+    - đồng bộ hiệu ứng
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Animations
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Animation Painter
+        control_type: Button
+        automation_id: AnimationPainter
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn đối tượng đã có hiệu ứng trên slide 2, bấm Animation Painter, sau đó bấm vào đối tượng trên slide 3 để áp dụng cùng hiệu ứng
+      đó.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 78–81
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_mo_cua_so_tro_giup_trong_powerpoint_1e78
+    title: Cách mở cửa sổ trợ giúp trong PowerPoint
+    keywords:
+    - hướng dẫn sử dụng
+    - hỏi đáp
+    - mở help
+    - trợ giúp
+    - tìm trợ giúp
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: F1
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 91–96
+      names_checked: true
+    example: Nhấn phím F1 trên bàn phím để mở cửa sổ Microsoft PowerPoint Help ngay lập tức.
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_ap_dung_chu_de_theme_cho_bai_thuyet_1623
+    title: Cách áp dụng chủ đề (Theme) cho bài thuyết trình
+    keywords:
+    - thay đổi giao diện slide
+    - thiết kế slide
+    - áp dụng chủ đề
+    - đổi theme
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Design
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Trek
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Vào tab Design, mở thư viện Themes và chọn một mẫu như 'Trek' để thay đổi toàn bộ giao diện bài thuyết trình.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 105–110
+      names_checked: false
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_chen_am_thanh_vao_slide_7037
+    title: Cách chèn âm thanh vào slide
+    keywords:
+    - chèn nhạc vào powerpoint
+    - chèn âm thanh
+    - cách phát nhạc trong slide
+    - thêm file audio
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Audio
+        control_type: MenuItem
+        automation_id: SoundInsertMenu02
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Audio on My PC
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn slide, vào tab Insert, bấm Audio và chọn Audio on My PC để chèn tệp âm thanh từ máy tính vào slide.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 134–137
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_chen_video_vao_slide_c5ec
+    title: Cách chèn video vào slide
+    keywords:
+    - chèn video
+    - chèn video từ máy tính
+    - thêm phim vào slide
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Video
+        control_type: MenuItem
+        automation_id: MovieInsert02
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - This Device
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Tại slide muốn chèn, vào tab Insert, bấm Video và chọn This Device để chọn tệp video từ máy tính.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 134–137
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: s2
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_mo_hop_thoai_font_trong_powerpoint_1763
+    title: Cách mở hộp thoại Font trong PowerPoint
+    keywords:
+    - chỉnh font chữ
+    - font dialog
+    - mở hộp thoại font
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+T
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Use keyboard shortcuts to create PowerPoint presentations | Microsoft Support
+      where: https://support.microsoft.com/en-us/accessibility/powerpoint/use-keyboard-shortcuts-to-create-powerpoint-presentations
+      names_checked: true
+    example: Chọn đoạn văn bản trên slide 2 và nhấn Ctrl+T để mở hộp thoại Font.
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_mo_the_home_trong_powerpoint_156e
+    title: Cách mở thẻ Home trong PowerPoint
+    keywords:
+    - Home tab shortcut
+    - mở thẻ Home
+    - phím tắt thẻ Home PowerPoint
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Alt+H
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Use keyboard shortcuts to create PowerPoint presentations | Microsoft Support
+      where: https://support.microsoft.com/en-us/accessibility/powerpoint/use-keyboard-shortcuts-to-create-powerpoint-presentations
+      names_checked: true
+    example: Trên slide tiêu đề, nhấn Alt+H để mở thẻ Home và truy cập nhanh các tùy chọn định dạng font chữ.
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_sao_chep_doi_tuong_trong_powerpoint_bb86
+    title: Cách sao chép đối tượng trong PowerPoint
+    keywords:
+    - copy
+    - nhân bản slide
+    - sao chép đối tượng
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+C
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Use keyboard shortcuts to create PowerPoint presentations | Microsoft Support
+      where: https://support.microsoft.com/en-us/accessibility/powerpoint/use-keyboard-shortcuts-to-create-powerpoint-presentations
+      names_checked: true
+    example: Chọn khung tiêu đề trên slide 1 và nhấn Ctrl+C để sao chép đối tượng.
+    preconditions:
+    - type: select_range
+      ref: s1
+- reason: chưa chạy thử
+  card:
+    id: learn_pow_cach_them_binh_luan_moi_trong_powerpoint_0ce4
+    title: Cách thêm bình luận mới trong PowerPoint
+    keywords:
+    - add comment
+    - chèn comment
+    - thêm bình luận
+    - tạo comment mới
+    fixture_id: ppt_deck_basic
+    steps:
+    - id: 1
+      intent: key_combo
+      value: Ctrl+Alt+M
+      expected:
+        type: none
+      capture_result: true
+    learned:
+      source: Use keyboard shortcuts to create PowerPoint presentations | Microsoft Support
+      where: https://support.microsoft.com/en-us/accessibility/powerpoint/use-keyboard-shortcuts-to-create-powerpoint-presentations
+      names_checked: true
+    example: Trên slide 1 của file mẫu, nhấn Ctrl+Alt+M để mở hộp thoại thêm bình luận mới.
+    preconditions:
+    - type: select_range
+      ref: s1

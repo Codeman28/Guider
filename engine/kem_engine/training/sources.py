@@ -203,7 +203,8 @@ def fetch_url(url: str, chunk_chars: int, max_pages: int = 20, crawl: bool = Tru
         text = p.text()
         digest.update(text.encode("utf-8", errors="ignore"))
         if pages == 1 and p.title.strip():
-            src.name = p.title.strip()[:120]
+            # page titles can carry cookie-banner text glued on ("… | Microsoft SupportYour Privacy Choices")
+            src.name = re.split(r"Your Privacy|\s{2,}", p.title.strip())[0].strip()[:120]
         for part in _split(text, chunk_chars):
             src.chunks.append(Chunk(part, final))
         if crawl:

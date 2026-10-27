@@ -147,3 +147,22 @@ def test_pacer_keeps_requests_under_the_minute_limit(monkeypatch):
     for _ in range(4):
         p.wait()
     assert len(slept) == 1 and 59 < slept[0] <= 60.1  # the 4th start waited for the window
+
+
+def test_compact_pending_merges_same_steps_and_known_cards(tmp_path):
+    (tmp_path / "word.cards.yaml").write_text(yaml.safe_dump({"version": 1, "app": "word", "cards": [
+        {"id": "word_strikethrough", "title": "Gạch ngang", "keywords": ["gạch ngang"], "steps": _strike_card()["steps"]}
+    ]}, allow_unicode=True), encoding="utf-8")
+    m = Memory(tmp_path)
+    known = _strike_card()
+    a = _strike_card()
+    a["steps"][1]["target"]["names"] = ["Subscript"]
+    a["id"], a["keywords"] = "a", ["chỉ số dưới"]
+    b = dict(a, id="b", title="Viết chỉ số dưới", keywords=["số nhỏ dưới chân"])
+    for c in (known, a, b):
+        m.add_pending("word", c, "chưa chạy thử")
+    r = m.compact_pending("word")
+    assert r == {"before": 3, "after": 1, "merged_known": 1, "merged_dup": 1}
+    left = m.pending("word")[0]["card"]
+    assert "số nhỏ dưới chân" in left["keywords"] and "chỉ số dưới" in left["keywords"]
+    assert "word_strikethrough" in m.learned("word")["extends"]

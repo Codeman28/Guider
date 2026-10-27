@@ -91,6 +91,7 @@ cards:
   - giới hạn dữ liệu nhập
   - kiểm tra dữ liệu nhập vào
   - tạo validation trong excel
+  - data validation
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -263,6 +264,16 @@ cards:
   - hàm sum
   - tính tổng
   - tổng nhanh
+  - autosum excel
+  - tính tổng cột
+  - tính tổng hàng
+  - tính tổng tự động
+  - Cách tính tổng nhanh bằng AutoSum
+  - tính nhanh
+  - tổng cột
+  - Cách tính tổng nhanh bằng AutoSum trong Excel
+  - tự động tính tổng
+  - auto sum
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -335,6 +346,9 @@ cards:
   - hide column
   - ẩn bớt cột
   - ẩn cột
+  - giấu cột trong bảng tính
+  - hide columns
+  - Cách ẩn cột trong Excel
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -424,6 +438,7 @@ cards:
   - ngắt dòng
   - wrap text
   - xuống dòng trong ô
+  - Cách ngắt dòng văn bản trong ô
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -524,6 +539,11 @@ cards:
   - freeze panes
   - giữ tiêu đề khi cuộn
   - khóa dòng cột
+  - cố định dòng đầu
+  - cố định tiêu đề
+  - giữ hàng cột khi cuộn
+  - khóa hàng cột
+  - Cách cố định hàng và cột trong Excel
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -568,6 +588,12 @@ cards:
   - hiện công thức ô
   - show formulas
   - xem công thức trong bảng tính
+  - hiện công thức
+  - xem công thức
+  - Cách hiển thị công thức trong ô Excel
+  - formula auditing
+  - kiểm tra công thức
+  - Cách hiển thị công thức trong bảng tính
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -603,6 +629,17 @@ cards:
   - Trace Precedents
   - kiểm tra công thức
   - tìm ô tiền nhiệm
+  - hiện công thức
+  - kiểm tra lỗi
+  - trace dependents
+  - Cách sử dụng công cụ kiểm tra công thức (Auditing)
+  - dò lỗi công thức
+  - kiểm tra nguồn dữ liệu
+  - xem ô tiền lệ
+  - Cách kiểm tra các ô tiền lệ (Trace Precedents) trong Excel
+  - kiểm tra thành phần công thức
+  - truy xuất nguồn gốc ô
+  - tìm nguồn dữ liệu công thức
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -637,6 +674,15 @@ cards:
   - Trace Dependents
   - kiểm tra công thức
   - tìm ô phụ thuộc
+  - dò lỗi công thức
+  - kiểm tra ô phụ thuộc
+  - xem ô bị ảnh hưởng
+  - Cách kiểm tra các ô phụ thuộc (Trace Dependents) trong Excel
+  - kiểm tra lỗi công thức
+  - kiểm tra ô bị ảnh hưởng
+  - tìm ô chứa công thức liên quan
+  - xem ô phụ thuộc
+  - Cách truy vết các ô phụ thuộc (Trace Dependents)
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -671,6 +717,13 @@ cards:
   - Remove Arrows
   - xóa mũi tên
   - ẩn mũi tên
+  - dọn dẹp bảng tính
+  - xóa đường dẫn công thức
+  - Cách xóa mũi tên kiểm tra công thức trong Excel
+  - làm sạch bảng tính
+  - xóa mũi tên kiểm tra
+  - ẩn mũi tên công thức
+  - Cách xóa các mũi tên truy vết
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -776,6 +829,12 @@ cards:
   - insert scatter chart
   - tạo biểu đồ
   - vẽ biểu đồ scatter
+  - chèn biểu đồ scatter
+  - scatter with smooth lines
+  - tạo biểu đồ từ dữ liệu không liên tục
+  - vẽ biểu đồ phân tán
+  - Cách chèn biểu đồ Scatter với đường trơn
+  - Cách chèn biểu đồ Scatter
   fixture_id: sales_table_basic
   steps:
   - id: 1
@@ -824,6 +883,9 @@ extends:
   - lập bảng
   - tạo bảng
   - Cách tạo bảng trong Excel
+  - chuyển vùng thành bảng
+  - định dạng bảng
+  - Cách tạo bảng dữ liệu (Create Table) trong Excel
   pivot_basic:
   - chèn bảng pivot
   - insert pivot table
@@ -860,3 +922,104 @@ extends:
   - tạo biểu đồ tròn
   - vẽ pie chart
   - Cách tạo biểu đồ tròn trong Excel
+  formula_sum:
+  - cộng cột doanh số
+  - hàm sum
+  - tính tổng
+  - Cách tính tổng doanh số trong Excel
+  - cộng các ô
+  - tính tổng cột
+  - tính tổng hàng
+  - Cách tính tổng trong Excel
+  - công thức sum
+  - tổng doanh số
+  - Cách tính tổng doanh số bằng công thức
+  - cộng doanh số
+  - Cách sử dụng hàm SUM để tính tổng doanh số
+  - công thức
+  filter_on_keys:
+  - auto filter
+  - lọc danh sách
+  - lọc dữ liệu
+  - lọc theo điều kiện
+  - Cách lọc dữ liệu tự động trong Excel
+  - tìm kiếm nhanh
+  - Cách bật bộ lọc dữ liệu trong Excel
+  - filter excel
+  - Cách lọc dữ liệu trong Excel
+  - bật filter
+  - filter
+  - lọc dữ liệu nhanh
+  - phím tắt lọc
+  - Cách bật bộ lọc nhanh bằng phím tắt
+  formula_max:
+  - hàm MAX
+  - thống kê doanh số
+  - tìm giá trị lớn nhất
+  - Cách sử dụng hàm tìm giá trị lớn nhất MAX
+  - cách dùng hàm MAX
+  - hàm MAX trong excel
+  - tìm số lớn nhất trong cột excel
+  - Cách tìm giá trị lớn nhất bằng hàm MAX trong Excel
+  - lấy giá trị cao nhất
+  - tìm max trong cột
+  - Cách tìm giá trị lớn nhất trong danh sách
+  formula_average:
+  - hàm average
+  - trung bình doanh số
+  - tính giá trị trung bình
+  - tính trung bình
+  - Cách tính trung bình cộng trong Excel
+  - average function
+  - giá trị trung bình
+  - Cách tính giá trị trung bình
+  - tính toán thống kê
+  - Cách tính giá trị trung bình của vùng dữ liệu
+  - hàm excel
+  - thống kê
+  - trung bình
+  - tính toán
+  formula_min:
+  - cách dùng hàm MIN
+  - hàm MIN trong excel
+  - tìm giá trị nhỏ nhất
+  - tìm số nhỏ nhất trong cột excel
+  - Cách tìm giá trị nhỏ nhất bằng hàm MIN trong Excel
+  formula_today:
+  - hiển thị ngày hiện tại
+  - hàm ngày hôm nay
+  - today function
+  - tự động cập nhật ngày
+  - Cách hiển thị ngày hiện tại bằng công thức
+  - chèn ngày hiện tại
+  - công thức ngày
+  - hàm date
+  - hàm ngày tháng
+  - hàm today
+  - Cách hiển thị ngày hiện tại
+  bold_header_keys:
+  - bôi đậm data labels
+  - in đậm nhãn
+  - phím tắt in đậm
+  - định dạng nhãn dữ liệu
+  - Cách in đậm nhãn dữ liệu trong biểu đồ Excel
+  - bold
+  - chữ đậm
+  - in đậm
+  - định dạng chữ
+  - Cách định dạng in đậm văn bản trong Excel
+  - bôi đậm
+  - định dạng chữ đậm
+  - Cách định dạng in đậm trong Excel
+  - định dạng đậm
+  orientation_landscape:
+  - chuyển sang chế độ in ngang
+  - cài đặt trang in
+  - in ngang
+  - landscape mode
+  - Cách thiết lập in ngang (Landscape)
+  percent_style_keys:
+  - chuyển thành % excel
+  - phím tắt phần trăm excel
+  - định dạng phần trăm
+  - Cách định dạng kiểu Phần trăm cho ô trong Excel

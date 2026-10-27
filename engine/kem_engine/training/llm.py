@@ -24,6 +24,8 @@ M = TypeVar("M", bound=BaseModel)
 @dataclass
 class TrainingConf:
     cloud_model: str = "gemini-3.5-flash-lite"
+    # Free tier: 500 requests per day per model (27/10/2026). When one is spent, the next one carries on.
+    cloud_models: tuple = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.6-flash")
     local_model: str = "qwen3:4b"
     chunk_chars_cloud: int = 12000
     chunk_chars_local: int = 3000
@@ -37,6 +39,8 @@ class TrainingConf:
     @classmethod
     def load(cls) -> "TrainingConf":
         raw = tomllib.loads(DEFAULT_PATH.read_text(encoding="utf-8")).get("training", {})
+        if "cloud_models" in raw:
+            raw["cloud_models"] = tuple(raw["cloud_models"])
         return cls(**{k: v for k, v in raw.items() if k in cls.__dataclass_fields__})
 
 
@@ -75,8 +79,10 @@ class TrainingLLM:
         g = cfg.providers.get("gemini")
         self.gemini_key = g.api_key() if g is not None else None
         if self.gemini_key:
-            gconf = replace(g, models=[self.conf.cloud_model], timeout_s=self.conf.cloud_timeout_s, enabled=True)
-            self.providers.append((OpenAICompatProvider(gconf), self.conf.cloud_model))
+            models = list(dict.fromkeys((self.conf.cloud_model,) + tuple(self.conf.cloud_models)))
+            for m in models:
+                gconf = replace(g, models=[m], timeout_s=self.conf.cloud_timeout_s, enabled=True)
+                self.providers.append((OpenAICompatProvider(gconf), m))
         else:
             o = cfg.providers.get("ollama")
             if o is not None:
@@ -87,6 +93,7 @@ class TrainingLLM:
         self._failures = 0
         self._pacer = _Pacer(self.conf.cloud_rpm) if self.cloud else None
         self.cloud_down: str | None = None  # set when the cloud model keeps failing: the job stops and reports
+        self.exhausted: set[str] = set()  # models whose daily quota is spent
 
     @property
     def cloud(self) -> bool:
@@ -94,7 +101,8 @@ class TrainingLLM:
 
     @property
     def label(self) -> str:
-        return self.providers[0][1] if self.providers else "không có model"
+        live = [m for _, m in self.providers if m not in self.exhausted]
+        return live[0] if live else (self.providers[0][1] if self.providers else "không có model")
 
     @property
     def chunk_chars(self) -> int:
@@ -108,6 +116,8 @@ class TrainingLLM:
         schema = out.model_json_schema()
         errors = []
         for provider, model in list(self.providers):
+            if model in self.exhausted:
+                continue
             local = getattr(provider, "is_local", True)
             timeout = None
             for attempt in range(4):
@@ -125,8 +135,13 @@ class TrainingLLM:
                     return result
                 except ValidationError as e:
                     errors.append(f"{model}: JSON sai ({str(e)[:120]})")
-                except QuotaExceeded:  # free-tier rate limit: the window is a minute — wait, then retry
-                    errors.append(f"{model}: hết lượt tạm thời")
+                except QuotaExceeded as e:
+                    if "perday" in str(e).replace(" ", "").lower():  # daily quota spent: next model, no waiting
+                        with self._lock:
+                            self.exhausted.add(model)
+                        errors.append(f"{model}: hết lượt trong ngày")
+                        break
+                    errors.append(f"{model}: hết lượt tạm thời")  # per-minute window: wait, then retry
                     time.sleep(30 * (attempt + 1))
                 except LLMTimeout as e:  # a slow answer: one more try with twice the time
                     errors.append(f"{model}: {e}")
@@ -136,7 +151,8 @@ class TrainingLLM:
                     break
         with self._lock:
             self._failures += 1
-            if self.cloud and self._failures >= self.CLOUD_DOWN_AFTER and not self.cloud_down:
+            all_spent = self.cloud and all(m in self.exhausted for _, m in self.providers)
+            if all_spent or (self.cloud and self._failures >= self.CLOUD_DOWN_AFTER and not self.cloud_down):
                 self.cloud_down = errors[-1][:160] if errors else "không rõ lỗi"
         raise LLMError("; ".join(errors[-3:]) or "chưa có model nào dùng được")
 

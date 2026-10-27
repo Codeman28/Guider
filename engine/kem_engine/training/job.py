@@ -27,6 +27,7 @@ log = structlog.get_logger()
 META = re.compile(r"(tôi sẽ|rút ra các|theo yêu cầu|đoạn văn tài liệu hướng dẫn)", re.IGNORECASE)
 
 
+RESEARCH_SOURCES = 4  # pages read per research topic (free tier: 500 requests per model per day)
 NOT_TRIED = "chưa chạy thử"  # read but not demonstrated yet (training phase 1)
 
 
@@ -102,7 +103,7 @@ class TrainingJob:
         for ti, topic in enumerate(topics, start=1):
             self._check()
             self._p("research", f"Đang tìm nguồn cho: {topic}", ti, len(topics))
-            for hit in search_web(topic, self.llm.gemini_key, self.llm.conf.cloud_model):
+            for hit in self._search(topic):
                 self._check()
                 try:
                     s = fetch_url(hit["url"], size, max_pages=1, crawl=False, cancel=self.cancel)
@@ -113,6 +114,26 @@ class TrainingJob:
         if not out:
             raise ValueError("Không tìm được nguồn đọc được cho chủ đề này.")
         return out
+
+    def _search(self, topic: str) -> list[dict]:
+        """Google Search through Gemini, rotating models when one's daily quota is spent; a failed topic is skipped."""
+        import urllib.error
+        for _, model in self.llm.providers:
+            if model in self.llm.exhausted:
+                continue
+            try:
+                return search_web(topic, self.llm.gemini_key, model, max_results=RESEARCH_SOURCES)
+            except urllib.error.HTTPError as e:
+                body = e.read().decode("utf-8", "ignore") if e.code == 429 else ""
+                if e.code == 429 and "PerDay" in body:
+                    self.llm.exhausted.add(model)
+                    continue
+                log.warning("training.search_failed", topic=topic, model=model, error=f"HTTP {e.code}")
+                return []
+            except Exception as e:
+                log.warning("training.search_failed", topic=topic, model=model, error=str(e)[:160])
+                return []
+        return []
 
     def _suggest_topics(self) -> list[str]:
         from ..intent.knowledge import KnowledgePack
@@ -145,6 +166,11 @@ class TrainingJob:
                     stats["sources"].append(self._learn(src, stats))
         except Cancelled:
             stats["cancelled"] = True
+        for app in ("excel", "word", "powerpoint"):  # tidy the waiting list: one card per distinct task
+            try:
+                stats.setdefault("compacted", {})[app] = self.memory.compact_pending(app)
+            except Exception as e:
+                log.warning("training.compact_failed", app=app, error=str(e)[:160])
         stats["seconds"] = round(time.monotonic() - t0)
         stats["llm_calls"] = self.llm.calls
         return stats
@@ -233,7 +259,8 @@ class TrainingJob:
                 entry["pending"] += 1
         if summaries:
             entry["summary"] = self._summarize(src.name, summaries)
-        entry["complete"] = not self.llm.cloud_down  # an interrupted source is read again next time
+        # complete only when every chunk was read: a source with failed chunks is read again next time
+        entry["complete"] = not self.llm.cloud_down and read == len(chunks)
         self.memory.add_log(entry)
         return entry
 

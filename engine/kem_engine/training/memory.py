@@ -105,6 +105,30 @@ class Memory:
     def pending(self, app: str) -> list[dict]:
         return _load_yaml(self.pending_path(app), {"cards": []}).get("cards", [])
 
+    def compact_pending(self, app: str) -> dict:
+        """Self-organising memory: pending cards with the same steps become one (phrasings merged); a pending card
+        that repeats a known card only adds its phrasings to that card. Returns counts."""
+        with _lock:
+            cards = self.pending(app)
+            kept: dict[tuple, dict] = {}
+            merged_known = merged_dup = 0
+            for x in cards:
+                c = x["card"]
+                same = self.find_same(c, app)
+                if same:
+                    self.merge_keywords(app, same[0], same[1], c.get("keywords", []) + [c["title"]])
+                    merged_known += 1
+                    continue
+                sig = signature(c)
+                if sig in kept:
+                    k = kept[sig]["card"]
+                    k["keywords"] = _uniq_keywords(k.get("keywords", []) + c.get("keywords", []) + [c["title"]])
+                    merged_dup += 1
+                    continue
+                kept[sig] = x
+            _save_yaml(self.pending_path(app), {"cards": list(kept.values())}, HEADER)
+            return {"before": len(cards), "after": len(kept), "merged_known": merged_known, "merged_dup": merged_dup}
+
     def drop_pending(self, app: str, card_id: str) -> bool:
         with _lock:
             path = self.pending_path(app)
