@@ -49,6 +49,9 @@ VK.update({f"f{i}": 0x6F + i for i in range(1, 13)})
 SHIFTED = {"%": "5", "$": "4", "#": "3", "!": "1", "@": "2", "^": "6", "&": "7", "*": "8", "(": "9", ")": "0",
            "+": "=", ">": ".", "<": ",", ":": ";", "_": "-", "?": "/", "~": "`", "{": "[", "}": "]", "\"": "'"}
 MODIFIERS = {"ctrl", "control", "shift", "alt"}
+# Combos that act on Windows itself, not the Office window in front: never sent (a learned card once had
+# Ctrl+Esc, which opens the Start menu).
+SYSTEM = [{0x11, 0x1B}, {0x11, 0x10, 0x1B}, {0x12, 0x09}, {0x12, 0x1B}, {0x12, 0x73}, {0x12, 0x20}, {0x11, 0x12, 0x2E}]
 
 
 class KeyComboError(ValueError):
@@ -76,6 +79,8 @@ def parse_combo(combo: str) -> list[int]:
             raise KeyComboError(f"không hiểu phím {p!r} trong {combo!r}")
     if not keys or all(k in (0x10, 0x11, 0x12) for k in keys):
         raise KeyComboError(f"tổ hợp phím rỗng: {combo!r}")
+    if set(keys) in SYSTEM:
+        raise KeyComboError(f"{combo!r} là phím tắt của Windows, không phải của Office")
     return keys
 
 

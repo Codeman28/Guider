@@ -268,6 +268,8 @@ class TrainingJob:
         """Demonstrate every pending card whose reason is 'chưa chạy thử' (read now, demonstrate when idle)."""
         todo = [(app, x["card"]) for app in ("excel", "word", "powerpoint")
                 for x in self.memory.pending(app) if x["reason"] == NOT_TRIED]
+        # typed formulas and shortcuts first: ~11 s each against ~25 s for ribbon cards, most value per minute
+        todo.sort(key=lambda ac: not all(s.get("intent") in ("type_formula", "key_combo") for s in ac[1]["steps"]))
         entry = {"kind": "verify", "name": f"Làm mẫu thử {len(todo)} việc đang chờ", "ref": "pending", "sha": "",
                  "date": time.strftime("%Y-%m-%d %H:%M"), "summary": "", "added": 0, "merged": 0, "pending": 0,
                  "notes": 0}

@@ -166,3 +166,13 @@ def test_compact_pending_merges_same_steps_and_known_cards(tmp_path):
     left = m.pending("word")[0]["card"]
     assert "số nhỏ dưới chân" in left["keywords"] and "chỉ số dưới" in left["keywords"]
     assert "word_strikethrough" in m.learned("word")["extends"]
+
+
+def test_windows_shortcuts_never_become_cards():
+    from kem_engine.env.keyboard import KeyComboError, parse_combo
+    for combo in ("Ctrl+Esc", "Alt+Tab", "Alt+F4", "Ctrl+Shift+Esc"):
+        with pytest.raises(KeyComboError):
+            parse_combo(combo)
+    assert parse_combo("Ctrl+Shift+L") == [0x11, 0x10, ord("L")]
+    st, why = extract.key_step(XStep(intent="key_combo", names=["Ctrl+Esc"], control_type="Keys", value="Ctrl+Esc"), "excel", 1, True)
+    assert st is None and "Windows" in why

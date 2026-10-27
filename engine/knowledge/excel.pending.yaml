@@ -1100,27 +1100,6 @@ cards:
       ref: D2
 - reason: chưa chạy thử
   card:
-    id: learn_exc_cach_mo_menu_start_bang_phim_tat_6393
-    title: Cách mở Menu Start bằng phím tắt
-    keywords:
-    - mở menu start
-    - phím tắt start
-    - truy cập start menu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: key_combo
-      value: Ctrl+Esc
-      expected:
-        type: none
-      capture_result: true
-    learned:
-      source: Bai tap Tin hoc FTU2.pdf
-      where: trang 10–14
-      names_checked: true
-    example: Nhấn tổ hợp phím Ctrl+Esc để mở nhanh Menu Start trên Windows mà không cần dùng chuột.
-- reason: chưa chạy thử
-  card:
     id: learn_exc_cach_tinh_toan_cong_thuc_co_ban_trong_ex_2ef5
     title: Cách tính toán công thức cơ bản trong Excel
     keywords:
