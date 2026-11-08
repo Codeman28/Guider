@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import re
 import shutil
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -316,9 +317,12 @@ class TrainingJob:
             run_root.mkdir(parents=True, exist_ok=True)
             plan = Card(card["id"], card["title"], card["keywords"], card, app).to_plan()
             from ..env.input_guard import InputGuard
-            with InputGuard(self.cancel) as guard:  # the developer touching the machine stops training
-                res = Session(plan, run_root, cancel_event=self.cancel).run()
+            session = Session(plan, run_root, cancel_event=threading.Event())
+            with InputGuard(self.cancel) as guard, _Watchdog(self.cancel, session) as dog:
+                res = session.run()
             self.stop_reason = guard.reason or self.stop_reason
+            if dog.timed_out and not self.cancel.is_set():
+                return False, f"quá {CARD_LIMIT_S} giây (một hướng dẫn phải xong dưới 2 phút)"
             if res.tutorial.status == "ok":
                 return True, ""
             bad = next((s for s in res.trace.steps if not s.verified), None)
@@ -331,6 +335,40 @@ class TrainingJob:
         finally:
             self.office_lock.release()
             shutil.rmtree(self.out_root / "_training_runs", ignore_errors=True)
+
+
+CARD_LIMIT_S = 120
+
+
+class _Watchdog:
+    """One card's demonstration: passes the job's cancel on, gives up after CARD_LIMIT_S, and closes the card's own
+    Office instance if a call into a modal dialog still blocks 30 s later (seen with Data Validation)."""
+
+    def __init__(self, job_cancel: threading.Event, session):
+        self.job_cancel, self.session, self.timed_out = job_cancel, session, False
+        self._stop = threading.Event()
+
+    def __enter__(self):
+        threading.Thread(target=self._run, name="card-watchdog", daemon=True).start()
+        return self
+
+    def __exit__(self, *exc):
+        self._stop.set()
+
+    def _run(self):
+        from ..env import win32
+        t0 = time.monotonic()
+        while not self._stop.wait(0.2):
+            if self.job_cancel.is_set():
+                self.session.cancel_event.set()
+            if time.monotonic() - t0 > CARD_LIMIT_S:
+                self.timed_out = True
+                self.session.cancel_event.set()
+            sb = self.session.sb
+            if (time.monotonic() - t0 > CARD_LIMIT_S + 30 and sb is not None and sb.created_instance
+                    and win32.process_alive(sb.pid)):
+                win32.terminate_process(sb.pid)
+                return
 
 
 def ask(question: str, memory: Memory | None = None, llm: TrainingLLM | None = None) -> dict:

@@ -204,7 +204,7 @@ def test_troubleshooting_goes_to_llm(cfg):
 
 def test_llm_plan_path(cfg):
     f = Fake("ollama", [json.dumps(PLAN_OK)])
-    r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("đếm ô trống", ENV, ["Home", "Formulas"])
+    r = Planner(KnowledgePack(), LLMClient(cfg, [f])).plan("qwzx việc chưa có thẻ", ENV, ["Home", "Formulas"])
     assert r.source == "llm" and r.plan.steps[1].target.within.names == ["Function Library"]
     assert r.plan.preconditions[0].ref == "A1:D21"
     assert r.plan.steps[0].expected.type == "tab_selected" and r.plan.steps[1].expected.type == "expanded"
