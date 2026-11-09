@@ -1,15 +1,44 @@
 """Excel sandbox (SPEC §6.3): a private instance with one blank, never-saved workbook (S2: own process)."""
 from __future__ import annotations
 
+import datetime
+
 from . import office
 from .office import SandboxHandle, SandboxRefused, load_fixture  # noqa: F401  (re-exported)
 
 
-def _fill(doc, fx: dict) -> None:
+def _cell_value(v):
+    """Fixture JSON has no dates: "date:2024-03-15" becomes a real Excel date."""
+    if isinstance(v, str) and v.startswith("date:"):
+        return datetime.datetime.fromisoformat(v[5:])
+    return "" if v is None else v
+
+
+def col_letter(n: int) -> str:
+    s = ""
+    while n:
+        n, r = divmod(n - 1, 26)
+        s = chr(65 + r) + s
+    return s
+
+
+def fill_sheet(ws, fx: dict) -> None:
+    """The table from A1, then any side blocks (lookup tables, criteria cells) at their anchors."""
     rows = [fx["columns"]] + fx["rows"]
+    ws.Range(f"A1:{col_letter(len(fx['columns']))}{len(rows)}").Value = [[_cell_value(v) for v in r] for r in rows]
+    for b in fx.get("blocks", []):
+        vals = b["values"]
+        width = max(len(r) for r in vals)
+        top = ws.Range(b["anchor"])
+        ws.Range(top, ws.Cells(top.Row + len(vals) - 1, top.Column + width - 1)).Value = [
+            [_cell_value(v) for v in r] + [""] * (width - len(r)) for r in vals]
+    for name, ref in fx.get("names", {}).items():  # named ranges, for lessons such as =SUM(DoanhSo)
+        ws.Parent.Names.Add(Name=name, RefersTo=f"={ws.Name}!{ref}")
+
+
+def _fill(doc, fx: dict) -> None:
     ws = doc.Worksheets(1)
-    ref = f"A1:{chr(ord('A') + len(fx['columns']) - 1)}{len(rows)}"
-    ws.Range(ref).Value = rows
+    fill_sheet(ws, fx)
     ws.Range("A1").Select()
 
 

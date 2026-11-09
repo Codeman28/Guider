@@ -143,6 +143,7 @@ export interface TrainMemory {
   apps: Record<string, { cards: { id: string; title: string; source: string }[]; extends: number; pending: { id: string; title: string; reason: string }[] }>;
   notes: number;
   not_tried?: number; // read but not demonstrated yet (phase 2 waits for an idle machine)
+  can_relearn?: number; // failed cards the "refit" run can try again on other sample files
   recent_notes: { id: string; app: string; topic: string; fact: string; sources: string[] }[];
   sources: TrainSourceEntry[];
 }

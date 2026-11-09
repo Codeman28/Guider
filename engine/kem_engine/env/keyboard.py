@@ -140,3 +140,35 @@ def bring_to_front(hwnd: int, tries: int = 3) -> bool:
             user32.ShowWindow(hwnd, 9)
             time.sleep(0.3)
     return user32.GetForegroundWindow() == hwnd
+
+
+INPUT_MOUSE = 0
+MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP = 0x0002, 0x0004
+
+
+class ClickRefused(RuntimeError):
+    pass
+
+
+def click(x: int, y: int, pid: int) -> None:
+    """One left click at a physical-pixel point, only if that point shows a window of process `pid` (the
+    sandbox). Used for buttons that open a modal dialog: UIA Invoke on them blocks every UIA call into Office
+    until the dialog closes. The cursor goes back where it was, and the InputGuard knows the input is ours."""
+    from . import win32
+    hwnd = user32.WindowFromPoint(wintypes.POINT(x, y))
+    if not hwnd or win32.window_pid(hwnd) != pid:
+        raise ClickRefused(f"điểm ({x}, {y}) không nằm trên cửa sổ mẫu")
+    before = wintypes.POINT()
+    user32.GetCursorPos(ctypes.byref(before))
+    input_guard.mark_self_input(1.0)
+    try:
+        user32.SetCursorPos(x, y)
+        down = INPUT(type=INPUT_MOUSE)
+        down.mi.dwFlags = MOUSEEVENTF_LEFTDOWN
+        up = INPUT(type=INPUT_MOUSE)
+        up.mi.dwFlags = MOUSEEVENTF_LEFTUP
+        _send([down, up])
+        time.sleep(0.05)
+    finally:
+        user32.SetCursorPos(before.x, before.y)
+        input_guard.mark_self_input(1.0)

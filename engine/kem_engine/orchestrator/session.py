@@ -80,6 +80,7 @@ class Session:
         self.writer = writer or _template_writer
         self.disambiguate = disambiguate
         self.cancel_event = cancel_event  # threading.Event set by tutorial.cancel (RPC)
+        self.not_found: list[dict] = []  # what was on screen when a button was missing (training relearns from it)
         self.ribbon_tabs: list[str] = []
         self.allow_skip = allow_skip  # LLM plans may contain a step this UI does not need
         self._last_expand: Step | None = None
@@ -250,6 +251,11 @@ class Session:
                 self._run_step(rstep, None, reason=rep.reason, repairs=repairs + 1)
                 return self._run_step(step, plan_step_id, reason, repairs + 1)
             log.info("session.not_found", step=n, best_score=res.score)  # matcher detail stays in the log
+            if step.target:
+                els, _ = snapshot(self._windows())
+                self.not_found.append({"want": step.target.names[0], "intent": step.intent,
+                                       "control_type": step.target.control_type,
+                                       "seen": sorted({f"{e.name}|{e.control_type}" for e in els if e.name})[:400]})
             ts.error = f"Guider không tìm thấy nút này trên {self.spec.name} của bạn"
             if step.target:  # keep what the plan asked for, so the guide can still describe the step
                 ts.element_name = step.target.names[0]

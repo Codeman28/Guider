@@ -5,6 +5,7 @@ most for the card being demonstrated, then training waits for the tutorial.
 """
 from __future__ import annotations
 
+import copy
 import re
 import shutil
 import threading
@@ -54,6 +55,7 @@ class TrainingJob:
         self.progress = progress
         self.office_lock = office_lock
         self.cancel = cancel
+        self.last_not_found: list[dict] = []
         self.stop_reason = ""  # what the InputGuard saw (di chuột, bấm chuột, gõ phím), shown to the developer
         self.memory = memory or Memory()
         self.llm = llm or TrainingLLM()
@@ -162,6 +164,8 @@ class TrainingJob:
         try:
             if self.kind == "verify":  # phase 2: demonstrate the cards read earlier ("chưa chạy thử")
                 stats["sources"].append(self._verify_pending(stats))
+            elif self.kind == "refit":  # relearn failed cards on other sample files (09/11/2026)
+                stats["sources"].append(self._refit_pending(stats))
             else:
                 for src in self._sources():
                     self._check()
@@ -291,6 +295,74 @@ class TrainingJob:
                 entry["pending"] += 1
         return entry
 
+    def _refit_pending(self, stats: dict) -> dict:
+        """Relearn failed cards. 1) Formula cards: a hidden Excel finds a sample file the formula works on (or the
+        model builds one); the card goes back to "chưa chạy thử" at once, so a stop loses nothing. 2) Demonstrate
+        those. 3) Other cards: demonstrate again; a missing button takes the closest name Office really showed,
+        up to three times per card. Nothing is learned without a demonstration that passed."""
+        from . import refit
+        failed = [(app, x) for app in ("excel", "word", "powerpoint") for x in self.memory.pending(app)
+                  if x["reason"] != NOT_TRIED and refit.BLOCKED not in x["reason"]
+                  and x["card"].get("refit_tries", 0) < refit.MAX_TRIES]
+        entry = {"kind": "refit", "name": f"Học lại {len(failed)} việc chưa làm được", "ref": "pending", "sha": "",
+                 "date": time.strftime("%Y-%m-%d %H:%M"), "summary": "", "added": 0, "merged": 0, "pending": 0,
+                 "notes": 0}
+        formulas = [(a, x) for a, x in failed if a == "excel" and refit.is_formula_card(x["card"])
+                    and "com_check" in x["reason"]]
+        if formulas:
+            with self.office_lock, refit.FormulaLab() as lab:
+                for i, (app, x) in enumerate(formulas, start=1):
+                    self._check()
+                    self._p("refit", f"Thử công thức trên các file mẫu: {x['card']['title']}", i, len(formulas))
+                    card, fx, why = refit.refit_formula(lab, self.llm, x["card"])
+                    tries = x["card"].get("refit_tries", 0) + 1
+                    if card is None:
+                        self._keep_pending(app, x["card"], f"{x['reason'].split(' · ')[0]} · học lại: {why}", tries,
+                                           stats, entry)
+                        continue
+                    if fx:
+                        refit.save_card_fixture(fx)
+                    card["refit_tries"] = tries
+                    card.setdefault("learned", {})["relearned"] = why[:160]
+                    self.memory.add_pending(app, card, NOT_TRIED)
+        verified = self._verify_pending(stats)
+        entry["added"] += verified["added"]
+        entry["pending"] += verified["pending"]
+        others = [(a, x) for a, x in failed if (a, x) not in formulas]
+        for i, (app, x) in enumerate(others, start=1):
+            self._check()
+            card = copy.deepcopy(x["card"])
+            tries = card.pop("refit_tries", 0) + 1
+            self._p("demo", f"Guider đang học lại: {card['title']}. Đừng chạm vào máy.", i, len(others))
+            ok, reason, fixes = False, x["reason"], []
+            for _ in range(3):
+                self.last_not_found = []
+                ok, reason = self._demonstrate(app, card)
+                self._check()
+                if ok or not self.last_not_found:
+                    break
+                fixed, how = refit.repair_names(self.llm, card, self.last_not_found[0])
+                if fixed is None:
+                    reason = f"{reason} · học lại: {how}"
+                    break
+                card, fixes = fixed, fixes + [how]
+            if ok:
+                if fixes:
+                    card.setdefault("learned", {})["relearned"] = "; ".join(fixes)[:160]
+                    card["learned"]["names_checked"] = True
+                self.memory.add_card(app, card)
+                stats["added"] += 1
+                entry["added"] += 1
+            else:
+                self._keep_pending(app, card, reason, tries, stats, entry)
+        return entry
+
+    def _keep_pending(self, app: str, card: dict, reason: str, tries: int, stats: dict, entry: dict):
+        card = dict(card, refit_tries=tries)
+        self.memory.add_pending(app, card, reason[:300])
+        stats["pending"] += 1
+        entry["pending"] += 1
+
     def _summarize(self, name: str, parts: list[str]) -> str:
         if len(parts) == 1:
             return parts[0]
@@ -321,6 +393,7 @@ class TrainingJob:
             with InputGuard(self.cancel) as guard, _Watchdog(self.cancel, session) as dog:
                 res = session.run()
             self.stop_reason = guard.reason or self.stop_reason
+            self.last_not_found = session.not_found
             if dog.timed_out and not self.cancel.is_set():
                 return False, f"quá {CARD_LIMIT_S} giây (một hướng dẫn phải xong dưới 2 phút)"
             if res.tutorial.status == "ok":

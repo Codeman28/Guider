@@ -1,0 +1,83 @@
+{
+ "id": "loan_basic",
+ "description": "Bảng tham số khoản vay và dòng tiền giả (dữ liệu bịa)",
+ "columns": [
+  "Năm",
+  "Dòng tiền",
+  "Lãi suất",
+  "Số kỳ",
+  "Khoản vay"
+ ],
+ "rows": [
+  [
+   2020,
+   -100000000,
+   0.08,
+   60,
+   500000000
+  ],
+  [
+   2021,
+   19000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2022,
+   15000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2023,
+   19000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2024,
+   33000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2025,
+   29000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2026,
+   40000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2027,
+   35000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2028,
+   19000000,
+   null,
+   null,
+   null
+  ],
+  [
+   2029,
+   34000000,
+   null,
+   null,
+   null
+  ]
+ ]
+}

@@ -176,3 +176,86 @@ def test_windows_shortcuts_never_become_cards():
     assert parse_combo("Ctrl+Shift+L") == [0x11, 0x10, ord("L")]
     st, why = extract.key_step(XStep(intent="key_combo", names=["Ctrl+Esc"], control_type="Keys", value="Ctrl+Esc"), "excel", 1, True)
     assert st is None and "Windows" in why
+
+
+def _formula_card(cell="E2", formula="=D2-C2"):
+    return {"id": "learn_exc_tru", "title": "Cách trừ hai cột", "keywords": ["trừ"], "fixture_id": "sales_table_basic",
+            "steps": [{"id": 1, "intent": "type_formula", "target": {"names": [cell], "control_type": "Cell"},
+                       "value": formula, "expected": {"type": "com_check", "prop": "cell.formula_ok", "ref": cell,
+                                                      "op": "true"}, "capture_result": True}]}
+
+
+class _Lab:
+    """Pretends to be Excel: a formula works on the fixtures listed in `ok`."""
+    def __init__(self, ok):
+        self.ok, self.tried = ok, []
+
+    def run(self, fx, steps):
+        self.tried.append(fx["id"])
+        good = fx["id"] in self.ok
+        return good, [f"{c}={'12' if good else '#VALUE!'}" for c, _ in steps]
+
+
+def test_formula_moves_to_the_first_sample_file_that_computes_it():
+    from kem_engine.training import refit
+    lab = _Lab({"numbers_grid", "grades_basic"})
+    card, fx, why = refit.refit_formula(lab, None, _formula_card())
+    assert fx is None and card["fixture_id"] == "numbers_grid" and "numbers_grid" in why
+    assert lab.tried[0] == "sales_table_basic"  # the card's own file is tried first
+
+
+def test_built_fixture_is_kept_only_when_excel_computes_it():
+    from kem_engine.training import refit
+
+    class LLM:
+        def complete(self, system, user, out, max_tokens=0):
+            return out(columns=["Giá", "Giảm"], rows=[[100, 10]], steps=[{"cell": "C2", "formula": "=A2-B2"}],
+                       example="Ô C2 cho 90.")
+
+    class Lab(_Lab):
+        def run(self, fx, steps):
+            return fx["id"].startswith("card_"), ["C2=90"]
+
+    card, fx, why = refit.refit_formula(Lab(set()), LLM(), _formula_card())
+    assert fx["id"] == card["fixture_id"] == "card_learn_exc_tru"
+    assert card["steps"][0]["value"] == "=A2-B2" and card["steps"][0]["expected"]["ref"] == "C2"
+    assert card["example"] == "Ô C2 cho 90."
+
+
+def test_missing_button_takes_the_closest_name_on_screen():
+    from kem_engine.training import refit
+    card = {"id": "c", "title": "Nhóm dữ liệu", "steps": [
+        {"id": 1, "intent": "select_ribbon_tab", "target": {"names": ["Data"], "control_type": "TabItem"}},
+        {"id": 2, "intent": "expand", "target": {"names": ["Group..."], "control_type": "SplitButton"}}]}
+    seen = {"want": "Group...", "seen": ["Group|SplitButton", "Ungroup|SplitButton", "Data|TabItem"]}
+    fixed, how = refit.repair_names(None, card, seen)
+    assert fixed["steps"][1]["target"]["names"][:2] == ["Group", "Group..."] and "Group" in how
+    assert refit.repair_names(None, card, {"want": "Group...", "seen": ["Sort|Button"]})[0] is None
+
+
+def test_model_cannot_pick_a_name_that_is_not_on_screen():
+    from kem_engine.training import refit
+
+    class LLM:
+        def complete(self, system, user, out, max_tokens=0):
+            return out(pick="Magic Button", open_first=None)
+
+    card = {"id": "c", "title": "Đổ bóng chữ", "steps": [
+        {"id": 1, "intent": "invoke", "target": {"names": ["Shadow"], "control_type": "Button"}}]}
+    assert refit.repair_names(LLM(), card, {"want": "Shadow", "seen": ["Bold|Button"]})[0] is None
+
+
+def test_card_fixture_ids_resolve_only_inside_the_cards_folder(tmp_path, monkeypatch):
+    from kem_engine.sandbox import office
+    monkeypatch.setattr(office, "FIXTURES", tmp_path)
+    (tmp_path / "cards").mkdir()
+    (tmp_path / "cards" / "card_x.json").write_text('{"id": "card_x", "columns": [], "rows": []}', encoding="utf-8")
+    assert office.load_fixture("card_x")["id"] == "card_x"
+    with pytest.raises(ValueError):
+        office.load_fixture("card_../../secret")
+
+
+def test_vietnamese_separators_become_commas_outside_text():
+    from kem_engine.training.refit import en_separators
+    assert en_separators('=ROUND(D2; -1)') == "=ROUND(D2, -1)"
+    assert en_separators('=IF(A1>0; "a;b"; 0)') == '=IF(A1>0, "a;b", 0)'

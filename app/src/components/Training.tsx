@@ -64,6 +64,14 @@ export function Training() {
             <span className="text-small text-lunar">Chạy khi máy rảnh: chạm chuột hay bàn phím là dừng.</span>
           </div>
         )}
+        {(trainMemory?.can_relearn ?? 0) > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" disabled={busy} onClick={() => void startTraining("refit", "")} className="rounded-sheet border border-ink px-4 py-2 font-medium disabled:opacity-40">
+              Học lại {trainMemory?.can_relearn} việc chưa làm được
+            </button>
+            <span className="text-small text-lunar">Thử trên file mẫu khác, tự dựng file mẫu, sửa tên nút theo màn hình thật.</span>
+          </div>
+        )}
         <form
           className="flex flex-wrap gap-2"
           onSubmit={(e) => {

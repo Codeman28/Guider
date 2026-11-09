@@ -314,8 +314,8 @@ class Server:
     def training_start(self, params):
         self._need_training()
         kind, ref = params.get("kind"), params.get("ref") or ""
-        if kind not in ("file", "link", "research", "verify") or not isinstance(ref, str):
-            raise RpcError(INVALID_PARAMS, "kind must be file, link, research or verify")
+        if kind not in ("file", "link", "research", "verify", "refit") or not isinstance(ref, str):
+            raise RpcError(INVALID_PARAMS, "kind must be file, link, research, verify or refit")
         if kind in ("file", "link") and not ref.strip():
             raise RpcError(INVALID_PARAMS, "ref is required")
         if self._training and self._training["thread"].is_alive():

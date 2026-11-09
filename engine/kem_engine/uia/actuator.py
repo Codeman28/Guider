@@ -6,7 +6,11 @@ side-by-side work.
 """
 from __future__ import annotations
 
+import threading
+
 from .element import Element
+
+MODAL_WAIT = 2.5  # an Invoke still running after this has opened a modal dialog (it returns when that closes)
 
 
 class ActionError(Exception):
@@ -19,17 +23,57 @@ def _wrap(el: Element):
     return UIAWrapper(UIAElementInfo(el.raw))
 
 
+def _invoke(w) -> None:
+    """UIA Invoke on a button that opens a modal dialog (Data Validation..., Goal Seek...) does not return until
+    the dialog closes, so the demonstration would wait forever. Run it on its own thread and move on once it
+    has had time to open the dialog; errors raised quickly are still reported."""
+    done, err = threading.Event(), []
+
+    def run():
+        import pythoncom
+        pythoncom.CoInitializeEx(0)  # same apartment as the UIA stack
+        try:
+            w.invoke()
+        except Exception as e:
+            err.append(e)
+        finally:
+            done.set()
+
+    threading.Thread(target=run, name="uia-invoke", daemon=True).start()
+    if done.wait(MODAL_WAIT) and err:
+        raise err[0]
+
+
+def opens_dialog(el: Element) -> bool:
+    """Office names every command that opens a dialog with a trailing ellipsis: "Data Validation...", "More Rules..."."""
+    return el.name.rstrip().endswith(("...", "…"))
+
+
+def _click(el: Element) -> None:
+    from ..env import keyboard, win32
+    pid = win32.window_pid(el.root_hwnd)
+    if win32.window_pid(keyboard.user32.GetForegroundWindow()) != pid:  # a ribbon flyout of ours is in front:
+        keyboard.bring_to_front(el.root_hwnd)                            # raising the frame would close it
+    r = el.rect
+    # a split button's arrow is on the right (small) or at the bottom (large): aim at the body, not the middle
+    fx = 0.3 if el.control_type == "SplitButton" else 0.5
+    keyboard.click(r.left + round((r.right - r.left) * fx), r.top + round((r.bottom - r.top) * fx), pid)
+
+
 def perform(intent: str, el: Element, value: str | None = None) -> None:
     w = _wrap(el)
     try:
+        if intent in ("select_item", "invoke") and opens_dialog(el):
+            _click(el)  # UIA Invoke would block until the dialog closes
+            return
         if intent in ("select_ribbon_tab", "select_item"):
             if "SelectionItem" in el.patterns:
                 w.select()
             else:
-                w.invoke()
+                _invoke(w)
         elif intent == "invoke":
             if "Invoke" in el.patterns:
-                w.invoke()
+                _invoke(w)
             elif "ExpandCollapse" in el.patterns:
                 w.expand()
             elif "Toggle" in el.patterns:  # Word/PowerPoint Bold, Italic, Center… are toggle-only buttons

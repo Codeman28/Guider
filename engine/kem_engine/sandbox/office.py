@@ -14,6 +14,7 @@ from __future__ import annotations
 import gc
 import json
 import os
+import re
 import shutil
 import time
 import uuid
@@ -89,6 +90,10 @@ class SandboxHandle:
 
 def load_fixture(fixture_id: str) -> dict:
     path = FIXTURES / f"{fixture_id}.json"
+    if re.fullmatch(r"card_[a-z0-9_]+", fixture_id or ""):  # built for one learned card (training/refit.py)
+        path = FIXTURES / "cards" / f"{fixture_id}.json"
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
     if path.parent != FIXTURES or not path.exists():  # fixture IDs only, never arbitrary paths
         raise ValueError(f"unknown fixture {fixture_id!r}")
     return json.loads(path.read_text(encoding="utf-8"))

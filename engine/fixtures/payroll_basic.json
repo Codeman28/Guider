@@ -1,0 +1,243 @@
+{
+ "id": "payroll_basic",
+ "description": "Bảng lương giả 20 nhân viên, có ngày sinh và bảng hệ số chức vụ (dữ liệu bịa)",
+ "columns": [
+  "Mã NV",
+  "Họ tên",
+  "Phòng ban",
+  "Chức vụ",
+  "Ngày sinh",
+  "Ngày công",
+  "Lương CB",
+  "Phụ cấp"
+ ],
+ "rows": [
+  [
+   "NV001",
+   "Nguyễn An",
+   "Kế toán",
+   "Nhân viên",
+   "date:1980-01-01",
+   26,
+   7500000,
+   500000
+  ],
+  [
+   "NV002",
+   "Trần Bình",
+   "Kinh doanh",
+   "Tổ trưởng",
+   "date:1981-02-04",
+   25,
+   7500000,
+   1000000
+  ],
+  [
+   "NV003",
+   "Lê Chi",
+   "Kỹ thuật",
+   "Trưởng phòng",
+   "date:1982-03-07",
+   23,
+   9000000,
+   0
+  ],
+  [
+   "NV004",
+   "Phạm Dũng",
+   "Kế toán",
+   "Phó phòng",
+   "date:1983-04-10",
+   26,
+   5000000,
+   500000
+  ],
+  [
+   "NV005",
+   "Hoàng Giang",
+   "Kinh doanh",
+   "Nhân viên",
+   "date:1984-05-13",
+   23,
+   5000000,
+   0
+  ],
+  [
+   "NV006",
+   "Vũ Hà",
+   "Kỹ thuật",
+   "Tổ trưởng",
+   "date:1985-06-16",
+   25,
+   7500000,
+   1000000
+  ],
+  [
+   "NV007",
+   "Đặng Khánh",
+   "Kế toán",
+   "Trưởng phòng",
+   "date:1986-07-19",
+   24,
+   9000000,
+   500000
+  ],
+  [
+   "NV008",
+   "Bùi Linh",
+   "Kinh doanh",
+   "Phó phòng",
+   "date:1987-08-22",
+   25,
+   9000000,
+   1000000
+  ],
+  [
+   "NV009",
+   "Đỗ Minh",
+   "Kỹ thuật",
+   "Nhân viên",
+   "date:1988-09-25",
+   22,
+   5000000,
+   500000
+  ],
+  [
+   "NV010",
+   "Ngô Nam",
+   "Kế toán",
+   "Tổ trưởng",
+   "date:1989-10-01",
+   22,
+   6000000,
+   1000000
+  ],
+  [
+   "NV011",
+   "Nguyễn Oanh",
+   "Kinh doanh",
+   "Trưởng phòng",
+   "date:1990-11-04",
+   20,
+   9000000,
+   0
+  ],
+  [
+   "NV012",
+   "Trần Phúc",
+   "Kỹ thuật",
+   "Phó phòng",
+   "date:1991-12-07",
+   21,
+   7500000,
+   0
+  ],
+  [
+   "NV013",
+   "Lê Quân",
+   "Kế toán",
+   "Nhân viên",
+   "date:1992-01-10",
+   25,
+   6000000,
+   500000
+  ],
+  [
+   "NV014",
+   "Phạm Sơn",
+   "Kinh doanh",
+   "Tổ trưởng",
+   "date:1993-02-13",
+   23,
+   9000000,
+   0
+  ],
+  [
+   "NV015",
+   "Hoàng Trang",
+   "Kỹ thuật",
+   "Trưởng phòng",
+   "date:1994-03-16",
+   21,
+   9000000,
+   500000
+  ],
+  [
+   "NV016",
+   "Vũ Uyên",
+   "Kế toán",
+   "Phó phòng",
+   "date:1995-04-19",
+   24,
+   7500000,
+   0
+  ],
+  [
+   "NV017",
+   "Đặng Việt",
+   "Kinh doanh",
+   "Nhân viên",
+   "date:1996-05-22",
+   26,
+   9000000,
+   1000000
+  ],
+  [
+   "NV018",
+   "Bùi Xuân",
+   "Kỹ thuật",
+   "Tổ trưởng",
+   "date:1997-06-25",
+   22,
+   9000000,
+   500000
+  ],
+  [
+   "NV019",
+   "Đỗ Yến",
+   "Kế toán",
+   "Trưởng phòng",
+   "date:1998-07-01",
+   25,
+   9000000,
+   0
+  ],
+  [
+   "NV020",
+   "Ngô Thảo",
+   "Kinh doanh",
+   "Phó phòng",
+   "date:1999-08-04",
+   21,
+   5000000,
+   0
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "J1",
+   "values": [
+    [
+     "Chức vụ",
+     "Hệ số"
+    ],
+    [
+     "Nhân viên",
+     1.0
+    ],
+    [
+     "Tổ trưởng",
+     1.2
+    ],
+    [
+     "Phó phòng",
+     1.5
+    ],
+    [
+     "Trưởng phòng",
+     1.8
+    ]
+   ]
+  }
+ ]
+}

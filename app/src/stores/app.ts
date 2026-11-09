@@ -97,7 +97,7 @@ interface State {
   useProvider(p: "ollama" | "gemini"): Promise<void>;
   saveGeminiKey(key: string): Promise<void>;
   loadTraining(): Promise<void>;
-  startTraining(kind: "file" | "link" | "research" | "verify", ref: string): Promise<void>;
+  startTraining(kind: "file" | "link" | "research" | "verify" | "refit", ref: string): Promise<void>;
   pickTrainingFile(folder?: boolean): Promise<void>;
   demonstrateNow: boolean;
   setDemonstrateNow(v: boolean): void;

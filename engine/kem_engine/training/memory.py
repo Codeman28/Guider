@@ -90,6 +90,7 @@ class Memory:
             _save_yaml(self.learned_path(app), data, HEADER)
 
     def add_card(self, app: str, card: dict) -> None:
+        card = {k: v for k, v in card.items() if k != "refit_tries"}  # bookkeeping of the waiting list only
         with _lock:
             data = self.learned(app)
             data["cards"] = [c for c in data["cards"] if c["id"] != card["id"]] + [card]
@@ -211,5 +212,8 @@ class Memory:
             }
         notes = self.notes()
         not_tried = sum(1 for a in APPS for x in self.pending(a) if x["reason"] == "chưa chạy thử")
+        from .refit import BLOCKED, MAX_TRIES
+        can_relearn = sum(1 for a in APPS for x in self.pending(a) if x["reason"] != "chưa chạy thử"
+                          and BLOCKED not in x["reason"] and x["card"].get("refit_tries", 0) < MAX_TRIES)
         return {"apps": apps, "notes": len(notes), "recent_notes": notes[-8:][::-1], "sources": self.log()[:50],
-                "not_tried": not_tried}
+                "not_tried": not_tried, "can_relearn": can_relearn}
