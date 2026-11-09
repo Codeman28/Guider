@@ -90,1051 +90,6 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_tao_danh_sach_chon_drop_down_list_b_0d61
-    title: Cách tạo danh sách chọn (Drop-down list) bằng Data Validation
-    keywords:
-    - data validation list
-    - giới hạn nhập liệu từ danh sách
-    - tạo danh sách chọn
-    - tạo menu thả xuống
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Data Validation...
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - List
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Source
-        control_type: Edit
-      value: Jen, Greg, Vivian, Jon, John
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng A1:A10, mở Data Validation, chọn List và nhập danh sách tên nhân viên vào ô Source để người dùng chỉ được chọn từ danh
-      sách đó.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 507–509
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_gioi_han_do_dai_ky_tu_trong_o_9e12
-    title: Cách giới hạn độ dài ký tự trong ô
-    keywords:
-    - data validation text length
-    - giới hạn số ký tự
-    - độ dài văn bản
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Data Validation...
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Text length
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - less than or equal to
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Maximum
-        control_type: Edit
-      value: '5'
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng C1:C10, mở Data Validation, chọn Text length và đặt Maximum là 5 để ngăn người dùng nhập quá 5 ký tự vào ô.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 507–509
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''Month'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_tao_slicer_trong_pivottable_ea78
-    title: Cách tạo Slicer trong PivotTable
-    keywords:
-    - lọc dữ liệu pivot
-    - slicer excel
-    - thêm slicer
-    - tạo bộ lọc slicer
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Slicer...
-        control_type: Button
-        automation_id: SlicerCreate
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Month
-        - Product
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn bảng PivotTable, vào tab Insert chọn Slicer, tích chọn Month và Product rồi nhấn OK để tạo các cửa sổ lọc nhanh.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 528–534
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_tao_pivottable_trong_excel_f653
-    title: Cách tạo PivotTable trong Excel
-    keywords:
-    - cách dùng PivotTable
-    - phân tích dữ liệu bằng PivotTable
-    - tạo bảng tổng hợp
-    - tổng hợp dữ liệu nhanh
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - PivotTable
-        control_type: SplitButton
-        automation_id: InsertPivotTableDropdown
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Table/Range
-        control_type: Edit
-      value: A1:D21
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn toàn bộ bảng dữ liệu từ A1 đến D21, sau đó vào tab Insert và chọn PivotTable để bắt đầu tạo bảng tổng hợp.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 535–540
-      names_checked: false
-- reason: 'bước ''Product'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_su_dung_slicer_de_loc_du_lieu_pivot_8c9e
-    title: Cách sử dụng Slicer để lọc dữ liệu PivotTable
-    keywords:
-    - cách lọc dữ liệu pivot table
-    - dùng slicer
-    - lọc pivot table bằng slicer
-    - tạo bộ lọc slicer
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Slicer...
-        control_type: Button
-        automation_id: SlicerCreate
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Product
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Country
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Đặt con trỏ trong PivotTable, chọn Slicer từ tab Insert, tích chọn Product và Country để hiển thị các nút lọc nhanh trên màn hình.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 547–553
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: 'bước ''Date'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_them_timeline_vao_pivottable_b1be
-    title: Cách thêm Timeline vào PivotTable
-    keywords:
-    - lọc dữ liệu pivot
-    - lọc theo thời gian
-    - thêm timeline
-    - timeline pivot table
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Timeline
-        control_type: Button
-        automation_id: InsertTimeline
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Date
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Khi chọn PivotTable và thêm Timeline, bạn có thể kéo chọn trên thanh thời gian để lọc dữ liệu hiển thị theo năm, quý hoặc tháng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 554–558
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_tao_pivotchart_tu_du_lieu_fa4a
-    title: Cách tạo PivotChart từ dữ liệu
-    keywords:
-    - biểu đồ tổng hợp
-    - tạo PivotChart
-    - vẽ biểu đồ Pivot
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - PivotChart
-        control_type: SplitButton
-      expected:
-        type: dialog_opened
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn bảng dữ liệu, vào Insert > PivotChart > OK để tạo biểu đồ liên kết với dữ liệu bảng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 570–572
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''All Charts'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_tao_bieu_do_tu_mau_template_76e4
-    title: Cách tạo biểu đồ từ mẫu (Template)
-    keywords:
-    - dùng template biểu đồ
-    - insert chart template
-    - áp dụng mẫu biểu đồ
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: select_item
-      target:
-        names:
-        - All Charts
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Templates
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng dữ liệu A4:D7, mở hộp thoại 'Insert Chart', chọn tab 'All Charts', vào mục 'Templates' và chọn mẫu 'Band' đã lưu trước
-      đó.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 656–658
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'lỗi khi làm mẫu: window has no area (minimized?)'
-  card:
-    id: learn_exc_cach_chen_pivottable_c26b
-    title: Cách chèn PivotTable
-    keywords:
-    - chèn PivotTable
-    - phân tích dữ liệu
-    - tạo báo cáo PivotTable
-    - báo cáo nhanh
-    - phân tích bảng
-    - tạo pivottable
-    - tổng hợp dữ liệu
-    - Cách tạo bảng tổng hợp PivotTable trong Excel
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - PivotTable
-        control_type: SplitButton
-        automation_id: InsertPivotTableDropdown
-      expected:
-        type: none
-      capture_result: true
-    example: Sau khi chọn bảng dữ liệu, vào tab Insert và chọn PivotTable để bắt đầu tạo báo cáo tóm tắt dữ liệu.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 664–668
-      names_checked: true
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Stock Chart'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_tao_bieu_do_chung_khoan_trong_excel_6744
-    title: Cách tạo biểu đồ chứng khoán trong Excel
-    keywords:
-    - biểu đồ giá cổ phiếu
-    - biểu đồ khối lượng
-    - chèn biểu đồ chứng khoán
-    - tạo stock chart
-    - vẽ biểu đồ chứng khoán
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Insert Waterfall, Funnel, Stock, Surface, or Radar Chart
-        control_type: MenuItem
-        automation_id: ChartTypeWaterfallInsertChartGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Stock Chart
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn vùng dữ liệu bảng doanh số, vào thẻ Insert, chọn biểu đồ Stock để hiển thị xu hướng biến động giá trị theo thời gian.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 669–675
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_sparkline_dang_duong_trong_exce_1d3a
-    title: Cách tạo Sparkline dạng đường trong Excel
-    keywords:
-    - biểu đồ trong ô
-    - sparkline line
-    - tạo sparkline
-    - vẽ biểu đồ nhỏ
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Line
-        control_type: Button
-        automation_id: SparklineLineInsert
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Data Range
-        control_type: Edit
-      value: A2:D21
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô E2, vào tab Insert chọn Line, nhập vùng dữ liệu A2:D21 và nhấn OK để hiển thị xu hướng doanh số của tháng đó.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 696–700
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_sparkline_dang_thang_thua_win_l_6625
-    title: Cách tạo Sparkline dạng Thắng/Thua (Win/Loss)
-    keywords:
-    - biểu đồ thắng thua
-    - sparkline win loss
-    - tạo win loss sparkline
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Win/Loss
-        control_type: Button
-        automation_id: SparklineWinLossInsert
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Data Range
-        control_type: Edit
-      value: A2:D21
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô E2, vào tab Insert chọn Win/Loss, nhập vùng dữ liệu A2:D21 và nhấn OK để hiển thị biểu đồ thắng/thua cho các sản phẩm.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 696–700
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: 'bước ''Format values where this formula is true'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_su_dung_conditional_formatting_de_d_637a
-    title: Cách sử dụng Conditional Formatting để đánh dấu dòng
-    keywords:
-    - conditional formatting excel
-    - highlight row based on cell value
-    - tô màu dòng theo điều kiện
-    - đánh dấu hàng tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - New Rule
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Use a formula to determine which cells to format
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Format values where this formula is true
-        control_type: Edit
-      value: =$D2=1
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - Format
-        control_type: MenuItem
-        automation_id: FormatCellsMenu
-      expected:
-        type: none
-    - id: 7
-      intent: select_item
-      target:
-        names:
-        - Fill
-        control_type: MenuItem
-        automation_id: FillMenu
-      expected:
-        type: none
-    - id: 8
-      intent: select_item
-      target:
-        names:
-        - Yellow
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 9
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_opened
-    - id: 10
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn bảng dữ liệu, thiết lập quy tắc định dạng với công thức =$D2=1 và chọn màu vàng, các dòng có giá trị 1 ở cột D sẽ tự động được
-      tô màu vàng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 876–879
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Columns'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_tao_chuoi_so_tu_dong_trong_excel_7036
-    title: Cách tạo chuỗi số tự động trong Excel
-    keywords:
-    - fill series
-    - tạo danh sách số
-    - tạo dãy số
-    - tạo series
-    - điền số tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Fill
-        control_type: MenuItem
-        automation_id: FillMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Series
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Columns
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Step value
-        control_type: Edit
-      value: '1'
-      expected:
-        type: none
-    - id: 6
-      intent: set_value
-      target:
-        names:
-        - Stop value
-        control_type: Edit
-      value: '1000'
-      expected:
-        type: none
-    - id: 7
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô A16, thực hiện các bước trên để điền tự động các số từ 1 đến 1000 vào cột A bắt đầu từ ô A16.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 944–947
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_bang_du_lieu_data_table_de_phan_3c80
-    title: Cách tạo bảng dữ liệu (Data Table) để phân tích kịch bản
-    keywords:
-    - data table excel
-    - mô phỏng kịch bản
-    - phân tích what-if
-    - sensitivity analysis
-    - tạo bảng dữ liệu
-    - data table
-    - dự báo
-    - mô phỏng
-    - phân tích dữ liệu
-    - what-if analysis
-    - Cách sử dụng Data Table để phân tích mô phỏng
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - What-If Analysis
-        control_type: MenuItem
-        automation_id: WhatIfAnalysisMenu
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Table...
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Row Input Cell
-        control_type: Edit
-      value: C1
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Column Input Cell
-        control_type: Edit
-      value: I14
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng bảng A1:D21, mở Data Table, nhập ô tham chiếu vào Row/Column Input Cell để Excel tự động điền kết quả mô phỏng vào bảng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 944–947
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Automatic Except for Tables'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_thay_doi_tuy_chon_tinh_toan_trong_e_866d
-    title: Cách thay đổi tùy chọn tính toán trong Excel
-    keywords:
-    - automatic except for tables
-    - calculation options
-    - tùy chọn tính toán
-    - tắt tính toán tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Calculation Options
-        control_type: MenuItem
-        automation_id: CalculationOptionsMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Automatic Except for Tables
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn 'Automatic Except for Tables' trong tab Formulas để ngăn bảng dữ liệu lớn tự động tính toán lại mỗi khi bạn nhập liệu, giúp
-      tăng tốc độ làm việc.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 948–951
-      names_checked: false
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_bang_du_lieu_mo_phong_data_tabl_a374
-    title: Cách tạo bảng dữ liệu mô phỏng (Data Table) trong Excel
-    keywords:
-    - Data Table
-    - What-If Analysis
-    - mô phỏng dữ liệu
-    - phân tích kịch bản
-    - tạo bảng dữ liệu
-    - Cách tạo bảng mô phỏng dữ liệu với Data Table
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - What-If Analysis
-        control_type: MenuItem
-        automation_id: WhatIfAnalysisMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Table
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng bảng H16:K1015, sau đó vào Data > What-If Analysis > Data Table và nhấn OK để Excel tự động điền 1.000 kịch bản mô phỏng
-      vào bảng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 962–965
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_dat_ten_cho_vung_du_lieu_7b9a
-    title: Cách đặt tên cho vùng dữ liệu
-    keywords:
-    - name range
-    - quản lý tên
-    - đặt tên vùng
-    - đặt tên ô
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Define Name
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Name
-        control_type: Edit
-      value: Returns
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn vùng G4:G1003, vào tab Formulas, chọn Define Name và đặt tên là 'Returns' để dễ dàng tham chiếu trong các công thức sau này.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 962–965
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
 - reason: 'bước ''New Comment'': chặn bởi SafetyGuard: blocked element (name ''New Comment'')'
   card:
     id: learn_exc_cach_them_chu_thich_vao_o_trong_excel_7dc3
@@ -1181,1184 +136,6 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-- reason: 'bước ''Sheet'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_thiet_lap_in_chu_thich_5ca4
-    title: Cách thiết lập in chú thích
-    keywords:
-    - cài đặt in ấn
-    - in comment
-    - in ghi chú
-    - print comments
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Page Layout
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: select_item
-      target:
-        names:
-        - Sheet
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Vào Page Layout, mở hộp thoại Page Setup, tại tab Sheet chọn cách in chú thích (như hiển thị trên trang hoặc ở cuối trang) rồi bấm
-      OK.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 974–976
-      names_checked: false
-- reason: 'bước ''1'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_lam_noi_bat_gia_tri_lon_nhat_bang_c_500b
-    title: Cách làm nổi bật giá trị lớn nhất bằng Conditional Formatting
-    keywords:
-    - conditional formatting
-    - làm nổi bật giá trị
-    - top 10 items
-    - tô màu giá trị lớn nhất
-    - định dạng có điều kiện
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: expand
-      target:
-        names:
-        - Top/Bottom Rules
-        control_type: MenuItem
-      expected:
-        type: expanded
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Top 10 Items
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - '1'
-        control_type: Edit
-      value: '1'
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng L10:BE60, vào Conditional Formatting, chọn Top 10 Items và đổi số 10 thành 1 để tự động tô màu ô có lợi nhuận cao nhất.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1042–1047
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Table Style Medium 2'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_dinh_dang_bang_du_lieu_trong_excel_eb72
-    title: Cách định dạng bảng dữ liệu trong Excel
-    keywords:
-    - bảng dữ liệu
-    - format as table
-    - tạo bảng
-    - định dạng bảng
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Format as Table
-        control_type: MenuItem
-        automation_id: FormatAsTableGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Table Style Medium 2
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng dữ liệu, vào tab Home, chọn Format as Table và chọn một kiểu dáng để định dạng bảng chuyên nghiệp hơn.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1056–1059
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Unhide...'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_hien_thi_so_lam_viec_macro_ca_nhan_2e48
-    title: Cách hiển thị sổ làm việc macro cá nhân (Personal Macro Workbook)
-    keywords:
-    - chỉnh sửa macro cá nhân
-    - hiện file macro ẩn
-    - mở personal.xlsb
-    - xem macro cá nhân
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - View
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Unhide...
-        control_type: Button
-        automation_id: WindowUnhide
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - PERSONAL.XLSB
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Để chỉnh sửa các macro đã lưu trong sổ làm việc cá nhân, bạn vào tab View, chọn Unhide, sau đó chọn PERSONAL.XLSB và nhấn OK để file
-      hiển thị.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1066–1070
-      names_checked: false
-- reason: 'lỗi khi làm mẫu: window has no area (minimized?)'
-  card:
-    id: learn_exc_cach_dat_ten_cho_vung_du_lieu_define_nam_1286
-    title: Cách đặt tên cho vùng dữ liệu (Define Name)
-    keywords:
-    - quản lý tên vùng
-    - tạo named range
-    - đặt tên cho ô
-    - đặt tên dải ô
-    - đặt tên vùng
-    - name manager
-    - quản lý tên
-    - đặt tên ô
-    - Cách đặt tên cho vùng dữ liệu trong Excel
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Define Name
-        control_type: SplitButton
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn cột Doanh số (D2:D21), bấm Define Name và đặt tên là 'DoanhSo' để sử dụng tên này trong các công thức thay vì địa chỉ ô.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1117–1122
-      names_checked: true
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_thiet_lap_kiem_soat_du_lieu_data_va_8b1c
-    title: Cách thiết lập kiểm soát dữ liệu (Data Validation) trong Excel
-    keywords:
-    - data validation
-    - giới hạn nhập liệu
-    - kiểm soát dữ liệu
-    - tạo danh sách chọn
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Data Validation...
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Allow
-        control_type: ComboBox
-      value: Whole number
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Minimum
-        control_type: Edit
-      value: '0'
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô D2, vào Data > Data Validation, chọn Allow là Whole number và Minimum là 0 để chỉ cho phép nhập số dương vào cột Doanh số.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1117–1122
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
-  card:
-    id: learn_exc_cach_gioi_han_du_lieu_nhap_vao_bang_data_eb48
-    title: Cách giới hạn dữ liệu nhập vào bằng Data Validation trong Excel
-    keywords:
-    - Data Validation
-    - chặn nhập sai
-    - giới hạn nhập liệu
-    - kiểm soát dữ liệu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Data Validation...
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Minimum
-        control_type: Edit
-      value: '0'
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Maximum
-        control_type: Edit
-      value: '1000000'
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn cột 'Doanh số', vào tab Data, chọn Data Validation, thiết lập Allow là Decimal và đặt giới hạn từ 0 đến 1.000.000 để tránh nhập
-      sai số liệu.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1128–1133
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_tinh_tong_phu_subtotal_trong_excel_2873
-    title: Cách tính tổng phụ (Subtotal) trong Excel
-    keywords:
-    - nhóm dữ liệu
-    - subtotal
-    - tính tổng phụ
-    - tổng hợp dữ liệu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Subtotal
-        control_type: Button
-        automation_id: OutlineSubtotals
-      expected:
-        type: dialog_opened
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn bảng dữ liệu, vào Data > Subtotal > OK để Excel tự động chèn các dòng tổng phụ cho từng nhóm dữ liệu.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1189–1193
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Top 10 Items...'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_dinh_dang_co_dieu_kien_top_bottom_t_ab3f
-    title: Cách định dạng có điều kiện Top/Bottom trong Excel
-    keywords:
-    - conditional formatting
-    - top bottom rules
-    - tô màu giá trị cao nhất
-    - định dạng top 10
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Top/Bottom Rules
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Top 10 Items...
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - '10'
-        control_type: Edit
-      value: '10'
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn cột Doanh số, vào Home > Conditional Formatting > Top/Bottom Rules > Top 10 Items, nhập 10 và nhấn OK để tự động tô màu 10 giá
-      trị doanh số cao nhất.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 1224–1229
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''OK'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_thay_doi_huong_van_ban_trong_o_06a0
-    title: Cách thay đổi hướng văn bản trong ô
-    keywords:
-    - căn lề văn bản
-    - text alignment
-    - text orientation
-    - xoay chữ trong ô
-    - đổi hướng văn bản
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: set_value
-      target:
-        names:
-        - Orientation
-        control_type: MenuItem
-        within:
-          names:
-          - Alignment
-          control_type: Group
-        automation_id: OrientationMenu
-      value: '45'
-      expected:
-        type: none
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô A1 chứa tiêu đề, mở hộp thoại Alignment, nhập 45 độ vào ô Orientation và nhấn OK để chữ trong ô nghiêng 45 độ.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 60–66
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-- reason: 'bước ''Recommended Charts'': expand on ''Recommended Charts'' failed: NoPatternInterfaceError()'
-  card:
-    id: learn_exc_cach_tao_bieu_do_tu_du_lieu_9293
-    title: Cách tạo biểu đồ từ dữ liệu
-    keywords:
-    - chèn biểu đồ
-    - insert chart
-    - tạo chart
-    - vẽ biểu đồ
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Insert
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Recommended Charts
-        control_type: Button
-        automation_id: ChartInsertGalleryNew
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Pie
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng dữ liệu A1:D21, vào tab Insert, chọn biểu đồ Pie để tạo biểu đồ hình tròn hiển thị doanh số.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 60–66
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-- reason: 'bước ''Gradient Fill'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_ap_dung_dinh_dang_co_dieu_kien_cond_9b65
-    title: Cách áp dụng định dạng có điều kiện (Conditional Formatting) trong Excel
-    keywords:
-    - conditional formatting excel
-    - làm nổi bật dữ liệu
-    - tô màu theo điều kiện
-    - tô màu ô theo giá trị
-    - định dạng dữ liệu tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Bars
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Gradient Fill
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn cột Doanh số, vào tab Home, chọn Conditional Formatting > Data Bars > Gradient Fill để hiển thị thanh dữ liệu trực quan ngay
-      trong ô.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 154–158
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''Hide Columns'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_an_cac_cot_trong_bang_e407
-    title: Cách ẩn các cột trong bảng
-    keywords:
-    - giấu cột
-    - hide columns
-    - ẩn cột
-    - ẩn trường dữ liệu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Format
-        control_type: MenuItem
-        automation_id: FormatCellsMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Hide & Unhide
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Hide Columns
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn cột 'Sản phẩm', vào thẻ Home, chọn Format > Hide & Unhide > Hide Columns để ẩn cột đó đi.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 189–193
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''Date'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_thay_doi_kieu_du_lieu_cua_cot_trong_30ba
-    title: Cách thay đổi kiểu dữ liệu của cột trong Excel
-    keywords:
-    - chuyển kiểu dữ liệu
-    - định dạng ngày tháng
-    - định dạng số
-    - đổi định dạng cột
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Number Format
-        control_type: ComboBox
-        automation_id: NumberFormatGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Date
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn cột Doanh số, vào tab Home, mở menu Number Format và chọn Date để chuyển định dạng từ số sang ngày tháng.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 194–197
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''less than'': Guider không tìm thấy nút này trên Excel của bạn'
-  card:
-    id: learn_exc_cach_thiet_lap_dinh_dang_co_dieu_kien_co_3ee7
-    title: Cách thiết lập định dạng có điều kiện (Conditional Formatting)
-    keywords:
-    - conditional formatting excel
-    - quy tắc định dạng ô
-    - tô màu giá trị nhỏ hơn
-    - tô màu ô theo điều kiện
-    - định dạng ô tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - New Rule
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Format only cells that contain
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 5
-      intent: select_item
-      target:
-        names:
-        - less than
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 6
-      intent: set_value
-      target:
-        names:
-        - '1'
-        control_type: Edit
-      expected:
-        type: none
-    - id: 7
-      intent: invoke
-      target:
-        names:
-        - Format
-        control_type: MenuItem
-        automation_id: FormatCellsMenu
-      expected:
-        type: none
-    - id: 8
-      intent: invoke
-      target:
-        names:
-        - Bold
-        control_type: Button
-        automation_id: Bold
-      expected:
-        type: dialog_opened
-    - id: 9
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_opened
-    - id: 10
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn cột Doanh số, thiết lập quy tắc định dạng cho các ô có giá trị nhỏ hơn 1 thành chữ in đậm màu đỏ, kết quả là các ô doanh số
-      bằng 0 sẽ tự động đổi màu.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 221–225
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-- reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
-  card:
-    id: learn_exc_cach_tao_nhom_du_lieu_tu_dong_trong_exce_a777
-    title: Cách tạo nhóm dữ liệu tự động trong Excel
-    keywords:
-    - Auto Outline trong Excel
-    - group dữ liệu tự động
-    - tạo outline tự động
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Group...
-        - Nhóm
-        control_type: SplitButton|MenuItem
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Auto Outline
-        - Tự động tạo dàn ý
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Trên bảng dữ liệu 20 dòng, chọn thẻ Data, bấm nút Group rồi chọn Auto Outline để Excel tự động phân cấp và gom nhóm dữ liệu.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 30–33
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 1
-- reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
-  card:
-    id: learn_exc_cach_nhom_du_lieu_thu_cong_trong_excel_7d9d
-    title: Cách nhóm dữ liệu thủ công trong Excel
-    keywords:
-    - group dòng cột
-    - nhóm thủ công excel
-    - tạo outline thủ công
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Group...
-        - Nhóm
-        control_type: SplitButton|MenuItem
-      expected:
-        type: expanded
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - Group
-        - Nhóm
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn các dòng dữ liệu cần gom nhóm, vào thẻ Data, bấm Group và chọn tiếp Group để tạo nhóm cho các dòng đã chọn.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 30–33
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'bước ''Ungroup...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Ungroup...'''
-  card:
-    id: learn_exc_cach_huy_nhom_du_lieu_trong_excel_406b
-    title: Cách hủy nhóm dữ liệu trong Excel
-    keywords:
-    - bỏ nhóm excel
-    - ungroup dữ liệu
-    - xóa outline
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Ungroup...
-        - Hủy nhóm
-        control_type: SplitButton|MenuItem
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Ungroup
-        - Hủy nhóm
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn các dòng đã được gom nhóm trước đó, vào thẻ Data, bấm Ungroup và chọn Ungroup để giải thể nhóm.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 30–33
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'bước ''More Rules...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''More Rules...'''
-  card:
-    id: learn_exc_cach_tao_dinh_dang_co_dieu_kien_voi_icon_c803
-    title: Cách tạo định dạng có điều kiện với Icon Sets trong Excel
-    keywords:
-    - conditional formatting icon sets
-    - thanh biểu tượng conditional formatting
-    - tạo icon set trong excel
-    - định dạng có điều kiện icon
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Conditional Formatting
-        - Định dạng có điều kiện
-        control_type: MenuItem
-        automation_id: ConditionalFormattingMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Icon Sets
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - More Rules...
-        - Quy tắc khác...
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn cột Điểm số, vào Home > Conditional Formatting > Icon Sets > More Rules để thiết lập quy tắc hiển thị 4 icon đèn giao thông
-      theo giá trị ô.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 47–50
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
-  card:
-    id: learn_exc_cach_chen_ham_vao_cong_thuc_trong_excel_da98
-    title: Cách chèn hàm vào công thức trong Excel
-    keywords:
-    - chèn hàm
-    - dùng hàm excel
-    - insert function
-    - thêm hàm vào công thức
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Logical
-        - Logic
-        control_type: MenuItem
-        automation_id: FunctionsLogicalInsertGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - IF
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Logical_test
-        - Biểu thức logic
-        control_type: Edit
-      value: A1>10
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô cần tính trên bảng 4 cột, vào thẻ Formulas, chọn nhóm hàm Logic và chọn IF, sau đó điền điều kiện vào hộp thoại và bấm OK.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 47–50
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 1
-- reason: 'bước ''AVERAGEIF'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''AVERAGEIF'''
-  card:
-    id: learn_exc_cach_chen_ham_averageif_hoac_countif_tro_9656
-    title: Cách chèn hàm AVERAGEIF hoặc COUNTIF trong Excel
-    keywords:
-    - chèn hàm AVERAGEIF
-    - chèn hàm COUNTIF
-    - insert AVERAGEIF function
-    - tính trung bình theo điều kiện
-    - đếm theo điều kiện
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - More Functions
-        control_type: MenuItem
-        automation_id: FormulaMoreFunctionsMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Statistical
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - AVERAGEIF
-        - COUNTIF
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn ô kết quả, vào thẻ Formulas, mở More Functions, trỏ vào Statistical và chọn AVERAGEIF để tính trung bình doanh số thỏa điều
-      kiện.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 59–63
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 1
 - reason: 'bước ''E2'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: E2=#N/A'
   card:
     id: learn_exc_cach_dung_ky_tu_dai_dien_wildcards_trong_eb40
@@ -2864,692 +641,6 @@ cards:
     - type: select_range
       ref: D2
     refit_tries: 2
-- reason: 'bước ''MAXIFS'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''MAXIFS'''
-  card:
-    id: learn_exc_cach_chen_ham_maxifs_hoac_minifs_trong_e_7e5a
-    title: Cách chèn hàm MAXIFS hoặc MINIFS trong Excel
-    keywords:
-    - chèn MAXIFS
-    - chèn MINIFS
-    - tìm giá trị lớn nhất nhỏ nhất có điều kiện
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - More Functions
-        control_type: MenuItem
-        automation_id: FormulaMoreFunctionsMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: expand
-      target:
-        names:
-        - Statistical
-        control_type: MenuItem
-      expected:
-        type: expanded
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - MAXIFS
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn ô cần đặt công thức, vào tab Formulas, mở More Functions, chọn Statistical và chọn MAXIFS.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 64–67
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 1
-- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
-  card:
-    id: learn_exc_cach_chen_ham_index_va_match_trong_excel_daa4
-    title: Cách chèn hàm INDEX và MATCH trong Excel
-    keywords:
-    - chèn hàm index
-    - chèn lookup reference
-    - dùng hàm match
-    - tìm kiếm với index match
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Lookup & Reference
-        control_type: MenuItem
-        automation_id: FunctionsLookupReferenceInsertGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - COLUMN
-        - reference,row_num,column_num,area_num
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Function Arguments
-        control_type: Edit
-      value: MATCH
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô B3 trong bảng, bấm thẻ Formulas, chọn Lookup & Reference rồi chọn INDEX để mở hộp thoại điền công thức kết hợp MATCH.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 72–76
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 1
-- reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
-  card:
-    id: learn_exc_cach_dinh_nghia_ten_vung_moi_trong_excel_2739
-    title: Cách định nghĩa tên vùng mới trong Excel
-    keywords:
-    - define name
-    - new name
-    - tạo tên mới
-    - đặt tên ô
-    - định nghĩa tên vùng
-    - dynamic range
-    - hàm offset cho biểu đồ
-    - tạo vùng dữ liệu động
-    - đặt tên vùng
-    - Cách tạo dynamic range trong Excel
-    - define name excel
-    - tạo range name mới
-    - đặt tên cho ô excel
-    - đặt tên vùng tham chiếu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Define Name
-        control_type: SplitButton
-      expected:
-        type: none
-    - id: 3
-      intent: set_value
-      target:
-        names:
-        - Name
-        control_type: Edit
-      value: range1
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Refers To
-        control_type: Edit
-      value: =A2:B7
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Trên thẻ Formulas, bấm Define Name, gõ range1 vào hộp Name và điền vùng tham chiếu vào Refers To rồi bấm OK.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 40–45
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'bước ''Apply Names...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Apply Names...'''
-  card:
-    id: learn_exc_cach_ap_dung_ten_vung_vao_cong_thuc_tron_cb6c
-    title: Cách áp dụng tên vùng vào công thức trong Excel
-    keywords:
-    - apply range names
-    - dùng tên trong công thức
-    - áp dụng tên vùng vào công thức
-    - đổi tham chiếu thành tên vùng
-    - apply names
-    - cập nhật công thức với tên vùng
-    - thay thế địa chỉ bằng tên
-    - áp dụng tên vùng
-    - Cách áp dụng tên vùng vào công thức có sẵn
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Define Name
-        - Định nghĩa Tên
-        control_type: SplitButton|MenuItem
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Apply Names...
-        - Apply Names
-        - Áp dụng Tên
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng F4:F7 chứa công thức, vào tab Formulas và bấm Apply Names để đổi các tham chiếu ô thành tên vùng tương ứng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 46–50
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'bước ''General'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''General'''
-  card:
-    id: learn_exc_cach_chuyen_dinh_dang_ngay_thang_thanh_s_54d5
-    title: Cách chuyển định dạng ngày tháng thành số serial trong Excel
-    keywords:
-    - bỏ định dạng ngày trong excel
-    - chuyển ngày thành số serial
-    - format cells date to general
-    - đổi format date sang general
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: select_item
-      target:
-        names:
-        - General
-        - General
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn vùng E5:E14, mở hộp thoại định dạng số và chọn General để chuyển ngày thành dạng số serial.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 98–102
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2:D21
-    refit_tries: 1
-- reason: 'bước ''Time'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Time'''
-  card:
-    id: learn_exc_cach_dinh_dang_hien_thi_giay_trong_excel_3045
-    title: Cách định dạng hiển thị giây trong Excel
-    keywords:
-    - format cells time
-    - hiển thị giây
-    - định dạng thời gian
-    - đổi định dạng giờ phút giây
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: select_item
-      target:
-        names:
-        - Time
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô chứa thời gian, nhấn Ctrl+1 hoặc mở Format Cells, chọn mục Time và chọn kiểu hiển thị giây để xem kết quả.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 171–174
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 1
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_bang_du_lieu_mot_chieu_trong_ex_bd9a
-    title: Cách tạo bảng dữ liệu một chiều trong Excel
-    keywords:
-    - data table một chiều
-    - phân tích dữ liệu một chiều
-    - tạo bảng dữ liệu một chiều
-    - tạo bảng giả định excel
-    - what-if analysis excel
-    - bảng dữ liệu một chiều
-    - data table excel
-    - dự báo dữ liệu
-    - phân tích what-if
-    - tạo bảng dữ liệu
-    - Cách tạo bảng dữ liệu một chiều (One-way Data Table)
-    - bảng dữ liệu
-    - data table
-    - phân tích độ nhạy
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - What-If Analysis
-        control_type: MenuItem
-        automation_id: WhatIfAnalysisMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Table
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Column input cell
-        control_type: Edit
-      value: D1
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng bảng C10:F23, vào Data chọn What-If Analysis rồi Data Table, nhập ô D1 vào mục Column input cell và bấm OK để tạo bảng
-      dữ liệu một chiều.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 207–210
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 1
-- reason: 'bước ''Column input cell'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Column
-    input cell'''
-  card:
-    id: learn_exc_cach_tao_bang_du_lieu_hai_chieu_trong_ex_b613
-    title: Cách tạo bảng dữ liệu hai chiều trong Excel
-    keywords:
-    - data table hai chiều
-    - phân tích dữ liệu hai chiều excel
-    - tạo bảng dữ liệu hai chiều
-    - what-if analysis hai biến
-    - data table excel
-    - lập bảng dữ liệu what-if analysis
-    - phân tích độ nhạy excel
-    - tạo data table
-    - Cách tạo Data Table trong Excel
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - What-If Analysis
-        control_type: MenuItem
-        automation_id: WhatIfAnalysisMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Table
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Column input cell
-        control_type: Edit
-      value: D1
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Row input cell
-        control_type: Edit
-      value: D3
-      expected:
-        type: none
-    - id: 6
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng bảng H10:O25, vào Data chọn What-If Analysis rồi Data Table, thiết lập ô D1 cho cột và ô D3 cho hàng rồi bấm OK để tạo
-      bảng hai chiều.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 207–210
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 1
-- reason: 'bước ''Data'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Data'''
-  card:
-    id: learn_exc_cach_dat_che_do_tinh_toan_automatic_exce_8cb3
-    title: Cách đặt chế độ tính toán Automatic Except for Data Tables trong Excel
-    keywords:
-    - automatic except for data tables
-    - chế độ tính data table
-    - tăng tốc độ tính toán excel
-    - tối ưu bảng dữ liệu lớn
-    - calculation options
-    - tính toán bảng dữ liệu
-    - tăng tốc excel
-    - tối ưu excel
-    - Cách thay đổi chế độ tính toán Data Table
-    - cài đặt excel
-    - tính toán tự động
-    - tùy chọn tính toán
-    - Cách thiết lập chế độ tính toán tự động trừ bảng dữ liệu
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Calculation Options
-        control_type: MenuItem
-        automation_id: CalculationOptionsMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data
-        - Automatic Except for Data Tables
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Trên file Excel, vào tab Formulas, bấm nút Calculation Options rồi chọn Automatic Except for Data Tables để ngăn bảng dữ liệu lớn
-      tự động tính lại liên tục.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 207–210
-      names_checked: false
-    refit_tries: 1
-- reason: 'bước ''Medium'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Medium'''
-  card:
-    id: learn_exc_cach_dinh_dang_bang_du_lieu_format_as_ta_6c55
-    title: Cách định dạng bảng dữ liệu (Format as Table)
-    keywords:
-    - chuyển thành bảng
-    - format as table
-    - làm đẹp bảng
-    - định dạng bảng
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Format as Table
-        control_type: MenuItem
-        automation_id: FormatAsTableGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Medium
-        - Table Style Medium 2
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn vùng dữ liệu bảng tính, vào Home, chọn Format as Table và chọn một kiểu mẫu để bảng tự động định dạng màu sắc và thêm bộ lọc.
-    learned:
-      source: Bai tap Tin hoc FTU2.pdf
-      where: trang 65–69
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 1
-- reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Subtotal'''
-  card:
-    id: learn_exc_cach_dung_subtotal_trong_excel_d0fa
-    title: Cách dùng Subtotal trong Excel
-    keywords:
-    - phân nhóm dữ liệu
-    - subtotal
-    - tính tổng phụ
-    - tổng hợp dữ liệu
-    - Cách sử dụng công cụ Subtotals
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Subtotal
-        control_type: Button
-        automation_id: OutlineSubtotals
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn bảng dữ liệu, vào tab Data và chọn Subtotal để tự động tính tổng doanh số theo từng nhóm sản phẩm.
-    learned:
-      source: Bai tap Tin hoc FTU2.pdf
-      where: trang 73–79
-      names_checked: true
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 1
-- reason: 'bước ''Hide Sheet'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Hide Sheet'''
-  card:
-    id: learn_exc_cach_an_mot_sheet_trong_excel_c276
-    title: Cách ẩn một Sheet trong Excel
-    keywords:
-    - giấu sheet
-    - hide sheet
-    - ẩn sheet
-    - ẩn trang tính
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Format
-        control_type: MenuItem
-        automation_id: FormatCellsMenu
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Hide & Unhide
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: select_item
-      target:
-        names:
-        - Hide Sheet
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chuột phải vào tên sheet cần ẩn ở thanh tab phía dưới, chọn Hide để ẩn sheet đó khỏi giao diện.
-    learned:
-      source: Bai tap Tin hoc FTU2.pdf
-      where: trang 91–96
-      names_checked: false
-    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_dat_ten_cho_vung_du_lieu_bang_defin_88d8
@@ -5040,3 +2131,2764 @@ cards:
     - type: select_range
       ref: D2:D21
     refit_tries: 1
+- reason: 'bước ''List'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''List'''
+  card:
+    id: learn_exc_cach_tao_danh_sach_chon_drop_down_list_b_0d61
+    title: Cách tạo danh sách chọn (Drop-down list) bằng Data Validation
+    keywords:
+    - data validation list
+    - giới hạn nhập liệu từ danh sách
+    - tạo danh sách chọn
+    - tạo menu thả xuống
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Data Validation...
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - List
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Source
+        control_type: Edit
+      value: Jen, Greg, Vivian, Jon, John
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng A1:A10, mở Data Validation, chọn List và nhập danh sách tên nhân viên vào ô Source để người dùng chỉ được chọn từ danh
+      sách đó.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 507–509
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Text length'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Text length'''
+  card:
+    id: learn_exc_cach_gioi_han_do_dai_ky_tu_trong_o_9e12
+    title: Cách giới hạn độ dài ký tự trong ô
+    keywords:
+    - data validation text length
+    - giới hạn số ký tự
+    - độ dài văn bản
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Data Validation...
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Text length
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - less than or equal to
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Maximum
+        control_type: Edit
+      value: '5'
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng C1:C10, mở Data Validation, chọn Text length và đặt Maximum là 5 để ngăn người dùng nhập quá 5 ký tự vào ô.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 507–509
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Month'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Month'''
+  card:
+    id: learn_exc_cach_tao_slicer_trong_pivottable_ea78
+    title: Cách tạo Slicer trong PivotTable
+    keywords:
+    - lọc dữ liệu pivot
+    - slicer excel
+    - thêm slicer
+    - tạo bộ lọc slicer
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Slicer...
+        control_type: Button
+        automation_id: SlicerCreate
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Month
+        - Product
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn bảng PivotTable, vào tab Insert chọn Slicer, tích chọn Month và Product rồi nhấn OK để tạo các cửa sổ lọc nhanh.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 528–534
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
+  card:
+    id: learn_exc_cach_tao_pivottable_trong_excel_f653
+    title: Cách tạo PivotTable trong Excel
+    keywords:
+    - cách dùng PivotTable
+    - phân tích dữ liệu bằng PivotTable
+    - tạo bảng tổng hợp
+    - tổng hợp dữ liệu nhanh
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - PivotTable
+        control_type: SplitButton
+        automation_id: InsertPivotTableDropdown
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Table/Range
+        control_type: Edit
+      value: A1:D21
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn toàn bộ bảng dữ liệu từ A1 đến D21, sau đó vào tab Insert và chọn PivotTable để bắt đầu tạo bảng tổng hợp.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 535–540
+      names_checked: false
+    refit_tries: 1
+- reason: 'bước ''Product'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Product'''
+  card:
+    id: learn_exc_cach_su_dung_slicer_de_loc_du_lieu_pivot_8c9e
+    title: Cách sử dụng Slicer để lọc dữ liệu PivotTable
+    keywords:
+    - cách lọc dữ liệu pivot table
+    - dùng slicer
+    - lọc pivot table bằng slicer
+    - tạo bộ lọc slicer
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Slicer...
+        control_type: Button
+        automation_id: SlicerCreate
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Product
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Country
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Đặt con trỏ trong PivotTable, chọn Slicer từ tab Insert, tích chọn Product và Country để hiển thị các nút lọc nhanh trên màn hình.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 547–553
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 1
+- reason: 'bước ''Date'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Date'''
+  card:
+    id: learn_exc_cach_them_timeline_vao_pivottable_b1be
+    title: Cách thêm Timeline vào PivotTable
+    keywords:
+    - lọc dữ liệu pivot
+    - lọc theo thời gian
+    - thêm timeline
+    - timeline pivot table
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Timeline
+        control_type: Button
+        automation_id: InsertTimeline
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Date
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Khi chọn PivotTable và thêm Timeline, bạn có thể kéo chọn trên thanh thời gian để lọc dữ liệu hiển thị theo năm, quý hoặc tháng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 554–558
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
+  card:
+    id: learn_exc_cach_tao_pivotchart_tu_du_lieu_fa4a
+    title: Cách tạo PivotChart từ dữ liệu
+    keywords:
+    - biểu đồ tổng hợp
+    - tạo PivotChart
+    - vẽ biểu đồ Pivot
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - PivotChart
+        control_type: SplitButton
+      expected:
+        type: dialog_opened
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn bảng dữ liệu, vào Insert > PivotChart > OK để tạo biểu đồ liên kết với dữ liệu bảng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 570–572
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Charts'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Charts'''
+  card:
+    id: learn_exc_cach_tao_bieu_do_tu_mau_template_76e4
+    title: Cách tạo biểu đồ từ mẫu (Template)
+    keywords:
+    - dùng template biểu đồ
+    - insert chart template
+    - áp dụng mẫu biểu đồ
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Charts
+        - All Charts
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Templates
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng dữ liệu A4:D7, mở hộp thoại 'Insert Chart', chọn tab 'All Charts', vào mục 'Templates' và chọn mẫu 'Band' đã lưu trước
+      đó.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 656–658
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
+  card:
+    id: learn_exc_cach_chen_pivottable_c26b
+    title: Cách chèn PivotTable
+    keywords:
+    - chèn PivotTable
+    - phân tích dữ liệu
+    - tạo báo cáo PivotTable
+    - báo cáo nhanh
+    - phân tích bảng
+    - tạo pivottable
+    - tổng hợp dữ liệu
+    - Cách tạo bảng tổng hợp PivotTable trong Excel
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - PivotTable
+        control_type: SplitButton
+        automation_id: InsertPivotTableDropdown
+      expected:
+        type: none
+      capture_result: true
+    example: Sau khi chọn bảng dữ liệu, vào tab Insert và chọn PivotTable để bắt đầu tạo báo cáo tóm tắt dữ liệu.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 664–668
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Stock'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Stock'''
+  card:
+    id: learn_exc_cach_tao_bieu_do_chung_khoan_trong_excel_6744
+    title: Cách tạo biểu đồ chứng khoán trong Excel
+    keywords:
+    - biểu đồ giá cổ phiếu
+    - biểu đồ khối lượng
+    - chèn biểu đồ chứng khoán
+    - tạo stock chart
+    - vẽ biểu đồ chứng khoán
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Insert Waterfall, Funnel, Stock, Surface, or Radar Chart
+        control_type: MenuItem
+        automation_id: ChartTypeWaterfallInsertChartGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Stock
+        - Stock Chart
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn vùng dữ liệu bảng doanh số, vào thẻ Insert, chọn biểu đồ Stock để hiển thị xu hướng biến động giá trị theo thời gian.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 669–675
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_sparkline_dang_duong_trong_exce_1d3a
+    title: Cách tạo Sparkline dạng đường trong Excel
+    keywords:
+    - biểu đồ trong ô
+    - sparkline line
+    - tạo sparkline
+    - vẽ biểu đồ nhỏ
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Line
+        control_type: Button
+        automation_id: SparklineLineInsert
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Data Range
+        control_type: Edit
+      value: A2:D21
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô E2, vào tab Insert chọn Line, nhập vùng dữ liệu A2:D21 và nhấn OK để hiển thị xu hướng doanh số của tháng đó.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 696–700
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 1
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_sparkline_dang_thang_thua_win_l_6625
+    title: Cách tạo Sparkline dạng Thắng/Thua (Win/Loss)
+    keywords:
+    - biểu đồ thắng thua
+    - sparkline win loss
+    - tạo win loss sparkline
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Win/Loss
+        control_type: Button
+        automation_id: SparklineWinLossInsert
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Data Range
+        control_type: Edit
+      value: A2:D21
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô E2, vào tab Insert chọn Win/Loss, nhập vùng dữ liệu A2:D21 và nhấn OK để hiển thị biểu đồ thắng/thua cho các sản phẩm.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 696–700
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 1
+- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
+    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+  card:
+    id: learn_exc_cach_su_dung_conditional_formatting_de_d_637a
+    title: Cách sử dụng Conditional Formatting để đánh dấu dòng
+    keywords:
+    - conditional formatting excel
+    - highlight row based on cell value
+    - tô màu dòng theo điều kiện
+    - đánh dấu hàng tự động
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Conditional Formatting
+        control_type: MenuItem
+        automation_id: ConditionalFormattingMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - New Rule
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Use a formula to determine which cells to format
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Format values where this formula is true
+        control_type: Edit
+      value: =$D2=1
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - Format
+        control_type: MenuItem
+        automation_id: FormatCellsMenu
+      expected:
+        type: none
+    - id: 7
+      intent: select_item
+      target:
+        names:
+        - Fill
+        control_type: MenuItem
+        automation_id: FillMenu
+      expected:
+        type: none
+    - id: 8
+      intent: select_item
+      target:
+        names:
+        - Yellow
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 9
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_opened
+    - id: 10
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn bảng dữ liệu, thiết lập quy tắc định dạng với công thức =$D2=1 và chọn màu vàng, các dòng có giá trị 1 ở cột D sẽ tự động được
+      tô màu vàng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 876–879
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Columns'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Columns'''
+  card:
+    id: learn_exc_cach_tao_chuoi_so_tu_dong_trong_excel_7036
+    title: Cách tạo chuỗi số tự động trong Excel
+    keywords:
+    - fill series
+    - tạo danh sách số
+    - tạo dãy số
+    - tạo series
+    - điền số tự động
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Fill
+        control_type: MenuItem
+        automation_id: FillMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Series
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Columns
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Step value
+        control_type: Edit
+      value: '1'
+      expected:
+        type: none
+    - id: 6
+      intent: set_value
+      target:
+        names:
+        - Stop value
+        control_type: Edit
+      value: '1000'
+      expected:
+        type: none
+    - id: 7
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô A16, thực hiện các bước trên để điền tự động các số từ 1 đến 1000 vào cột A bắt đầu từ ô A16.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 944–947
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 1
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_bang_du_lieu_data_table_de_phan_3c80
+    title: Cách tạo bảng dữ liệu (Data Table) để phân tích kịch bản
+    keywords:
+    - data table excel
+    - mô phỏng kịch bản
+    - phân tích what-if
+    - sensitivity analysis
+    - tạo bảng dữ liệu
+    - data table
+    - dự báo
+    - mô phỏng
+    - phân tích dữ liệu
+    - what-if analysis
+    - Cách sử dụng Data Table để phân tích mô phỏng
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - What-If Analysis
+        control_type: MenuItem
+        automation_id: WhatIfAnalysisMenu
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Data Table...
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Row Input Cell
+        control_type: Edit
+      value: C1
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Column Input Cell
+        control_type: Edit
+      value: I14
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng bảng A1:D21, mở Data Table, nhập ô tham chiếu vào Row/Column Input Cell để Excel tự động điền kết quả mô phỏng vào bảng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 944–947
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_bang_du_lieu_mo_phong_data_tabl_a374
+    title: Cách tạo bảng dữ liệu mô phỏng (Data Table) trong Excel
+    keywords:
+    - Data Table
+    - What-If Analysis
+    - mô phỏng dữ liệu
+    - phân tích kịch bản
+    - tạo bảng dữ liệu
+    - Cách tạo bảng mô phỏng dữ liệu với Data Table
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - What-If Analysis
+        control_type: MenuItem
+        automation_id: WhatIfAnalysisMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Data Table
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng bảng H16:K1015, sau đó vào Data > What-If Analysis > Data Table và nhấn OK để Excel tự động điền 1.000 kịch bản mô phỏng
+      vào bảng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 962–965
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
+  card:
+    id: learn_exc_cach_dat_ten_cho_vung_du_lieu_7b9a
+    title: Cách đặt tên cho vùng dữ liệu
+    keywords:
+    - name range
+    - quản lý tên
+    - đặt tên vùng
+    - đặt tên ô
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Define Name
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Name
+        control_type: Edit
+      value: Returns
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn vùng G4:G1003, vào tab Formulas, chọn Define Name và đặt tên là 'Returns' để dễ dàng tham chiếu trong các công thức sau này.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 962–965
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Sheet1'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Sheet1'''
+  card:
+    id: learn_exc_cach_thiet_lap_in_chu_thich_5ca4
+    title: Cách thiết lập in chú thích
+    keywords:
+    - cài đặt in ấn
+    - in comment
+    - in ghi chú
+    - print comments
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Page Layout
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Sheet1
+        - Sheet
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Vào Page Layout, mở hộp thoại Page Setup, tại tab Sheet chọn cách in chú thích (như hiển thị trên trang hoặc ở cuối trang) rồi bấm
+      OK.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 974–976
+      names_checked: false
+    refit_tries: 1
+- reason: 'bước ''Sum 2110'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Sum 2110'''
+  card:
+    id: learn_exc_cach_lam_noi_bat_gia_tri_lon_nhat_bang_c_500b
+    title: Cách làm nổi bật giá trị lớn nhất bằng Conditional Formatting
+    keywords:
+    - conditional formatting
+    - làm nổi bật giá trị
+    - top 10 items
+    - tô màu giá trị lớn nhất
+    - định dạng có điều kiện
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Conditional Formatting
+        control_type: MenuItem
+        automation_id: ConditionalFormattingMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: expand
+      target:
+        names:
+        - Top/Bottom Rules
+        control_type: MenuItem
+      expected:
+        type: expanded
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Top 10 Items
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Sum 2110
+        - '1'
+        control_type: Edit
+      value: '1'
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng L10:BE60, vào Conditional Formatting, chọn Top 10 Items và đổi số 10 thành 1 để tự động tô màu ô có lợi nhuận cao nhất.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1042–1047
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Medium'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Medium'''
+  card:
+    id: learn_exc_cach_dinh_dang_bang_du_lieu_trong_excel_eb72
+    title: Cách định dạng bảng dữ liệu trong Excel
+    keywords:
+    - bảng dữ liệu
+    - format as table
+    - tạo bảng
+    - định dạng bảng
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Format as Table
+        control_type: MenuItem
+        automation_id: FormatAsTableGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Medium
+        - Table Style Medium 2
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng dữ liệu, vào tab Home, chọn Format as Table và chọn một kiểu dáng để định dạng bảng chuyên nghiệp hơn.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1056–1059
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Unhide...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Unhide...'''
+  card:
+    id: learn_exc_cach_hien_thi_so_lam_viec_macro_ca_nhan_2e48
+    title: Cách hiển thị sổ làm việc macro cá nhân (Personal Macro Workbook)
+    keywords:
+    - chỉnh sửa macro cá nhân
+    - hiện file macro ẩn
+    - mở personal.xlsb
+    - xem macro cá nhân
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - View
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Unhide...
+        control_type: Button
+        automation_id: WindowUnhide
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - PERSONAL.XLSB
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Để chỉnh sửa các macro đã lưu trong sổ làm việc cá nhân, bạn vào tab View, chọn Unhide, sau đó chọn PERSONAL.XLSB và nhấn OK để file
+      hiển thị.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1066–1070
+      names_checked: false
+    refit_tries: 1
+- reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
+  card:
+    id: learn_exc_cach_dat_ten_cho_vung_du_lieu_define_nam_1286
+    title: Cách đặt tên cho vùng dữ liệu (Define Name)
+    keywords:
+    - quản lý tên vùng
+    - tạo named range
+    - đặt tên cho ô
+    - đặt tên dải ô
+    - đặt tên vùng
+    - name manager
+    - quản lý tên
+    - đặt tên ô
+    - Cách đặt tên cho vùng dữ liệu trong Excel
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Define Name
+        control_type: SplitButton
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn cột Doanh số (D2:D21), bấm Define Name và đặt tên là 'DoanhSo' để sử dụng tên này trong các công thức thay vì địa chỉ ô.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1117–1122
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Allow'''
+  card:
+    id: learn_exc_cach_thiet_lap_kiem_soat_du_lieu_data_va_8b1c
+    title: Cách thiết lập kiểm soát dữ liệu (Data Validation) trong Excel
+    keywords:
+    - data validation
+    - giới hạn nhập liệu
+    - kiểm soát dữ liệu
+    - tạo danh sách chọn
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Data Validation...
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: expand
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: expanded
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Allow
+        control_type: ComboBox
+      value: Whole number
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Minimum
+        control_type: Edit
+      value: '0'
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô D2, vào Data > Data Validation, chọn Allow là Whole number và Minimum là 0 để chỉ cho phép nhập số dương vào cột Doanh số.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1117–1122
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 1
+- reason: 'bước ''Minimum'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Minimum'''
+  card:
+    id: learn_exc_cach_gioi_han_du_lieu_nhap_vao_bang_data_eb48
+    title: Cách giới hạn dữ liệu nhập vào bằng Data Validation trong Excel
+    keywords:
+    - Data Validation
+    - chặn nhập sai
+    - giới hạn nhập liệu
+    - kiểm soát dữ liệu
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Data Validation...
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Minimum
+        control_type: Edit
+      value: '0'
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Maximum
+        control_type: Edit
+      value: '1000000'
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn cột 'Doanh số', vào tab Data, chọn Data Validation, thiết lập Allow là Decimal và đặt giới hạn từ 0 đến 1.000.000 để tránh nhập
+      sai số liệu.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1128–1133
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Subtotal'''
+  card:
+    id: learn_exc_cach_tinh_tong_phu_subtotal_trong_excel_2873
+    title: Cách tính tổng phụ (Subtotal) trong Excel
+    keywords:
+    - nhóm dữ liệu
+    - subtotal
+    - tính tổng phụ
+    - tổng hợp dữ liệu
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Subtotal
+        control_type: Button
+        automation_id: OutlineSubtotals
+      expected:
+        type: dialog_opened
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn bảng dữ liệu, vào Data > Subtotal > OK để Excel tự động chèn các dòng tổng phụ cho từng nhóm dữ liệu.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1189–1193
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Top 10 Items...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Top 10
+    Items...'''
+  card:
+    id: learn_exc_cach_dinh_dang_co_dieu_kien_top_bottom_t_ab3f
+    title: Cách định dạng có điều kiện Top/Bottom trong Excel
+    keywords:
+    - conditional formatting
+    - top bottom rules
+    - tô màu giá trị cao nhất
+    - định dạng top 10
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Conditional Formatting
+        control_type: MenuItem
+        automation_id: ConditionalFormattingMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Top/Bottom Rules
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Top 10 Items...
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - '10'
+        control_type: Edit
+      value: '10'
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn cột Doanh số, vào Home > Conditional Formatting > Top/Bottom Rules > Top 10 Items, nhập 10 và nhấn OK để tự động tô màu 10 giá
+      trị doanh số cao nhất.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 1224–1229
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Recommended Charts'': expand on ''Recommended Charts'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn
+    hình giống ''Pie'''
+  card:
+    id: learn_exc_cach_tao_bieu_do_tu_du_lieu_9293
+    title: Cách tạo biểu đồ từ dữ liệu
+    keywords:
+    - chèn biểu đồ
+    - insert chart
+    - tạo chart
+    - vẽ biểu đồ
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Insert
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Recommended Charts
+        control_type: Button
+        automation_id: ChartInsertGalleryNew
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Pie
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng dữ liệu A1:D21, vào tab Insert, chọn biểu đồ Pie để tạo biểu đồ hình tròn hiển thị doanh số.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 60–66
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 1
+- reason: 'bước ''Hide Columns'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Hide Columns'''
+  card:
+    id: learn_exc_cach_an_cac_cot_trong_bang_e407
+    title: Cách ẩn các cột trong bảng
+    keywords:
+    - giấu cột
+    - hide columns
+    - ẩn cột
+    - ẩn trường dữ liệu
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Format
+        control_type: MenuItem
+        automation_id: FormatCellsMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Hide & Unhide
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Hide Columns
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn cột 'Sản phẩm', vào thẻ Home, chọn Format > Hide & Unhide > Hide Columns để ẩn cột đó đi.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 189–193
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Format only cells that contain'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình
+    giống ''Format only cells that contain'''
+  card:
+    id: learn_exc_cach_thiet_lap_dinh_dang_co_dieu_kien_co_3ee7
+    title: Cách thiết lập định dạng có điều kiện (Conditional Formatting)
+    keywords:
+    - conditional formatting excel
+    - quy tắc định dạng ô
+    - tô màu giá trị nhỏ hơn
+    - tô màu ô theo điều kiện
+    - định dạng ô tự động
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Conditional Formatting
+        control_type: MenuItem
+        automation_id: ConditionalFormattingMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - New Rule
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Format only cells that contain
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 5
+      intent: select_item
+      target:
+        names:
+        - less than
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 6
+      intent: set_value
+      target:
+        names:
+        - '1'
+        control_type: Edit
+      expected:
+        type: none
+    - id: 7
+      intent: invoke
+      target:
+        names:
+        - Format
+        control_type: MenuItem
+        automation_id: FormatCellsMenu
+      expected:
+        type: none
+    - id: 8
+      intent: invoke
+      target:
+        names:
+        - Bold
+        control_type: Button
+        automation_id: Bold
+      expected:
+        type: dialog_opened
+    - id: 9
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_opened
+    - id: 10
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn cột Doanh số, thiết lập quy tắc định dạng cho các ô có giá trị nhỏ hơn 1 thành chữ in đậm màu đỏ, kết quả là các ô doanh số
+      bằng 0 sẽ tự động đổi màu.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 221–225
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 1
+- reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
+  card:
+    id: learn_exc_cach_tao_nhom_du_lieu_tu_dong_trong_exce_a777
+    title: Cách tạo nhóm dữ liệu tự động trong Excel
+    keywords:
+    - Auto Outline trong Excel
+    - group dữ liệu tự động
+    - tạo outline tự động
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Group...
+        - Nhóm
+        control_type: SplitButton|MenuItem
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Auto Outline
+        - Tự động tạo dàn ý
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Trên bảng dữ liệu 20 dòng, chọn thẻ Data, bấm nút Group rồi chọn Auto Outline để Excel tự động phân cấp và gom nhóm dữ liệu.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 30–33
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 2
+- reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
+  card:
+    id: learn_exc_cach_nhom_du_lieu_thu_cong_trong_excel_7d9d
+    title: Cách nhóm dữ liệu thủ công trong Excel
+    keywords:
+    - group dòng cột
+    - nhóm thủ công excel
+    - tạo outline thủ công
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Group...
+        - Nhóm
+        control_type: SplitButton|MenuItem
+      expected:
+        type: expanded
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - Group
+        - Nhóm
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn các dòng dữ liệu cần gom nhóm, vào thẻ Data, bấm Group và chọn tiếp Group để tạo nhóm cho các dòng đã chọn.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 30–33
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'bước ''Ungroup...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Ungroup...'''
+  card:
+    id: learn_exc_cach_huy_nhom_du_lieu_trong_excel_406b
+    title: Cách hủy nhóm dữ liệu trong Excel
+    keywords:
+    - bỏ nhóm excel
+    - ungroup dữ liệu
+    - xóa outline
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Ungroup...
+        - Hủy nhóm
+        control_type: SplitButton|MenuItem
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Ungroup
+        - Hủy nhóm
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn các dòng đã được gom nhóm trước đó, vào thẻ Data, bấm Ungroup và chọn Ungroup để giải thể nhóm.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 30–33
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'bước ''More Rules...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''More Rules...'''
+  card:
+    id: learn_exc_cach_tao_dinh_dang_co_dieu_kien_voi_icon_c803
+    title: Cách tạo định dạng có điều kiện với Icon Sets trong Excel
+    keywords:
+    - conditional formatting icon sets
+    - thanh biểu tượng conditional formatting
+    - tạo icon set trong excel
+    - định dạng có điều kiện icon
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Conditional Formatting
+        - Định dạng có điều kiện
+        control_type: MenuItem
+        automation_id: ConditionalFormattingMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Icon Sets
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - More Rules...
+        - Quy tắc khác...
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn cột Điểm số, vào Home > Conditional Formatting > Icon Sets > More Rules để thiết lập quy tắc hiển thị 4 icon đèn giao thông
+      theo giá trị ô.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 47–50
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
+  card:
+    id: learn_exc_cach_chen_ham_vao_cong_thuc_trong_excel_da98
+    title: Cách chèn hàm vào công thức trong Excel
+    keywords:
+    - chèn hàm
+    - dùng hàm excel
+    - insert function
+    - thêm hàm vào công thức
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Logical
+        - Logic
+        control_type: MenuItem
+        automation_id: FunctionsLogicalInsertGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - IF
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Formula Bar
+        - Logical_test
+        - Biểu thức logic
+        control_type: Edit
+      value: A1>10
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô cần tính trên bảng 4 cột, vào thẻ Formulas, chọn nhóm hàm Logic và chọn IF, sau đó điền điều kiện vào hộp thoại và bấm OK.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 47–50
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 2
+- reason: 'bước ''AVERAGEIF'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''AVERAGEIF'''
+  card:
+    id: learn_exc_cach_chen_ham_averageif_hoac_countif_tro_9656
+    title: Cách chèn hàm AVERAGEIF hoặc COUNTIF trong Excel
+    keywords:
+    - chèn hàm AVERAGEIF
+    - chèn hàm COUNTIF
+    - insert AVERAGEIF function
+    - tính trung bình theo điều kiện
+    - đếm theo điều kiện
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - More Functions
+        control_type: MenuItem
+        automation_id: FormulaMoreFunctionsMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Statistical
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - AVERAGEIF
+        - COUNTIF
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn ô kết quả, vào thẻ Formulas, mở More Functions, trỏ vào Statistical và chọn AVERAGEIF để tính trung bình doanh số thỏa điều
+      kiện.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 59–63
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 2
+- reason: 'bước ''MAXIFS'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''MAXIFS'''
+  card:
+    id: learn_exc_cach_chen_ham_maxifs_hoac_minifs_trong_e_7e5a
+    title: Cách chèn hàm MAXIFS hoặc MINIFS trong Excel
+    keywords:
+    - chèn MAXIFS
+    - chèn MINIFS
+    - tìm giá trị lớn nhất nhỏ nhất có điều kiện
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - More Functions
+        control_type: MenuItem
+        automation_id: FormulaMoreFunctionsMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: expand
+      target:
+        names:
+        - Statistical
+        control_type: MenuItem
+      expected:
+        type: expanded
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - MAXIFS
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn ô cần đặt công thức, vào tab Formulas, mở More Functions, chọn Statistical và chọn MAXIFS.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 64–67
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 2
+- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
+  card:
+    id: learn_exc_cach_chen_ham_index_va_match_trong_excel_daa4
+    title: Cách chèn hàm INDEX và MATCH trong Excel
+    keywords:
+    - chèn hàm index
+    - chèn lookup reference
+    - dùng hàm match
+    - tìm kiếm với index match
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Lookup & Reference
+        control_type: MenuItem
+        automation_id: FunctionsLookupReferenceInsertGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - COLUMN
+        - reference,row_num,column_num,area_num
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Function Arguments
+        control_type: Edit
+      value: MATCH
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô B3 trong bảng, bấm thẻ Formulas, chọn Lookup & Reference rồi chọn INDEX để mở hộp thoại điền công thức kết hợp MATCH.
+    learned:
+      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+      where: trang 72–76
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 2
+- reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
+  card:
+    id: learn_exc_cach_dinh_nghia_ten_vung_moi_trong_excel_2739
+    title: Cách định nghĩa tên vùng mới trong Excel
+    keywords:
+    - define name
+    - new name
+    - tạo tên mới
+    - đặt tên ô
+    - định nghĩa tên vùng
+    - dynamic range
+    - hàm offset cho biểu đồ
+    - tạo vùng dữ liệu động
+    - đặt tên vùng
+    - Cách tạo dynamic range trong Excel
+    - define name excel
+    - tạo range name mới
+    - đặt tên cho ô excel
+    - đặt tên vùng tham chiếu
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Define Name
+        control_type: SplitButton
+      expected:
+        type: none
+    - id: 3
+      intent: set_value
+      target:
+        names:
+        - Name
+        control_type: Edit
+      value: range1
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Refers To
+        control_type: Edit
+      value: =A2:B7
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Trên thẻ Formulas, bấm Define Name, gõ range1 vào hộp Name và điền vùng tham chiếu vào Refers To rồi bấm OK.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 40–45
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'bước ''Apply Names...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Apply Names...'''
+  card:
+    id: learn_exc_cach_ap_dung_ten_vung_vao_cong_thuc_tron_cb6c
+    title: Cách áp dụng tên vùng vào công thức trong Excel
+    keywords:
+    - apply range names
+    - dùng tên trong công thức
+    - áp dụng tên vùng vào công thức
+    - đổi tham chiếu thành tên vùng
+    - apply names
+    - cập nhật công thức với tên vùng
+    - thay thế địa chỉ bằng tên
+    - áp dụng tên vùng
+    - Cách áp dụng tên vùng vào công thức có sẵn
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Define Name
+        - Định nghĩa Tên
+        control_type: SplitButton|MenuItem
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Apply Names...
+        - Apply Names
+        - Áp dụng Tên
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng F4:F7 chứa công thức, vào tab Formulas và bấm Apply Names để đổi các tham chiếu ô thành tên vùng tương ứng.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 46–50
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'bước ''General'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''General'''
+  card:
+    id: learn_exc_cach_chuyen_dinh_dang_ngay_thang_thanh_s_54d5
+    title: Cách chuyển định dạng ngày tháng thành số serial trong Excel
+    keywords:
+    - bỏ định dạng ngày trong excel
+    - chuyển ngày thành số serial
+    - format cells date to general
+    - đổi format date sang general
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - General
+        - General
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn vùng E5:E14, mở hộp thoại định dạng số và chọn General để chuyển ngày thành dạng số serial.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 98–102
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2:D21
+    refit_tries: 2
+- reason: 'bước ''Time'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Time'''
+  card:
+    id: learn_exc_cach_dinh_dang_hien_thi_giay_trong_excel_3045
+    title: Cách định dạng hiển thị giây trong Excel
+    keywords:
+    - format cells time
+    - hiển thị giây
+    - định dạng thời gian
+    - đổi định dạng giờ phút giây
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Time
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 3
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn ô chứa thời gian, nhấn Ctrl+1 hoặc mở Format Cells, chọn mục Time và chọn kiểu hiển thị giây để xem kết quả.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 171–174
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: D2
+    refit_tries: 2
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_bang_du_lieu_mot_chieu_trong_ex_bd9a
+    title: Cách tạo bảng dữ liệu một chiều trong Excel
+    keywords:
+    - data table một chiều
+    - phân tích dữ liệu một chiều
+    - tạo bảng dữ liệu một chiều
+    - tạo bảng giả định excel
+    - what-if analysis excel
+    - bảng dữ liệu một chiều
+    - data table excel
+    - dự báo dữ liệu
+    - phân tích what-if
+    - tạo bảng dữ liệu
+    - Cách tạo bảng dữ liệu một chiều (One-way Data Table)
+    - bảng dữ liệu
+    - data table
+    - phân tích độ nhạy
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - What-If Analysis
+        control_type: MenuItem
+        automation_id: WhatIfAnalysisMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Data Table
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Column input cell
+        control_type: Edit
+      value: D1
+      expected:
+        type: none
+    - id: 5
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng bảng C10:F23, vào Data chọn What-If Analysis rồi Data Table, nhập ô D1 vào mục Column input cell và bấm OK để tạo bảng
+      dữ liệu một chiều.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 207–210
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 2
+- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+  card:
+    id: learn_exc_cach_tao_bang_du_lieu_hai_chieu_trong_ex_b613
+    title: Cách tạo bảng dữ liệu hai chiều trong Excel
+    keywords:
+    - data table hai chiều
+    - phân tích dữ liệu hai chiều excel
+    - tạo bảng dữ liệu hai chiều
+    - what-if analysis hai biến
+    - data table excel
+    - lập bảng dữ liệu what-if analysis
+    - phân tích độ nhạy excel
+    - tạo data table
+    - Cách tạo Data Table trong Excel
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - What-If Analysis
+        control_type: MenuItem
+        automation_id: WhatIfAnalysisMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Data Table
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Column input cell
+        control_type: Edit
+      value: D1
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Row input cell
+        control_type: Edit
+      value: D3
+      expected:
+        type: none
+    - id: 6
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn vùng bảng H10:O25, vào Data chọn What-If Analysis rồi Data Table, thiết lập ô D1 cho cột và ô D3 cho hàng rồi bấm OK để tạo
+      bảng hai chiều.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 207–210
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 2
+- reason: 'bước ''Data'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Data'''
+  card:
+    id: learn_exc_cach_dat_che_do_tinh_toan_automatic_exce_8cb3
+    title: Cách đặt chế độ tính toán Automatic Except for Data Tables trong Excel
+    keywords:
+    - automatic except for data tables
+    - chế độ tính data table
+    - tăng tốc độ tính toán excel
+    - tối ưu bảng dữ liệu lớn
+    - calculation options
+    - tính toán bảng dữ liệu
+    - tăng tốc excel
+    - tối ưu excel
+    - Cách thay đổi chế độ tính toán Data Table
+    - cài đặt excel
+    - tính toán tự động
+    - tùy chọn tính toán
+    - Cách thiết lập chế độ tính toán tự động trừ bảng dữ liệu
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Formulas
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Calculation Options
+        control_type: MenuItem
+        automation_id: CalculationOptionsMenu
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Data
+        - Automatic Except for Data Tables
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Trên file Excel, vào tab Formulas, bấm nút Calculation Options rồi chọn Automatic Except for Data Tables để ngăn bảng dữ liệu lớn
+      tự động tính lại liên tục.
+    learned:
+      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+      where: trang 207–210
+      names_checked: false
+    refit_tries: 2
+- reason: 'bước ''Medium'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Medium'''
+  card:
+    id: learn_exc_cach_dinh_dang_bang_du_lieu_format_as_ta_6c55
+    title: Cách định dạng bảng dữ liệu (Format as Table)
+    keywords:
+    - chuyển thành bảng
+    - format as table
+    - làm đẹp bảng
+    - định dạng bảng
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Format as Table
+        control_type: MenuItem
+        automation_id: FormatAsTableGallery
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Medium
+        - Table Style Medium 2
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn vùng dữ liệu bảng tính, vào Home, chọn Format as Table và chọn một kiểu mẫu để bảng tự động định dạng màu sắc và thêm bộ lọc.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 65–69
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 2
+- reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Subtotal'''
+  card:
+    id: learn_exc_cach_dung_subtotal_trong_excel_d0fa
+    title: Cách dùng Subtotal trong Excel
+    keywords:
+    - phân nhóm dữ liệu
+    - subtotal
+    - tính tổng phụ
+    - tổng hợp dữ liệu
+    - Cách sử dụng công cụ Subtotals
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Data
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Subtotal
+        control_type: Button
+        automation_id: OutlineSubtotals
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn bảng dữ liệu, vào tab Data và chọn Subtotal để tự động tính tổng doanh số theo từng nhóm sản phẩm.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 73–79
+      names_checked: true
+    preconditions:
+    - type: select_range
+      ref: A1:D21
+    refit_tries: 2
+- reason: 'bước ''Hide Sheet'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Hide Sheet'''
+  card:
+    id: learn_exc_cach_an_mot_sheet_trong_excel_c276
+    title: Cách ẩn một Sheet trong Excel
+    keywords:
+    - giấu sheet
+    - hide sheet
+    - ẩn sheet
+    - ẩn trang tính
+    fixture_id: sales_table_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Format
+        control_type: MenuItem
+        automation_id: FormatCellsMenu
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Hide & Unhide
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: select_item
+      target:
+        names:
+        - Hide Sheet
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chuột phải vào tên sheet cần ẩn ở thanh tab phía dưới, chọn Hide để ẩn sheet đó khỏi giao diện.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 91–96
+      names_checked: false
+    refit_tries: 2

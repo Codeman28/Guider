@@ -12310,6 +12310,200 @@ cards:
   preconditions:
   - type: select_range
     ref: D2
+- id: learn_exc_cach_thay_doi_tuy_chon_tinh_toan_trong_e_866d
+  title: Cách thay đổi tùy chọn tính toán trong Excel
+  keywords:
+  - automatic except for tables
+  - calculation options
+  - tùy chọn tính toán
+  - tắt tính toán tự động
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Calculation Options
+      control_type: MenuItem
+      automation_id: CalculationOptionsMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Automatic
+      - Automatic Except for Tables
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn 'Automatic Except for Tables' trong tab Formulas để ngăn bảng dữ liệu lớn tự động tính toán lại mỗi khi bạn nhập liệu, giúp tăng
+    tốc độ làm việc.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 948–951
+    names_checked: true
+    relearned: đổi 'Automatic Except for Tables' → 'Automatic'
+- id: learn_exc_cach_thay_doi_huong_van_ban_trong_o_06a0
+  title: Cách thay đổi hướng văn bản trong ô
+  keywords:
+  - căn lề văn bản
+  - text alignment
+  - text orientation
+  - xoay chữ trong ô
+  - đổi hướng văn bản
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: set_value
+    target:
+      names:
+      - Orientation
+      control_type: MenuItem
+      within:
+        names:
+        - Alignment
+        control_type: Group
+      automation_id: OrientationMenu
+    value: '45'
+    expected:
+      type: none
+  - id: 3
+    intent: invoke
+    target:
+      names:
+      - ‪Book1‬  -  Excel
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Chọn ô A1 chứa tiêu đề, mở hộp thoại Alignment, nhập 45 độ vào ô Orientation và nhấn OK để chữ trong ô nghiêng 45 độ.
+  learned:
+    source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+    where: trang 60–66
+    names_checked: true
+    relearned: đổi 'OK' → '‪Book1‬  -  Excel'
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_ap_dung_dinh_dang_co_dieu_kien_cond_9b65
+  title: Cách áp dụng định dạng có điều kiện (Conditional Formatting) trong Excel
+  keywords:
+  - conditional formatting excel
+  - làm nổi bật dữ liệu
+  - tô màu theo điều kiện
+  - tô màu ô theo giá trị
+  - định dạng dữ liệu tự động
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Conditional Formatting
+      control_type: MenuItem
+      automation_id: ConditionalFormattingMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Data Bars
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: select_item
+    target:
+      names:
+      - Fill
+      - Gradient Fill
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn cột Doanh số, vào tab Home, chọn Conditional Formatting > Data Bars > Gradient Fill để hiển thị thanh dữ liệu trực quan ngay trong
+    ô.
+  learned:
+    source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+    where: trang 154–158
+    names_checked: true
+    relearned: đổi 'Gradient Fill' → 'Fill'
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_thay_doi_kieu_du_lieu_cua_cot_trong_30ba
+  title: Cách thay đổi kiểu dữ liệu của cột trong Excel
+  keywords:
+  - chuyển kiểu dữ liệu
+  - định dạng ngày tháng
+  - định dạng số
+  - đổi định dạng cột
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Number Format
+      control_type: ComboBox
+      automation_id: NumberFormatGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Short Date
+      - Date
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn cột Doanh số, vào tab Home, mở menu Number Format và chọn Date để chuyển định dạng từ số sang ngày tháng.
+  learned:
+    source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+    where: trang 194–197
+    names_checked: true
+    relearned: đổi 'Date' → 'Short Date'
+  preconditions:
+  - type: select_range
+    ref: D2:D21
 extends:
   increase_decimal:
   - Increase Decimal
