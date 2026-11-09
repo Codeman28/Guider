@@ -1,0 +1,71 @@
+{
+ "id": "card_learn_exc_cach_tinh_irr_trong_excel_f548",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính IRR trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Dòng tiền"
+ ],
+ "rows": [
+  [
+   "-100000000"
+  ],
+  [
+   "25000000"
+  ],
+  [
+   "30000000"
+  ],
+  [
+   "35000000"
+  ],
+  [
+   "40000000"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ],
+  [
+   "null"
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

@@ -1,0 +1,44 @@
+{
+ "id": "card_learn_exc_cach_tim_kiem_gia_tri_bang_ham_vlookup_722e",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tìm kiếm giá trị bằng hàm VLOOKUP (dữ liệu bịa)",
+ "columns": [
+  "MaSP",
+  "TenSP"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Ao thun"
+  ],
+  [
+   "SP02",
+   "Quan jean"
+  ],
+  [
+   "SP03",
+   "Giay the thao"
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "D1",
+   "values": [
+    [
+     "SP01",
+     "Ao thun"
+    ],
+    [
+     "SP02",
+     "Quan jean"
+    ],
+    [
+     "SP03",
+     "Giay the thao"
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "Lookup": "$D$1:$E$3"
+ }
+}

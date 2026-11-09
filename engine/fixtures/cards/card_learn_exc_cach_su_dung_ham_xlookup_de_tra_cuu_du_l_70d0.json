@@ -1,0 +1,44 @@
+{
+ "id": "card_learn_exc_cach_su_dung_ham_xlookup_de_tra_cuu_du_l_70d0",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sử dụng hàm XLOOKUP để tra cứu dữ liệu (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Tên SP",
+  "Khu vực",
+  "Doanh số"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo",
+   "Miền Bắc",
+   1500000
+  ],
+  [
+   "SP02",
+   "Đường",
+   "Miền Nam",
+   2300000
+  ],
+  [
+   "SP03",
+   "Sữa",
+   "Miền Trung",
+   3100000
+  ],
+  [
+   "SP04",
+   "Bánh",
+   "Miền Bắc",
+   1200000
+  ],
+  [
+   "SP05",
+   "Kẹo",
+   "Miền Nam",
+   900000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

@@ -1,0 +1,47 @@
+{
+ "id": "card_learn_exc_cach_tim_kiem_thong_tin_dua_tren_vi_tri_a033",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tìm kiếm thông tin dựa trên vị trí hàng (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Tên sản phẩm",
+  "Số lượng",
+  "Đơn giá"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo tám",
+   50,
+   20000
+  ],
+  [
+   "SP02",
+   "Đường kính",
+   30,
+   18000
+  ],
+  [
+   "SP03",
+   "Dầu ăn",
+   20,
+   45000
+  ],
+  [
+   "SP04",
+   "Nước mắm",
+   40,
+   35000
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "C8",
+   "values": [
+    [
+     "SP03"
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

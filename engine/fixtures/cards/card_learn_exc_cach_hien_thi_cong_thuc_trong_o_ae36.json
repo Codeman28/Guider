@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_hien_thi_cong_thuc_trong_o_ae36",
+ "description": "Bảng mẫu dựng cho thẻ: Cách hiển thị công thức trong ô (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Sản phẩm",
+  "Số lượng",
+  "Đơn giá",
+  "Thành tiền",
+  "Công thức"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo",
+   10,
+   20000,
+   "=C2*D2",
+   ""
+  ],
+  [
+   "SP02",
+   "Đường",
+   5,
+   15000,
+   "=C3*D3",
+   ""
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_tinh_mirr_trong_excel_5d69",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính MIRR trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Dòng tiền",
+  "Mô tả"
+ ],
+ "rows": [
+  [
+   -1000,
+   "Vốn đầu tư ban đầu"
+  ],
+  [
+   200,
+   "Năm 1"
+  ],
+  [
+   300,
+   "Năm 2"
+  ],
+  [
+   400,
+   "Năm 3"
+  ],
+  [
+   500,
+   "Năm 4"
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

@@ -1,0 +1,43 @@
+{
+ "id": "card_learn_exc_cach_so_khop_du_lieu_giua_hai_danh_sach_ccbe",
+ "description": "Bảng mẫu dựng cho thẻ: Cách so khớp dữ liệu giữa hai danh sách (dữ liệu bịa)",
+ "columns": [
+  "STT",
+  "Trùng khớp",
+  "Vị trí",
+  "Danh sách 1",
+  "Danh sách 2"
+ ],
+ "rows": [
+  [
+   1,
+   "Yes",
+   1,
+   "An",
+   "An"
+  ],
+  [
+   2,
+   "Yes",
+   2,
+   "Bình",
+   "Bình"
+  ],
+  [
+   3,
+   "No",
+   "#N/A",
+   "Châu",
+   "Dũng"
+  ],
+  [
+   4,
+   "Yes",
+   3,
+   "Dũng",
+   "Châu"
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

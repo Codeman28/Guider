@@ -1,0 +1,38 @@
+{
+ "id": "card_learn_exc_cach_tao_cong_thuc_3d_de_tinh_tong_tren_863d",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tạo công thức 3D để tính tổng trên nhiều trang tính (dữ liệu bịa)",
+ "columns": [
+  "Sản phẩm",
+  "Quý 1",
+  "Quý 2",
+  "Tổng cộng"
+ ],
+ "rows": [
+  [
+   "Áo sơ mi",
+   150,
+   200,
+   "=SUM(B2:C2)"
+  ],
+  [
+   "Quần tây",
+   300,
+   250,
+   "=SUM(B3:C3)"
+  ],
+  [
+   "Áo khoác",
+   100,
+   150,
+   "=SUM(B4:C4)"
+  ],
+  [
+   "Tổng",
+   "=SUM(B2:B4)",
+   "=SUM(C2:C4)",
+   "=SUM(D2:D4)"
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

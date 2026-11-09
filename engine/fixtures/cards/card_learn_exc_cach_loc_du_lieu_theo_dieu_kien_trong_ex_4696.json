@@ -1,0 +1,44 @@
+{
+ "id": "card_learn_exc_cach_loc_du_lieu_theo_dieu_kien_trong_ex_4696",
+ "description": "Bảng mẫu dựng cho thẻ: Cách lọc dữ liệu theo điều kiện trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã hàng",
+  "Khu vực",
+  "Sản phẩm",
+  "Doanh thu"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Miền Bắc",
+   "Laptop",
+   15000000
+  ],
+  [
+   "SP02",
+   "Miền Nam",
+   "Mouse",
+   500000
+  ],
+  [
+   "SP03",
+   "Miền Bắc",
+   "Keyboard",
+   1200000
+  ],
+  [
+   "SP04",
+   "Miền Trung",
+   "Monitor",
+   3500000
+  ],
+  [
+   "SP05",
+   "Miền Bắc",
+   "Printer",
+   4500000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

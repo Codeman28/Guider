@@ -1,0 +1,50 @@
+{
+ "id": "card_learn_exc_cach_sap_xep_du_lieu_theo_thu_tu_giam_da_20b0",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sắp xếp dữ liệu theo thứ tự giảm dần (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Loại",
+  "Sản phẩm",
+  "Doanh thu",
+  "Thứ hạng"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Điện tử",
+   "Tivi",
+   15000000,
+   3
+  ],
+  [
+   "SP02",
+   "Điện tử",
+   "Tủ lạnh",
+   22000000,
+   1
+  ],
+  [
+   "SP03",
+   "Gia dụng",
+   "Nồi cơm",
+   5000000,
+   5
+  ],
+  [
+   "SP04",
+   "Điện tử",
+   "Máy giặt",
+   18000000,
+   2
+  ],
+  [
+   "SP05",
+   "Gia dụng",
+   "Lò vi sóng",
+   8000000,
+   4
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

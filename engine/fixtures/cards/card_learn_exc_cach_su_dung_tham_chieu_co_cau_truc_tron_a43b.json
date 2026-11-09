@@ -1,0 +1,46 @@
+{
+ "id": "card_learn_exc_cach_su_dung_tham_chieu_co_cau_truc_tron_a43b",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sử dụng tham chiếu có cấu trúc trong công thức Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã NV",
+  "Họ tên",
+  "Phòng ban",
+  "Lương"
+ ],
+ "rows": [
+  [
+   "NV01",
+   "Nguyễn Văn An",
+   "Kế toán",
+   10000000
+  ],
+  [
+   "NV02",
+   "Trần Thị Bình",
+   "Nhân sự",
+   12000000
+  ],
+  [
+   "NV03",
+   "Lê Văn Cường",
+   "Kỹ thuật",
+   15000000
+  ],
+  [
+   "NV04",
+   "Phạm Thị Dung",
+   "Kế toán",
+   11000000
+  ],
+  [
+   "NV05",
+   "Hoàng Văn Nam",
+   "Kỹ thuật",
+   14000000
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "Table1": "$A$1:$D$6"
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "id": "card_learn_exc_cach_nhap_cong_thuc_tinh_toan_mo_phong_9382",
+ "description": "Bảng mẫu dựng cho thẻ: Cách nhập công thức tính toán mô phỏng (dữ liệu bịa)",
+ "columns": [
+  "Mã",
+  "Tên tài sản",
+  "2010",
+  "2011",
+  "2012"
+ ],
+ "rows": [
+  [
+   "TS1",
+   "Cổ phiếu A",
+   100,
+   110,
+   121
+  ],
+  [
+   "TS2",
+   "Trái phiếu",
+   50,
+   55,
+   60
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "H7",
+   "values": [
+    [
+     1973,
+     2012
+    ],
+    [
+     2010,
+     0.1
+    ],
+    [
+     2011,
+     0.05
+    ],
+    [
+     2012,
+     0.08
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "lookup": "$H$8:$I$11"
+ }
+}

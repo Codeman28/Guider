@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_tinh_irr_voi_gia_tri_du_doan_trong_d11d",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính IRR với giá trị dự đoán trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Thang",
+  "DuAnA"
+ ],
+ "rows": [
+  [
+   "date:2023-01-01",
+   -1000000
+  ],
+  [
+   "date:2023-02-01",
+   200000
+  ],
+  [
+   "date:2023-03-01",
+   300000
+  ],
+  [
+   "date:2023-04-01",
+   400000
+  ],
+  [
+   "date:2023-05-01",
+   300000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

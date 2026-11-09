@@ -1,0 +1,34 @@
+{
+ "id": "card_learn_exc_su_dung_ten_vung_trong_cong_thuc_fc4e",
+ "description": "Bảng mẫu dựng cho thẻ: Sử dụng tên vùng trong công thức (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Tên Sản Phẩm",
+  "Số lượng",
+  "Doanh Số"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo",
+   10,
+   500000
+  ],
+  [
+   "SP02",
+   "Đường",
+   20,
+   400000
+  ],
+  [
+   "SP03",
+   "Sữa",
+   15,
+   750000
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "DoanhSo": "$D$2:$D$4"
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "id": "card_learn_exc_cach_tao_cot_tinh_toan_trong_power_pivot_8313",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tạo cột tính toán trong Power Pivot (dữ liệu bịa)",
+ "columns": [
+  "Mã GD",
+  "Sản phẩm",
+  "Số lượng",
+  "Đơn giá",
+  "Date",
+  "Năm"
+ ],
+ "rows": [
+  [
+   "GD01",
+   "Áo sơ mi",
+   2,
+   150000,
+   "date:2023-05-12",
+   null
+  ],
+  [
+   "GD02",
+   "Quần tây",
+   1,
+   300000,
+   "date:2023-08-20",
+   null
+  ],
+  [
+   "GD03",
+   "Giày da",
+   1,
+   850000,
+   "date:2024-01-15",
+   null
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

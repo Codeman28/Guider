@@ -1,0 +1,45 @@
+{
+ "id": "card_learn_exc_cach_dung_ham_mang_dong_thay_the_pivotta_5594",
+ "description": "Bảng mẫu dựng cho thẻ: Cách dùng hàm mảng động thay thế PivotTable (dữ liệu bịa)",
+ "columns": [
+  "Product",
+  "Country",
+  "Revenue"
+ ],
+ "rows": [
+  [
+   "Laptop",
+   "VN",
+   1200
+  ],
+  [
+   "Mouse",
+   "US",
+   50
+  ],
+  [
+   "Laptop",
+   "US",
+   1500
+  ],
+  [
+   "Keyboard",
+   "VN",
+   100
+  ],
+  [
+   "Mouse",
+   "VN",
+   40
+  ],
+  [
+   "Keyboard",
+   "US",
+   120
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "Table1": "$A$1:$C$7"
+ }
+}

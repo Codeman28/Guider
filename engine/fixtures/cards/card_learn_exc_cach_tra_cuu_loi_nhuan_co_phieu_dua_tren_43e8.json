@@ -1,0 +1,93 @@
+{
+ "id": "card_learn_exc_cach_tra_cuu_loi_nhuan_co_phieu_dua_tren_43e8",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tra cứu lợi nhuận cổ phiếu dựa trên kịch bản ngẫu nhiên (dữ liệu bịa)",
+ "columns": [
+  "Mã CP",
+  "Tên Cổ Phiếu",
+  "Giá Mua",
+  "Giá Hiện Tại",
+  "Lợi Nhuận"
+ ],
+ "rows": [
+  [
+   "VNM",
+   "Vinamilk",
+   70000,
+   75000,
+   "5000"
+  ],
+  [
+   "VIC",
+   "Vingroup",
+   45000,
+   48000,
+   "3000"
+  ],
+  [
+   "HPG",
+   "Hòa Phát",
+   25000,
+   29000,
+   "4000"
+  ],
+  [
+   "FPT",
+   "FPT Corp",
+   90000,
+   99000,
+   "9000"
+  ],
+  [
+   "VCB",
+   "Vietcombank",
+   80000,
+   86000,
+   "6000"
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "K5",
+   "values": [
+    [
+     1,
+     "VNM",
+     "Vinamilk",
+     70000,
+     5000
+    ],
+    [
+     2,
+     "VIC",
+     "Vingroup",
+     45000,
+     3000
+    ],
+    [
+     3,
+     "HPG",
+     "Hòa Phát",
+     25000,
+     4000
+    ],
+    [
+     4,
+     "FPT",
+     "FPT Corp",
+     90000,
+     9000
+    ],
+    [
+     5,
+     "VCB",
+     "Vietcombank",
+     80000,
+     6000
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "Lookup": "$K$5:$O$9"
+ }
+}

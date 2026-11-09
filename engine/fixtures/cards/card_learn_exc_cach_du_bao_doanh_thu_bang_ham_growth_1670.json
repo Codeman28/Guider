@@ -1,0 +1,50 @@
+{
+ "id": "card_learn_exc_cach_du_bao_doanh_thu_bang_ham_growth_1670",
+ "description": "Bảng mẫu dựng cho thẻ: Cách dự báo doanh thu bằng hàm GROWTH (dữ liệu bịa)",
+ "columns": [
+  "Thang",
+  "Bien1",
+  "Bien2",
+  "Bien3",
+  "DoanhThu"
+ ],
+ "rows": [
+  [
+   "2023-01",
+   10,
+   20,
+   30,
+   100
+  ],
+  [
+   "2023-02",
+   12,
+   22,
+   32,
+   120
+  ],
+  [
+   "2023-03",
+   15,
+   25,
+   35,
+   150
+  ],
+  [
+   "2023-04",
+   18,
+   28,
+   38,
+   180
+  ],
+  [
+   "2023-05",
+   20,
+   30,
+   40,
+   200
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

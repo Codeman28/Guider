@@ -1,0 +1,26 @@
+{
+ "id": "card_learn_exc_cach_trich_xuat_du_lieu_bang_ham_van_ban_b0e8",
+ "description": "Bảng mẫu dựng cho thẻ: Cách trích xuất dữ liệu bằng hàm văn bản trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã đơn",
+  "Nhân viên",
+  "Ngày",
+  "Doanh số"
+ ],
+ "rows": [
+  [
+   "HD01",
+   "Nguyễn Văn A",
+   "date:2023-10-01",
+   "500000+100000"
+  ],
+  [
+   "HD02",
+   "Trần Thị B",
+   "date:2023-10-02",
+   "750000+200000"
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

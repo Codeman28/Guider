@@ -1,0 +1,67 @@
+{
+ "id": "card_learn_exc_cach_tinh_du_doan_bang_cong_thuc_hoi_quy_1454",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính dự đoán bằng công thức hồi quy (dữ liệu bịa)",
+ "columns": [
+  "Sản phẩm",
+  "Quảng cáo",
+  "Giảm giá",
+  "Chất lượng",
+  "Dự đoán bán hàng"
+ ],
+ "rows": [
+  [
+   "Áo sơ mi",
+   12,
+   10,
+   4,
+   "=Intercept + (Coefficient1*B2) + (Coefficient2*C2) + (Coefficient3*D2)"
+  ],
+  [
+   "Quần tây",
+   15,
+   5,
+   5,
+   "=Intercept + (Coefficient1*B3) + (Coefficient2*C3) + (Coefficient3*D3)"
+  ],
+  [
+   "Áo khoác",
+   20,
+   15,
+   5,
+   "=Intercept + (Coefficient1*B4) + (Coefficient2*C4) + (Coefficient3*D4)"
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "G1",
+   "values": [
+    [
+     "Hệ số",
+     "Giá trị"
+    ],
+    [
+     "Intercept",
+     50.5
+    ],
+    [
+     "Coefficient1",
+     2.3
+    ],
+    [
+     "Coefficient2",
+     1.5
+    ],
+    [
+     "Coefficient3",
+     4.1
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "Intercept": "$H$2",
+  "Coefficient1": "$H$3",
+  "Coefficient2": "$H$4",
+  "Coefficient3": "$H$5"
+ }
+}

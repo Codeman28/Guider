@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_tinh_tong_theo_cot_hoac_hang_trong_f004",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính tổng theo cột hoặc hàng trong bảng (dữ liệu bịa)",
+ "columns": [
+  "Mã hàng",
+  "Tên hàng",
+  "Số lượng",
+  "Doanh số"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo",
+   10,
+   1500000
+  ],
+  [
+   "SP02",
+   "Đường",
+   5,
+   250000
+  ],
+  [
+   "SP03",
+   "Sữa",
+   20,
+   4000000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

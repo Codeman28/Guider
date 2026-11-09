@@ -1,0 +1,34 @@
+{
+ "id": "card_learn_exc_cach_tinh_trung_binh_cong_bang_ten_vung_e128",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính trung bình cộng bằng tên vùng trong Excel (dữ liệu bịa)",
+ "columns": [
+  "STT",
+  "Tên Nhân Viên",
+  "Phòng Ban",
+  "Doanh Số"
+ ],
+ "rows": [
+  [
+   1,
+   "Nguyễn Văn A",
+   "Kinh doanh",
+   15000000
+  ],
+  [
+   2,
+   "Trần Thị B",
+   "Kinh doanh",
+   20000000
+  ],
+  [
+   3,
+   "Lê Văn C",
+   "Kinh doanh",
+   25000000
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "DoanhSo": "$D$2:$D$4"
+ }
+}

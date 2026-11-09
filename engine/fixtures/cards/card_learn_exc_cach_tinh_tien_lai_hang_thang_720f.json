@@ -1,0 +1,53 @@
+{
+ "id": "card_learn_exc_cach_tinh_tien_lai_hang_thang_720f",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính tiền lãi hàng tháng (dữ liệu bịa)",
+ "columns": [
+  "Tháng",
+  "Số dư đầu kỳ",
+  "Lãi suất",
+  "Tiền lãi"
+ ],
+ "rows": [
+  [
+   "Tháng 1",
+   10000000,
+   0.01,
+   null
+  ],
+  [
+   "Tháng 2",
+   10100000,
+   0.01,
+   null
+  ],
+  [
+   "Tháng 3",
+   10201000,
+   0.01,
+   null
+  ],
+  [
+   "Tháng 4",
+   10303010,
+   0.01,
+   null
+  ],
+  [
+   "Tháng 5",
+   10406040,
+   0.01,
+   null
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "D1",
+   "values": [
+    [
+     0.01
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

@@ -1,0 +1,29 @@
+{
+ "id": "card_learn_exc_cach_tinh_xac_suat_nhi_thuc_bang_ham_bin_6067",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính xác suất nhị thức bằng hàm BINOM.DIST (dữ liệu bịa)",
+ "columns": [
+  "SoThanhCong",
+  "SoThuNghiem",
+  "XacSuatThanhCong",
+  "Cumulative",
+  "KetQuaXacSuat"
+ ],
+ "rows": [
+  [
+   10,
+   100,
+   0.05,
+   0,
+   null
+  ],
+  [
+   5,
+   50,
+   0.1,
+   0,
+   null
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

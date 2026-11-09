@@ -1,0 +1,58 @@
+{
+ "id": "card_learn_exc_cach_sap_xep_du_lieu_dong_bang_ham_sortb_d93f",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sắp xếp dữ liệu động bằng hàm SORTBY và INDIRECT trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã NV",
+  "Họ tên",
+  "Phòng ban",
+  "Lương"
+ ],
+ "rows": [
+  [
+   "NV01",
+   "Nguyễn Văn A",
+   "Kế toán",
+   12000000
+  ],
+  [
+   "NV02",
+   "Trần Thị B",
+   "Nhân sự",
+   10000000
+  ],
+  [
+   "NV03",
+   "Lê Văn C",
+   "Kỹ thuật",
+   15000000
+  ],
+  [
+   "NV04",
+   "Phạm Thị D",
+   "Kế toán",
+   11000000
+  ],
+  [
+   "NV05",
+   "Hoàng Văn E",
+   "Kỹ thuật",
+   14000000
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "F1",
+   "values": [
+    [
+     "Cột sắp xếp",
+     "Thứ tự"
+    ],
+    [
+     "D2:D6",
+     1
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

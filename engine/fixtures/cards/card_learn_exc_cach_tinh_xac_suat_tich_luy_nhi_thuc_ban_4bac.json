@@ -1,0 +1,22 @@
+{
+ "id": "card_learn_exc_cach_tinh_xac_suat_tich_luy_nhi_thuc_ban_4bac",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính xác suất tích lũy nhị thức bằng hàm BINOM.DIST (dữ liệu bịa)",
+ "columns": [
+  "Số thành công",
+  "Số thử nghiệm",
+  "Xác suất thành công",
+  "Tích lũy",
+  "Xác suất tích lũy"
+ ],
+ "rows": [
+  [
+   10,
+   100,
+   0.05,
+   1,
+   null
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

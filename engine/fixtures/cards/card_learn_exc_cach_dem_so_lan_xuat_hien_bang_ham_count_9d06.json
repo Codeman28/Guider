@@ -1,0 +1,70 @@
+{
+ "id": "card_learn_exc_cach_dem_so_lan_xuat_hien_bang_ham_count_9d06",
+ "description": "Bảng mẫu dựng cho thẻ: Cách đếm số lần xuất hiện bằng hàm COUNTIF (dữ liệu bịa)",
+ "columns": [
+  "STT",
+  "Mã Sản Phẩm",
+  "Tên Sản Phẩm",
+  "Mã Vùng"
+ ],
+ "rows": [
+  [
+   1,
+   "SP01",
+   "Bàn Ghế",
+   "A"
+  ],
+  [
+   2,
+   "SP02",
+   "Tủ Quần Áo",
+   "B"
+  ],
+  [
+   3,
+   "SP03",
+   "Giường Ngủ",
+   "A"
+  ],
+  [
+   4,
+   "SP04",
+   "Bàn Làm Việc",
+   "C"
+  ],
+  [
+   5,
+   "SP05",
+   "Ghế Xoay",
+   "A"
+  ],
+  [
+   6,
+   "SP06",
+   "Kệ Sách",
+   "B"
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "I2",
+   "values": [
+    [
+     "Mã Vùng Cần Đếm"
+    ],
+    [
+     "A"
+    ],
+    [
+     "B"
+    ],
+    [
+     "C"
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "Drawn": "$D$2:$D$7"
+ }
+}

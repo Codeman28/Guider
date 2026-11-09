@@ -1,0 +1,46 @@
+{
+ "id": "card_learn_exc_cach_mo_phong_gia_tri_roi_rac_bang_vlook_f849",
+ "description": "Bảng mẫu dựng cho thẻ: Cách mô phỏng giá trị rời rạc bằng VLOOKUP trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã",
+  "Tỷ lệ",
+  "Giá trị"
+ ],
+ "rows": [
+  [
+   "A",
+   0.2,
+   "Thấp"
+  ],
+  [
+   "B",
+   0.5,
+   "Trung bình"
+  ],
+  [
+   "C",
+   0.3,
+   "Cao"
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "G2",
+   "values": [
+    [
+     0.0,
+     "Thấp"
+    ],
+    [
+     0.3,
+     "Trung bình"
+    ],
+    [
+     0.8,
+     "Cao"
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

@@ -1,0 +1,34 @@
+{
+ "id": "card_learn_exc_cach_tinh_xac_suat_kich_ban_bang_ham_cou_c9da",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính xác suất kịch bản bằng hàm COUNTIF (dữ liệu bịa)",
+ "columns": [
+  "Mô phỏng",
+  "Lợi nhuận"
+ ],
+ "rows": [
+  [
+   "1",
+   -0.05
+  ],
+  [
+   "2",
+   0.02
+  ],
+  [
+   "3",
+   -0.01
+  ],
+  [
+   "4",
+   0.04
+  ],
+  [
+   "5",
+   -0.03
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "Returns": "$B$2:$B$6"
+ }
+}

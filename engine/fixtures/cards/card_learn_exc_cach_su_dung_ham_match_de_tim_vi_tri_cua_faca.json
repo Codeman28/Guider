@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_su_dung_ham_match_de_tim_vi_tri_cua_faca",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sử dụng hàm MATCH để tìm vị trí của giá trị (dữ liệu bịa)",
+ "columns": [
+  "STT",
+  "Mã hàng",
+  "Tên sản phẩm",
+  "Số lượng"
+ ],
+ "rows": [
+  [
+   1,
+   "MH01",
+   "Sản phẩm C",
+   10
+  ],
+  [
+   2,
+   "MH02",
+   "Sản phẩm A",
+   25
+  ],
+  [
+   3,
+   "MH03",
+   "Sản phẩm B",
+   15
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

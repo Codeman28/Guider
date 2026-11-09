@@ -1,0 +1,44 @@
+{
+ "id": "card_learn_exc_cach_su_dung_ham_tinh_toan_co_dieu_kien_02f6",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sử dụng hàm tính toán có điều kiện trong Excel (dữ liệu bịa)",
+ "columns": [
+  "STT",
+  "Khu vực",
+  "Sản phẩm",
+  "Doanh số"
+ ],
+ "rows": [
+  [
+   1,
+   "Khu vực 1",
+   "Sản phẩm A",
+   15000000
+  ],
+  [
+   2,
+   "Khu vực 1",
+   "Sản phẩm A",
+   20000000
+  ],
+  [
+   3,
+   "Khu vực 2",
+   "Sản phẩm A",
+   12000000
+  ],
+  [
+   4,
+   "Khu vực 1",
+   "Sản phẩm B",
+   18000000
+  ],
+  [
+   5,
+   "Khu vực 1",
+   "Sản phẩm A",
+   25000000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

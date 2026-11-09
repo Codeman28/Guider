@@ -1,0 +1,48 @@
+{
+ "id": "card_learn_exc_cach_tinh_npv_cua_khach_hang_2716",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính NPV của khách hàng (dữ liệu bịa)",
+ "columns": [
+  "Mã KH",
+  "Năm 1",
+  "Năm 2",
+  "Dòng tiền",
+  "NPV Khách Hàng"
+ ],
+ "rows": [
+  [
+   "KH01",
+   1000,
+   2000,
+   3000,
+   null
+  ],
+  [
+   "KH02",
+   1500,
+   2500,
+   4000,
+   null
+  ],
+  [
+   "KH03",
+   2000,
+   3000,
+   5000,
+   null
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "G1",
+   "values": [
+    [
+     "interest_rate",
+     0.1
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "interest_rate": "$H$1"
+ }
+}

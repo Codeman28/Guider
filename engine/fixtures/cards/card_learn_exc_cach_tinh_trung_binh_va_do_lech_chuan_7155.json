@@ -1,0 +1,34 @@
+{
+ "id": "card_learn_exc_cach_tinh_trung_binh_va_do_lech_chuan_7155",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính trung bình và độ lệch chuẩn (dữ liệu bịa)",
+ "columns": [
+  "Mã CP",
+  "Lợi nhuận"
+ ],
+ "rows": [
+  [
+   "VNM",
+   0.05
+  ],
+  [
+   "VIC",
+   0.08
+  ],
+  [
+   "HPG",
+   0.12
+  ],
+  [
+   "FPT",
+   0.06
+  ],
+  [
+   "MSN",
+   0.04
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "Returns": "$B$2:$B$6"
+ }
+}

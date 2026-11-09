@@ -1,0 +1,56 @@
+{
+ "id": "card_learn_exc_cach_tim_vi_tri_hang_cua_mot_gia_tri_f1ea",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tìm vị trí hàng của một giá trị (dữ liệu bịa)",
+ "columns": [
+  "Sản phẩm",
+  "Loại",
+  "Mã kho",
+  "Doanh thu"
+ ],
+ "rows": [
+  [
+   "Áo sơ mi",
+   "Thời trang",
+   "K01",
+   1200000
+  ],
+  [
+   "Quần tây",
+   "Thời trang",
+   "K02",
+   2500000
+  ],
+  [
+   "Giày da",
+   "Phụ kiện",
+   "K03",
+   4100000
+  ],
+  [
+   "Túi xách",
+   "Phụ kiện",
+   "K04",
+   3000000
+  ],
+  [
+   "Mũ lưỡi trai",
+   "Phụ kiện",
+   "K05",
+   900000
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "F1",
+   "values": [
+    [
+     "Tìm kiếm"
+    ],
+    [
+     4100000
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

@@ -1,0 +1,58 @@
+{
+ "id": "card_learn_exc_cach_tinh_gia_tri_lon_nhat_theo_dieu_kie_38dc",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính giá trị lớn nhất theo điều kiện bằng DMAX (dữ liệu bịa)",
+ "columns": [
+  "Location",
+  "Rooms",
+  "Area",
+  "Price"
+ ],
+ "rows": [
+  [
+   "District 1",
+   3,
+   120,
+   5000
+  ],
+  [
+   "District 2",
+   2,
+   80,
+   3000
+  ],
+  [
+   "District 1",
+   4,
+   150,
+   7000
+  ],
+  [
+   "District 3",
+   3,
+   90,
+   2500
+  ],
+  [
+   "District 2",
+   4,
+   160,
+   6000
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "F1",
+   "values": [
+    [
+     "Location",
+     "Price"
+    ],
+    [
+     "District 1",
+     ">4000"
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

@@ -1,0 +1,53 @@
+{
+ "id": "card_learn_exc_cach_dung_ham_vlookup_trong_excel_520c",
+ "description": "Bảng mẫu dựng cho thẻ: Cách dùng hàm VLOOKUP trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã SP",
+  "Tên SP",
+  "Sản phẩm mua",
+  "Số lượng"
+ ],
+ "rows": [
+  [
+   "SP01",
+   "Gạo",
+   "SP02",
+   5
+  ],
+  [
+   "SP02",
+   "Đường",
+   "SP01",
+   10
+  ],
+  [
+   "SP03",
+   "Sữa",
+   "SP03",
+   2
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "F2",
+   "values": [
+    [
+     "SP01",
+     "Gạo",
+     20000
+    ],
+    [
+     "SP02",
+     "Đường",
+     25000
+    ],
+    [
+     "SP03",
+     "Sữa",
+     30000
+    ]
+   ]
+  }
+ ],
+ "names": {}
+}

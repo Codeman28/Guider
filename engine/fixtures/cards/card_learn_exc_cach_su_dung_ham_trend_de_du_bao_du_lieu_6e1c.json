@@ -1,0 +1,80 @@
+{
+ "id": "card_learn_exc_cach_su_dung_ham_trend_de_du_bao_du_lieu_6e1c",
+ "description": "Bảng mẫu dựng cho thẻ: Cách sử dụng hàm TREND để dự báo dữ liệu (dữ liệu bịa)",
+ "columns": [
+  "Tháng",
+  "Doanh thu",
+  "Quảng cáo",
+  "Nhân sự",
+  "Mặt bằng",
+  "Thiết bị",
+  "Vật tư",
+  "Marketing",
+  "Logistics",
+  "Dự báo"
+ ],
+ "rows": [
+  [
+   "T1",
+   100,
+   10,
+   5,
+   2,
+   1,
+   3,
+   4,
+   2,
+   null
+  ],
+  [
+   "T2",
+   110,
+   12,
+   5,
+   2,
+   1,
+   3,
+   5,
+   2,
+   null
+  ],
+  [
+   "T3",
+   120,
+   15,
+   6,
+   2,
+   1,
+   4,
+   6,
+   3,
+   null
+  ],
+  [
+   "T4",
+   130,
+   18,
+   6,
+   2,
+   1,
+   4,
+   7,
+   3,
+   null
+  ],
+  [
+   "T5",
+   140,
+   20,
+   7,
+   2,
+   1,
+   5,
+   8,
+   3,
+   null
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

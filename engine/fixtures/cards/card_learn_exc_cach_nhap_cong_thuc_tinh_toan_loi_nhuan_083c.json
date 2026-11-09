@@ -1,0 +1,30 @@
+{
+ "id": "card_learn_exc_cach_nhap_cong_thuc_tinh_toan_loi_nhuan_083c",
+ "description": "Bảng mẫu dựng cho thẻ: Cách nhập công thức tính toán lợi nhuận (dữ liệu bịa)",
+ "columns": [
+  "Sản phẩm",
+  "Nhu cầu",
+  "Giá bán",
+  "Chi phí đơn vị",
+  "Số lưỡi/dao",
+  "Lợi nhuận/lưỡi"
+ ],
+ "rows": [
+  [
+   "Dao cạo râu",
+   1000,
+   50000,
+   30000,
+   5,
+   2000
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "demand": "$B$2",
+  "price": "$C$2",
+  "unit_cost": "$D$2",
+  "blades_per_razor": "$E$2",
+  "profit_per_blade": "$F$2"
+ }
+}

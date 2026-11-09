@@ -1,0 +1,56 @@
+{
+ "id": "card_learn_exc_cach_tim_kiem_gia_tri_trong_excel_5a54",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tìm kiếm giá trị trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Mã Đơn",
+  "Ngày",
+  "Mã SP",
+  "Số Lượng"
+ ],
+ "rows": [
+  [
+   "DH001",
+   "date:2023-10-01",
+   "SP01",
+   5
+  ],
+  [
+   "DH002",
+   "date:2023-10-02",
+   "SP03",
+   2
+  ],
+  [
+   "DH003",
+   "date:2023-10-03",
+   "SP02",
+   10
+  ]
+ ],
+ "blocks": [
+  {
+   "anchor": "F1",
+   "values": [
+    [
+     "Mã SP",
+     "Tên Sản Phẩm"
+    ],
+    [
+     "SP01",
+     "Bút Bi"
+    ],
+    [
+     "SP02",
+     "Thước Kẻ"
+    ],
+    [
+     "SP03",
+     "Tẩy"
+    ]
+   ]
+  }
+ ],
+ "names": {
+  "BangSP": "$F$2:$G$4"
+ }
+}

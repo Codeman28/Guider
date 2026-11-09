@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_tinh_ty_suat_hoan_von_noi_bo_irr_tr_562e",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính tỷ suất hoàn vốn nội bộ (IRR) trong Excel (dữ liệu bịa)",
+ "columns": [
+  "Tháng",
+  "Dự án A"
+ ],
+ "rows": [
+  [
+   "Tháng 0",
+   -100000000
+  ],
+  [
+   "Tháng 1",
+   20000000
+  ],
+  [
+   "Tháng 2",
+   30000000
+  ],
+  [
+   "Tháng 3",
+   40000000
+  ],
+  [
+   "Tháng 4",
+   50000000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

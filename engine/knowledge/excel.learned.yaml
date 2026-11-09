@@ -9036,6 +9036,3280 @@ cards:
   preconditions:
   - type: select_range
     ref: D2:D21
+- id: learn_exc_cach_tinh_toan_cong_thuc_co_ban_trong_ex_2ef5
+  title: Cách tính toán công thức cơ bản trong Excel
+  keywords:
+  - công thức tính
+  - lập công thức excel
+  - tính lãi đơn vị
+  - tính toán excel
+  - hàm excel
+  - tính tiền
+  - tính toán
+  - tính tổng
+  - viết công thức
+  - Cách tính toán bằng công thức
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =D2-C2
+    expected: &id155
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 55–59
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=-109'
+  example: Trong bảng 4 cột, tại ô E2 (Lãi đơn vị), nhập =D2-C2 để tính lãi bằng cách lấy giá bán trừ giá nhập.
+  success_check: *id155
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_ham_thong_ke_trong_excel_a2d7
+  title: Cách dùng hàm thống kê trong Excel
+  keywords:
+  - hàm average
+  - hàm max
+  - hàm min
+  - tìm giá trị lớn nhất
+  - tính trung bình
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F22
+      control_type: Cell
+    value: =AVERAGE(F2:F21)
+    expected: &id156
+      type: com_check
+      prop: cell.formula_ok
+      ref: F22
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 55–59
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: F22=98.55'
+  example: Tại ô F22, nhập =AVERAGE(F2:F21) để tính điểm trung bình cộng của toàn bộ cột dữ liệu từ dòng 2 đến 21.
+  success_check: *id156
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_co_so_du_lieu_27ef
+  title: Cách sử dụng hàm cơ sở dữ liệu
+  keywords:
+  - daverage
+  - dcount
+  - dget
+  - dmax
+  - dmin
+  - hàm cơ sở dữ liệu
+  fixture_id: card_learn_exc_cach_su_dung_ham_co_so_du_lieu_27ef
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B22
+      control_type: Cell
+    value: =DAVERAGE(A1:H11, "Thành tiền", K1:K2)
+    expected: &id157
+      type: com_check
+      prop: cell.formula_ok
+      ref: B22
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 65–69
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: B22=2420000'
+  example: Tại ô B22, gõ =DAVERAGE(A1:H11, "Thành tiền", K1:K2) để tính trung bình tiền trả cho các đại lý thuộc khu vực Hà Nội.
+  success_check: *id157
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_ham_vlookup_trong_excel_520c
+  title: Cách dùng hàm VLOOKUP trong Excel
+  keywords:
+  - dò tìm dữ liệu
+  - hàm vlookup
+  - tra cứu bảng
+  - tìm kiếm giá trị
+  fixture_id: card_learn_exc_cach_dung_ham_vlookup_trong_excel_520c
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =VLOOKUP(C2, $F$2:$H$4, 2, 0)
+    expected: &id158
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 73–79
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=Đường'
+  example: Chọn ô E2, nhập công thức để dò tìm tên sản phẩm dựa vào mã sản phẩm tại ô C2.
+  success_check: *id158
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_logic_and_va_or_6082
+  title: Cách sử dụng hàm logic AND và OR
+  keywords:
+  - hàm AND
+  - hàm OR
+  - kiểm tra điều kiện
+  - logic Excel
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =AND(D2>1000, C2="Khu vực 1")
+    expected: &id159
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 91–96
+    names_checked: true
+    relearned: 'chạy được trên file mẫu sales_table_basic: E2=FALSE'
+  example: Tại ô E2, nhập =AND(D2>1000; C2="Khu vực 1") để kiểm tra xem doanh số có lớn hơn 1000 và thuộc Khu vực 1 hay không.
+  success_check: *id159
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_lam_tron_round_08b3
+  title: Cách sử dụng hàm làm tròn ROUND
+  keywords:
+  - hàm ROUND
+  - làm tròn số
+  - làm tròn đến hàng chục
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =ROUND(D2, -1)
+    expected: &id160
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Bai tap Tin hoc FTU2.pdf
+    where: trang 91–96
+    names_checked: true
+    relearned: 'chạy được trên file mẫu sales_table_basic: E2=40'
+  example: Tại ô E2, nhập =ROUND(D2; -1) để làm tròn giá trị doanh số tại ô D2 đến hàng chục gần nhất.
+  success_check: *id160
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_kiem_gia_tri_trong_excel_5a54
+  title: Cách tìm kiếm giá trị trong Excel
+  keywords:
+  - hàm vlookup
+  - tra cứu giá trị
+  - tìm kiếm dữ liệu
+  - vlookup
+  fixture_id: card_learn_exc_cach_tim_kiem_gia_tri_trong_excel_5a54
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =VLOOKUP(C2,BangSP,2,FALSE)
+    expected: &id161
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Danh mục hàm từ 1770 file Excel
+    where: danh mục hàm, phần 1
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=Bút Bi'
+  example: Để lấy tên sản phẩm tương ứng với mã sản phẩm ở cột C, bạn hãy chọn ô E2 và nhập công thức =VLOOKUP(C2,BangSP,2,FALSE).
+  success_check: *id161
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_ngay_ket_thuc_thang_bang_ham_e_e583
+  title: Cách tính ngày kết thúc tháng bằng hàm EOMONTH trong Excel
+  keywords:
+  - hàm eomonth
+  - ngày cuối tháng excel
+  - tìm ngày cuối cùng của tháng
+  - tính ngày cuối tháng
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =EOMONTH(A2,0)
+    expected: &id162
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Danh mục hàm từ 1770 file Excel
+    where: danh mục hàm, phần 8
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=59'
+  example: Tại ô E2, gõ công thức =EOMONTH(A2,0) để xác định ngày cuối cùng của tháng tương ứng với giá trị ngày trong ô A2.
+  success_check: *id162
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_tinh_toan_co_dieu_kien_02f6
+  title: Cách sử dụng hàm tính toán có điều kiện trong Excel
+  keywords:
+  - AVERAGEIFS
+  - DCOUNT
+  - hàm tính toán điều kiện
+  - tính trung bình có điều kiện
+  - đếm có điều kiện
+  fixture_id: card_learn_exc_cach_su_dung_ham_tinh_toan_co_dieu_kien_02f6
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =AVERAGEIFS(D2:D6, B2:B6, "Khu vực 1", C2:C6, "Sản phẩm A")
+    expected: &id163
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Danh mục hàm từ 1770 file Excel
+    where: danh mục hàm, phần 10
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=20000000'
+  example: Chọn ô E2, nhập công thức =AVERAGEIFS(D2:D6, B2:B6, "Khu vực 1", C2:C6, "Sản phẩm A") để tính trung bình doanh số của Sản phẩm A tại
+    Khu vực 1.
+  success_check: *id163
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_khoang_cach_thoi_gian_trong_ex_3c54
+  title: Cách tính khoảng cách thời gian trong Excel
+  keywords:
+  - DATEDIF
+  - tính khoảng cách ngày
+  - tính tuổi
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =DATEDIF(A2, B2, "y")
+    expected: &id164
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Danh mục hàm từ 1770 file Excel
+    where: danh mục hàm, phần 10
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0'
+  example: Chọn ô E2, nhập =DATEDIF(A2, B2, "y") để tính số năm chênh lệch giữa ngày ở ô A2 và ngày ở ô B2.
+  success_check: *id164
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_toan_bang_cong_thuc_trong_exce_bd1b
+  title: Cách tính toán bằng công thức trong Excel
+  keywords:
+  - công thức nhân
+  - nhập công thức excel
+  - tính toán trong excel
+  - tính trung bình cộng
+  - tính tổng excel
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =C2*D2
+    expected: &id165
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 28–32
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=10140'
+  example: Chọn ô E2, gõ =C2*D2 và nhấn Enter để tính doanh số cho dòng đầu tiên của bảng.
+  success_check: *id165
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_hien_thi_cong_thuc_trong_o_ae36
+  title: Cách hiển thị công thức trong ô
+  keywords:
+  - hiện công thức
+  - hàm formulatext
+  - xem công thức excel
+  fixture_id: card_learn_exc_cach_hien_thi_cong_thuc_trong_o_ae36
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =FORMULATEXT(E2)
+    expected: &id166
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 28–32
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2==C2*D2'
+  example: Tại ô F2, nhập =FORMULATEXT(E2) để hiển thị nội dung công thức đang nằm trong ô E2.
+  success_check: *id166
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_su_dung_ten_vung_trong_cong_thuc_fc4e
+  title: Sử dụng tên vùng trong công thức
+  keywords:
+  - công thức với tên
+  - dùng tên vùng
+  - tính toán với range name
+  fixture_id: card_learn_exc_su_dung_ten_vung_trong_cong_thuc_fc4e
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =SUM(DoanhSo)
+    expected: &id167
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 36–39
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=1650000'
+  example: Tại ô E2, nhập công thức =SUM(DoanhSo) để tính tổng doanh số thay vì phải chọn thủ công vùng dữ liệu.
+  success_check: *id167
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_vlookup_de_tra_cuu_du_l_a6d0
+  title: Cách sử dụng hàm VLOOKUP để tra cứu dữ liệu
+  keywords:
+  - VLOOKUP chính xác
+  - VLOOKUP tương đối
+  - hàm tìm kiếm VLOOKUP
+  - tra cứu dữ liệu theo cột
+  - tìm kiếm giá trị trong bảng
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =VLOOKUP(D2, A2:D21, 4, FALSE)
+    expected: &id168
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 51–54
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: E2=5.5'
+  example: Chọn ô E2, nhập công thức để tìm doanh số (cột thứ 4) của sản phẩm trong ô D2 dựa trên bảng dữ liệu A2:D21 với điều kiện tìm kiếm chính
+    xác.
+  success_check: *id168
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_xlookup_de_tra_cuu_du_l_70d0
+  title: Cách sử dụng hàm XLOOKUP để tra cứu dữ liệu
+  keywords:
+  - XLOOKUP linh hoạt
+  - hàm tìm kiếm XLOOKUP
+  - tra cứu dữ liệu nâng cao
+  - tìm kiếm thay thế VLOOKUP
+  fixture_id: card_learn_exc_cach_su_dung_ham_xlookup_de_tra_cuu_du_l_70d0
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =XLOOKUP(C2, C2:C6, D2:D6)
+    expected: &id169
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 51–54
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=1500000'
+  example: Chọn ô E2, nhập công thức để tìm doanh số của sản phẩm dựa theo khu vực.
+  success_check: *id169
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_vlookup_tim_kiem_chinh_xac_25c6
+  title: Cách dùng VLOOKUP tìm kiếm chính xác
+  keywords:
+  - VLOOKUP exact match
+  - VLOOKUP không sắp xếp
+  - hàm VLOOKUP với FALSE
+  - tìm kiếm chính xác trong Excel
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =VLOOKUP(D2,A1:D21,4,FALSE)
+    expected: &id170
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 55–58
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: E2=5.5'
+  example: Chọn ô E2, nhập công thức để tìm giá trị chính xác của sản phẩm trong cột D dựa trên bảng A1:D21.
+  success_check: *id170
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_hlookup_tim_kiem_gia_tri_theo_84ca
+  title: Cách dùng HLOOKUP tìm kiếm giá trị theo ngày
+  keywords:
+  - HLOOKUP approximate match
+  - HLOOKUP theo ngày
+  - hàm HLOOKUP
+  - tìm kiếm theo hàng ngang
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =HLOOKUP(B2,A1:D21,2,TRUE)
+    expected: &id171
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 55–58
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: E2=10A1'
+  example: Chọn ô E2, nhập công thức để tìm giá trị tương ứng theo ngày trong hàng đầu tiên của bảng A1:D21.
+  success_check: *id171
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_vi_tri_hang_cua_mot_gia_tri_f1ea
+  title: Cách tìm vị trí hàng của một giá trị
+  keywords:
+  - hàm MATCH
+  - tìm dòng chứa giá trị
+  - tìm vị trí hàng
+  - xác định vị trí dữ liệu
+  fixture_id: card_learn_exc_cach_tim_vi_tri_hang_cua_mot_gia_tri_f1ea
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C8
+      control_type: Cell
+    value: =MATCH(F2,D2:D6,0)
+    expected: &id172
+      type: com_check
+      prop: cell.formula_ok
+      ref: C8
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 72–75
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: C8=3'
+  example: Chọn ô C8, nhập công thức =MATCH(F2,D2:D6,0) để tìm số thứ tự hàng của doanh thu 4.100.000 trong cột doanh thu.
+  success_check: *id172
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_trich_xuat_du_lieu_bang_ham_van_ban_b0e8
+  title: Cách trích xuất dữ liệu bằng hàm văn bản trong Excel
+  keywords:
+  - hàm find
+  - hàm left
+  - hàm mid
+  - hàm right
+  - hàm tách chuỗi
+  - trích xuất dữ liệu
+  fixture_id: card_learn_exc_cach_trich_xuat_du_lieu_bang_ham_van_ban_b0e8
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =LEFT(D2, FIND("+", D2)-1)
+    expected: &id173
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 84–87
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=500000'
+  example: Tại ô E2, nhập công thức để trích xuất phần doanh số đầu tiên từ chuỗi dữ liệu trong cột Doanh số (D2).
+  success_check: *id173
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_ngay_lam_viec_sau_mot_khoang_t_5dde
+  title: Cách tính ngày làm việc sau một khoảng thời gian
+  keywords:
+  - hàm workday
+  - trừ ngày nghỉ
+  - tính ngày làm việc
+  - workday function
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D2
+      control_type: Cell
+    value: =WORKDAY(A2, 50)
+    expected: &id174
+      type: com_check
+      prop: cell.formula_ok
+      ref: D2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 98–102
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: D2=109'
+  example: Nhập công thức =WORKDAY(A2, 50) vào ô D2 để tính ngày làm việc thứ 50 kể từ ngày bắt đầu tại ô A2, tự động bỏ qua cuối tuần.
+  success_check: *id174
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_ngay_ket_thuc_cong_viec_dua_tr_4452
+  title: Cách tính ngày kết thúc công việc dựa trên số ngày làm việc trong Excel
+  keywords:
+  - cộng ngày làm việc bỏ qua cuối tuần
+  - hàm WORKDAY.INTL
+  - tính ngày hoàn thành công việc
+  - tính ngày làm việc sau một khoảng thời gian
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =WORKDAY.INTL(A2,100,2)
+    expected: &id175
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 103–105
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=179'
+  example: Tại ô E2, nhập công thức =WORKDAY.INTL(A2,100,2) để xác định ngày làm việc thứ 100 kể từ ngày ở ô A2 (ví dụ tháng 1), với quy định
+    ngày nghỉ cuối tuần là Chủ Nhật và Thứ Hai.
+  success_check: *id175
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_so_ngay_lam_viec_giua_hai_moc_50a0
+  title: Cách tính số ngày làm việc giữa hai mốc thời gian trong Excel
+  keywords:
+  - hàm NETWORKDAYS
+  - hàm NETWORKDAYS.INTL
+  - tính số ngày làm việc
+  - đếm số ngày công giữa hai mốc ngày
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =NETWORKDAYS(A2,A20)
+    expected: &id176
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 103–105
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=9'
+  example: Tại ô E2, nhập công thức =NETWORKDAYS(A2,A20) để đếm tổng số ngày làm việc từ ngày ở ô A2 đến ngày ở ô A20 (không tính các ngày cuối
+    tuần Thứ Bảy, Chủ Nhật).
+  success_check: *id176
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_trich_xuat_thang_nam_ngay_tu_o_du_l_abda
+  title: Cách trích xuất tháng, năm, ngày từ ô dữ liệu ngày tháng trong Excel
+  keywords:
+  - hàm DAY
+  - hàm MONTH
+  - hàm YEAR
+  - lấy năm từ mốc thời gian
+  - tách tháng từ ngày tháng
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =MONTH(A2)
+    expected: &id177
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 103–105
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=2'
+  example: Tại ô E2, nhập công thức =MONTH(A2) để lấy giá trị số của tháng từ ô A2.
+  success_check: *id177
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_ty_suat_hoan_von_noi_bo_irr_tr_562e
+  title: Cách tính tỷ suất hoàn vốn nội bộ (IRR) trong Excel
+  keywords:
+  - hàm IRR
+  - tính IRR
+  - tính lãi suất dự án
+  - tỷ suất hoàn vốn nội bộ
+  - đánh giá dự án
+  fixture_id: card_learn_exc_cach_tinh_ty_suat_hoan_von_noi_bo_irr_tr_562e
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B7
+      control_type: Cell
+    value: =IRR(B2:B6)
+    expected: &id178
+      type: com_check
+      prop: cell.formula_ok
+      ref: B7
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 119–122
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: B7=13%'
+  example: Chọn ô B7, nhập công thức =IRR(B2:B6) để tính tỷ suất hoàn vốn nội bộ cho dòng tiền từ B2 đến B6.
+  success_check: *id178
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_irr_voi_gia_tri_du_doan_trong_d11d
+  title: Cách tính IRR với giá trị dự đoán trong Excel
+  keywords:
+  - hàm IRR với guess
+  - tính IRR có dự đoán
+  - tính IRR nâng cao
+  - xử lý lỗi IRR
+  fixture_id: card_learn_exc_cach_tinh_irr_voi_gia_tri_du_doan_trong_d11d
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B7
+      control_type: Cell
+    value: =IRR(B2:B6, 0.1)
+    expected: &id179
+      type: com_check
+      prop: cell.formula_ok
+      ref: B7
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 119–122
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: B7=7%'
+  example: Chọn ô B7, nhập công thức =IRR(B2:B6, 0.1) để tính IRR với mức dự đoán ban đầu là 10%.
+  success_check: *id179
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_mirr_trong_excel_5d69
+  title: Cách tính MIRR trong Excel
+  keywords:
+  - hàm MIRR
+  - phân tích tài chính
+  - tính MIRR
+  - tính toán đầu tư
+  - tỷ suất hoàn vốn nội bộ sửa đổi
+  fixture_id: card_learn_exc_cach_tinh_mirr_trong_excel_5d69
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D15
+      control_type: Cell
+    value: =MIRR(A2:A6, 0.1, 0.12)
+    expected: &id180
+      type: com_check
+      prop: cell.formula_ok
+      ref: D15
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 123–127
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D15=13%'
+  example: Chọn ô D15, nhập công thức =MIRR(A2:A6, 0.1, 0.12) để tính tỷ suất hoàn vốn nội bộ sửa đổi với lãi suất vay 10% và lãi suất tái đầu
+    tư 12%.
+  success_check: *id180
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_irr_trong_excel_f548
+  title: Cách tính IRR trong Excel
+  keywords:
+  - hàm IRR
+  - phân tích dòng tiền
+  - tính IRR
+  - tỷ suất hoàn vốn nội bộ
+  - đánh giá dự án
+  fixture_id: card_learn_exc_cach_tinh_irr_trong_excel_f548
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B1
+      control_type: Cell
+    value: =IRR(A1:A5)
+    expected: &id181
+      type: com_check
+      prop: cell.formula_ok
+      ref: B1
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 123–127
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: B1=-5%'
+  example: Chọn ô B1, nhập công thức =IRR(A1:A5) để tính tỷ suất hoàn vốn nội bộ thực tế của dự án dựa trên các dòng tiền trong bảng.
+  success_check: *id181
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_trung_binh_toan_bo_cot_hoac_ha_7cc2
+  title: Cách tính trung bình toàn bộ cột hoặc hàng
+  keywords:
+  - average cả cột
+  - average cả hàng
+  - công thức tự động cập nhật
+  - tính toán dữ liệu mới
+  - tính trung bình cột
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =AVERAGE(B:B)
+    expected: &id182
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 141–144
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=85.2'
+  example: Tại ô E2, nhập =AVERAGE(B:B) để tính trung bình cộng toàn bộ dữ liệu trong cột B, giúp công thức tự cập nhật khi bạn thêm dữ liệu mới
+    vào cột này.
+  success_check: *id182
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_ham_choose_de_xac_dinh_quy_tu_6598
+  title: Cách dùng hàm CHOOSE để xác định quý từ tháng trong Excel
+  keywords:
+  - chuyển tháng sang quý
+  - dùng hàm choose
+  - hàm choose trong excel
+  - tính quý từ tháng
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =CHOOSE(A2,1,1,1,2,2,2,3,3,3,4,4,4)
+    expected: &id183
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 162–166
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: E2=1'
+  example: Chọn ô E2, nhập công thức `=CHOOSE(A2,1,1,1,2,2,2,3,3,3,4,4,4)` để trả về số quý tương ứng với tháng ở ô A2.
+  success_check: *id183
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_trich_xuat_gio_phut_giay_tu_o_thoi_e407
+  title: Cách trích xuất giờ, phút, giây từ ô thời gian
+  keywords:
+  - hàm HOUR
+  - hàm MINUTE
+  - hàm SECOND
+  - lấy giờ từ thời gian
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =HOUR(A2)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - E3
+      control_type: Cell
+    value: =MINUTE(A2)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E3
+      op: 'true'
+    capture_result: true
+  - id: 3
+    intent: type_formula
+    target:
+      names:
+      - E4
+      control_type: Cell
+    value: =SECOND(A2)
+    expected: &id184
+      type: com_check
+      prop: cell.formula_ok
+      ref: E4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 171–174
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0, E3=0, E4=0'
+  example: Nếu ô A2 chứa 3:10:30 PM, nhập =HOUR(A2) tại E2 sẽ trả về 15, =MINUTE(A2) tại E3 trả về 10, và =SECOND(A2) tại E4 trả về 30.
+  success_check: *id184
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_so_gio_lam_viec_qua_dem_ba31
+  title: Cách tính số giờ làm việc qua đêm
+  keywords:
+  - hàm IF tính giờ
+  - tính giờ làm việc
+  - tính khoảng thời gian
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =IF(D2>C2,(D2-C2)*24,24+(D2-C2)*24)
+    expected: &id185
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 171–174
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=-2592'
+  example: Tại ô E2, nhập công thức trên với C2 là giờ bắt đầu và D2 là giờ kết thúc để tính tổng số giờ làm việc, kể cả khi ca làm việc kéo dài
+    qua ngày hôm sau.
+  success_check: *id185
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tao_cong_thuc_3d_de_tinh_tong_tren_863d
+  title: Cách tạo công thức 3D để tính tổng trên nhiều trang tính
+  keywords:
+  - công thức 3D
+  - tính tổng nhiều sheet
+  - tổng hợp dữ liệu worksheet
+  fixture_id: card_learn_exc_cach_tao_cong_thuc_3d_de_tinh_tong_tren_863d
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D5
+      control_type: Cell
+    value: =SUM(B2:C4)
+    expected: &id186
+      type: com_check
+      prop: cell.formula_ok
+      ref: D5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 186–189
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D5=1150'
+  example: Tính tổng tất cả doanh thu từ ô B2 đến C4 cho bảng này.
+  success_check: *id186
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_gia_tri_doanh_so_theo_san_pham_dd65
+  title: Cách tính giá trị doanh số theo sản phẩm và năm bằng hàm MATCH và OFFSET
+  keywords:
+  - công thức nâng cao
+  - hàm MATCH OFFSET
+  - tham chiếu động
+  - tra cứu giá trị
+  - tìm kiếm dữ liệu
+  fixture_id: card_learn_exc_cach_tinh_gia_tri_doanh_so_theo_san_pham_dd65
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =OFFSET(A1,MATCH("Sản phẩm A",A2:A21,0),MATCH(2023,B1:D1,0))
+    expected: &id187
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 255–257
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=200'
+  example: Tại ô E2, nhập công thức để tìm doanh số của 'Sản phẩm A' trong năm 2023 từ bảng dữ liệu A1:D21, kết quả sẽ trả về giá trị doanh số
+    tương ứng.
+  success_check: *id187
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_tong_dong_voi_ham_indirect_tro_8d9f
+  title: Cách tính tổng động với hàm INDIRECT trong Excel
+  keywords:
+  - dynamic sum
+  - hàm indirect
+  - tính tổng động
+  - tổng theo vùng biến đổi
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D22
+      control_type: Cell
+    value: =SUM(INDIRECT("D"&$D$2&":D"&$E$2))
+    expected: &id188
+      type: com_check
+      prop: cell.formula_ok
+      ref: D22
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 261–264
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: D22=13'
+  example: Tại ô D22, nhập công thức =SUM(INDIRECT("D"&$D$2&":D"&$E$2)). Nếu ô D2 chứa số 2 và E2 chứa số 10, Excel sẽ tính tổng doanh số từ dòng
+    2 đến dòng 10 của cột D.
+  success_check: *id188
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_tong_theo_cot_hoac_hang_trong_f004
+  title: Cách tính tổng theo cột hoặc hàng trong bảng
+  keywords:
+  - công thức bảng excel
+  - structured references
+  - sum table column
+  - tính tổng bảng
+  - tính tổng theo hàng
+  fixture_id: card_learn_exc_cach_tinh_tong_theo_cot_hoac_hang_trong_f004
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D5
+      control_type: Cell
+    value: =SUM(D2:D4)
+    expected: &id189
+      type: com_check
+      prop: cell.formula_ok
+      ref: D5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 318–321
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D5=5750000'
+  example: Tại ô D5, nhập =SUM(D2:D4) để tính tổng toàn bộ cột Doanh số.
+  success_check: *id189
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_index_de_truy_xuat_du_l_3b7f
+  title: Cách sử dụng hàm INDEX để truy xuất dữ liệu theo lựa chọn
+  keywords:
+  - dùng INDEX với combo box
+  - hàm INDEX
+  - liên kết điều khiển với ô
+  - truy xuất dữ liệu theo lựa chọn
+  fixture_id: grades_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F3
+      control_type: Cell
+    value: =INDEX(F9:F15,A8,1)
+    expected: &id190
+      type: com_check
+      prop: cell.formula_ok
+      ref: F3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 332–335
+    names_checked: true
+    relearned: 'chạy được trên file mẫu grades_basic: F3=6'
+  example: Tại ô F3, nhập công thức =INDEX(F9:F15,A8,1) để hiển thị giá trị tương ứng với lựa chọn trong combo box (được liên kết với ô A8).
+  success_check: *id190
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_vlookup_de_tim_kiem_gia_9515
+  title: Cách sử dụng hàm VLOOKUP để tìm kiếm giá trị theo lựa chọn
+  keywords:
+  - dùng VLOOKUP với combo box
+  - hàm VLOOKUP
+  - tra cứu dữ liệu
+  - tìm kiếm giá trị
+  fixture_id: payroll_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - G3
+      control_type: Cell
+    value: =VLOOKUP(F3,$F$9:$G$15,2,False)
+    expected: &id191
+      type: com_check
+      prop: cell.formula_ok
+      ref: G3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 332–335
+    names_checked: true
+    relearned: 'chạy được trên file mẫu payroll_basic: G3=9000000'
+  example: Tại ô G3, nhập công thức =VLOOKUP(F3,$F$9:$G$15,2,False) để tìm số giờ làm việc dựa trên giá trị đã chọn ở ô F3.
+  success_check: *id191
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_gia_tri_xuat_hien_nhieu_nhat_e028
+  title: Cách tính giá trị xuất hiện nhiều nhất
+  keywords:
+  - giá trị phổ biến nhất
+  - hàm mode
+  - mode.mult
+  - mode.sngl
+  - tính mode
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D24
+      control_type: Cell
+    value: =MODE.SNGL(D2:D21)
+    expected: &id192
+      type: com_check
+      prop: cell.formula_ok
+      ref: D24
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 405–408
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: D24=177'
+  example: Nhập công thức =MODE.SNGL(D2:D21) vào ô D24 để tìm giá trị xuất hiện nhiều nhất trong cột Doanh số.
+  success_check: *id192
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_loi_nhuan_trung_binh_hang_nam_26c7
+  title: Cách tính lợi nhuận trung bình hàng năm bằng hàm GEOMEAN
+  keywords:
+  - average annual return
+  - geometric mean
+  - hàm GEOMEAN
+  - tính lợi nhuận trung bình
+  - tính trung bình hình học
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C12
+      control_type: Cell
+    value: =1+C5
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: C12
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - C16
+      control_type: Cell
+    value: =GEOMEAN(C12:C15)-1
+    expected: &id193
+      type: com_check
+      prop: cell.formula_ok
+      ref: C16
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 416–420
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: C12=118, C16=48.98345'
+  example: Tại ô C12, nhập công thức =1+C5 để cộng 1 vào lợi nhuận hàng năm, sau đó tại ô C16 nhập =GEOMEAN(C12:C15)-1 để tính lợi nhuận trung
+    bình hàng năm.
+  success_check: *id193
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_dget_de_tim_kiem_du_lie_57f1
+  title: Cách sử dụng hàm DGET để tìm kiếm dữ liệu
+  keywords:
+  - hàm dget
+  - truy xuất dữ liệu
+  - tìm kiếm dữ liệu
+  fixture_id: loan_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =DGET(A1:D21, 4, F1:G2)
+    expected: &id194
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 463–466
+    names_checked: true
+    relearned: 'chạy được trên file mẫu loan_basic: E2=60'
+  example: Tại ô E2, nhập công thức =DGET(A1:D21, 4, F1:G2) để tìm doanh số (cột 4) dựa trên tiêu chí tại vùng F1:G2.
+  success_check: *id194
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_gia_tri_lon_nhat_theo_dieu_kie_38dc
+  title: Cách tính giá trị lớn nhất theo điều kiện bằng DMAX
+  keywords:
+  - database functions
+  - hàm dmax
+  - max có điều kiện
+  - tìm giá trị lớn nhất
+  fixture_id: card_learn_exc_cach_tinh_gia_tri_lon_nhat_theo_dieu_kie_38dc
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =DMAX(A1:D6, "Price", F1:G2)
+    expected: &id195
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 467–470
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=7000'
+  example: Sử dụng hàm =DMAX(A1:D6, "Price", F1:G2) để tìm giá nhà cao nhất tại District 1 có giá lớn hơn 4000.
+  success_check: *id195
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_nhap_cong_thuc_mang_trong_excel_6a74
+  title: Cách nhập công thức mảng trong Excel
+  keywords:
+  - array formula
+  - công thức mảng
+  - nhập công thức mảng
+  - sử dụng hàm mảng
+  - tính toán mảng
+  fixture_id: loan_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =D2:D21*C2:C21
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: key_combo
+    value: Enter
+    expected:
+      type: none
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 467–470
+    names_checked: true
+    relearned: 'chạy được trên file mẫu loan_basic: E2=4.8'
+  example: Chọn ô E2, gõ công thức =D2:D21*C2:C21 và nhấn Enter; Excel sẽ tự động tính toán và hiển thị kết quả cho toàn bộ vùng dữ liệu liên
+    quan.
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_chuyen_doi_hang_thanh_cot_bang_ham_edb2
+  title: Cách chuyển đổi hàng thành cột bằng hàm TRANSPOSE
+  keywords:
+  - chuyển hàng thành cột
+  - hàm transpose
+  - transpose dữ liệu
+  - đảo chiều dữ liệu
+  fixture_id: loan_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C3
+      control_type: Cell
+    value: =TRANSPOSE(A4:A8)
+    expected: &id196
+      type: com_check
+      prop: cell.formula_ok
+      ref: C3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 471–473
+    names_checked: true
+    relearned: 'chạy được trên file mẫu loan_basic: C3=2022'
+  example: Chọn ô C3, nhập =TRANSPOSE(A4:A8) để hiển thị danh sách tên từ cột A4:A8 sang hàng ngang bắt đầu tại C3, dữ liệu sẽ tự cập nhật khi
+    cột gốc thay đổi.
+  success_check: *id196
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_loc_du_lieu_theo_dieu_kien_trong_ex_4696
+  title: Cách lọc dữ liệu theo điều kiện trong Excel
+  keywords:
+  - hàm FILTER
+  - lọc bảng
+  - lọc dữ liệu
+  - trích xuất theo điều kiện
+  fixture_id: card_learn_exc_cach_loc_du_lieu_theo_dieu_kien_trong_ex_4696
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =FILTER(A2:D6, B2:B6="Miền Bắc")
+    expected: &id197
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 487–489
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=SP01'
+  example: Tại ô F2, nhập công thức =FILTER(A2:D6, B2:B6="Miền Bắc") để hiển thị tất cả các dòng dữ liệu có khu vực là Miền Bắc.
+  success_check: *id197
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_sap_xep_du_lieu_dong_bang_ham_sortb_d93f
+  title: Cách sắp xếp dữ liệu động bằng hàm SORTBY và INDIRECT trong Excel
+  keywords:
+  - dynamic sorting
+  - hàm INDIRECT
+  - hàm SORTBY
+  - sắp xếp dữ liệu động
+  - sắp xếp theo cột tùy chọn
+  fixture_id: card_learn_exc_cach_sap_xep_du_lieu_dong_bang_ham_sortb_d93f
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F5
+      control_type: Cell
+    value: =SORTBY(A2:D6,INDIRECT(F2),G2)
+    expected: &id198
+      type: com_check
+      prop: cell.formula_ok
+      ref: F5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 490–494
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F5=NV02'
+  example: Sắp xếp danh sách nhân viên theo cột Lương tăng dần bằng cách kết hợp SORTBY và INDIRECT.
+  success_check: *id198
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tao_danh_sach_cac_gia_tri_duy_nhat_b3f0
+  title: Cách tạo danh sách các giá trị duy nhất đã sắp xếp
+  keywords:
+  - hàm mảng động
+  - hàm sort unique
+  - lọc giá trị duy nhất
+  - sắp xếp dữ liệu
+  fixture_id: card_learn_exc_cach_tao_danh_sach_cac_gia_tri_duy_nhat_b3f0
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - H5
+      control_type: Cell
+    value: =SORT(UNIQUE(Store))
+    expected: &id199
+      type: com_check
+      prop: cell.formula_ok
+      ref: H5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 507–509
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: H5=Cửa Hàng A'
+  example: Tại ô H5, nhập công thức =SORT(UNIQUE(Store)) để tạo danh sách các cửa hàng duy nhất và sắp xếp theo thứ tự A-Z.
+  success_check: *id199
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_ham_mang_dong_thay_the_pivotta_5594
+  title: Cách dùng hàm mảng động thay thế PivotTable
+  keywords:
+  - dynamic array functions
+  - hàm mảng động
+  - thay thế PivotTable
+  - tự động cập nhật dữ liệu
+  fixture_id: card_learn_exc_cach_dung_ham_mang_dong_thay_the_pivotta_5594
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =UNIQUE(A2:A7)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - F1
+      control_type: Cell
+    value: =TRANSPOSE(UNIQUE(B2:B7))
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: F1
+      op: 'true'
+    capture_result: true
+  - id: 3
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =SUMIFS(C2:C7,A2:A7,E2#,B2:B7,F1#)
+    expected: &id200
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 565–569
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=Laptop, F1=VN, F2=1200'
+  example: 'Sử dụng hàm UNIQUE để liệt kê sản phẩm và SUMIFS với toán tử # để tự động tính tổng doanh số mà không cần refresh PivotTable.'
+  success_check: *id200
+- id: learn_exc_cach_tao_cot_tinh_toan_trong_power_pivot_8313
+  title: Cách tạo cột tính toán trong Power Pivot
+  keywords:
+  - công thức DAX trong Excel
+  - thêm cột tính toán
+  - tính toán trong Power Pivot
+  - tạo cột doanh thu
+  - tạo cột mới trong Power Pivot
+  fixture_id: card_learn_exc_cach_tao_cot_tinh_toan_trong_power_pivot_8313
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =YEAR(E2)
+    expected: &id201
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 599–604
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=2023'
+  example: Chọn ô F2, nhập công thức =YEAR(E2) để lấy năm từ cột Date.
+  success_check: *id201
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_sap_xep_du_lieu_theo_thu_tu_giam_da_20b0
+  title: Cách sắp xếp dữ liệu theo thứ tự giảm dần
+  keywords:
+  - hàm index
+  - hàm match
+  - sắp xếp dữ liệu
+  - sắp xếp giảm dần
+  fixture_id: card_learn_exc_cach_sap_xep_du_lieu_theo_thu_tu_giam_da_20b0
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =INDEX(C$2:C$6, MATCH(1, $E$2:$E$6, 0))
+    expected: &id202
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 659–663
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=Tủ lạnh'
+  example: Tại ô F2, nhập công thức để tìm tên sản phẩm đứng thứ nhất dựa vào cột thứ hạng.
+  success_check: *id202
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_gia_tri_du_bao_theo_ham_mu_tro_6c41
+  title: Cách tính giá trị dự báo theo hàm mũ trong Excel
+  keywords:
+  - dự báo doanh thu
+  - exponential growth
+  - hàm EXP
+  - tính tăng trưởng mũ
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =58.552664*EXP(0.489367*A2)
+    expected: &id203
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 709–713
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=1.14E+10'
+  example: Tại ô E2, nhập công thức =58.552664*EXP(0.489367*A2) để tính giá trị dự báo dựa trên dữ liệu tại ô A2.
+  success_check: *id203
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_chi_phi_du_bao_bang_cong_thuc_2e3d
+  title: Cách tính chi phí dự báo bằng công thức lũy thừa
+  keywords:
+  - dự báo chi phí
+  - dự đoán giá trị
+  - power curve formula
+  - tính toán theo công thức
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E4
+      control_type: Cell
+    value: =65259*C4^-0.2533
+    expected: &id204
+      type: com_check
+      prop: cell.formula_ok
+      ref: E4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 719–722
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E4=26915.4'
+  example: Tại ô E4, nhập công thức =65259*C4^-0.2533 để tính chi phí dự báo dựa trên sản lượng tích lũy tại ô C4.
+  success_check: *id204
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_do_doc_cua_duong_xu_huong_bang_7a92
+  title: Cách tính độ dốc của đường xu hướng bằng hàm SLOPE
+  keywords:
+  - hàm SLOPE
+  - hồi quy tuyến tính
+  - phân tích xu hướng
+  - tính toán đường cong
+  - tính độ dốc
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =SLOPE(LN(D2:D21), LN(A2:A21))
+    expected: &id205
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 719–722
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0.051303'
+  example: Tại ô E2, nhập công thức =SLOPE(LN(D2:D21), LN(A2:A21)) để tính hệ số b cho mối quan hệ lũy thừa giữa Doanh số (cột D) và Tháng (cột
+    A).
+  success_check: *id205
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_he_so_tuong_quan_bang_ham_corr_9117
+  title: Cách tính hệ số tương quan bằng hàm CORREL
+  keywords:
+  - CORREL function
+  - công thức tương quan
+  - hàm CORREL
+  - tính tương quan nhanh
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =CORREL(B2:B21, D2:D21)
+    expected: &id206
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 723–728
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0.003631'
+  example: Tại ô E2, nhập công thức =CORREL(B2:B21, D2:D21) để tính hệ số tương quan giữa cột B và cột D trong bảng dữ liệu.
+  success_check: *id206
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_thuc_hien_hoi_quy_da_bien_bang_ham_3517
+  title: Cách thực hiện hồi quy đa biến bằng hàm LINEST (Office 365)
+  keywords:
+  - dự báo doanh số
+  - hàm LINEST
+  - hồi quy đa biến
+  - phân tích dữ liệu
+  - thống kê hồi quy
+  fixture_id: card_learn_exc_cach_thuc_hien_hoi_quy_da_bien_bang_ham_3517
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =LINEST(B2:B20,C2:D20,True,True)
+    expected: &id207
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 738–742
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=15'
+  example: Chọn ô F2, nhập công thức =LINEST(B2:B20,C2:D20,True,True) để tính toán hồi quy đa biến cho dữ liệu doanh thu.
+  success_check: *id207
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_logest_de_uoc_tinh_he_s_753f
+  title: Cách sử dụng hàm LOGEST để ước tính hệ số hồi quy
+  keywords:
+  - dự báo theo quý
+  - hàm LOGEST
+  - hồi quy logarit
+  - phân tích doanh thu
+  - ước tính xu hướng
+  fixture_id: card_learn_exc_cach_su_dung_ham_logest_de_uoc_tinh_he_s_753f
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - K1
+      control_type: Cell
+    value: =LOGEST(B2:B21, C2:E21, TRUE, TRUE)
+    expected: &id208
+      type: com_check
+      prop: cell.formula_ok
+      ref: K1
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 752–754
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: K1=1'
+  example: Chọn ô K1 và nhập công thức =LOGEST(B2:B21, C2:E21, TRUE, TRUE) để ước tính các hệ số hồi quy mũ.
+  success_check: *id208
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_chi_so_mua_vu_tuong_doi_cce8
+  title: Cách tính chỉ số mùa vụ tương đối
+  keywords:
+  - tính chỉ số mùa vụ
+  - tính toán trong excel
+  - tính tỷ lệ doanh thu
+  - tạo công thức excel
+  fixture_id: payroll_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - L4
+      control_type: Cell
+    value: =K6/$K$2
+    expected: &id209
+      type: com_check
+      prop: cell.formula_ok
+      ref: L4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 752–754
+    names_checked: true
+    relearned: 'chạy được trên file mẫu payroll_basic: L4=0'
+  example: Chọn ô L4, nhập công thức =K6/$K$2 để tính chỉ số mùa vụ tương đối cho quý 1 dựa trên giá trị trung bình tại ô K2.
+  success_check: *id209
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_du_bao_doanh_thu_bang_ham_growth_1670
+  title: Cách dự báo doanh thu bằng hàm GROWTH
+  keywords:
+  - dự báo doanh thu
+  - dự đoán dữ liệu
+  - hàm growth
+  - hồi quy excel
+  fixture_id: card_learn_exc_cach_du_bao_doanh_thu_bang_ham_growth_1670
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =GROWTH(E2:E6, B2:D6, B2:D6, TRUE)
+    expected: &id210
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 752–754
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=102.9908'
+  example: Chọn ô F2, nhập công thức =GROWTH(E2:E6, B2:D6, B2:D6, TRUE) để tạo dự báo doanh thu dựa trên các biến độc lập và phụ thuộc đã xác
+    định.
+  success_check: *id210
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_binh_phuong_bien_doc_lap_de_ki_aded
+  title: Cách tính bình phương biến độc lập để kiểm tra phi tuyến tính
+  keywords:
+  - kiểm tra phi tuyến tính
+  - thêm biến bình phương
+  - tính bình phương
+  - tạo cột Exp2
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D2
+      control_type: Cell
+    value: =B2^2
+    expected: &id211
+      type: com_check
+      prop: cell.formula_ok
+      ref: D2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 755–759
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: D2=3600'
+  example: Chọn ô D2, nhập công thức =B2^2 để tính bình phương của giá trị tại ô B2, sau đó sao chép công thức này xuống các ô còn lại trong cột.
+  success_check: *id211
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_tich_hai_bien_de_kiem_tra_tuon_5eef
+  title: Cách tính tích hai biến để kiểm tra tương tác
+  keywords:
+  - kiểm tra tương tác biến
+  - nhân hai biến
+  - tính tương tác
+  - tạo cột tương tác
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =B2*C2
+    expected: &id212
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 755–759
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=10140'
+  example: Chọn ô E2, nhập công thức =B2*C2 để tính tích của hai biến tại B2 và C2, sau đó sao chép công thức này xuống các ô còn lại trong cột.
+  success_check: *id212
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_he_so_tuong_quan_trong_excel_ee5d
+  title: Cách tính hệ số tương quan trong Excel
+  keywords:
+  - correl
+  - hệ số tương quan
+  - mối quan hệ giữa các biến
+  - tính tương quan
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =CORREL(D2:D21, B2:B21)
+    expected: &id213
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 760–762
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0.003631'
+  example: Tại ô E2, gõ =CORREL(D2:D21, B2:B21) để tính hệ số tương quan giữa Doanh số và Khu vực.
+  success_check: *id213
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_xac_suat_nhi_thuc_bang_ham_bin_6067
+  title: Cách tính xác suất nhị thức bằng hàm BINOM.DIST
+  keywords:
+  - hàm BINOM.DIST
+  - tính xác suất nhị thức
+  - tính xác suất thành công
+  - xác suất chính xác
+  - xác suất tích lũy
+  fixture_id: card_learn_exc_cach_tinh_xac_suat_nhi_thuc_bang_ham_bin_6067
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =BINOM.DIST(A2, B2, C2, D2)
+    expected: &id214
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 802–804
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=0.016716'
+  example: Chọn ô E2, nhập công thức =BINOM.DIST(A2, B2, C2, D2) để tính xác suất chính xác có 10 thành công trong 100 thử nghiệm với xác suất
+    thành công 0.05.
+  success_check: *id214
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_xac_suat_tich_luy_nhi_thuc_ban_4bac
+  title: Cách tính xác suất tích lũy nhị thức bằng hàm BINOM.DIST
+  keywords:
+  - hàm BINOM.DIST
+  - tính xác suất tích lũy
+  - xác suất x hoặc ít hơn
+  fixture_id: card_learn_exc_cach_tinh_xac_suat_tich_luy_nhi_thuc_ban_4bac
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =BINOM.DIST(A2, B2, C2, D2)
+    expected: &id215
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 802–804
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=0.988528'
+  example: Tính xác suất có 10 hoặc ít hơn số lần thành công trong 100 thử nghiệm với xác suất thành công là 0.05 bằng hàm BINOM.DIST.
+  success_check: *id215
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_tien_lai_hang_thang_720f
+  title: Cách tính tiền lãi hàng tháng
+  keywords:
+  - công thức tiền lãi
+  - lãi vay hàng tháng
+  - tính tiền lãi
+  fixture_id: card_learn_exc_cach_tinh_tien_lai_hang_thang_720f
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D5
+      control_type: Cell
+    value: =$D$1*B5
+    expected: &id216
+      type: com_check
+      prop: cell.formula_ok
+      ref: D5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 876–879
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D5=103030.1'
+  example: Tại ô D5, nhập công thức =$D$1*B5 để tính tiền lãi dựa trên số dư đầu kỳ tại ô B5.
+  success_check: *id216
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_so_du_cuoi_ky_3cf8
+  title: Cách tính số dư cuối kỳ
+  keywords:
+  - công thức số dư
+  - số dư cuối kỳ
+  - tính số dư
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E5
+      control_type: Cell
+    value: =B5-(C5-D5)
+    expected: &id217
+      type: com_check
+      prop: cell.formula_ok
+      ref: E5
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 876–879
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E5=97'
+  example: Tại ô E5, nhập công thức =B5-(C5-D5) để tính số dư cuối kỳ dựa trên số dư đầu kỳ, khoản thanh toán và tiền lãi.
+  success_check: *id217
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_gia_tri_trung_binh_cua_mot_day_2020
+  title: Cách tính giá trị trung bình của một dãy số
+  keywords:
+  - hàm average
+  - tính rating trung bình
+  - tính trung bình cộng
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B1
+      control_type: Cell
+    value: =AVERAGE(B3:B34)
+    expected: &id218
+      type: com_check
+      prop: cell.formula_ok
+      ref: B1
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 884–887
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: B1=86.52632'
+  example: Tại ô B1, nhập =AVERAGE(B3:B34) để tính giá trị trung bình của các xếp hạng đội bóng nằm trong khoảng từ B3 đến B34.
+  success_check: *id218
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_du_bao_bang_ham_forecast_ets_7c7c
+  title: Cách tính dự báo bằng hàm FORECAST.ETS
+  keywords:
+  - dự báo theo mùa
+  - forecast.ets
+  - hàm dự báo
+  - tính toán dự báo
+  fixture_id: card_learn_exc_cach_tinh_du_bao_bang_ham_forecast_ets_7c7c
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C13
+      control_type: Cell
+    value: =FORECAST.ETS(A13,B$2:B$13,A$2:A$13,1,1)
+    expected: &id219
+      type: com_check
+      prop: cell.formula_ok
+      ref: C13
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 896–901
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: C13=238.0866'
+  example: Tại ô C13, nhập công thức =FORECAST.ETS(A13,B$2:B$13,A$2:A$13,1,1) để tính giá trị dự báo cho tháng tiếp theo dựa trên dữ liệu lịch
+    sử.
+  success_check: *id219
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_toan_chi_so_du_bao_bang_cong_t_bddb
+  title: Cách tính toán chỉ số dự báo bằng công thức
+  keywords:
+  - công thức Excel
+  - sai số
+  - tính R-squared
+  - độ lệch chuẩn
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =RSQ(A2:A21, D2:D21)
+    expected: &id220
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 902–905
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: E2=0.06847'
+  example: Tại ô E2, nhập công thức =RSQ(A2:A21, D2:D21) để tính toán phần trăm biến thiên của dữ liệu được giải thích bởi mô hình.
+  success_check: *id220
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_toan_sai_so_binh_phuong_cho_mo_192f
+  title: Cách tính toán sai số bình phương cho mô hình hồi quy
+  keywords:
+  - dự báo doanh thu
+  - hàm mũ trong excel
+  - tính sai số bình phương
+  - tính toán mô hình hồi quy
+  fixture_id: loan_basic
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C6
+      control_type: Cell
+    value: =$E$2*EXP($E$3*A6)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: C6
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - D6
+      control_type: Cell
+    value: =(B6-C6)^2
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: D6
+      op: 'true'
+    capture_result: true
+  - id: 3
+    intent: type_formula
+    target:
+      names:
+      - D4
+      control_type: Cell
+    value: =SUM(D6:D15)
+    expected: &id221
+      type: com_check
+      prop: cell.formula_ok
+      ref: D4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 914–920
+    names_checked: true
+    relearned: 'chạy được trên file mẫu loan_basic: C6=5E+08, D6=2.18E+17, D4=2.18E+17'
+  example: Tại ô C6, nhập công thức =$E$2*EXP($E$3*A6) để tính doanh thu dự báo, sau đó tại D6 nhập =(B6-C6)^2 để tính sai số bình phương cho
+    năm đó.
+  success_check: *id221
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_xac_suat_may_hoat_dong_tren_20_98f7
+  title: Cách tính xác suất máy hoạt động trên 20 giờ
+  keywords:
+  - hàm weibull
+  - tính xác suất weibull
+  - weibull distribution
+  - xác suất máy hỏng
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - G16
+      control_type: Cell
+    value: =1-WEIBULL.DIST(20,E2,E3,TRUE)
+    expected: &id222
+      type: com_check
+      prop: cell.formula_ok
+      ref: G16
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 935–939
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: G16=0.998825'
+  example: Tại ô G16, nhập công thức để tính xác suất máy hoạt động trên 20 giờ dựa trên các tham số alpha (E2) và beta (E3).
+  success_check: *id222
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_xac_suat_may_hoat_dong_tu_15_d_1cf6
+  title: Cách tính xác suất máy hoạt động từ 15 đến 30 giờ
+  keywords:
+  - tính xác suất giữa hai giá trị
+  - weibull probability range
+  - xác suất khoảng thời gian
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - G18
+      control_type: Cell
+    value: =WEIBULL.DIST(30,E2,E3,TRUE)-WEIBULL.DIST(15,E2,E3,TRUE)
+    expected: &id223
+      type: com_check
+      prop: cell.formula_ok
+      ref: G18
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 935–939
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: G18=0.005564'
+  example: Tại ô G18, công thức này lấy xác suất tích lũy tại 30 giờ trừ đi xác suất tích lũy tại 15 giờ để tìm xác suất trong khoảng.
+  success_check: *id223
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_mo_phong_gia_tri_roi_rac_bang_vlook_f849
+  title: Cách mô phỏng giá trị rời rạc bằng VLOOKUP trong Excel
+  keywords:
+  - giá trị rời rạc
+  - monte carlo
+  - mô phỏng
+  - vlookup
+  fixture_id: card_learn_exc_cach_mo_phong_gia_tri_roi_rac_bang_vlook_f849
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - F2
+      control_type: Cell
+    value: =VLOOKUP(E2, $G$2:$H$4, 2)
+    expected: &id224
+      type: com_check
+      prop: cell.formula_ok
+      ref: F2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 940–943
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: F2=Thấp'
+  example: Tại ô F2, nhập =VLOOKUP(E2, $G$2:$H$4, 2) để ánh xạ số ngẫu nhiên ở ô E2 thành một giá trị cụ thể dựa trên bảng tham chiếu G2:H4.
+  success_check: *id224
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tra_cuu_loi_nhuan_co_phieu_dua_tren_43e8
+  title: Cách tra cứu lợi nhuận cổ phiếu dựa trên kịch bản ngẫu nhiên
+  keywords:
+  - dùng hàm vlookup
+  - hàm tìm kiếm giá trị
+  - lấy lợi nhuận cổ phiếu
+  - tra cứu dữ liệu trong excel
+  fixture_id: card_learn_exc_cach_tra_cuu_loi_nhuan_co_phieu_dua_tren_43e8
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - L6
+      control_type: Cell
+    value: =VLOOKUP(K6,Lookup,5)
+    expected: &id225
+      type: com_check
+      prop: cell.formula_ok
+      ref: L6
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 958–961
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: L6=3000'
+  example: Tại ô L6, nhập =VLOOKUP(K6,Lookup,5) để lấy giá trị lợi nhuận tương ứng với kịch bản số ngẫu nhiên đã tạo ở ô K6 từ bảng dữ liệu có
+    tên là Lookup.
+  success_check: *id225
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_xac_suat_kich_ban_bang_ham_cou_c9da
+  title: Cách tính xác suất kịch bản bằng hàm COUNTIF
+  keywords:
+  - hàm countif
+  - thống kê dữ liệu
+  - tính xác suất
+  - đếm điều kiện
+  fixture_id: card_learn_exc_cach_tinh_xac_suat_kich_ban_bang_ham_cou_c9da
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - M20
+      control_type: Cell
+    value: =COUNTIF(Returns,"<0")/5
+    expected: &id226
+      type: com_check
+      prop: cell.formula_ok
+      ref: M20
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 958–961
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: M20=0.6'
+  example: Tại ô M20, nhập công thức =COUNTIF(Returns,"<0")/5 để tính xác suất thua lỗ trong mẫu dữ liệu.
+  success_check: *id226
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_nhap_cong_thuc_tinh_toan_mo_phong_9382
+  title: Cách nhập công thức tính toán mô phỏng
+  keywords:
+  - hàm RANDBETWEEN
+  - hàm VLOOKUP
+  - nhập công thức
+  - tính toán mô phỏng
+  fixture_id: card_learn_exc_cach_nhap_cong_thuc_tinh_toan_mo_phong_9382
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - K10
+      control_type: Cell
+    value: =RANDBETWEEN(2010,2012)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: K10
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - L10
+      control_type: Cell
+    value: =C2*(1+VLOOKUP(K10,lookup,2))
+    expected: &id227
+      type: com_check
+      prop: cell.formula_ok
+      ref: L10
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 962–965
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: K10=2011, L10=105'
+  example: Tại ô K10, nhập =RANDBETWEEN(2010,2012) để tạo năm ngẫu nhiên, sau đó tại L10 nhập công thức VLOOKUP để tính giá trị tài sản cuối năm
+    dựa trên lợi nhuận lịch sử.
+  success_check: *id227
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_xep_hang_gia_tri_trong_excel_d717
+  title: Cách xếp hạng giá trị trong Excel
+  keywords:
+  - rank.eq
+  - thứ tự giá trị
+  - xếp hạng
+  - xếp hạng dữ liệu
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C3
+      control_type: Cell
+    value: =RANK.EQ(E3,$E$3:$E$54,1)
+    expected: &id228
+      type: com_check
+      prop: cell.formula_ok
+      ref: C3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 970–973
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: C3=10'
+  example: Tại ô C3, nhập =RANK.EQ(E3,$E$3:$E$54,1) để xếp hạng giá trị trong E3 so với vùng E3:E54 theo thứ tự tăng dần.
+  success_check: *id228
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_kiem_gia_tri_bang_ham_vlookup_722e
+  title: Cách tìm kiếm giá trị bằng hàm VLOOKUP
+  keywords:
+  - hàm VLOOKUP
+  - lấy dữ liệu từ bảng
+  - tra cứu dữ liệu
+  - tìm kiếm theo bảng
+  fixture_id: card_learn_exc_cach_tim_kiem_gia_tri_bang_ham_vlookup_722e
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - B3
+      control_type: Cell
+    value: =VLOOKUP(A3,Lookup,2,FALSE)
+    expected: &id229
+      type: com_check
+      prop: cell.formula_ok
+      ref: B3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 970–973
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: B3=Quan jean'
+  example: Tai o B3, nhap =VLOOKUP(A3,Lookup,2,FALSE) de tim gia tri tuong ung voi A3 trong bang co ten 'Lookup' va tra ve ket qua o cot thu 2.
+  success_check: *id229
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dem_so_lan_xuat_hien_bang_ham_count_9d06
+  title: Cách đếm số lần xuất hiện bằng hàm COUNTIF
+  keywords:
+  - hàm COUNTIF
+  - thống kê số lần
+  - đếm dữ liệu
+  - đếm theo điều kiện
+  fixture_id: card_learn_exc_cach_dem_so_lan_xuat_hien_bang_ham_count_9d06
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - J3
+      control_type: Cell
+    value: =COUNTIF(Drawn,I3)
+    expected: &id230
+      type: com_check
+      prop: cell.formula_ok
+      ref: J3
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 970–973
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: J3=3'
+  example: Tại ô J3, nhập =COUNTIF(Drawn,I3) để đếm xem giá trị tại I3 xuất hiện bao nhiêu lần trong vùng dữ liệu đã đặt tên là 'Drawn'.
+  success_check: *id230
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_npv_cua_khach_hang_2716
+  title: Cách tính NPV của khách hàng
+  keywords:
+  - chiết khấu dòng tiền
+  - công thức NPV
+  - giá trị khách hàng
+  - tính NPV
+  fixture_id: card_learn_exc_cach_tinh_npv_cua_khach_hang_2716
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E4
+      control_type: Cell
+    value: =(1+0.1)*NPV(0.1,D2:D4)
+    expected: &id231
+      type: com_check
+      prop: cell.formula_ok
+      ref: E4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 996–998
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E4=10768.6'
+  example: Chọn ô E4, nhập công thức để tính giá trị NPV của khách hàng dựa trên tỷ lệ chiết khấu và dòng tiền.
+  success_check: *id231
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_nhap_cong_thuc_tinh_toan_loi_nhuan_083c
+  title: Cách nhập công thức tính toán lợi nhuận
+  keywords:
+  - công thức excel
+  - nhập công thức
+  - tính lợi nhuận
+  - tính toán doanh thu
+  fixture_id: card_learn_exc_cach_nhap_cong_thuc_tinh_toan_loi_nhuan_083c
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D11
+      control_type: Cell
+    value: =demand*(price-unit_cost)+demand*blades_per_razor*profit_per_blade
+    expected: &id232
+      type: com_check
+      prop: cell.formula_ok
+      ref: D11
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 1027–1031
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D11=30000000'
+  example: Tại ô D11, nhập công thức =demand*(price-unit_cost)+demand*blades_per_razor*profit_per_blade để tính tổng lợi nhuận từ dao cạo và lưỡi
+    dao.
+  success_check: *id232
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_match_de_tim_vi_tri_cua_faca
+  title: Cách sử dụng hàm MATCH để tìm vị trí của giá trị
+  keywords:
+  - hàm match
+  - tìm cột
+  - tìm dòng
+  - tìm vị trí
+  fixture_id: card_learn_exc_cach_su_dung_ham_match_de_tim_vi_tri_cua_faca
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =MATCH("Sản phẩm A", C2:C4, 0)
+    expected: &id233
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 1174–1178
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=2'
+  example: Tại ô E2, nhập công thức =MATCH("Sản phẩm A", C2:C4, 0) để tìm vị trí dòng của 'Sản phẩm A' trong vùng C2:C4.
+  success_check: *id233
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_dia_chi_tuyet_doi_trong_con_c58d
+  title: Cách sử dụng địa chỉ tuyệt đối trong công thức Excel
+  keywords:
+  - công thức excel
+  - cố định ô
+  - dấu đô la trong công thức
+  - địa chỉ tuyệt đối
+  fixture_id: numbers_grid
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C2
+      control_type: Cell
+    value: =B2+($B$2*$A$9)
+    expected: &id234
+      type: com_check
+      prop: cell.formula_ok
+      ref: C2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+    where: trang 50–59
+    names_checked: true
+    relearned: 'chạy được trên file mẫu numbers_grid: C2=480'
+  example: Tại ô C2, nhập công thức =B2+($B$2*$A$9) và nhấn Enter để cố định tham chiếu ô B2 và A9 khi sao chép công thức xuống các hàng dưới.
+  success_check: *id234
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_thiet_lap_data_validation_trong_exc_8fa5
+  title: Cách thiết lập data validation trong Excel
+  keywords:
+  - cấu hình validation
+  - data validation
+  - giới hạn nhập liệu
+  - kiểm tra dữ liệu
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Data Validation...
+      control_type: SplitButton
+    expected:
+      type: dialog_opened
+  - id: 3
+    intent: invoke
+    target:
+      names:
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Chọn cột Doanh số, mở Data Validation và nhấn OK để áp dụng quy tắc kiểm tra dữ liệu.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 30–33
+    names_checked: false
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_xoa_quy_tac_dinh_dang_co_dieu_kien_58ae
+  title: Cách xóa quy tắc định dạng có điều kiện trong Excel
+  keywords:
+  - clear conditional formatting
+  - xóa màu điều kiện
+  - xóa rule excel
+  - xóa định dạng có điều kiện
+  - clear rules
+  - xóa conditional formatting
+  - xóa quy tắc định dạng
+  - Cách xóa định dạng có điều kiện
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Conditional Formatting
+      - Định dạng có điều kiện
+      control_type: MenuItem
+      automation_id: ConditionalFormattingMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Clear Rules
+      - Xóa quy tắc
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: select_item
+    target:
+      names:
+      - Clear Rules
+      - Clear Rules from Selected Cells
+      - Xóa quy tắc khỏi các ô đã chọn
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn cột Doanh số chứa định dạng màu, vào thẻ Home, bấm Conditional Formatting, chọn Clear Rules rồi bấm Clear Rules from Selected
+    Cells để gỡ bỏ toàn bộ màu đã tô.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 43–46
+    names_checked: true
+    relearned: đổi 'Clear Rules from Selected Cells' → 'Clear Rules'
+  preconditions:
+  - type: select_range
+    ref: D2:D21
+- id: learn_exc_cach_chen_ham_sumif_trong_excel_e888
+  title: Cách chèn hàm SUMIF trong Excel
+  keywords:
+  - chèn hàm SUMIF
+  - hàm SUMIF
+  - insert SUMIF function
+  - tính tổng theo điều kiện
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Math & Trig
+      control_type: MenuItem
+      automation_id: FunctionsMathTrigInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Sum
+      - SUMIF
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn một ô trống, vào thẻ Formulas, mở mục Math & Trig và chọn SUMIF để tính tổng doanh số theo khu vực.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 59–63
+    names_checked: true
+    relearned: đổi 'SUMIF' → 'Sum'
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tim_kiem_thong_tin_dua_tren_vi_tri_a033
+  title: Cách tìm kiếm thông tin dựa trên vị trí hàng
+  keywords:
+  - hàm VLOOKUP
+  - truy xuất thông tin
+  - tìm kiếm dữ liệu
+  - tìm tên theo vị trí
+  fixture_id: card_learn_exc_cach_tim_kiem_thong_tin_dua_tren_vi_tri_a033
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C6
+      control_type: Cell
+    value: =VLOOKUP(C8,A2:D5,2,FALSE)
+    expected: &id235
+      type: com_check
+      prop: cell.formula_ok
+      ref: C6
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 72–75
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: C6=Dầu ăn'
+  example: Chọn ô C6, nhập công thức =VLOOKUP(C8,A2:D5,2,FALSE) để lấy tên sản phẩm tương ứng với mã SP tìm được.
+  success_check: *id235
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_tham_chieu_co_cau_truc_tron_a43b
+  title: Cách sử dụng tham chiếu có cấu trúc trong công thức Excel
+  keywords:
+  - công thức bảng excel
+  - dùng tên bảng trong công thức
+  - structured references
+  - tham chiếu bảng
+  - tính toán trên bảng
+  fixture_id: card_learn_exc_cach_su_dung_tham_chieu_co_cau_truc_tron_a43b
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =COUNTA(Table1)
+    expected: &id236
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 311–317
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=24'
+  example: Tại ô E2, nhập công thức =COUNTA(Table1) để đếm tổng số ô dữ liệu có trong bảng Table1.
+  success_check: *id236
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_so_khop_du_lieu_giua_hai_danh_sach_ccbe
+  title: Cách so khớp dữ liệu giữa hai danh sách
+  keywords:
+  - hàm ISERROR
+  - hàm MATCH
+  - kiểm tra dữ liệu
+  - so sánh danh sách
+  - tìm trùng lặp
+  fixture_id: card_learn_exc_cach_so_khop_du_lieu_giua_hai_danh_sach_ccbe
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C2
+      control_type: Cell
+    value: =MATCH(D2,E$2:E$5,0)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: C2
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - B2
+      control_type: Cell
+    value: =IF(ISERROR(C2),"No","Yes")
+    expected: &id237
+      type: com_check
+      prop: cell.formula_ok
+      ref: B2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 474–478
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: C2=1, B2=Yes'
+  example: Tại ô C2, nhập công thức MATCH để tìm vị trí tên trong danh sách D2 so với E2:E5; sau đó tại B2 dùng IF và ISERROR để hiển thị 'Yes'
+    hoặc 'No' cho kết quả trùng khớp.
+  success_check: *id237
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_su_dung_ham_trend_de_du_bao_du_lieu_6e1c
+  title: Cách sử dụng hàm TREND để dự báo dữ liệu
+  keywords:
+  - dự báo dữ liệu
+  - dự đoán giá trị
+  - hàm TREND
+  - hồi quy tuyến tính
+  - tính toán xu hướng
+  fixture_id: card_learn_exc_cach_su_dung_ham_trend_de_du_bao_du_lieu_6e1c
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - J1
+      control_type: Cell
+    value: =TREND(B2:B6,C2:I6,C2:I6)
+    expected: &id238
+      type: com_check
+      prop: cell.formula_ok
+      ref: J1
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 748–751
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: J1=100'
+  example: Chọn ô J1, nhập công thức =TREND(B2:B6,C2:I6,C2:I6) và nhấn Enter để dự báo doanh thu.
+  success_check: *id238
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_du_doan_bang_cong_thuc_hoi_quy_1454
+  title: Cách tính dự đoán bằng công thức hồi quy
+  keywords:
+  - công thức dự đoán
+  - dự báo doanh số
+  - tính toán Excel
+  - tính toán hồi quy
+  fixture_id: card_learn_exc_cach_tinh_du_doan_bang_cong_thuc_hoi_quy_1454
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =Intercept + (Coefficient1*B2) + (Coefficient2*C2) + (Coefficient3*D2)
+    expected: &id239
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 760–762
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=109.5'
+  example: Tại ô E2, nhập công thức với các hệ số (Intercept và Coefficients) đã tìm được từ bảng kết quả hồi quy để dự đoán giá trị cho dòng
+    dữ liệu tương ứng.
+  success_check: *id239
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_trung_binh_cong_bang_ten_vung_e128
+  title: Cách tính trung bình cộng bằng tên vùng trong Excel
+  keywords:
+  - average với range name
+  - paste name dialog
+  - sử dụng tên vùng trong công thức
+  - tính toán với tên vùng
+  - tính trung bình cộng
+  fixture_id: card_learn_exc_cach_tinh_trung_binh_cong_bang_ten_vung_e128
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =AVERAGE(DoanhSo)
+    expected: &id240
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 40–45
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=20000000'
+  example: Tại ô E2, gõ =AVERAGE(DoanhSo) (với DoanhSo là tên vùng đã đặt cho cột D), Excel sẽ tự động tính trung bình cộng của toàn bộ dữ liệu
+    trong cột đó.
+  success_check: *id240
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_trung_binh_va_do_lech_chuan_7155
+  title: Cách tính trung bình và độ lệch chuẩn
+  keywords:
+  - hàm average
+  - hàm stdev.s
+  - tính trung bình
+  - tính độ lệch chuẩn
+  fixture_id: card_learn_exc_cach_tinh_trung_binh_va_do_lech_chuan_7155
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - I3
+      control_type: Cell
+    value: =AVERAGE(Returns)
+    expected:
+      type: com_check
+      prop: cell.formula_ok
+      ref: I3
+      op: 'true'
+    capture_result: true
+  - id: 2
+    intent: type_formula
+    target:
+      names:
+      - I4
+      control_type: Cell
+    value: =STDEV.S(Returns)
+    expected: &id241
+      type: com_check
+      prop: cell.formula_ok
+      ref: I4
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 962–965
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: I3=0.07, I4=0.031623'
+  example: Tại ô I3 nhập =AVERAGE(Returns) để tính trung bình và tại ô I4 nhập =STDEV.S(Returns) để tính độ lệch chuẩn của các lợi nhuận đã đặt
+    tên.
+  success_check: *id241
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_toan_loi_nhuan_bang_cong_thuc_f3de
+  title: Cách tính toán lợi nhuận bằng công thức
+  keywords:
+  - công thức excel
+  - hàm excel
+  - tính lợi nhuận
+  - tính toán
+  fixture_id: card_learn_exc_cach_tinh_toan_loi_nhuan_bang_cong_thuc_f3de
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - D12
+      control_type: Cell
+    value: =SUM(Demand)*(B2-2)
+    expected: &id242
+      type: com_check
+      prop: cell.formula_ok
+      ref: D12
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 1038–1041
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: D12=3760'
+  example: Tại ô D12, nhập công thức để tính tổng lợi nhuận dự kiến dựa trên số lượng cầu.
+  success_check: *id242
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_chen_ham_sumifs_trong_excel_4f52
+  title: Cách chèn hàm SUMIFS trong Excel
+  keywords:
+  - chèn hàm SUMIFS
+  - dùng SUMIFS
+  - tính tổng nhiều điều kiện
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Math & Trig
+      control_type: MenuItem
+      automation_id: FunctionsMathTrigInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Sum
+      - SUMIFS
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn một ô trống, vào tab Formulas, bấm Math & Trig và chọn SUMIFS để mở hộp thoại nhập đối số tính tổng theo điều kiện.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 64–67
+    names_checked: true
+    relearned: đổi 'SUMIFS' → 'Sum'
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_dung_goal_seek_trong_excel_cabf
+  title: Cách dùng Goal Seek trong Excel
+  keywords:
+  - Goal Seek
+  - giải phương trình trong excel
+  - phân tích What-If
+  - tìm giá trị mục tiêu
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - What-If Analysis
+      - Phân tích giả định
+      control_type: MenuItem
+      automation_id: WhatIfAnalysisMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Goal Seek
+      - Goal Seek...
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: invoke
+    target:
+      names:
+      - ‪Book1‬  -  Excel
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Trên file mẫu, chọn ô chứa lợi nhuận, vào tab Data, bấm What-If Analysis rồi chọn Goal Seek, sau đó bấm OK để Excel tự tính ra số lượng
+    cần bán.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 217–220
+    names_checked: true
+    relearned: đổi 'OK' → '‪Book1‬  -  Excel'
+  preconditions:
+  - type: select_range
+    ref: D2
 extends:
   increase_decimal:
   - Increase Decimal

@@ -1,0 +1,47 @@
+{
+ "id": "card_learn_exc_cach_tao_danh_sach_cac_gia_tri_duy_nhat_b3f0",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tạo danh sách các giá trị duy nhất đã sắp xếp (dữ liệu bịa)",
+ "columns": [
+  "Mã Kẹo",
+  "Tên Kẹo",
+  "Store",
+  "Số Lượng"
+ ],
+ "rows": [
+  [
+   "K01",
+   "Kẹo Dẻo",
+   "Cửa Hàng A",
+   150
+  ],
+  [
+   "K02",
+   "Kẹo Cứng",
+   "Cửa Hàng C",
+   200
+  ],
+  [
+   "K03",
+   "Kẹo Sô-cô-la",
+   "Cửa Hàng B",
+   120
+  ],
+  [
+   "K04",
+   "Kẹo Mút",
+   "Cửa Hàng A",
+   90
+  ],
+  [
+   "K05",
+   "Kẹo Bạc Hà",
+   "Cửa Hàng B",
+   300
+  ]
+ ],
+ "blocks": [],
+ "names": {
+  "Candy": "$A$2:$D$6",
+  "Store": "$C$2:$C$6"
+ }
+}

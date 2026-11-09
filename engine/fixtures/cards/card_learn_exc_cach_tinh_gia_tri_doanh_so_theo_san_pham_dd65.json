@@ -1,0 +1,32 @@
+{
+ "id": "card_learn_exc_cach_tinh_gia_tri_doanh_so_theo_san_pham_dd65",
+ "description": "Bảng mẫu dựng cho thẻ: Cách tính giá trị doanh số theo sản phẩm và năm bằng hàm MATCH và OFFSET (dữ liệu bịa)",
+ "columns": [
+  "Sản phẩm",
+  "2021",
+  "2022",
+  "2023"
+ ],
+ "rows": [
+  [
+   "Sản phẩm A",
+   100,
+   150,
+   200
+  ],
+  [
+   "Sản phẩm B",
+   120,
+   160,
+   210
+  ],
+  [
+   "Sản phẩm C",
+   130,
+   170,
+   220
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}
