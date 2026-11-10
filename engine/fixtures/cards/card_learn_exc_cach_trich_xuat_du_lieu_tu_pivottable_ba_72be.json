@@ -1,0 +1,26 @@
+{
+ "id": "card_learn_exc_cach_trich_xuat_du_lieu_tu_pivottable_ba_72be",
+ "description": "Bảng mẫu dựng cho thẻ: Cách trích xuất dữ liệu từ PivotTable bằng hàm GETPIVOTDATA (dữ liệu bịa)",
+ "columns": [
+  "Thang",
+  "SanPham",
+  "QuocGia",
+  "DoanhThu"
+ ],
+ "rows": [
+  [
+   "Thang 4",
+   "Chip 1",
+   "Phap",
+   5000
+  ],
+  [
+   "Thang 4",
+   "Chip 2",
+   "Duc",
+   3000
+  ]
+ ],
+ "blocks": [],
+ "names": {}
+}

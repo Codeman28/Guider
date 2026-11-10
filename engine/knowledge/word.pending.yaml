@@ -1,6 +1,215 @@
 # Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
 # the base pack is <app>.cards.yaml.
 cards:
+- reason: 'bước ''Update entire table'': Guider không tìm thấy nút này trên Word của bạn'
+  card:
+    id: learn_wor_cach_cap_nhat_muc_luc_trong_word_e1b1
+    title: Cách cập nhật mục lục trong Word
+    keywords:
+    - cập nhật mục lục
+    - cập nhật số trang mục lục
+    - làm mới mục lục
+    - update table of contents
+    fixture_id: word_report_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - References
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Update Table...
+        control_type: Button
+        automation_id: TableOfContentsUpdate
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Update entire table
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Trên báo cáo 6 đoạn, sau khi chỉnh sửa tiêu đề, bạn chọn mục lục, vào tab References, nhấn Update Table, chọn Update entire table
+      rồi nhấn OK để cập nhật lại toàn bộ nội dung và số trang.
+    learned:
+      source: Bai tap Tin hoc FTU2.pdf
+      where: trang 55–59
+      names_checked: false
+- reason: 'bước ''Automatic Table 2'': Guider không tìm thấy nút này trên Word của bạn'
+  card:
+    id: learn_wor_cach_tao_muc_luc_tu_dong_fe6f
+    title: Cách tạo mục lục tự động
+    keywords:
+    - chèn table of contents
+    - làm mục lục tự động
+    - tạo mục lục
+    fixture_id: word_report_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - References
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: select_item
+      target:
+        names:
+        - Automatic Table 2
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Đảm bảo các tiêu đề đã được định dạng Heading, sau đó vào tab References, chọn Table of Contents và chọn Automatic Table 2 để tạo
+      mục lục.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 20–27
+      names_checked: false
+- reason: 'bước ''Font'': Guider không tìm thấy nút này trên Word của bạn'
+  card:
+    id: learn_wor_cach_thay_doi_kich_thuoc_phong_chu_6fae
+    title: Cách thay đổi kích thước phông chữ
+    keywords:
+    - chỉnh cỡ chữ
+    - giảm cỡ chữ
+    - thay đổi font size
+    - tăng cỡ chữ
+    fixture_id: word_report_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Home
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: expand
+      target:
+        names:
+        - Font
+        - Font Size
+        control_type: ComboBox
+      expected:
+        type: expanded
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - '9'
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+      capture_result: true
+    example: Chọn đoạn văn bản, vào tab Home, chọn cỡ chữ 9 từ menu Font Size để thu nhỏ văn bản.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 216–220
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: p3
+- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn'
+  card:
+    id: learn_wor_cach_thay_doi_le_trang_trong_word_5f3b
+    title: Cách thay đổi lề trang trong Word
+    keywords:
+    - chỉnh lề
+    - căn lề
+    - thay đổi margin
+    - định dạng trang in
+    fixture_id: word_report_basic
+    steps:
+    - id: 1
+      intent: select_ribbon_tab
+      target:
+        names:
+        - Layout
+        control_type: TabItem
+      expected:
+        type: tab_selected
+    - id: 2
+      intent: invoke
+      target:
+        names:
+        - Margins
+        control_type: MenuItem
+        automation_id: PageMarginsGallery
+      expected:
+        type: none
+    - id: 3
+      intent: select_item
+      target:
+        names:
+        - Custom Margins...
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: none
+    - id: 4
+      intent: set_value
+      target:
+        names:
+        - Top
+        control_type: Edit
+      value: '0.75'
+      expected:
+        type: none
+    - id: 5
+      intent: set_value
+      target:
+        names:
+        - Left
+        control_type: Edit
+      value: '0.75'
+      expected:
+        type: none
+    - id: 6
+      intent: set_value
+      target:
+        names:
+        - Right
+        control_type: Edit
+      value: '0.75'
+      expected:
+        type: none
+    - id: 7
+      intent: invoke
+      target:
+        names:
+        - OK
+        control_type: ListItem|MenuItem|Button
+      expected:
+        type: dialog_closed
+      capture_result: true
+    example: Chọn Layout > Margins > Custom Margins, sau đó nhập 0.75 vào các ô Top, Left, Right và nhấn OK để áp dụng lề mới cho báo cáo.
+    learned:
+      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+      where: trang 221–225
+      names_checked: false
+    preconditions:
+    - type: select_range
+      ref: all
 - reason: 'bước ''Heading 1'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Heading 1'''
   card:
     id: learn_wor_cach_tao_tieu_de_cho_doan_van_trong_word_ab34
@@ -325,219 +534,4 @@ cards:
     preconditions:
     - type: select_range
       ref: p3-p5
-    refit_tries: 1
-- reason: 'bước ''Update entire table'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Update
-    entire table'''
-  card:
-    id: learn_wor_cach_cap_nhat_muc_luc_trong_word_e1b1
-    title: Cách cập nhật mục lục trong Word
-    keywords:
-    - cập nhật mục lục
-    - cập nhật số trang mục lục
-    - làm mới mục lục
-    - update table of contents
-    fixture_id: word_report_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - References
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Update Table...
-        control_type: Button
-        automation_id: TableOfContentsUpdate
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Update entire table
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Trên báo cáo 6 đoạn, sau khi chỉnh sửa tiêu đề, bạn chọn mục lục, vào tab References, nhấn Update Table, chọn Update entire table
-      rồi nhấn OK để cập nhật lại toàn bộ nội dung và số trang.
-    learned:
-      source: Bai tap Tin hoc FTU2.pdf
-      where: trang 55–59
-      names_checked: false
-    refit_tries: 1
-- reason: 'bước ''Automatic Table 2'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Automatic
-    Table 2'''
-  card:
-    id: learn_wor_cach_tao_muc_luc_tu_dong_fe6f
-    title: Cách tạo mục lục tự động
-    keywords:
-    - chèn table of contents
-    - làm mục lục tự động
-    - tạo mục lục
-    fixture_id: word_report_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - References
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: select_item
-      target:
-        names:
-        - Automatic Table 2
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Đảm bảo các tiêu đề đã được định dạng Heading, sau đó vào tab References, chọn Table of Contents và chọn Automatic Table 2 để tạo
-      mục lục.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 20–27
-      names_checked: false
-    refit_tries: 1
-- reason: 'bước ''Font'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Font'''
-  card:
-    id: learn_wor_cach_thay_doi_kich_thuoc_phong_chu_6fae
-    title: Cách thay đổi kích thước phông chữ
-    keywords:
-    - chỉnh cỡ chữ
-    - giảm cỡ chữ
-    - thay đổi font size
-    - tăng cỡ chữ
-    fixture_id: word_report_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Font
-        - Font Size
-        control_type: ComboBox
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - '9'
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn đoạn văn bản, vào tab Home, chọn cỡ chữ 9 từ menu Font Size để thu nhỏ văn bản.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 216–220
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: p3
-    refit_tries: 1
-- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Top'''
-  card:
-    id: learn_wor_cach_thay_doi_le_trang_trong_word_5f3b
-    title: Cách thay đổi lề trang trong Word
-    keywords:
-    - chỉnh lề
-    - căn lề
-    - thay đổi margin
-    - định dạng trang in
-    fixture_id: word_report_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Layout
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Margins
-        control_type: MenuItem
-        automation_id: PageMarginsGallery
-      expected:
-        type: none
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Custom Margins...
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Top
-        control_type: Edit
-      value: '0.75'
-      expected:
-        type: none
-    - id: 5
-      intent: set_value
-      target:
-        names:
-        - Left
-        control_type: Edit
-      value: '0.75'
-      expected:
-        type: none
-    - id: 6
-      intent: set_value
-      target:
-        names:
-        - Right
-        control_type: Edit
-      value: '0.75'
-      expected:
-        type: none
-    - id: 7
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn Layout > Margins > Custom Margins, sau đó nhập 0.75 vào các ô Top, Left, Right và nhấn OK để áp dụng lề mới cho báo cáo.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 221–225
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: all
     refit_tries: 1

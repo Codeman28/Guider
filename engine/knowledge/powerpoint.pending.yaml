@@ -1,7 +1,7 @@
 # Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
 # the base pack is <app>.cards.yaml.
 cards:
-- reason: 'bước ''Shadow'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Shadow'''
+- reason: 'bước ''Shadow'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_do_bong_cho_chu_8c15
     title: Đổ bóng cho chữ
@@ -36,8 +36,7 @@ cards:
       source: meo_office.md
       where: đoạn 1
       names_checked: true
-    refit_tries: 1
-- reason: 'bước ''Layout'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Layout'''
+- reason: 'bước ''Layout'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_thay_doi_bo_cuc_slide_trong_powerpo_f87b
     title: Cách thay đổi bố cục slide trong PowerPoint
@@ -82,7 +81,6 @@ cards:
     preconditions:
     - type: select_range
       ref: s2
-    refit_tries: 1
 - reason: 'bước ''More'': expand on ''More'' failed: NoPatternInterfaceError()'
   card:
     id: learn_pow_cach_tao_hieu_ung_chuyen_canh_cho_slide_111d
@@ -127,7 +125,6 @@ cards:
     preconditions:
     - type: select_range
       ref: s2
-    refit_tries: 1
 - reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
   card:
     id: learn_pow_cach_tap_duyet_thoi_gian_trinh_chieu_reh_2d96
@@ -162,8 +159,7 @@ cards:
       source: Bai tap Tin hoc FTU2.pdf
       where: trang 110–113
       names_checked: true
-    refit_tries: 1
-- reason: 'bước ''Section'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Section'''
+- reason: 'bước ''Section'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_phan_nhom_slide_section_4509
     title: Cách phân nhóm Slide (Section)
@@ -205,8 +201,7 @@ cards:
       source: Bai tap Tin hoc FTU2.pdf
       where: trang 110–113
       names_checked: false
-    refit_tries: 1
-- reason: 'bước ''Trigger'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Trigger'''
+- reason: 'bước ''Trigger'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_tao_hieu_ung_tuong_tac_trigger_223f
     title: Cách tạo hiệu ứng tương tác (Trigger)
@@ -261,8 +256,7 @@ cards:
     preconditions:
     - type: select_range
       ref: s2.2
-    refit_tries: 1
-- reason: 'bước ''Action'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Action'''
+- reason: 'bước ''Action'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_them_nut_tac_dong_action_buttons_12e6
     title: Cách thêm nút tác động (Action Buttons)
@@ -307,8 +301,7 @@ cards:
     preconditions:
     - type: select_range
       ref: s2
-    refit_tries: 1
-- reason: 'bước ''Facet'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Facet'''
+- reason: 'bước ''Facet'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_ap_dung_chu_de_theme_trong_powerpoi_df2c
     title: Cách áp dụng chủ đề (Theme) trong PowerPoint
@@ -341,8 +334,7 @@ cards:
       source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
       where: trang 78–81
       names_checked: false
-    refit_tries: 1
-- reason: 'bước ''Trek'': Guider không tìm thấy nút này trên PowerPoint của bạn · học lại: không có nút nào trên màn hình giống ''Trek'''
+- reason: 'bước ''Trek'': Guider không tìm thấy nút này trên PowerPoint của bạn'
   card:
     id: learn_pow_cach_ap_dung_chu_de_theme_cho_bai_thuyet_1623
     title: Cách áp dụng chủ đề (Theme) cho bài thuyết trình
@@ -375,4 +367,3 @@ cards:
       source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
       where: trang 105–110
       names_checked: false
-    refit_tries: 1

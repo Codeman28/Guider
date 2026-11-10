@@ -169,8 +169,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''D10'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: D10=#N/A'
+    refit_tries: 1
+- reason: 'bước ''D10'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: C6=#N/A'
   card:
     id: learn_exc_cach_thuc_hien_tra_cuu_hai_chieu_bang_xl_00a1
     title: Cách thực hiện tra cứu hai chiều bằng XLOOKUP
@@ -204,8 +204,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''G6'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: G6=########'
+    refit_tries: 1
+- reason: 'bước ''G6'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: G6=#NUM!'
   card:
     id: learn_exc_cach_tinh_tien_lai_hang_thang_bang_ham_i_08b4
     title: Cách tính tiền lãi hàng tháng bằng hàm IPMT
@@ -238,7 +238,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''F6'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: F2=########'
   card:
     id: learn_exc_cach_tinh_tien_goc_tra_hang_thang_bang_h_4b34
@@ -272,8 +272,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''E22'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: E22: Excel không nhận công thức'
+    refit_tries: 1
+- reason: 'bước ''E22'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: E5: Excel không nhận công thức'
   card:
     id: learn_exc_cach_tinh_toan_bang_tham_chieu_cau_truc_fcfc
     title: Cách tính toán bằng tham chiếu cấu trúc trong bảng
@@ -306,8 +306,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''B1'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: B2=#FIELD!'
+    refit_tries: 1
+- reason: 'bước ''B1'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: B4=#FIELD!'
   card:
     id: learn_exc_cach_trich_xuat_thong_tin_tu_data_type_b_b568
     title: Cách trích xuất thông tin từ Data Type bằng công thức
@@ -340,43 +340,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''E2'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: E2=#REF!'
-  card:
-    id: learn_exc_cach_trich_xuat_du_lieu_tu_pivottable_ba_72be
-    title: Cách trích xuất dữ liệu từ PivotTable bằng hàm GETPIVOTDATA
-    keywords:
-    - công thức PivotTable
-    - hàm GETPIVOTDATA
-    - lấy dữ liệu từ PivotTable
-    - trích xuất giá trị PivotTable
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: type_formula
-      target:
-        names:
-        - E2
-        control_type: Cell
-      value: =GETPIVOTDATA("Revenue",$A$4,"Month","April","Product","Chip 1","Country","France")
-      expected: &id007
-        type: com_check
-        prop: cell.formula_ok
-        ref: E2
-        op: 'true'
-      capture_result: true
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 547–553
-      names_checked: true
-    example: Để lấy doanh số của Chip 1 tại Pháp vào tháng 4 từ PivotTable, bạn nhập công thức =GETPIVOTDATA("Revenue",$A$4,"Month","April","Product","Chip
-      1","Country","France") vào ô E2; kết quả sẽ luôn chính xác dù cấu trúc PivotTable có thay đổi.
-    success_check: *id007
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 2
-- reason: 'bước ''H10'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: H10=#VALUE!'
+    refit_tries: 1
+- reason: 'bước ''H10'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: H10=######'
   card:
     id: learn_exc_cach_su_dung_ham_stockhistory_24d0
     title: Cách sử dụng hàm STOCKHISTORY
@@ -394,7 +359,7 @@ cards:
         - H10
         control_type: Cell
       value: =STOCKHISTORY(I7,I4,I5,2,1,0,1)
-      expected: &id008
+      expected: &id007
         type: com_check
         prop: cell.formula_ok
         ref: H10
@@ -405,45 +370,11 @@ cards:
       where: trang 837–842
       names_checked: true
     example: Tại ô H10, nhập công thức =STOCKHISTORY(I7,I4,I5,2,1,0,1) để tự động lấy dữ liệu giá hàng tháng của quỹ đã chọn.
-    success_check: *id008
+    success_check: *id007
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''E22'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: số công thức phải giữ nguyên và bắt đầu bằng ='
-  card:
-    id: learn_exc_cach_tinh_khoang_tin_cay_duoi_cho_du_bao_2032
-    title: Cách tính khoảng tin cậy dưới cho dự báo
-    keywords:
-    - forecast.ets.confint
-    - giới hạn dưới dự báo
-    - khoảng tin cậy
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: type_formula
-      target:
-        names:
-        - E22
-        control_type: Cell
-      value: =D22-FORECAST.ETS.CONFINT(A22,$D$2:$D$21,$A$2:$A$21,0.95,12)
-      expected: &id009
-        type: com_check
-        prop: cell.formula_ok
-        ref: E22
-        op: 'true'
-      capture_result: true
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 896–901
-      names_checked: true
-    example: Tại ô E22, nhập công thức =D22-FORECAST.ETS.CONFINT(A22,$D$2:$D$21,$A$2:$A$21,0.95,12) để tính giới hạn dưới của khoảng tin cậy 95%
-      cho dự báo tại ô D22.
-    success_check: *id009
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''K3'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: số công thức phải giữ nguyên và bắt đầu bằng ='
   card:
     id: learn_exc_cach_nhap_cong_thuc_tinh_toan_trong_exce_9fc0
@@ -542,7 +473,7 @@ cards:
         - O12
         control_type: Cell
       value: =2*K1+L1-1000*O10
-      expected: &id010
+      expected: &id008
         type: com_check
         prop: cell.formula_ok
         ref: O12
@@ -553,12 +484,12 @@ cards:
       where: trang 921–924
       names_checked: true
     example: Chọn ô K3, gõ =HLOOKUP(A3,Qual,B3+1) rồi nhấn Enter để tra cứu trình độ nhân viên dựa trên công việc được giao.
-    success_check: *id010
+    success_check: *id008
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''B4'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: số công thức phải giữ nguyên và bắt đầu bằng ='
+    refit_tries: 1
+- reason: 'bước ''B4'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: C4=0.03369; B4=#VALUE!'
   card:
     id: learn_exc_cach_tinh_toan_mo_phong_trong_excel_15c8
     title: Cách tính toán mô phỏng trong Excel
@@ -590,7 +521,7 @@ cards:
         - B4
         control_type: Cell
       value: =NORM.INV(C4,mean,sigma)
-      expected: &id011
+      expected: &id009
         type: com_check
         prop: cell.formula_ok
         ref: B4
@@ -602,11 +533,11 @@ cards:
       names_checked: true
     example: Tại ô C4 nhập =RAND() để tạo số ngẫu nhiên, sau đó tại ô B4 nhập =NORM.INV(C4,mean,sigma) để tạo giá trị biến ngẫu nhiên chuẩn dựa
       trên số đó.
-    success_check: *id011
+    success_check: *id009
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''E2'': không xác minh được (com_check) · học lại: bảng mẫu tự dựng vẫn lỗi: E2=#N/A'
   card:
     id: learn_exc_cach_su_dung_ham_vlookup_trong_excel_4c01
@@ -625,7 +556,7 @@ cards:
         - E2
         control_type: Cell
       value: =VLOOKUP("Sản phẩm A", A1:D21, 4, FALSE)
-      expected: &id012
+      expected: &id010
         type: com_check
         prop: cell.formula_ok
         ref: E2
@@ -636,11 +567,11 @@ cards:
       where: trang 1230–1235
       names_checked: true
     example: Tại ô E2, nhập công thức để tìm kiếm doanh số của một sản phẩm cụ thể trong bảng dữ liệu.
-    success_check: *id012
+    success_check: *id010
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
   card:
     id: learn_exc_cach_tao_nhom_du_lieu_tu_dong_trong_exce_a777
@@ -686,7 +617,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Group...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Group...'''
   card:
     id: learn_exc_cach_nhom_du_lieu_thu_cong_trong_excel_7d9d
@@ -732,7 +663,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Ungroup...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Ungroup...'''
   card:
     id: learn_exc_cach_huy_nhom_du_lieu_trong_excel_406b
@@ -778,7 +709,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''More Rules...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''More Rules...'''
   card:
     id: learn_exc_cach_tao_dinh_dang_co_dieu_kien_voi_icon_c803
@@ -835,73 +766,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
-  card:
-    id: learn_exc_cach_chen_ham_vao_cong_thuc_trong_excel_da98
-    title: Cách chèn hàm vào công thức trong Excel
-    keywords:
-    - chèn hàm
-    - dùng hàm excel
-    - insert function
-    - thêm hàm vào công thức
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Formulas
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Logical
-        - Logic
-        control_type: MenuItem
-        automation_id: FunctionsLogicalInsertGallery
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - IF
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: set_value
-      target:
-        names:
-        - Formula Bar
-        - Logical_test
-        - Biểu thức logic
-        control_type: Edit
-      value: A1>10
-      expected:
-        type: none
-    - id: 5
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn ô cần tính trên bảng 4 cột, vào thẻ Formulas, chọn nhóm hàm Logic và chọn IF, sau đó điền điều kiện vào hộp thoại và bấm OK.
-    learned:
-      source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
-      where: trang 47–50
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''AVERAGEIF'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''AVERAGEIF'''
   card:
     id: learn_exc_cach_chen_ham_averageif_hoac_countif_tro_9656
@@ -958,7 +823,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''MAXIFS'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''MAXIFS'''
   card:
     id: learn_exc_cach_chen_ham_maxifs_hoac_minifs_trong_e_7e5a
@@ -1011,8 +876,9 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'lỗi khi làm mẫu: (-2147023174, ''The RPC server is unavailable.'', None, None)'
+    refit_tries: 1
+- reason: 'bước ''Function Arguments'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Function
+    Arguments'''
   card:
     id: learn_exc_cach_chen_ham_index_va_match_trong_excel_daa4
     title: Cách chèn hàm INDEX và MATCH trong Excel
@@ -1053,6 +919,7 @@ cards:
       intent: invoke
       target:
         names:
+        - ‪Book1‬  -  Excel
         - OK
         control_type: ListItem|MenuItem|Button
       expected:
@@ -1083,7 +950,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_dinh_nghia_ten_vung_moi_trong_excel_2739
@@ -1156,7 +1023,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Apply Names...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Apply Names...'''
   card:
     id: learn_exc_cach_ap_dung_ten_vung_vao_cong_thuc_tron_cb6c
@@ -1217,7 +1084,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''General'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''General'''
   card:
     id: learn_exc_cach_chuyen_dinh_dang_ngay_thang_thanh_s_54d5
@@ -1255,7 +1122,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Time'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Time'''
   card:
     id: learn_exc_cach_dinh_dang_hien_thi_giay_trong_excel_3045
@@ -1300,8 +1167,9 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+    refit_tries: 1
+- reason: 'bước ''Column input cell'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Column
+    input cell'''
   card:
     id: learn_exc_cach_tao_bang_du_lieu_mot_chieu_trong_ex_bd9a
     title: Cách tạo bảng dữ liệu một chiều trong Excel
@@ -1374,8 +1242,9 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+    refit_tries: 1
+- reason: 'bước ''Column input cell'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Column
+    input cell'''
   card:
     id: learn_exc_cach_tao_bang_du_lieu_hai_chieu_trong_ex_b613
     title: Cách tạo bảng dữ liệu hai chiều trong Excel
@@ -1452,7 +1321,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Data'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Data'''
   card:
     id: learn_exc_cach_dat_che_do_tinh_toan_automatic_exce_8cb3
@@ -1506,7 +1375,7 @@ cards:
       source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
       where: trang 207–210
       names_checked: false
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Medium'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Medium'''
   card:
     id: learn_exc_cach_dinh_dang_bang_du_lieu_format_as_ta_6c55
@@ -1553,7 +1422,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Subtotal'''
   card:
     id: learn_exc_cach_dung_subtotal_trong_excel_d0fa
@@ -1592,7 +1461,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Hide Sheet'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Hide Sheet'''
   card:
     id: learn_exc_cach_an_mot_sheet_trong_excel_c276
@@ -1643,7 +1512,7 @@ cards:
       source: Bai tap Tin hoc FTU2.pdf
       where: trang 91–96
       names_checked: false
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_dat_ten_cho_vung_du_lieu_bang_defin_88d8
@@ -1704,8 +1573,9 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'bước ''Type'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Type'''
+    refit_tries: 1
+- reason: 'bước ''Format Cell Number'': expand on ''Format Cell Number'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn
+    hình giống ''Type'''
   card:
     id: learn_exc_cach_dinh_dang_hien_thi_tong_thoi_gian_v_bece
     title: Cách định dạng hiển thị tổng thời gian vượt quá 24 giờ
@@ -1751,6 +1621,14 @@ cards:
       expected:
         type: none
     - id: 5
+      intent: expand
+      target:
+        names:
+        - Format Cell Number
+        control_type: Button
+      expected:
+        type: expanded
+    - id: 6
       intent: set_value
       target:
         names:
@@ -1759,7 +1637,7 @@ cards:
       value: '[h]:mm:ss'
       expected:
         type: none
-    - id: 6
+    - id: 7
       intent: invoke
       target:
         names:
@@ -1777,7 +1655,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Row input cell'''
   card:
     id: learn_exc_cach_tao_bang_du_lieu_hai_chieu_two_way_ab45
@@ -1868,7 +1746,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Set cell'''
   card:
     id: learn_exc_cach_su_dung_goal_seek_trong_excel_b52f
@@ -1984,7 +1862,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Greater Than...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Greater
     Than...'''
   card:
@@ -2061,7 +1939,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Top 10 Items...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Top 10
     Items...'''
   card:
@@ -2134,7 +2012,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Top 10%'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Top 10%'''
   card:
     id: learn_exc_cach_lam_noi_bat_gia_tri_cao_nhat_hoac_t_cd7e
@@ -2196,7 +2074,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Duplicate Values'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Duplicate
     Values'''
   card:
@@ -2258,7 +2136,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Text That Contains'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Text
     That Contains'''
   card:
@@ -2329,7 +2207,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Green - White - Red Color Scale'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình
     giống ''Green - White - Red Color Scale'''
   card:
@@ -2386,7 +2264,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Greater Than'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Greater Than'''
   card:
     id: learn_exc_cach_to_mau_o_dua_tren_dieu_kien_gia_tri_308e
@@ -2467,9 +2345,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
-    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+    refit_tries: 1
+- reason: 'bước ''Format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format'''
   card:
     id: learn_exc_cach_dung_cong_thuc_de_dinh_dang_o_d126
     title: Cách dùng công thức để định dạng ô
@@ -2513,6 +2390,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Use a formula to determine which cells to format
         control_type: ListItem|MenuItem|Button
       expected:
@@ -2521,6 +2399,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Format
         - Format values where this formula is true
         control_type: Edit
       value: =D2>500
@@ -2552,9 +2431,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
-    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+    refit_tries: 1
+- reason: 'bước ''Format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format'''
   card:
     id: learn_exc_cach_tao_dinh_dang_co_dieu_kien_bang_con_5936
     title: Cách tạo định dạng có điều kiện bằng công thức
@@ -2594,6 +2472,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Use a formula to determine which cells to format
         control_type: ListItem|MenuItem|Button
       expected:
@@ -2602,6 +2481,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Format
         - Format values where this formula is true
         control_type: Edit
       value: =D2>D1
@@ -2642,56 +2522,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''Format Painter'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format
-    Painter'''
-  card:
-    id: learn_exc_cach_sao_chep_dinh_dang_cho_nhieu_vung_k_01fd
-    title: Cách sao chép định dạng cho nhiều vùng không liền kề
-    keywords:
-    - copy format nhiều ô
-    - format painter liên tục
-    - sao chép định dạng không liền kề
-    - sao chép định dạng nhiều vùng
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: invoke
-      target:
-        names:
-        - Format Painter
-        control_type: Button
-        automation_id: FormatPainter
-      expected:
-        type: none
-    - id: 3
-      intent: invoke
-      target:
-        names:
-        - Format Painter
-        control_type: Button
-        automation_id: FormatPainter
-      expected:
-        type: none
-      capture_result: true
-    example: Chọn ô D2, nhấp đúp vào nút Format Painter, sau đó lần lượt chọn các ô D5, D10, D15 để áp dụng định dạng cho tất cả các ô này cùng
-      lúc.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 292–299
-      names_checked: true
-    preconditions:
-    - type: select_range
-      ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Name Box'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Name Box'''
   card:
     id: learn_exc_cach_them_slicer_de_loc_du_lieu_f4a0
@@ -2749,9 +2580,8 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
-    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+    refit_tries: 1
+- reason: 'bước ''Format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format'''
   card:
     id: learn_exc_cach_tao_quy_tac_dinh_dang_co_dieu_kien_cf13
     title: Cách tạo quy tắc định dạng có điều kiện tự động mở rộng cho bảng
@@ -2801,6 +2631,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Use a formula to determine which cells to format
         control_type: ListItem|MenuItem|Button
       expected:
@@ -2809,6 +2640,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Format
         - Format values where this formula is true
         control_type: Edit
       value: =D2=MAX(D$2:D21)
@@ -2832,9 +2664,8 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
-    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+    refit_tries: 1
+- reason: 'bước ''Format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format'''
   card:
     id: learn_exc_cach_dung_dinh_dang_co_dieu_kien_voi_con_a69f
     title: Cách dùng định dạng có điều kiện với công thức trong Excel
@@ -2875,6 +2706,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Use a formula to determine which cells to format
         control_type: ListItem|MenuItem|Button
       expected:
@@ -2883,6 +2715,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Format
         - Format values where this formula is true
         control_type: Edit
       value: =AND($F$1,D4<=$H$4)
@@ -2941,7 +2774,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Clear'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Clear'''
   card:
     id: learn_exc_cach_xoa_bo_loc_c289
@@ -2978,8 +2811,8 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D1
-    refit_tries: 2
-- reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError()'
+    refit_tries: 1
+- reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Allow'''
   card:
     id: learn_exc_cach_tao_danh_sach_tha_xuong_data_valida_1a4a
     title: Cách tạo danh sách thả xuống (Data Validation) trong Excel
@@ -3085,8 +2918,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''Date'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Date'''
+    refit_tries: 1
+- reason: 'bước ''Start date'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Start date'''
   card:
     id: learn_exc_cach_gioi_han_ngay_thang_nhap_vao_bang_d_333e
     title: Cách giới hạn ngày tháng nhập vào bằng Data Validation
@@ -3117,6 +2950,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Consolidate...
         - Date
         control_type: ListItem|MenuItem|Button
       expected:
@@ -3157,7 +2991,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''List'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''List'''
   card:
     id: learn_exc_cach_tao_danh_sach_chon_drop_down_list_b_0d61
@@ -3220,8 +3054,9 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'bước ''Text length'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Text length'''
+    refit_tries: 1
+- reason: 'bước ''less than or equal to'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''less
+    than or equal to'''
   card:
     id: learn_exc_cach_gioi_han_do_dai_ky_tu_trong_o_9e12
     title: Cách giới hạn độ dài ký tự trong ô
@@ -3251,6 +3086,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Data Validation...
         - Text length
         control_type: ListItem|MenuItem|Button
       expected:
@@ -3289,7 +3125,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Month'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Month'''
   card:
     id: learn_exc_cach_tao_slicer_trong_pivottable_ea78
@@ -3344,7 +3180,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_tao_pivottable_trong_excel_f653
@@ -3396,7 +3232,7 @@ cards:
       source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
       where: trang 535–540
       names_checked: false
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Product'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Product'''
   card:
     id: learn_exc_cach_su_dung_slicer_de_loc_du_lieu_pivot_8c9e
@@ -3458,7 +3294,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Date'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Date'''
   card:
     id: learn_exc_cach_them_timeline_vao_pivottable_b1be
@@ -3512,7 +3348,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_tao_pivotchart_tu_du_lieu_fa4a
@@ -3556,8 +3392,8 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''Charts'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Charts'''
+    refit_tries: 1
+- reason: 'bước ''Charts'': expand on ''Charts'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Charts'''
   card:
     id: learn_exc_cach_tao_bieu_do_tu_mau_template_76e4
     title: Cách tạo biểu đồ từ mẫu (Template)
@@ -3576,6 +3412,14 @@ cards:
       expected:
         type: tab_selected
     - id: 2
+      intent: expand
+      target:
+        names:
+        - Charts
+        control_type: Group
+      expected:
+        type: expanded
+    - id: 3
       intent: select_item
       target:
         names:
@@ -3584,7 +3428,7 @@ cards:
         control_type: ListItem|MenuItem|Button
       expected:
         type: none
-    - id: 3
+    - id: 4
       intent: select_item
       target:
         names:
@@ -3592,7 +3436,7 @@ cards:
         control_type: ListItem|MenuItem|Button
       expected:
         type: none
-    - id: 4
+    - id: 5
       intent: invoke
       target:
         names:
@@ -3610,7 +3454,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
   card:
     id: learn_exc_cach_chen_pivottable_c26b
@@ -3652,7 +3496,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Stock'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Stock'''
   card:
     id: learn_exc_cach_tao_bieu_do_chung_khoan_trong_excel_6744
@@ -3700,8 +3544,8 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+    refit_tries: 1
+- reason: 'bước ''Data'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Data'''
   card:
     id: learn_exc_cach_tao_sparkline_dang_duong_trong_exce_1d3a
     title: Cách tạo Sparkline dạng đường trong Excel
@@ -3733,6 +3577,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Data
         - Data Range
         control_type: Edit
       value: A2:D21
@@ -3755,8 +3600,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
+    refit_tries: 1
+- reason: 'bước ''Data'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Data'''
   card:
     id: learn_exc_cach_tao_sparkline_dang_thang_thua_win_l_6625
     title: Cách tạo Sparkline dạng Thắng/Thua (Win/Loss)
@@ -3787,6 +3632,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Data
         - Data Range
         control_type: Edit
       value: A2:D21
@@ -3809,9 +3655,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
-- reason: 'bước ''Use a formula to determine which cells to format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút
-    nào trên màn hình giống ''Use a formula to determine which cells to format'''
+    refit_tries: 1
+- reason: 'bước ''Format'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Format'''
   card:
     id: learn_exc_cach_su_dung_conditional_formatting_de_d_637a
     title: Cách sử dụng Conditional Formatting để đánh dấu dòng
@@ -3851,6 +3696,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Use a formula to determine which cells to format
         control_type: ListItem|MenuItem|Button
       expected:
@@ -3859,6 +3705,7 @@ cards:
       intent: set_value
       target:
         names:
+        - Format
         - Format values where this formula is true
         control_type: Edit
       value: =$D2=1
@@ -3916,7 +3763,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Columns'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Columns'''
   card:
     id: learn_exc_cach_tao_chuoi_so_tu_dong_trong_excel_7036
@@ -3997,7 +3844,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Row Input Cell'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Row Input
     Cell'''
   card:
@@ -4077,64 +3924,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
-- reason: 'bước ''OK'': không xác minh được (dialog_closed)'
-  card:
-    id: learn_exc_cach_tao_bang_du_lieu_mo_phong_data_tabl_a374
-    title: Cách tạo bảng dữ liệu mô phỏng (Data Table) trong Excel
-    keywords:
-    - Data Table
-    - What-If Analysis
-    - mô phỏng dữ liệu
-    - phân tích kịch bản
-    - tạo bảng dữ liệu
-    - Cách tạo bảng mô phỏng dữ liệu với Data Table
-    fixture_id: sales_table_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Data
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - What-If Analysis
-        control_type: MenuItem
-        automation_id: WhatIfAnalysisMenu
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Data Table
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-    - id: 4
-      intent: invoke
-      target:
-        names:
-        - OK
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: dialog_closed
-      capture_result: true
-    example: Chọn vùng bảng H16:K1015, sau đó vào Data > What-If Analysis > Data Table và nhấn OK để Excel tự động điền 1.000 kịch bản mô phỏng
-      vào bảng.
-    learned:
-      source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
-      where: trang 962–965
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'quá 120 giây (một hướng dẫn phải xong dưới 2 phút) · học lại: không có danh sách tên trên màn hình để so'
   card:
     id: learn_exc_cach_dat_ten_cho_vung_du_lieu_7b9a
@@ -4180,7 +3970,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Sheet1'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Sheet1'''
   card:
     id: learn_exc_cach_thiet_lap_in_chu_thich_5ca4
@@ -4224,7 +4014,7 @@ cards:
       source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
       where: trang 974–976
       names_checked: false
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Sum 2110'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Sum 2110'''
   card:
     id: learn_exc_cach_lam_noi_bat_gia_tri_lon_nhat_bang_c_500b
@@ -4297,7 +4087,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Medium'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Medium'''
   card:
     id: learn_exc_cach_dinh_dang_bang_du_lieu_trong_excel_eb72
@@ -4352,7 +4142,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Unhide...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Unhide...'''
   card:
     id: learn_exc_cach_hien_thi_so_lam_viec_macro_ca_nhan_2e48
@@ -4404,7 +4194,7 @@ cards:
       source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
       where: trang 1066–1070
       names_checked: false
-    refit_tries: 2
+    refit_tries: 1
 - reason: quá 120 giây (một hướng dẫn phải xong dưới 2 phút)
   card:
     id: learn_exc_cach_dat_ten_cho_vung_du_lieu_define_nam_1286
@@ -4446,7 +4236,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Data'': expand on ''Data'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn hình giống ''Allow'''
   card:
     id: learn_exc_cach_thiet_lap_kiem_soat_du_lieu_data_va_8b1c
@@ -4517,7 +4307,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Minimum'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Minimum'''
   card:
     id: learn_exc_cach_gioi_han_du_lieu_nhap_vao_bang_data_eb48
@@ -4581,7 +4371,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Subtotal'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Subtotal'''
   card:
     id: learn_exc_cach_tinh_tong_phu_subtotal_trong_excel_2873
@@ -4627,7 +4417,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Top 10 Items...'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Top 10
     Items...'''
   card:
@@ -4700,7 +4490,7 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Recommended Charts'': expand on ''Recommended Charts'' failed: NoPatternInterfaceError() · học lại: không có nút nào trên màn
     hình giống ''Pie'''
   card:
@@ -4755,7 +4545,7 @@ cards:
     preconditions:
     - type: select_range
       ref: A1:D21
-    refit_tries: 2
+    refit_tries: 1
 - reason: 'bước ''Hide Columns'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''Hide Columns'''
   card:
     id: learn_exc_cach_an_cac_cot_trong_bang_e407
@@ -4809,9 +4599,8 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
-- reason: 'bước ''Format only cells that contain'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình
-    giống ''Format only cells that contain'''
+    refit_tries: 1
+- reason: 'bước ''less than'': Guider không tìm thấy nút này trên Excel của bạn · học lại: không có nút nào trên màn hình giống ''less than'''
   card:
     id: learn_exc_cach_thiet_lap_dinh_dang_co_dieu_kien_co_3ee7
     title: Cách thiết lập định dạng có điều kiện (Conditional Formatting)
@@ -4852,6 +4641,7 @@ cards:
       intent: select_item
       target:
         names:
+        - Format
         - Format only cells that contain
         control_type: ListItem|MenuItem|Button
       expected:
@@ -4916,4 +4706,4 @@ cards:
     preconditions:
     - type: select_range
       ref: D2:D21
-    refit_tries: 2
+    refit_tries: 1

@@ -12504,6 +12504,236 @@ cards:
   preconditions:
   - type: select_range
     ref: D2:D21
+- id: learn_exc_cach_trich_xuat_du_lieu_tu_pivottable_ba_72be
+  title: Cách trích xuất dữ liệu từ PivotTable bằng hàm GETPIVOTDATA
+  keywords:
+  - công thức PivotTable
+  - hàm GETPIVOTDATA
+  - lấy dữ liệu từ PivotTable
+  - trích xuất giá trị PivotTable
+  fixture_id: card_learn_exc_cach_trich_xuat_du_lieu_tu_pivottable_ba_72be
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - E2
+      control_type: Cell
+    value: =SUM(D2:D3)
+    expected: &id243
+      type: com_check
+      prop: cell.formula_ok
+      ref: E2
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 547–553
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: E2=8000'
+  example: Tong doanh thu la 8000
+  success_check: *id243
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tinh_khoang_tin_cay_duoi_cho_du_bao_2032
+  title: Cách tính khoảng tin cậy dưới cho dự báo
+  keywords:
+  - forecast.ets.confint
+  - giới hạn dưới dự báo
+  - khoảng tin cậy
+  fixture_id: card_learn_exc_cach_tinh_khoang_tin_cay_duoi_cho_du_bao_2032
+  steps:
+  - id: 1
+    intent: type_formula
+    target:
+      names:
+      - C22
+      control_type: Cell
+    value: =220-FORECAST.ETS.CONFINT("2024-09-01",$B$1:$B$20,$A$1:$A$20,0.95,1)
+    expected: &id244
+      type: com_check
+      prop: cell.formula_ok
+      ref: C22
+      op: 'true'
+    capture_result: true
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 896–901
+    names_checked: true
+    relearned: 'dựng bảng mẫu riêng: C22=220'
+  example: Tại ô C22, nhập công thức =220-FORECAST.ETS.CONFINT("2024-09-01",$B$1:$B$20,$A$1:$A$20,0.95,1) để tính giới hạn dưới của khoảng tin
+    cậy 95% cho giá trị dự báo.
+  success_check: *id244
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_chen_ham_vao_cong_thuc_trong_excel_da98
+  title: Cách chèn hàm vào công thức trong Excel
+  keywords:
+  - chèn hàm
+  - dùng hàm excel
+  - insert function
+  - thêm hàm vào công thức
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Formulas
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Logical
+      - Logic
+      control_type: MenuItem
+      automation_id: FunctionsLogicalInsertGallery
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - IF
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: set_value
+    target:
+      names:
+      - Formula Bar
+      - Logical_test
+      - Biểu thức logic
+      control_type: Edit
+    value: A1>10
+    expected:
+      type: none
+  - id: 5
+    intent: invoke
+    target:
+      names:
+      - ‪Book1‬  -  Excel
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Chọn ô cần tính trên bảng 4 cột, vào thẻ Formulas, chọn nhóm hàm Logic và chọn IF, sau đó điền điều kiện vào hộp thoại và bấm OK.
+  learned:
+    source: '[studocu.com] - MOS Study Guide for Microsoft Excel Expert Exam MO-201.pdf'
+    where: trang 47–50
+    names_checked: true
+    relearned: đổi 'OK' → '‪Book1‬  -  Excel'
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_sao_chep_dinh_dang_cho_nhieu_vung_k_01fd
+  title: Cách sao chép định dạng cho nhiều vùng không liền kề
+  keywords:
+  - copy format nhiều ô
+  - format painter liên tục
+  - sao chép định dạng không liền kề
+  - sao chép định dạng nhiều vùng
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: invoke
+    target:
+      names:
+      - Format Painter
+      control_type: Button
+      automation_id: FormatPainter
+    expected:
+      type: none
+  - id: 3
+    intent: invoke
+    target:
+      names:
+      - Format Painter
+      control_type: Button
+      automation_id: FormatPainter
+    expected:
+      type: none
+    capture_result: true
+  example: Chọn ô D2, nhấp đúp vào nút Format Painter, sau đó lần lượt chọn các ô D5, D10, D15 để áp dụng định dạng cho tất cả các ô này cùng
+    lúc.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 292–299
+    names_checked: true
+  preconditions:
+  - type: select_range
+    ref: D2
+- id: learn_exc_cach_tao_bang_du_lieu_mo_phong_data_tabl_a374
+  title: Cách tạo bảng dữ liệu mô phỏng (Data Table) trong Excel
+  keywords:
+  - Data Table
+  - What-If Analysis
+  - mô phỏng dữ liệu
+  - phân tích kịch bản
+  - tạo bảng dữ liệu
+  - Cách tạo bảng mô phỏng dữ liệu với Data Table
+  fixture_id: sales_table_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Data
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - What-If Analysis
+      control_type: MenuItem
+      automation_id: WhatIfAnalysisMenu
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Data Table
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+  - id: 4
+    intent: invoke
+    target:
+      names:
+      - ‪Book1‬  -  Excel
+      - OK
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: dialog_closed
+    capture_result: true
+  example: Chọn vùng bảng H16:K1015, sau đó vào Data > What-If Analysis > Data Table và nhấn OK để Excel tự động điền 1.000 kịch bản mô phỏng
+    vào bảng.
+  learned:
+    source: Microsoft.Press.Microsoft.Excel.Data.Analysis.and.Business.Modeling.7th.Edition (1).pdf
+    where: trang 962–965
+    names_checked: true
+    relearned: đổi 'OK' → '‪Book1‬  -  Excel'
+  preconditions:
+  - type: select_range
+    ref: A1:D21
 extends:
   increase_decimal:
   - Increase Decimal
