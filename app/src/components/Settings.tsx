@@ -53,7 +53,7 @@ export function Settings() {
           Tạo miễn phí tại <span className="font-medium text-ink">{AI_STUDIO}</span> rồi dán vào đây. Key được mã hoá theo tài khoản Windows của bạn và chỉ nằm trên máy này.
         </p>
         <p className="mt-2 text-small">
-          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút; không gửi nội dung file, và chỉ gửi ảnh chụp vấn đề khi bạn bật "Đọc ảnh bằng Gemini" bên dưới.
+          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút; không gửi nội dung file, và ảnh chụp vấn đề được gửi khi mục "Đọc ảnh bằng Gemini" bên dưới đang bật.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <input
@@ -94,14 +94,14 @@ export function Settings() {
       <div className="mt-8 border-t border-edge pt-6">
         <h3 className="font-semibold">Đọc ảnh chụp vấn đề</h3>
         <p className="mt-1 max-w-[600px] text-small text-lunar">
-          Mặc định Guider đọc ảnh ngay trên máy bằng model gemma3:4b: ảnh không rời máy, nhưng mất khoảng 1–2 phút mỗi ảnh trên máy không có card đồ họa.
+          Khi đã có API key, Guider gửi ảnh lên Gemini để đọc (vài giây). Tắt mục dưới thì Guider đọc ảnh ngay trên máy bằng model gemma3:4b: ảnh không rời máy, nhưng mất khoảng 1–2 phút mỗi ảnh trên máy không có card đồ họa.
         </p>
         <label className="mt-3 flex max-w-[600px] items-start gap-3">
           <input
             type="checkbox"
             className="mt-1 h-4 w-4"
             disabled={!hasKey}
-            checked={!!settings?.vision_cloud && hasKey}
+            checked={settings?.vision_cloud !== false && hasKey}
             onChange={(e) => void setVisionCloud(e.target.checked)}
           />
           <span>

@@ -306,7 +306,8 @@ class TutorialService:
         if not self._cfg_fixed:
             self.cfg = LLMConfig.load()
         work = work_root() / "problems" / uuid.uuid4().hex[:12]
-        progress({"state": "DIAGNOSE", "message": "Guider đang đọc ảnh của bạn (trên máy, không gửi ảnh đi)"})
+        progress({"state": "DIAGNOSE", "message": "Guider đang đọc ảnh của bạn bằng Gemini" if vp.cloud_enabled()
+                  else "Guider đang đọc ảnh của bạn (trên máy, không gửi ảnh đi)"})
         try:
             try:
                 vconf = vp.VisionConf.load()

@@ -1,9 +1,9 @@
 """Read a screenshot or photo of the user's Office problem (ADR-0005).
 
-By default everything here runs on this machine: Windows' built-in OCR and a local vision model through
-Ollama (gemma3:4b, ~100 s per picture on a laptop CPU). Only when the user turns on "Đọc ảnh bằng Gemini" in
-Settings (setting `vision_cloud`, off by default, with a saved Gemini key) is the picture sent to Google —
-the app warns that the free tier lets Google use it. The task question that comes out of the picture (the
+When a Gemini key is saved, Gemini reads the picture (a few seconds): setting `vision_cloud` is ON by default and the user can turn it off in Settings; the chat says, before sending, that the
+picture goes to Gemini. Without a key, with the setting off, or when Gemini fails, everything runs on this
+machine: a local vision model through Ollama (gemma3:4b, ~100 s per picture on a laptop CPU), Windows OCR as
+the last fallback. The task question that comes out of the picture (the
 same kind of text the user would type) goes on to the Planner as before.
 
 Pipeline: prepare (copy, shrink) → OCR → vision model (app, visible text, problem, task, visible table)
@@ -244,13 +244,13 @@ SYSTEM = (
 
 
 def cloud_enabled() -> bool:
-    """The user's explicit choice in Settings, and a Gemini key saved with DPAPI."""
+    """A Gemini key saved with DPAPI, and the user has not turned "Đọc ảnh bằng Gemini" off (on by default)."""
     from ..llm.config import settings_path
     from ..llm.secrets import has_key
     try:
-        on = bool(json.loads(settings_path().read_text(encoding="utf-8")).get("vision_cloud"))
+        on = json.loads(settings_path().read_text(encoding="utf-8")).get("vision_cloud", True) is not False
     except (OSError, ValueError):
-        on = False
+        on = True
     return on and has_key("gemini")
 
 

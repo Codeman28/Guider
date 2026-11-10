@@ -42,7 +42,7 @@ max_pages = 20                     # per pasted link (same site, same folder)
 local_timeout_s = 600
 cloud_timeout_s = 60
 
-[vision]                 # picture of the user's problem (ADR-0005): read on this machine unless the user turns on Gemini for pictures
+[vision]                 # picture of the user's problem (ADR-0005): Gemini reads it when a key is saved (vision_cloud on by default); else this model
 model = "gemma3:4b"      # multimodal, already installed; ~100 s per new picture on a laptop CPU, model load ~10 s (warmed on attach)
 timeout_s = 150        # 10/11/2026 i7-8565U: ~73 s to read the picture + ~25 s to answer
 max_side = 1600          # longest side sent to the model, in pixels

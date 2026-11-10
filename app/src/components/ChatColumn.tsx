@@ -21,7 +21,7 @@ const STATUS: Record<string, string> = {
 
 export function ChatColumn() {
   const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile, problemImage, attaching, pickImage, pasteImage, captureOffice, clearImage, settings } = useApp();
-  const cloudVision = !!settings?.vision_cloud && !!settings?.has_key?.gemini;
+  const cloudVision = settings?.vision_cloud !== false && !!settings?.has_key?.gemini; // on by default (10/11/2026)
   const preview = (p: string) => (inTauri() ? convertFileSrc(p) : "");
   const fileName = sourceFile?.split(/[\/]/).pop();
   const [text, setText] = useState("");
@@ -120,7 +120,7 @@ export function ChatColumn() {
           ) : (
             <span className="h-14 w-20 rounded-sheet border border-edge bg-shell" aria-hidden />
           )}
-          <span className="min-w-0 flex-1">{attaching ? "Đang lấy ảnh…" : cloudVision ? "Guider sẽ gửi ảnh này cho Gemini để đọc (đã bật trong Cài đặt) rồi chỉ cách sửa." : "Guider sẽ đọc ảnh này ngay trên máy (không gửi đi) rồi chỉ cách sửa."}</span>
+          <span className="min-w-0 flex-1">{attaching ? "Đang lấy ảnh…" : cloudVision ? "Guider sẽ gửi ảnh này lên Gemini (Google) để đọc rồi chỉ cách sửa. Tắt trong Cài đặt nếu ảnh có thông tin riêng tư." : "Guider sẽ đọc ảnh này ngay trên máy (không gửi đi) rồi chỉ cách sửa."}</span>
           {problemImage && (
             <button type="button" disabled={!!demo} onClick={clearImage} aria-label="Bỏ ảnh" className="rounded-sheet border border-edge px-2 py-0.5 disabled:opacity-40">
               Bỏ ảnh

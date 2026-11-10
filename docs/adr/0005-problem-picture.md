@@ -29,9 +29,9 @@ trình → xuất hướng dẫn. Nhận file đã có từ ADR-0003; phần ả
      thẻ được ánh xạ như với file người dùng; kiểm tra COM theo ô của thẻ được bỏ qua và ghi trong trace.
 5. **Hướng dẫn** có thêm mục "Vấn đề của bạn": ảnh người dùng gửi, tóm tắt vấn đề, chữ đọc được, và đã làm mẫu trên
    file nào. Có trong bản xuất Markdown/HTML. Writer chạy nền giữ nguyên mục này.
-6. **Gemini cho ảnh là tùy chọn**: setting `vision_cloud`, mặc định tắt, chỉ bật được khi đã lưu key; Cài đặt
-   cảnh báo ảnh sẽ được tải lên Google và gói miễn phí cho phép Google dùng dữ liệu. Lỗi mạng → quay về đọc trên
-   máy.
+6. **Gemini đọc ảnh, bật mặc định**: setting `vision_cloud`, mặc định bật khi đã lưu
+   key Gemini, tắt được trong Cài đặt. Ô chat báo trước mỗi ảnh rằng ảnh sẽ được gửi lên Gemini; Cài đặt cảnh báo
+   gói miễn phí cho phép Google dùng dữ liệu. Không có key, đã tắt, hoặc lỗi mạng → đọc trên máy.
 
 ## Số đo (10/11/2026, i7-8565U, không GPU)
 
@@ -42,6 +42,7 @@ trình → xuất hướng dẫn. Nhận file đã có từ ADR-0003; phần ả
 | Model chọn bài (chữ) | ~12 s |
 | Làm mẫu cố định dòng tiêu đề trên bảng dựng lại | 15 s |
 | Tổng, ảnh Excel thật → hướng dẫn | 142 s |
+| Gemini đọc cùng ảnh (chép bảng đúng dấu) | 3,7 s |
 
 Đọc ảnh trên máy không vừa giới hạn 2 phút, nên phần làm mẫu giữ ngân sách 2 phút riêng, tính từ sau khi đọc
 xong; với Gemini cả lượt tính chung một ngân sách. Muốn nhanh hơn mà vẫn giữ ảnh trên máy thì cần model đọc ảnh nhỏ
@@ -49,6 +50,6 @@ hơn (phải tải thêm, chờ người dùng đồng ý) hoặc máy có GPU.
 
 ## Hệ quả
 
-- SPEC v1.5: §7.3 ngoại lệ opt-in, §8 quy tắc ảnh, §11 thêm `problem_image` và các lệnh `problem.*`.
+- SPEC v1.5: §7.3 ngoại lệ ảnh vấn đề, §8 quy tắc ảnh, §11 thêm `problem_image` và các lệnh `problem.*`.
 - Mã: `engine/kem_engine/vision/` (problem.py, ocr.ps1), `TutorialService.create_from_problem`, `SandboxHandle.sample`,
   `Tutorial.problem`; app: ChatColumn (ảnh, dán, chụp), StepStack (pha đọc ảnh), TutorialView (mục Vấn đề), Cài đặt.

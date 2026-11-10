@@ -149,12 +149,18 @@ def test_ocr_fallback_finds_the_error_value():
     assert vp.from_ocr(["random"], "") is None
 
 
-def test_cloud_reading_is_off_without_the_users_choice(tmp_path, monkeypatch):
+def test_cloud_reading_is_on_by_default_with_a_key(tmp_path, monkeypatch):
     monkeypatch.setenv("KEM_SETTINGS", str(tmp_path / "settings.json"))
-    monkeypatch.setattr("kem_engine.llm.secrets.has_key", lambda p, path=None: True)
-    assert vp.cloud_enabled() is False
-    (tmp_path / "settings.json").write_text('{"vision_cloud": true}', encoding="utf-8")
+    key = {"saved": True}
+    monkeypatch.setattr("kem_engine.llm.secrets.has_key", lambda p, path=None: key["saved"])
+    assert vp.cloud_enabled() is True  # no settings file yet
+    (tmp_path / "settings.json").write_text('{"provider": "ollama"}', encoding="utf-8")
     assert vp.cloud_enabled() is True
+    (tmp_path / "settings.json").write_text('{"vision_cloud": false}', encoding="utf-8")
+    assert vp.cloud_enabled() is False  # the user turned it off
+    (tmp_path / "settings.json").write_text('{}', encoding="utf-8")
+    key["saved"] = False
+    assert vp.cloud_enabled() is False  # no key, no upload
 
 
 def test_rpc_validates_vision_cloud(tmp_path):

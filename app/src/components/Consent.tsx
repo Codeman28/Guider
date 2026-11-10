@@ -4,7 +4,7 @@ import { useApp } from "../stores/app";
 const SENTENCES = [
   "Khi bạn hỏi, Guider mở một file Excel, Word hoặc PowerPoint trống, tự làm mẫu từng bước, chụp riêng cửa sổ đó rồi đóng lại không lưu.",
   "Guider chỉ dùng file hay ảnh của bạn khi bạn tự chọn, dán hoặc bấm chụp; file luôn được làm trên bản sao, file gốc không bị đổi.",
-  "Ảnh chụp và hướng dẫn nằm trên máy này. Ảnh chỉ được gửi lên Gemini nếu bạn tự bật trong Cài đặt.",
+  "Ảnh chụp và hướng dẫn nằm trên máy này. Ảnh chụp vấn đề bạn gửi được đưa lên Gemini để đọc khi bạn đã lưu API key Gemini; tắt được trong Cài đặt.",
 ];
 
 function Row({ title, ok, detail, pending }: { title: string; ok?: boolean; detail: string; pending: boolean }) {
