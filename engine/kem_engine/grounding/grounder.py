@@ -99,6 +99,18 @@ def _containers(target: Target, elements: list[Element], aliases) -> list[Elemen
     return [e for e in elements if e.control_type in types and name_score(e.name, wanted) >= THRESHOLD]
 
 
+def _inside(e: Element, c: Element, elements: list[Element]) -> bool:
+    """e lies in container c. A dialog (Window) can sit inside another one's rectangle (New Formatting Rule
+    over Format Cells, and UIA even lists it in the other's subtree, 10/11/2026): what lies in a smaller
+    window nested in c belongs to that window, not to c."""
+    if c is e or not c.rect.contains(e.rect):
+        return False
+    if c.control_type != "Window":
+        return True
+    return not any(w.control_type == "Window" and w is not c and w.name != c.name and c.rect.contains(w.rect)
+                   and w.rect.contains(e.rect) for w in elements)
+
+
 def ground(target: Target, intent: Intent, elements: list[Element],
            aliases: list[set[str]] | None = None) -> GroundResult:
     aliases = aliases if aliases is not None else load_aliases()
@@ -108,7 +120,7 @@ def ground(target: Target, intent: Intent, elements: list[Element],
 
     containers = _containers(target, elements, aliases)
     if containers:  # group visible on the ribbon → only accept elements inside it
-        inside = [e for e in pool if any(c.rect.contains(e.rect) and c is not e for c in containers)]
+        inside = [e for e in pool if any(_inside(e, c, elements) for c in containers)]
         if inside:
             pool = inside
 

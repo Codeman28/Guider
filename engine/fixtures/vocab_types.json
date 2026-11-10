@@ -1,0 +1,17 @@
+{
+ "id": "vocab_types",
+ "description": "Bảng từ vựng giả 10 dòng có cột Loại từ (adj, n, v) để tô màu cả hàng theo điều kiện (dữ liệu bịa)",
+ "columns": ["Word", "Type", "Meaning", "Example"],
+ "rows": [
+  ["Brave", "adj", "dũng cảm", "She is brave."],
+  ["Garden", "n", "khu vườn", "The garden is green."],
+  ["Run", "v", "chạy", "They run every day."],
+  ["Quiet", "adj", "yên tĩnh", "The room is quiet."],
+  ["River", "n", "dòng sông", "The river is long."],
+  ["Bright", "adj", "sáng sủa", "A bright idea."],
+  ["Write", "v", "viết", "Write your name."],
+  ["Lucky", "adj", "may mắn", "He was lucky."],
+  ["Window", "n", "cửa sổ", "Open the window."],
+  ["Gentle", "adj", "dịu dàng", "A gentle voice."]
+ ]
+}

@@ -7,6 +7,7 @@ side-by-side work.
 from __future__ import annotations
 
 import threading
+import time
 
 from .element import Element
 
@@ -60,6 +61,24 @@ def _click(el: Element) -> None:
     keyboard.click(r.left + round((r.right - r.left) * fx), r.top + round((r.bottom - r.top) * fx), pid)
 
 
+def _type_into(el: Element, value: str) -> None:
+    """An edit box without the Value pattern (the formula box of New Formatting Rule, 10/11/2026): click into it,
+    select what is there, type the text. Keys go out only while a window of the sandbox process is in front."""
+    from ..env import keyboard, win32
+    pid = win32.window_pid(el.root_hwnd)
+
+    def ours():
+        if win32.window_pid(keyboard.user32.GetForegroundWindow()) != pid:
+            raise ActionError("cửa sổ mẫu không còn ở trước, không gõ phím")
+
+    _click(el)
+    time.sleep(0.25)
+    ours()
+    keyboard.press("Ctrl+A")
+    keyboard.type_text(value, check_foreground=ours)
+    time.sleep(0.2)
+
+
 def perform(intent: str, el: Element, value: str | None = None) -> None:
     w = _wrap(el)
     try:
@@ -87,7 +106,10 @@ def perform(intent: str, el: Element, value: str | None = None) -> None:
         elif intent == "set_value":
             if value is None:
                 raise ActionError("set_value needs a value")
-            w.iface_value.SetValue(value)
+            if "Value" in el.patterns:
+                w.iface_value.SetValue(value)
+            else:
+                _type_into(el, value)
         else:
             raise ActionError(f"intent {intent!r} not supported by the Phase 1 actuator")
     except ActionError:

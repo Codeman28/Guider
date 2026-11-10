@@ -71,6 +71,7 @@ class Server:
             "training.remove": self.training_remove, "training.ask": self.training_ask,
             "problem.paste": self.problem_paste, "problem.capture": self.problem_capture,
             "problem.prepare": self.problem_prepare,
+            "tutorial.image": self.tutorial_image, "problem.image": self.problem_image,
             "problem.windows": self.problem_windows, "problem.warm_up": self.problem_warm_up,
         }
         self._training: dict | None = None  # {"job_id", "cancel", "thread"} — one training run at a time
@@ -251,6 +252,34 @@ class Server:
                                                              "inserted_reason", "error", "verify_note")}
                                        for s in t.get("steps", [])]}
         return data
+
+    @staticmethod
+    def _data_url(path: Path) -> dict:
+        import base64
+        kind = {".png": "png", ".jpg": "jpeg", ".jpeg": "jpeg"}.get(path.suffix.lower())
+        if kind is None or not path.is_file():
+            raise RpcError(INVALID_PARAMS, "no such image")
+        return {"data_url": f"data:image/{kind};base64," + base64.b64encode(path.read_bytes()).decode()}
+
+    def tutorial_image(self, params):
+        """A tutorial's screenshot as a data URL. The app showed images through Tauri's asset protocol, which
+        answered 403 for files inside its own scope on the installed build (10/11/2026); the engine already
+        owns these files, so it hands them over. Only plain file names inside that tutorial's folder."""
+        name = params.get("file")
+        if not isinstance(name, str) or not name or Path(name).name != name:
+            raise RpcError(INVALID_PARAMS, "file must be a plain file name")
+        return self._data_url(self._dir(params.get("tutorial_id")) / name)
+
+    def problem_image(self, params):
+        """Thumbnail of a picture attached in the chat: only files inside the local inbox."""
+        from ..sandbox.office import work_root
+        path = params.get("path")
+        if not isinstance(path, str):
+            raise RpcError(INVALID_PARAMS, "path is required")
+        p, inbox = Path(path).resolve(), (work_root() / "inbox").resolve()
+        if inbox not in p.parents:
+            raise RpcError(INVALID_PARAMS, "not an attached picture")
+        return self._data_url(p)
 
     def tutorial_list(self, params):
         out = []

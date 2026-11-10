@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { RpcClient, RpcError } from "../rpc/client";
+import { RpcClient, RpcError, inTauri } from "../rpc/client";
 import type { CloudCheck, CreateResult, Progress, Settings, SystemCheck, TrainAnswer, TrainDone, TrainMemory, TrainProgress, TrainStatus, Tutorial, TutorialMeta } from "../rpc/types";
 
 export interface DoneStep {
@@ -97,6 +97,9 @@ interface State {
   pickFile(): Promise<void>;
   clearFile(): void;
   pickImage(): Promise<void>;
+  attachImagePath(path: string): Promise<void>;
+  dropFiles(paths: string[]): Promise<void>;
+  dragging: boolean;
   pasteImage(file: Blob): Promise<void>;
   captureOffice(): Promise<void>;
   clearImage(): void;
@@ -114,6 +117,7 @@ interface State {
   askKnowledge(q: string): Promise<void>;
 }
 
+const IMAGE_TYPES = ["png", "jpg", "jpeg", "bmp", "gif", "webp"];
 const FILE_TYPES = ["xlsx", "xlsm", "xls", "csv", "docx", "docm", "doc", "pptx", "pptm", "ppt"];
 
 export const useApp = create<State>((set, get) => ({
@@ -135,6 +139,7 @@ export const useApp = create<State>((set, get) => ({
   sourceFile: null,
   problemImage: null,
   attaching: false,
+  dragging: false,
   rewriting: {},
   settings: null,
   cloud: null,
@@ -155,6 +160,21 @@ export const useApp = create<State>((set, get) => ({
     client.on("tutorial.updated", (u: { tutorial_id: string }) => void get().onUpdated(u.tutorial_id));
     void get().refreshLibrary();
     void get().loadSettings();
+    if (inTauri()) {
+      // Tauri takes file drops away from the page, so a dropped picture never reached the chat (10/11/2026):
+      // listen on the webview instead. A picture → problem picture; an Office file → "file của bạn".
+      void import("@tauri-apps/api/webview").then(({ getCurrentWebview }) =>
+        getCurrentWebview().onDragDropEvent((e) => {
+          const p = e.payload;
+          if (p.type === "enter" || p.type === "over") set({ dragging: !get().demo });
+          else if (p.type === "leave") set({ dragging: false });
+          else if (p.type === "drop") {
+            set({ dragging: false });
+            void get().dropFiles(p.paths);
+          }
+        }),
+      );
+    }
     client.on("training.progress", (p: TrainProgress) =>
       set((s) => (s.trainJob && s.trainJob.id === p.job_id ? { trainJob: { ...s.trainJob, progress: p } } : {})));
     client.on("training.done", (d: TrainDone) => {
@@ -303,17 +323,36 @@ export const useApp = create<State>((set, get) => ({
       const picked = await open({
         multiple: false,
         directory: false,
-        title: "Chọn ảnh chụp vấn đề của bạn (ảnh chỉ được đọc trên máy này)",
-        filters: [{ name: "Ảnh", extensions: ["png", "jpg", "jpeg", "bmp", "gif", "webp"] }],
+        title: "Chọn ảnh chụp vấn đề của bạn",
+        filters: [{ name: "Ảnh", extensions: IMAGE_TYPES }],
       });
-      if (typeof picked !== "string") return;
-      set({ attaching: true });
-      const r = await c.call<{ path: string }>("problem.prepare", { path: picked });
-      set({ problemImage: r.path, attaching: false });
+      if (typeof picked === "string") await get().attachImagePath(picked);
+    } catch (e) {
+      set({ notice: `Không mở được hộp chọn ảnh: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async attachImagePath(path) {
+    const c = get().client;
+    if (!c || get().demo) return;
+    set({ attaching: true });
+    try {
+      const r = await c.call<{ path: string }>("problem.prepare", { path });
+      set({ problemImage: r.path, attaching: false, notice: null });
       void c.call("problem.warm_up");
     } catch (e) {
       set({ attaching: false, notice: `Không dùng được ảnh này: ${e instanceof Error ? e.message : e}` });
     }
+  },
+
+  async dropFiles(paths) {
+    if (get().demo) return;
+    const ext = (p: string) => p.split(".").pop()?.toLowerCase() ?? "";
+    const image = paths.find((p) => IMAGE_TYPES.includes(ext(p)));
+    const office = paths.find((p) => FILE_TYPES.includes(ext(p)));
+    if (image) await get().attachImagePath(image);
+    if (office) set({ sourceFile: office });
+    if (!image && !office) set({ notice: "Guider nhận ảnh (PNG, JPG, BMP, GIF, WEBP) hoặc file Excel, Word, PowerPoint." });
   },
 
   async pasteImage(file) {
@@ -328,7 +367,7 @@ export const useApp = create<State>((set, get) => ({
         r.readAsDataURL(file);
       });
       const res = await c.call<{ path: string }>("problem.paste", { data_b64: data });
-      set({ problemImage: res.path, attaching: false });
+      set({ problemImage: res.path, attaching: false, notice: null });
       void c.call("problem.warm_up");
     } catch (e) {
       set({ attaching: false, notice: `Không dán được ảnh: ${e instanceof Error ? e.message : e}` });
@@ -341,7 +380,7 @@ export const useApp = create<State>((set, get) => ({
     set({ attaching: true });
     try {
       const res = await c.call<{ path: string; app: string; title: string }>("problem.capture");
-      set({ problemImage: res.path, attaching: false });
+      set({ problemImage: res.path, attaching: false, notice: null });
       void c.call("problem.warm_up");
     } catch (e) {
       set({ attaching: false, notice: e instanceof Error ? e.message : String(e) });

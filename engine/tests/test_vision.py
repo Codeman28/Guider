@@ -179,3 +179,50 @@ def test_problem_section_survives_export(tmp_path):
                  problem=TutorialProblem(summary="Cột Giá báo #N/A", sample="rebuilt"))
     assert "## Vấn đề của bạn" in to_markdown(t) and "problem.png" in to_markdown(t)
     assert "Vấn đề của bạn" in to_html(t, tmp_path) and "data:image/png" in to_html(t, tmp_path)
+
+
+def test_images_are_served_only_from_their_folders(tmp_path, monkeypatch):
+    from kem_engine.rpc.server import RpcError, Server
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+    tut = tmp_path / "t1"
+    tut.mkdir()
+    Image.new("RGB", (4, 4)).save(tut / "step_01.png")
+    (tut / "tutorial.json").write_text("{}", encoding="utf-8")
+
+    class Store:
+        def tutorial_path(self, tid):
+            return tut if tid == "t1" else None
+
+    class Svc:
+        store = Store()
+
+    s = Server(lambda: Svc(), tmp_path / "tutorials", write=lambda line: None, settings_path=tmp_path / "s.json")
+    assert s.tutorial_image({"tutorial_id": "t1", "file": "step_01.png"})["data_url"].startswith("data:image/png;base64,")
+    for bad in ("../secrets.bin", r"..\x.png", "tutorial.json"):
+        with pytest.raises(RpcError):
+            s.tutorial_image({"tutorial_id": "t1", "file": bad})
+    from kem_engine.sandbox.office import work_root
+    inbox = work_root() / "inbox" / "a"
+    inbox.mkdir(parents=True)
+    Image.new("RGB", (4, 4)).save(inbox / "problem.png")
+    assert s.problem_image({"path": str(inbox / "problem.png")})["data_url"]
+    with pytest.raises(RpcError):
+        s.problem_image({"path": str(tut / "step_01.png")})
+
+
+def test_ok_inside_a_stacked_dialog_is_told_apart():
+    from kem_engine.grounding.grounder import ground
+    from kem_engine.models import Target, Within
+    from kem_engine.uia.element import Element, Rect
+
+    def el(eid, name, t, r):
+        return Element(eid, name, t, "", Rect(left=r[0], top=r[1], right=r[2], bottom=r[3]), 1,
+                       patterns=frozenset({"Invoke"}))
+
+    els = [el(1, "Format Cells", "Window", (703, 0, 1395, 681)), el(2, "OK", "Button", (1136, 632, 1250, 663)),
+           el(3, "New Formatting Rule", "Window", (729, 113, 1369, 574)), el(4, "OK", "Button", (1169, 535, 1257, 565))]
+    fc = ground(Target(names=["OK"], control_type="Button", within=Within(names=["Format Cells"], control_type="Window")),
+                "invoke", els)
+    nfr = ground(Target(names=["OK"], control_type="Button",
+                        within=Within(names=["New Formatting Rule"], control_type="Window")), "invoke", els)
+    assert fc.element.eid == 2 and nfr.element.eid == 4

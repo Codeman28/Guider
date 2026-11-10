@@ -403,7 +403,9 @@ def sample_fixture(d: Diagnosis) -> dict | None:
 
 def needs_own_layout(card) -> bool:
     """Formula lessons type cell addresses that only make sense on their own sample table."""
-    return any(s.get("intent") == "type_formula" for s in card.raw.get("steps", []))
+    return any(s.get("intent") == "type_formula"
+               or (s.get("intent") == "set_value" and str(s.get("value", "")).startswith("="))  # a rule's formula
+               for s in card.raw.get("steps", []))
 
 
 # ---------------------------------------------------------------- all together

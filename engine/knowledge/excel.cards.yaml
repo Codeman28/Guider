@@ -39,6 +39,31 @@ cards:
       - {id: 3, intent: select_item, target: {names: [Pie, Hình tròn], control_type: ListItem}, expected: {type: com_charts}, capture_result: true, unverified: true}
     success_check: {type: com_check, prop: book.charts, op: gte, value: 1}
 
+  - id: cf_row_formula
+    title: Cách tô màu cả hàng theo điều kiện (Conditional Formatting dùng công thức)
+    keywords: [tô màu cả hàng, tô màu cả dòng, tô màu hàng theo điều kiện, tô màu dòng có chữ, tô vàng hàng,
+               highlight entire row, highlight row, định dạng có điều kiện theo công thức, use a formula to determine,
+               tô màu hàng chứa, đổi màu cả dòng, tô màu theo cột]
+    fixture_id: vocab_types
+    preconditions: [{type: select_range, ref: "A2:D11"}]
+    steps:
+      - {id: 1, intent: select_ribbon_tab, target: {names: [Home, Trang đầu], control_type: TabItem, automation_id: TabHome}, expected: {type: tab_selected}}
+      - {id: 2, intent: expand, target: {names: [Conditional Formatting], control_type: MenuItem|SplitButton|Button, automation_id: ConditionalFormattingMenu, within: {names: [Styles, Kiểu], control_type: Group}}, expected: {type: expanded}}
+      - {id: 3, intent: invoke, target: {names: [New Rule...], control_type: MenuItem|Button}, expected: {type: dialog_opened}}
+      - {id: 4, intent: select_item, target: {names: [► Use a formula to determine which cells to format, Use a formula to determine which cells to format], control_type: ListItem}}
+      - {id: 5, intent: set_value, value: '=$B2="adj"', target: {names: [Formula], control_type: Edit}}
+      - {id: 6, intent: invoke, target: {names: [Format...], control_type: Button}, expected: {type: dialog_opened}}
+      - {id: 7, intent: select_ribbon_tab, target: {names: [Fill], control_type: TabItem}, expected: {type: tab_selected}}
+      - {id: 8, intent: select_item, target: {names: [Yellow], control_type: ListItem, within: {names: [Format Cells], control_type: Window}}}
+      - {id: 9, intent: invoke, target: {names: [OK], control_type: Button, within: {names: [Format Cells], control_type: Window}}, expected: {type: dialog_closed}}
+      - {id: 10, intent: invoke, target: {names: [OK], control_type: Button}, expected: {type: com_format_conditions}, capture_result: true}
+    success_check: {type: com_check, prop: range.display_color, ref: "A2", op: eq, value: 65535}
+    example: >-
+      Bảng từ vựng có cột B là loại từ (adj, n, v). Chọn vùng A2:D11 (bỏ dòng tiêu đề), vào **Conditional Formatting** >
+      **New Rule...**, chọn **Use a formula to determine which cells to format**, gõ =$B2="adj", bấm **Format...**,
+      tab **Fill** chọn **Yellow**, rồi **OK** hai lần: mọi hàng có "adj" ở cột B được tô vàng. Trên file của bạn, thay
+      B bằng cột chứa loại từ và 2 bằng số dòng đầu tiên của vùng đã chọn; dấu $ giữ cột cố định để cả hàng cùng màu.
+
   - id: cf_greater_than
     title: Cách tô màu ô lớn hơn một giá trị bằng Định dạng có điều kiện
     keywords: [định dạng có điều kiện, conditional formatting, tô màu ô lớn hơn, lớn hơn, greater than, tô đỏ]

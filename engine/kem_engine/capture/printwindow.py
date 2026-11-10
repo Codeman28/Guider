@@ -42,7 +42,10 @@ def capture_window(hwnd: int):
 def capture_composite(main_hwnd: int, extra_hwnds: list[int]):
     """Main window image with popups/dialogs pasted in place. Returns (image, origin_xy)."""
     base, (l, t, _, _) = capture_window(main_hwnd)
-    for h in extra_hwnds:
+    # paste back to front (EnumWindows lists top-most first), so a dialog opened from another dialog lands on
+    # top of it, as on screen (Format Cells over New Formatting Rule, 10/11/2026)
+    z = {h: i for i, h in enumerate(win32.top_level_windows())}
+    for h in sorted(extra_hwnds, key=lambda h: -z.get(h, -1)):
         if h == main_hwnd or not win32.is_window(h):
             continue
         try:

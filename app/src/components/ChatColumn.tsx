@@ -1,7 +1,6 @@
-import { convertFileSrc } from "@tauri-apps/api/core";
 import { useEffect, useRef, useState } from "react";
 
-import { inTauri } from "../rpc/client";
+import { useImage } from "../lib/images";
 import { useApp } from "../stores/app";
 import { StepStack } from "./StepStack";
 
@@ -19,10 +18,14 @@ const STATUS: Record<string, string> = {
   cancelled: "Đã dừng",
 };
 
+function Thumb({ path, alt, className }: { path: string; alt: string; className: string }) {
+  const url = useImage("problem.image", { path });
+  return url ? <img src={url} alt={alt} className={className} /> : <span className={`${className} bg-shell`} aria-label={alt} />;
+}
+
 export function ChatColumn() {
-  const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile, problemImage, attaching, pickImage, pasteImage, captureOffice, clearImage, settings } = useApp();
+  const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile, problemImage, attaching, pickImage, pasteImage, captureOffice, clearImage, settings, dragging, notice } = useApp();
   const cloudVision = settings?.vision_cloud !== false && !!settings?.has_key?.gemini; // on by default (10/11/2026)
-  const preview = (p: string) => (inTauri() ? convertFileSrc(p) : "");
   const fileName = sourceFile?.split(/[\/]/).pop();
   const [text, setText] = useState("");
   const input = useRef<HTMLTextAreaElement>(null);
@@ -56,7 +59,7 @@ export function ChatColumn() {
         {showExamples && (
           <div className={`px-5 pt-6 ${tabs.length ? "max-[899px]:hidden" : ""}`}>
             <p>Hỏi một việc bạn muốn làm trong Excel, Word hoặc PowerPoint. Guider sẽ làm mẫu ngay trên máy bạn rồi viết hướng dẫn kèm ảnh.</p>
-            <p className="mt-2 text-small text-lunar">Gặp lỗi? Gửi ảnh chụp màn hình (hoặc dán bằng Ctrl+V), Guider đọc ảnh, dựng lại file mẫu và chỉ cách sửa.</p>
+            <p className="mt-2 text-small text-lunar">Gặp lỗi? Gửi ảnh chụp màn hình: bấm "Gửi ảnh vấn đề", kéo thả ảnh vào đây, hoặc dán bằng Ctrl+V. Guider đọc ảnh, dựng lại file mẫu và chỉ cách sửa.</p>
             <ul className="mt-4 space-y-2">
               {EXAMPLES.map((e) => (
                 <li key={e}>
@@ -73,7 +76,7 @@ export function ChatColumn() {
           {chat.map((e, i) =>
             e.kind === "question" ? (
               <li key={i} className="rounded-sheet bg-shell px-3.5 py-2.5">
-                {e.image && preview(e.image) && <img src={preview(e.image)} alt="Ảnh vấn đề bạn gửi" className="mb-2 max-h-32 rounded-sheet border border-edge" />}
+                {e.image && <Thumb path={e.image} alt="Ảnh vấn đề bạn gửi" className="mb-2 max-h-32 rounded-sheet border border-edge" />}
                 {e.text}
               </li>
             ) : e.kind === "answer" ? (
@@ -113,10 +116,22 @@ export function ChatColumn() {
         </div>
       )}
 
+      {dragging && (
+        <div role="status" className="mx-5 mb-2 flex-none rounded-sheet border-2 border-dashed border-ink bg-white px-3 py-4 text-center font-medium">
+          Thả ảnh lỗi (hoặc file Excel, Word, PowerPoint) vào đây
+        </div>
+      )}
+
+      {notice && !demo && (
+        <p role="alert" className="mx-5 mb-2 flex-none text-small text-sunday">
+          {notice}
+        </p>
+      )}
+
       {(problemImage || attaching) && (
         <div className="mx-5 mb-2 flex flex-none items-center gap-3 rounded-sheet border border-edge bg-white p-2 text-small">
-          {problemImage && preview(problemImage) ? (
-            <img src={preview(problemImage)} alt="Ảnh vấn đề sẽ gửi cho Guider" className="h-14 w-20 rounded-sheet border border-edge object-cover object-left-top" />
+          {problemImage ? (
+            <Thumb path={problemImage} alt="Ảnh vấn đề sẽ gửi cho Guider" className="h-14 w-20 rounded-sheet border border-edge object-cover object-left-top" />
           ) : (
             <span className="h-14 w-20 rounded-sheet border border-edge bg-shell" aria-hidden />
           )}

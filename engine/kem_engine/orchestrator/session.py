@@ -214,7 +214,9 @@ class Session:
         if exp.type == "dialog_opened":
             return self._poll(lambda: bool(set(office.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
         if exp.type == "dialog_closed":
-            return self._poll(lambda: not (set(office.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
+            # one of our dialogs went away (Format Cells closing leaves New Formatting Rule open, 10/11/2026);
+            # waiting for all of them made the step retry and click the other dialog's OK
+            return self._poll(lambda: bool(dialogs_before - set(office.dialogs(self.sb))), timeout=ui_t)
         if exp.type == "com_check" and exp.ref is not None and self.sb.adapt_refs:
             # The ref names a cell/paragraph/shape of the card's fixture; it means nothing in the user's
             # own file. Accept the step when the action itself succeeded, and say so in the trace.

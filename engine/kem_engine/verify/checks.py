@@ -74,6 +74,8 @@ COM_PROPS: dict[str, Callable[[Any, str | None], Any]] = {
     "cell.formula_ok": lambda d, r: bool(_range(d, r).HasFormula) and not str(_range(d, r).Text).startswith("#"),
     "cell.value": lambda d, r: _range(d, r).Value,
     "range.interior.color": lambda d, r: int(_range(d, r).Interior.Color),
+    # the colour actually shown, conditional formatting included (Interior.Color ignores CF)
+    "range.display_color": lambda d, r: int(_range(d, r).DisplayFormat.Interior.Color),
     "range.wrap_text": lambda d, r: _range(d, r).WrapText,
     "range.merge_cells": lambda d, r: _range(d, r).MergeCells,
     "range.horizontal_alignment": lambda d, r: int(_range(d, r).HorizontalAlignment),

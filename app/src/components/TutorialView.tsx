@@ -1,9 +1,8 @@
-import { convertFileSrc } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 
 import { Check, Cross } from "../lib/icons";
 import { Rich, actionText, stripStepPrefix } from "../lib/rich";
-import { inTauri } from "../rpc/client";
+import { useImage } from "../lib/images";
 import type { Tutorial, TutorialStep } from "../rpc/types";
 import { useApp } from "../stores/app";
 
@@ -26,14 +25,10 @@ function stepBody(s: TutorialStep): string {
   return s.demonstrated || said ? s.body : `${NOT_DEMONSTRATED} ${s.body}`;
 }
 
-/** Local tutorial images go through Tauri's asset protocol (scope: %LOCALAPPDATA%\Kem\tutorials). */
-function src(dir: string, file: string): string {
-  return inTauri() ? convertFileSrc(`${dir}\\${file}`) : "";
-}
-
-function Shot({ dir, file, alt }: { dir: string; file: string; alt: string }) {
+/** Screenshots come from the engine as data URLs (tutorial.image): the asset protocol answered 403. */
+function Shot({ tid, file, alt }: { tid: string; file: string; alt: string }) {
   const [w, setW] = useState<number | null>(null);
-  const url = src(dir, file);
+  const url = useImage("tutorial.image", { tutorial_id: tid, file });
   if (!url) return <div className="aspect-[16/7] w-full max-w-[860px] rounded-sheet border border-edge bg-white" aria-label={alt} />;
   return (
     <img
@@ -61,7 +56,7 @@ function Step({ t, s, n, big }: { t: Tutorial; s: TutorialStep; n: number; big: 
         </h2>
         {s.image && (
           <div className="mt-3">
-            <Shot dir={t.dir} file={s.image} alt={`Ảnh chụp bước ${n} trên máy bạn`} />
+            <Shot tid={t.tutorial_id} file={s.image} alt={`Ảnh chụp bước ${n} trên máy bạn`} />
           </div>
         )}
         <p className="mt-3 max-w-[680px]">
@@ -71,7 +66,7 @@ function Step({ t, s, n, big }: { t: Tutorial; s: TutorialStep; n: number; big: 
         {s.result_image && (
           <div className="mt-4">
             <p className="mb-2 text-small text-lunar">Kết quả sau bước này</p>
-            <Shot dir={t.dir} file={s.result_image} alt={`Kết quả sau bước ${n}`} />
+            <Shot tid={t.tutorial_id} file={s.result_image} alt={`Kết quả sau bước ${n}`} />
           </div>
         )}
       </div>
@@ -158,7 +153,7 @@ export function TutorialView({ t }: { t: Tutorial }) {
           <p className="mt-2 max-w-[680px] text-small">{PROBLEM_SAMPLE[t.problem.sample] ?? ""}</p>
           <div className="mt-3">
             <p className="mb-2 text-small text-lunar">Ảnh bạn gửi</p>
-            <Shot dir={t.dir} file={t.problem.image} alt="Ảnh chụp vấn đề bạn gửi" />
+            <Shot tid={t.tutorial_id} file={t.problem.image} alt="Ảnh chụp vấn đề bạn gửi" />
           </div>
         </section>
       )}
@@ -191,7 +186,7 @@ export function TutorialView({ t }: { t: Tutorial }) {
           {t.example.image && (
             <div className="mt-3">
               <p className="mb-2 text-small text-lunar">{t.example.image === "final.png" ? "Kết quả sau cùng" : "Kết quả"}</p>
-              <Shot dir={t.dir} file={t.example.image} alt="Kết quả sau cùng của ví dụ" />
+              <Shot tid={t.tutorial_id} file={t.example.image} alt="Kết quả sau cùng của ví dụ" />
             </div>
           )}
         </section>
