@@ -388,7 +388,7 @@ kem/
 | Method | Params | Result / Notification |
 |---|---|---|
 | env.probe | {} | EnvProfile |
-| tutorial.create | {query, app_hint?, source_file?, problem_image?} | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message}, tutorial.done, và (v1.3) tutorial.updated {tutorial_id} khi Writer LLM chạy nền viết xong |
+| tutorial.create | {query, app_hint?, source_file?, problem_image?, mode?} — mode "exercise" (ADR-0006): đọc ảnh bài tập, dựng lại bảng, giải và làm mẫu trên bảng đó | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message}, tutorial.done, và (v1.3) tutorial.updated {tutorial_id} khi Writer LLM chạy nền viết xong |
 | tutorial.cancel | {session_id} | {ok} |
 | tutorial.get | {tutorial_id} | Tutorial |
 | tutorial.list | {} | [TutorialMeta] |

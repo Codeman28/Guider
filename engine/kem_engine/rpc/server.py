@@ -137,7 +137,12 @@ class Server:
             from ..sandbox.office import app_for_file
             if not isinstance(source_file, str) or app_for_file(source_file) is None or not Path(source_file).is_file():
                 raise RpcError(INVALID_PARAMS, "Chỉ chọn được file Excel, Word hoặc PowerPoint có trên máy.")
+        mode = params.get("mode", "guide")
+        if mode not in ("guide", "exercise"):
+            raise RpcError(INVALID_PARAMS, "mode must be guide or exercise")
         problem_image = params.get("problem_image")
+        if mode == "exercise" and not problem_image:
+            raise RpcError(INVALID_PARAMS, "Chế độ Giải bài tập cần ảnh bài tập.")
         if problem_image is not None:
             from ..vision.problem import is_image
             if not isinstance(problem_image, str) or not is_image(problem_image) or not Path(problem_image).is_file():
@@ -158,7 +163,10 @@ class Server:
             pythoncom.CoInitializeEx(0)  # COINIT_MULTITHREADED — same apartment as the UIA stack
             try:
                 updated = lambda tid: self.notify("tutorial.updated", {"tutorial_id": tid})  # noqa: E731
-                if problem_image:
+                if mode == "exercise":
+                    res = self.service.create_exercise(problem_image, query, progress=progress, cancel_event=cancel,
+                                                       on_text_updated=updated)
+                elif problem_image:
                     res = self.service.create_from_problem(problem_image, query, source_file=source_file,
                                                            progress=progress, cancel_event=cancel,
                                                            on_text_updated=updated)

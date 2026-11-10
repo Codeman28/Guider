@@ -384,7 +384,7 @@ class Session:
                 time.sleep(0.35)
                 ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=None) if box else                     self._capture(None, n, ident, f"step_{n:02d}.png", keys=step.value)
                 guard.check("key_combo", None)
-                keyboard.press("Enter")
+                keyboard.press("Ctrl+Enter" if ":" in ts.element_name else "Enter")  # a range: fill it all
             else:
                 ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=step.value)
                 keyboard.press(step.value or "")

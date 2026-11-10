@@ -142,15 +142,20 @@ export function TutorialView({ t }: { t: Tutorial }) {
       {t.problem && (
         <section aria-labelledby={`pb-${t.tutorial_id}`} className="mt-5 rounded-sheet border border-edge bg-white px-5 py-4">
           <h2 id={`pb-${t.tutorial_id}`} className="font-semibold">
-            Vấn đề của bạn
+            {t.problem.summary.startsWith("Bài tập") ? "Bài tập của bạn" : "Vấn đề của bạn"}
           </h2>
           <p className="mt-2 max-w-[680px]">{t.problem.summary}</p>
           {t.problem.visible_text && (
             <p className="mt-1 max-w-[680px] text-small text-lunar">
-              Guider đọc được trên ảnh: <span className="font-num">{t.problem.visible_text}</span>
+              {t.problem.summary.startsWith("Bài tập") ? "Kết quả Excel tính được: " : "Guider đọc được trên ảnh: "}
+              <span className="font-num">{t.problem.visible_text}</span>
             </p>
           )}
-          <p className="mt-2 max-w-[680px] text-small">{PROBLEM_SAMPLE[t.problem.sample] ?? ""}</p>
+          <p className="mt-2 max-w-[680px] text-small">
+            {t.problem.summary.startsWith("Bài tập")
+              ? "Guider dựng lại đúng bảng trong ảnh thành file Excel, giải trên chính bảng đó (lời giải đã được thử trong Excel trước khi làm mẫu)."
+              : PROBLEM_SAMPLE[t.problem.sample] ?? ""}
+          </p>
           <div className="mt-3">
             <p className="mb-2 text-small text-lunar">Ảnh bạn gửi</p>
             <Shot tid={t.tutorial_id} file={t.problem.image} alt="Ảnh chụp vấn đề bạn gửi" />

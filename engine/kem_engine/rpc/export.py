@@ -17,7 +17,8 @@ def load(dir_: Path) -> Tutorial:
 def to_markdown(t: Tutorial) -> str:
     out = [f"# {t.title}", "", f"_{t.env_label}_", "", t.intro, ""]
     if t.problem:
-        out += ["## Vấn đề của bạn", "", t.problem.summary, "", f"![Ảnh bạn gửi]({t.problem.image})", ""]
+        head = "Bài tập của bạn" if t.problem.summary.startswith("Bài tập") else "Vấn đề của bạn"
+        out += [f"## {head}", "", t.problem.summary, "", f"![Ảnh bạn gửi]({t.problem.image})", ""]
     for s in t.steps:
         out += [f"## {s.heading}", ""]
         if s.image:
@@ -50,7 +51,8 @@ def to_html(t: Tutorial, dir_: Path, accent: str = "#E5484D") -> str:
     parts = [f"<h1>{html.escape(t.title)}</h1>", f'<p class="env">{html.escape(t.env_label)}</p>',
              f"<p>{_md_inline(t.intro)}</p>"]
     if t.problem:
-        parts.append(f'<section class="problem"><h2>Vấn đề của bạn</h2><p>{_md_inline(t.problem.summary)}</p>'
+        head = "Bài tập của bạn" if t.problem.summary.startswith("Bài tập") else "Vấn đề của bạn"
+        parts.append(f'<section class="problem"><h2>{head}</h2><p>{_md_inline(t.problem.summary)}</p>'
                      f"{_img(dir_, t.problem.image, 'Ảnh bạn gửi')}</section>")
     for s in t.steps:
         parts.append(f"<section><h2>{_md_inline(s.heading)}</h2>{_img(dir_, s.image, s.heading)}"

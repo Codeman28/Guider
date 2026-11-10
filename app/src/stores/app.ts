@@ -64,7 +64,9 @@ interface State {
   stepIndex: Record<string, number>;
   notice: string | null;
   sourceFile: string | null; // user-file mode (ADR-0003): Guider demonstrates on a private copy
-  problemImage: string | null; // picture of the user's problem (ADR-0005), a PNG in the local work folder
+  problemImage: string | null; // picture of the user's exercise (ADR-0006), a PNG in the local work folder
+  chatMode: "guide" | "exercise"; // Hướng dẫn = how to do one operation; Giải bài tập = solve a pictured exercise
+  setChatMode(m: "guide" | "exercise"): void;
   attaching: boolean;
   rewriting: Record<string, boolean>; // tutorial ids whose text the background Writer is still improving
   settings: Settings | null;
@@ -138,6 +140,8 @@ export const useApp = create<State>((set, get) => ({
   notice: null,
   sourceFile: null,
   problemImage: null,
+  chatMode: "guide",
+  setChatMode: (m) => set({ chatMode: m, notice: null }),
   attaching: false,
   dragging: false,
   rewriting: {},
@@ -204,8 +208,10 @@ export const useApp = create<State>((set, get) => ({
   },
 
   async ask(question) {
-    const image = get().problemImage;
-    const q = question.trim() || (image ? "Sửa vấn đề trong ảnh" : "");
+    const exercise = get().chatMode === "exercise";
+    const image = exercise ? get().problemImage : null;
+    if (exercise && !image) return;
+    const q = question.trim() || (image ? "Giải bài tập trong ảnh" : "");
     const c = get().client;
     if (!q || !c || get().demo) return;
     set((s) => ({
@@ -214,10 +220,10 @@ export const useApp = create<State>((set, get) => ({
       demo: { sid: null, question: q, startedAt: Date.now(), phase: image ? "reading" : "planning", current: null, done: [], recovered: false },
     }));
     try {
-      const file = get().sourceFile;
+      const file = exercise ? null : get().sourceFile;
       const params: Record<string, unknown> = { query: q };
       if (file) params.source_file = file;
-      if (image) params.problem_image = image;
+      if (image) Object.assign(params, { mode: "exercise", problem_image: image });
       const { session_id } = await c.call<{ session_id: string }>("tutorial.create", params);
       set((s) => (s.demo ? { demo: { ...s.demo, sid: session_id } } : {}));
       if (get().demo?.stopping) await c.call("tutorial.cancel", { session_id }); // Dừng pressed before the id came back
@@ -338,7 +344,7 @@ export const useApp = create<State>((set, get) => ({
     set({ attaching: true });
     try {
       const r = await c.call<{ path: string }>("problem.prepare", { path });
-      set({ problemImage: r.path, attaching: false, notice: null });
+      set({ problemImage: r.path, attaching: false, notice: null, chatMode: "exercise" });
       void c.call("problem.warm_up");
     } catch (e) {
       set({ attaching: false, notice: `Không dùng được ảnh này: ${e instanceof Error ? e.message : e}` });
@@ -351,7 +357,7 @@ export const useApp = create<State>((set, get) => ({
     const image = paths.find((p) => IMAGE_TYPES.includes(ext(p)));
     const office = paths.find((p) => FILE_TYPES.includes(ext(p)));
     if (image) await get().attachImagePath(image);
-    if (office) set({ sourceFile: office });
+    if (office) set({ sourceFile: office, chatMode: image ? "exercise" : "guide" });
     if (!image && !office) set({ notice: "Guider nhận ảnh (PNG, JPG, BMP, GIF, WEBP) hoặc file Excel, Word, PowerPoint." });
   },
 
@@ -367,7 +373,7 @@ export const useApp = create<State>((set, get) => ({
         r.readAsDataURL(file);
       });
       const res = await c.call<{ path: string }>("problem.paste", { data_b64: data });
-      set({ problemImage: res.path, attaching: false, notice: null });
+      set({ problemImage: res.path, attaching: false, notice: null, chatMode: "exercise" });
       void c.call("problem.warm_up");
     } catch (e) {
       set({ attaching: false, notice: `Không dán được ảnh: ${e instanceof Error ? e.message : e}` });

@@ -84,6 +84,7 @@ class SandboxHandle:
     work_dir: Path | None = None  # user-file mode: folder holding the private copy (deleted at teardown)
     ribbon_was_minimized: bool = False  # the user's "Show tabs only" choice, put back at teardown
     sample: bool = False  # filled from a sample rebuilt from the user's picture (ADR-0005), not the card's fixture
+    exact_refs: bool = False  # exercise mode (ADR-0006): the plan was written for this very table, refs are exact
 
     @property
     def user_file(self) -> bool:
@@ -92,7 +93,7 @@ class SandboxHandle:
     @property
     def adapt_refs(self) -> bool:
         """Card refs describe the card's fixture; on the user's file or a rebuilt sample they are mapped."""
-        return self.user_file or self.sample
+        return self.user_file or (self.sample and not self.exact_refs)
 
 
 def load_fixture(fixture_id: str) -> dict:
@@ -170,7 +171,7 @@ def setup(spec: AppSpec, fixture_id: str | None, size_logical=(1280, 800), pos=(
         scale = win32.dpi_for_window(hwnd) / 96
         win32.place_window(hwnd, pos[0], pos[1], round(size_logical[0] * scale), round(size_logical[1] * scale))
         if fixture is not None and copy is None:
-            h.sample = True
+            h.sample, h.exact_refs = True, fixture.get("refs") == "exact"
             com_retry(lambda: spec.fill(doc, fixture), timeout=timeout)
         elif fixture_id and copy is None:
             fx = load_fixture(fixture_id)

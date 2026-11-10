@@ -115,7 +115,7 @@ class TutorialService:
                on_text_updated: Callable[[str], None] | None = None,
                source_file: str | None = None, guard_input: bool = True, card_id: str | None = None,
                fixture: dict | None = None, problem: tuple[TutorialProblem, Path] | None = None,
-               started: float | None = None) -> CreateResult:
+               started: float | None = None, ready_plan: Plan | None = None) -> CreateResult:
         """guard_input: the user touching mouse/keyboard stops the run.
         card_id: a learned task chosen already (picture of the problem); fixture: a sample rebuilt from that
         picture; problem: (section, picture) added to the tutorial; started: the clock started earlier."""
@@ -126,7 +126,7 @@ class TutorialService:
         guard = InputGuard(cancel_event) if guard_input else contextlib.nullcontext()
         with guard:
             res = self._create(query, app_hint, progress, cancel_event, success_check, on_text_updated, source_file,
-                               card_id, fixture, problem, started)
+                               card_id, fixture, problem, started, ready_plan)
         if guard_input and guard.reason:
             log.info("service.stopped_by_user_input", reason=guard.reason)
         return res
@@ -134,7 +134,8 @@ class TutorialService:
     def _create(self, query: str, app_hint: str | None, progress: Callable[[dict], None] | None, cancel_event,
                 success_check: Expected | None, on_text_updated: Callable[[str], None] | None,
                 source_file: str | None, card_id: str | None = None, fixture: dict | None = None,
-                problem: tuple[TutorialProblem, Path] | None = None, started: float | None = None) -> CreateResult:
+                problem: tuple[TutorialProblem, Path] | None = None, started: float | None = None,
+                ready_plan: Plan | None = None) -> CreateResult:
         """success_check: eval-only hook — asserts the task's outcome when the plan has no check of its
         own (LLM-written plans), so eval scores outcomes instead of the model's task naming."""
         t0 = started or time.monotonic()
@@ -161,7 +162,9 @@ class TutorialService:
         plan: Plan | None = None
         stored_text: Tutorial | None = None
         source = None
-        if card_id in pack.by_id:  # chosen from the user's picture (ADR-0005): no recipe, no Planner
+        if ready_plan is not None:  # exercise mode (ADR-0006): solved and checked for the rebuilt table
+            plan, source = ready_plan, "exercise"
+        elif card_id in pack.by_id:  # chosen from the user's picture (ADR-0005): no recipe, no Planner
             plan, source = pack.by_id[card_id].to_plan(), "problem_card"
         task = None if plan is not None else self.store.task_for_question(qf)
         if task is None and plan is None:
@@ -339,6 +342,51 @@ class TutorialService:
             res.llm_log.append({"role": "problem_reader", **pr.timings, "card_id": pr.card_id})
             if res.kind == "text" and res.answer:  # nothing demonstrated: still tell the user what was seen
                 res.answer = f"Guider thấy: {d.problem}\n{res.answer}"
+            return res
+        finally:
+            shutil.rmtree(work, ignore_errors=True)
+
+    def create_exercise(self, image: str, text: str = "", progress: Callable[[dict], None] | None = None,
+                        cancel_event=None, on_text_updated: Callable[[str], None] | None = None,
+                        guard_input: bool = True) -> CreateResult:
+        """Exercise mode, "Giải bài tập" (ADR-0006): read the exercise picture, rebuild its table, write a solution
+        for that table and check it in a hidden Excel, demonstrate it on the rebuilt table, write the tutorial."""
+        import shutil
+        import uuid
+
+        from ..sandbox.office import work_root
+        from ..vision import exercise as ex
+        from ..vision import problem as vp
+        t0 = time.monotonic()
+        progress = progress or (lambda m: None)
+        cancel_event = cancel_event or threading.Event()
+        work = work_root() / "exercises" / uuid.uuid4().hex[:12]
+        progress({"state": "DIAGNOSE", "message": "Guider đang đọc bài tập và dựng lại bảng"})
+        try:
+            try:
+                er = _until_cancel(lambda: ex.read_and_solve(image, text, work), cancel_event)
+            except _Stopped:
+                return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
+            except (ex.ExerciseError, vp.ProblemError) as e:
+                return CreateResult("text", answer=str(e), seconds=time.monotonic() - t0)
+            fx, sol = er.fixture, er.solution
+            if not sol.steps:
+                return CreateResult("text", answer="Bài này không có yêu cầu tính toán Guider giải được bằng công thức: "
+                                    + "; ".join(sol.unsolved or er.tasks), seconds=time.monotonic() - t0)
+            title = "Giải bài tập: " + (er.tasks[0] if len(er.tasks) == 1 else f"{len(sol.steps)} yêu cầu trên bảng của bạn")
+            plan = ex.to_plan(fx, sol, title[:120])
+            progress({"state": "PLAN", "message": f"Vấn đề: dựng lại bảng {len(fx['rows'])} hàng × {len(fx['columns'])} cột; "
+                                                  f"lời giải {len(sol.steps)} bước đã chạy đúng trong Excel"})
+            summary = "Bài tập: " + "; ".join(er.tasks)
+            if sol.unsolved:
+                summary += ". Chưa làm mẫu được (không phải công thức): " + "; ".join(sol.unsolved)
+            section = TutorialProblem(summary=summary, visible_text="; ".join(er.checked)[:400],
+                                      task=" / ".join(er.tasks)[:300], sample="rebuilt")
+            res = self.create(plan.title, "excel", progress=progress, cancel_event=cancel_event,
+                              on_text_updated=on_text_updated, guard_input=guard_input, fixture=fx,
+                              problem=(section, er.image), ready_plan=plan, started=t0)
+            res.seconds = time.monotonic() - t0
+            res.llm_log.append({"role": "exercise", **er.timings, "steps": len(sol.steps)})
             return res
         finally:
             shutil.rmtree(work, ignore_errors=True)

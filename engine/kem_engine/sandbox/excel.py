@@ -39,6 +39,8 @@ def fill_sheet(ws, fx: dict) -> None:
 def _fill(doc, fx: dict) -> None:
     ws = doc.Worksheets(1)
     fill_sheet(ws, fx)
+    if fx.get("refs") == "exact":  # a table rebuilt from the user's exercise: readable like their own sheet
+        ws.UsedRange.Columns.AutoFit()
     ws.Range("A1").Select()
 
 
