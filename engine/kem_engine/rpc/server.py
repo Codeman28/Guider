@@ -14,7 +14,7 @@ from typing import Any, Callable
 PARSE_ERROR, INVALID_REQUEST, METHOD_NOT_FOUND, INVALID_PARAMS, INTERNAL = -32700, -32600, -32601, -32602, -32603
 BUSY = -32001
 
-SETTINGS_KEYS = {"provider", "planner_model", "writer_model", "accent", "output_lang"}
+SETTINGS_KEYS = {"provider", "planner_model", "writer_model", "accent", "output_lang", "vision_cloud"}
 PROVIDERS = {"ollama", "gemini"}  # choices the app offers (ADR-0003)
 
 
@@ -69,6 +69,9 @@ class Server:
             "training.status": self.training_status, "training.start": self.training_start,
             "training.cancel": self.training_cancel, "training.memory": self.training_memory,
             "training.remove": self.training_remove, "training.ask": self.training_ask,
+            "problem.paste": self.problem_paste, "problem.capture": self.problem_capture,
+            "problem.prepare": self.problem_prepare,
+            "problem.windows": self.problem_windows, "problem.warm_up": self.problem_warm_up,
         }
         self._training: dict | None = None  # {"job_id", "cancel", "thread"} — one training run at a time
 
@@ -133,6 +136,11 @@ class Server:
             from ..sandbox.office import app_for_file
             if not isinstance(source_file, str) or app_for_file(source_file) is None or not Path(source_file).is_file():
                 raise RpcError(INVALID_PARAMS, "Chỉ chọn được file Excel, Word hoặc PowerPoint có trên máy.")
+        problem_image = params.get("problem_image")
+        if problem_image is not None:
+            from ..vision.problem import is_image
+            if not isinstance(problem_image, str) or not is_image(problem_image) or not Path(problem_image).is_file():
+                raise RpcError(INVALID_PARAMS, "Chỉ gửi được ảnh PNG, JPG, BMP, GIF hoặc WEBP có trên máy.")
         if not self._lock.acquire(blocking=False):
             raise RpcError(BUSY, "Guider đang làm mẫu một tutorial khác")
         import uuid
@@ -148,10 +156,14 @@ class Server:
             import pythoncom
             pythoncom.CoInitializeEx(0)  # COINIT_MULTITHREADED — same apartment as the UIA stack
             try:
-                res = self.service.create(query, params.get("app_hint"), progress=progress, cancel_event=cancel,
-                                          source_file=source_file,
-                                          on_text_updated=lambda tid: self.notify("tutorial.updated",
-                                                                                  {"tutorial_id": tid}))
+                updated = lambda tid: self.notify("tutorial.updated", {"tutorial_id": tid})  # noqa: E731
+                if problem_image:
+                    res = self.service.create_from_problem(problem_image, query, source_file=source_file,
+                                                           progress=progress, cancel_event=cancel,
+                                                           on_text_updated=updated)
+                else:
+                    res = self.service.create(query, params.get("app_hint"), progress=progress, cancel_event=cancel,
+                                              source_file=source_file, on_text_updated=updated)
                 self.notify("tutorial.done", {"session_id": sid, **res.to_dict()})
             except Exception as e:  # report, never crash the server
                 traceback.print_exc(file=sys.stderr)
@@ -164,6 +176,55 @@ class Server:
         self.workers.append(t)
         t.start()
         return {"session_id": sid}
+
+    # ---- picture of the problem (ADR-0005): everything stays on this machine
+    def _inbox(self) -> Path:
+        import uuid
+
+        from ..sandbox.office import work_root
+        return work_root() / "inbox" / uuid.uuid4().hex[:12]
+
+    def problem_paste(self, params):
+        """An image pasted into the chat: {data_b64} → {path} of a PNG in the local work folder."""
+        from ..vision import problem as vp
+        data = params.get("data_b64")
+        if not isinstance(data, str) or not data:
+            raise RpcError(INVALID_PARAMS, "data_b64 is required")
+        try:
+            work = self._inbox()
+            return {"path": str(vp.prepare(vp.save_pasted(data, work), work))}
+        except vp.ProblemError as e:
+            raise RpcError(INVALID_PARAMS, str(e)) from e
+
+    def problem_prepare(self, params):
+        """A picture the user picked in the Open dialog: copied (shrunk) into the local inbox; original untouched."""
+        from ..vision import problem as vp
+        path = params.get("path")
+        if not isinstance(path, str):
+            raise RpcError(INVALID_PARAMS, "path is required")
+        try:
+            return {"path": str(vp.prepare(path, self._inbox()))}
+        except vp.ProblemError as e:
+            raise RpcError(INVALID_PARAMS, str(e)) from e
+
+    def problem_windows(self, params):
+        from ..vision import problem as vp
+        return vp.office_windows()
+
+    def problem_capture(self, params):
+        """Screenshot of the user's front-most Office window (or {hwnd}); the user clicked to allow it."""
+        from ..vision import problem as vp
+        try:
+            path, w = vp.capture_office(self._inbox(), params.get("hwnd"))
+        except vp.ProblemError as e:
+            raise RpcError(INVALID_PARAMS, str(e)) from e
+        return {"path": str(path), "app": w["app"], "title": w["title"]}
+
+    def problem_warm_up(self, params):
+        """Load the local vision model in the background as soon as a picture is attached."""
+        from ..vision import problem as vp
+        threading.Thread(target=vp.warm_up, name="vision-warm-up", daemon=True).start()
+        return {"ok": True}
 
     def tutorial_cancel(self, params):
         ev = self.active.get(params.get("session_id", ""))
@@ -244,6 +305,8 @@ class Server:
         bad = set(params) - SETTINGS_KEYS
         if bad:
             raise RpcError(INVALID_PARAMS, f"unknown settings: {sorted(bad)}")
+        if "vision_cloud" in params and not isinstance(params["vision_cloud"], bool):
+            raise RpcError(INVALID_PARAMS, "vision_cloud must be true or false")
         if "provider" in params and params["provider"] not in PROVIDERS:
             raise RpcError(INVALID_PARAMS, f"unknown provider: {params['provider']}")
         cur = self.settings_get({})

@@ -298,7 +298,7 @@ max_llm_calls_per_tutorial = 3
 
 ### 7.3 Payload sanitizer (bắt buộc trước mọi lời gọi cloud)
 
-Chỉ cho đi: câu hỏi người dùng, danh sách {eid, name, control_type}, EnvProfile rút gọn (app, ngôn ngữ, major build). Ngoại lệ (v1.4, ADR-0004): tài liệu huấn luyện do người phát triển đưa vào khu Huấn luyện được gửi tới Gemini; file của người dùng và ảnh chụp thì không bao giờ. Loại bỏ: mọi chuỗi trông như email, tên người, đường dẫn file, nội dung ô/văn bản tài liệu, tiêu đề cửa sổ. Có unit test riêng.
+Chỉ cho đi: câu hỏi người dùng, danh sách {eid, name, control_type}, EnvProfile rút gọn (app, ngôn ngữ, major build). Ngoại lệ (v1.4, ADR-0004): tài liệu huấn luyện do người phát triển đưa vào khu Huấn luyện được gửi tới Gemini; file của người dùng và ảnh chụp thì không bao giờ. Ngoại lệ (v1.5, ADR-0005): ảnh chụp vấn đề người dùng tự gửi chỉ đi tới Gemini khi người dùng tự bật "Đọc ảnh bằng Gemini" trong Cài đặt (mặc định tắt, có cảnh báo); câu hỏi "Cách …" rút ra từ ảnh đi tới Planner như một câu hỏi bình thường. Loại bỏ: mọi chuỗi trông như email, tên người, đường dẫn file, nội dung ô/văn bản tài liệu, tiêu đề cửa sổ. Có unit test riêng.
 
 ### 7.4 System prompt khung (tinh chỉnh khi code)
 
@@ -312,7 +312,8 @@ Writer: như 6.10.
 - File người dùng (v1.3, ADR-0003): mặc định không mở, liệt kê hay đọc tài liệu có sẵn. Chỉ khi người dùng **tự chọn một file trong app**, engine copy file đó vào `%LOCALAPPDATA%\Kem\work\<session>\` và mở **bản sao** trong sandbox (macro tắt, không cập nhật liên kết, không thêm vào file gần đây); file gốc không bao giờ được mở bằng Office hay ghi đè; bản sao bị xóa khi teardown. Không duyệt cây UIA của cửa sổ khác (kể cả để "tham khảo").
 - Blocklist hành động: không bao giờ invoke các phần tử thuộc nhóm File/Backstage → Account, Share, Save/Save As/Export tới vị trí ngoài temp, Send/Email, Sign in/out, Options → Trust Center, Add-ins store, Macro/VBA, Copilot. Danh sách lưu trong safety/blocklist.yaml (EN+VI), có test.
 - Không mạng từ engine ngoài lời gọi LLM đã cấu hình. Ngoại lệ (v1.4, ADR-0004): ở chế độ huấn luyện (chỉ bản nhà phát triển), engine tải link người phát triển dán và trang research tìm được (tôn trọng robots.txt, giới hạn số trang).
-- Ảnh và trace ở local. Không upload ảnh. Không telemetry mặc định; nếu có telemetry sau này thì opt-in và chỉ số liệu ẩn danh.
+- Ảnh chụp vấn đề (v1.5, ADR-0005): chỉ nhận ảnh người dùng tự chọn, dán (Ctrl+V) hoặc bấm "Chụp cửa sổ Office" (PrintWindow, chỉ chụp, không bấm hay gõ vào cửa sổ của người dùng). Ảnh được copy (thu nhỏ) vào `%LOCALAPPDATA%\Kem\work\`, đọc bằng OCR của Windows và model gemma3:4b trên máy; ảnh gốc không bị đổi. Bảng nhìn thấy trên ảnh có thể được dựng lại thành file mẫu trong sandbox (không lưu ra đĩa).
+- Ảnh và trace ở local. Không upload ảnh (trừ ngoại lệ opt-in ở §7.3). Không telemetry mặc định; nếu có telemetry sau này thì opt-in và chỉ số liệu ẩn danh.
 - Teardown đảm bảo trong finally; Esc toàn cục hủy ngay và teardown.
 - Đồng ý một lần, minh bạch luôn: màn hình consent lần đầu; toast khi chạy; nút "Xem Guider đã làm gì" mở trace.
 - Chỉ xóa đường dẫn trong session manifest.
@@ -387,13 +388,15 @@ kem/
 | Method | Params | Result / Notification |
 |---|---|---|
 | env.probe | {} | EnvProfile |
-| tutorial.create | {query, app_hint?, source_file?} | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message}, tutorial.done, và (v1.3) tutorial.updated {tutorial_id} khi Writer LLM chạy nền viết xong |
+| tutorial.create | {query, app_hint?, source_file?, problem_image?} | {session_id}; sau đó notification tutorial.progress {session_id, state, step_i, n_steps, message}, tutorial.done, và (v1.3) tutorial.updated {tutorial_id} khi Writer LLM chạy nền viết xong |
 | tutorial.cancel | {session_id} | {ok} |
 | tutorial.get | {tutorial_id} | Tutorial |
 | tutorial.list | {} | [TutorialMeta] |
 | tutorial.export | {tutorial_id, format: md\|html\|pdf} | {path} |
 | settings.get/set |  | provider, model, màu nhấn, ngôn ngữ đầu ra |
 | settings.set_api_key | {provider, key} | {ok} — key lưu bằng DPAPI, không bao giờ trả về qua RPC (v1.3) |
+| problem.prepare / problem.paste / problem.capture | {path} / {data_b64} / {hwnd?} | {path} của ảnh PNG trong thư mục work (v1.5, ADR-0005) |
+| problem.warm_up | {} | {ok} — nạp sẵn model đọc ảnh khi người dùng vừa gắn ảnh |
 
 ## 12. Lộ trình theo phase và tiêu chí nghiệm thu
 

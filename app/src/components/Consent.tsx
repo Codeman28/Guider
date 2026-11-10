@@ -3,8 +3,8 @@ import { useApp } from "../stores/app";
 
 const SENTENCES = [
   "Khi bạn hỏi, Guider mở một file Excel, Word hoặc PowerPoint trống, tự làm mẫu từng bước, chụp riêng cửa sổ đó rồi đóng lại không lưu.",
-  "Guider không mở, không đọc, không đụng tới bất kỳ file nào của bạn.",
-  "Ảnh chụp và hướng dẫn chỉ nằm trên máy này, không gửi đi đâu.",
+  "Guider chỉ dùng file hay ảnh của bạn khi bạn tự chọn, dán hoặc bấm chụp; file luôn được làm trên bản sao, file gốc không bị đổi.",
+  "Ảnh chụp và hướng dẫn nằm trên máy này. Ảnh chỉ được gửi lên Gemini nếu bạn tự bật trong Cài đặt.",
 ];
 
 function Row({ title, ok, detail, pending }: { title: string; ok?: boolean; detail: string; pending: boolean }) {

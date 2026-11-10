@@ -13,6 +13,13 @@ const SHOT_SCALE = 0.62;
 
 const NOT_DEMONSTRATED = "Bước này Guider chưa làm mẫu được trên máy bạn.";
 
+/** Which file the fix was shown on (ADR-0005). */
+const PROBLEM_SAMPLE: Record<string, string> = {
+  rebuilt: "Guider dựng lại bảng trong ảnh thành một file mẫu rồi làm cách sửa ngay trên đó. Làm y như vậy trên file của bạn.",
+  lesson: "Guider làm mẫu trên một bảng mẫu có sẵn của bài này. Áp dụng cùng cách vào đúng ô, đúng vùng trong file của bạn.",
+  user_file: "Guider làm cách sửa trên bản sao file của bạn; file gốc không bị đổi.",
+};
+
 /** PRODUCT.md: an undemonstrated step always says so in plain words, whoever wrote the body. */
 function stepBody(s: TutorialStep): string {
   const said = /^(Bước này Guider chưa làm mẫu|Guider chưa bấm được|Guider đã bấm nhưng chưa kiểm chứng)/.test(s.body);
@@ -136,6 +143,25 @@ export function TutorialView({ t }: { t: Tutorial }) {
       </header>
 
       <p className="mt-5 max-w-[680px]">{t.intro}</p>
+
+      {t.problem && (
+        <section aria-labelledby={`pb-${t.tutorial_id}`} className="mt-5 rounded-sheet border border-edge bg-white px-5 py-4">
+          <h2 id={`pb-${t.tutorial_id}`} className="font-semibold">
+            Vấn đề của bạn
+          </h2>
+          <p className="mt-2 max-w-[680px]">{t.problem.summary}</p>
+          {t.problem.visible_text && (
+            <p className="mt-1 max-w-[680px] text-small text-lunar">
+              Guider đọc được trên ảnh: <span className="font-num">{t.problem.visible_text}</span>
+            </p>
+          )}
+          <p className="mt-2 max-w-[680px] text-small">{PROBLEM_SAMPLE[t.problem.sample] ?? ""}</p>
+          <div className="mt-3">
+            <p className="mb-2 text-small text-lunar">Ảnh bạn gửi</p>
+            <Shot dir={t.dir} file={t.problem.image} alt="Ảnh chụp vấn đề bạn gửi" />
+          </div>
+        </section>
+      )}
 
       {mode === "article" ? (
         <div className="mt-2">

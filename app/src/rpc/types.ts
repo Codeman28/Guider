@@ -55,6 +55,8 @@ export interface Tutorial {
   env_label: string;
   status: "ok" | "partial" | "failed" | "cancelled";
   example?: { text: string; image?: string | null } | null;
+  /** picture of the user's problem and what Guider read from it (ADR-0005) */
+  problem?: { image: string; summary: string; visible_text?: string; task?: string; sample: "rebuilt" | "lesson" | "user_file" } | null;
   dir: string;
   trace?: { llm_calls?: number; user_file?: boolean; steps: TraceStep[] };
 }
@@ -77,6 +79,7 @@ export interface SystemCheck {
 
 export interface Settings {
   provider?: "ollama" | "gemini";
+  vision_cloud?: boolean; // read pictures of problems with Gemini (sends the picture to Google; off by default)
   has_key: { gemini: boolean };
 }
 

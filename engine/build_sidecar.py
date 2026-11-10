@@ -29,6 +29,7 @@ datas = [
     (HERE / "plans", "plans"),
     (ROOT / "design" / "tokens.json", "design"),
     (HERE / "kem_engine" / "safety" / "blocklist.yaml", "kem_engine/safety"),
+    (HERE / "kem_engine" / "vision" / "ocr.ps1", "kem_engine/vision"),
 ]
 cmd = [sys.executable, "-m", "PyInstaller", "--noconfirm", "--onefile", "--name", NAME,
        "--distpath", str(HERE / "build" / "dist"), "--workpath", str(HERE / "build" / "work"),

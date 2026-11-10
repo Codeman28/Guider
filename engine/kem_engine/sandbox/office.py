@@ -83,10 +83,16 @@ class SandboxHandle:
     closed: bool = False
     work_dir: Path | None = None  # user-file mode: folder holding the private copy (deleted at teardown)
     ribbon_was_minimized: bool = False  # the user's "Show tabs only" choice, put back at teardown
+    sample: bool = False  # filled from a sample rebuilt from the user's picture (ADR-0005), not the card's fixture
 
     @property
     def user_file(self) -> bool:
         return self.work_dir is not None
+
+    @property
+    def adapt_refs(self) -> bool:
+        """Card refs describe the card's fixture; on the user's file or a rebuilt sample they are mapped."""
+        return self.user_file or self.sample
 
 
 def load_fixture(fixture_id: str) -> dict:
@@ -120,7 +126,9 @@ def copy_user_file(source: str | Path) -> tuple[Path, Path]:
 
 
 def setup(spec: AppSpec, fixture_id: str | None, size_logical=(1280, 800), pos=(40, 40),
-          timeout: float = 60.0, source_file: str | Path | None = None) -> SandboxHandle:
+          timeout: float = 60.0, source_file: str | Path | None = None,
+          fixture: dict | None = None) -> SandboxHandle:
+    """fixture: a ready fixture dict (a sample rebuilt from the user's picture) used instead of fixture_id."""
     from ..env import runtime
     runtime.init()  # COM apartment must be set by the UIA stack first
     import win32com.client
@@ -161,7 +169,10 @@ def setup(spec: AppSpec, fixture_id: str | None, size_logical=(1280, 800), pos=(
     try:
         scale = win32.dpi_for_window(hwnd) / 96
         win32.place_window(hwnd, pos[0], pos[1], round(size_logical[0] * scale), round(size_logical[1] * scale))
-        if fixture_id and copy is None:
+        if fixture is not None and copy is None:
+            h.sample = True
+            com_retry(lambda: spec.fill(doc, fixture), timeout=timeout)
+        elif fixture_id and copy is None:
             fx = load_fixture(fixture_id)
             com_retry(lambda: spec.fill(doc, fx), timeout=timeout)
         expand_ribbon(h)
@@ -185,7 +196,7 @@ def _caption_prefix(spec: AppSpec, doc) -> str:
 
 
 def select(h: SandboxHandle, ref: str, timeout: float = 5.0) -> None:
-    if h.user_file and h.spec.map_ref is not None:  # card refs describe the fixture; adapt to the real file
+    if h.adapt_refs and h.spec.map_ref is not None:  # card refs describe the fixture; adapt to the real file
         ref = com_retry(lambda: h.spec.map_ref(h.doc, ref), timeout=timeout)
     com_retry(lambda: h.spec.select(h.doc, ref), timeout=timeout)
 

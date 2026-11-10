@@ -37,8 +37,10 @@ export function StepStack({ demo }: { demo: Demo }) {
         {tornDone && (
           <Sheet n={tornDone.n} total={Math.max(total, tornDone.n)} text={actionText(tornDone.intent, tornDone.label)} sub={`xong sau ${seconds(tornDone.seconds)}`} className="sheet-tearing absolute inset-x-0 top-0 z-10" />
         )}
-        {demo.phase === "planning" ? (
-          <Sheet n={null} total={0} text="Guider đang đọc câu hỏi và lập kế hoạch các bước…" sub={`${elapsed} giây — model chạy trên máy nên có thể mất vài chục giây`} />
+        {demo.phase === "reading" ? (
+          <Sheet n={null} total={0} text="Guider đang đọc ảnh của bạn…" sub={`${elapsed} giây — đọc ảnh trên máy có thể mất 1–2 phút`} />
+        ) : demo.phase === "planning" ? (
+          <Sheet n={null} total={0} text={demo.note ? `Guider thấy: ${demo.note}` : "Guider đang đọc câu hỏi và lập kế hoạch các bước…"} sub={`${elapsed} giây — model chạy trên máy nên có thể mất vài chục giây`} />
         ) : demo.phase === "finishing" || !cur ? (
           <Sheet n={null} total={0} text="Đang đóng file mẫu và viết hướng dẫn…" sub={`${elapsed} giây`} />
         ) : (

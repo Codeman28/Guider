@@ -32,7 +32,10 @@ from ..writer.template import validate_labels, write
 log = structlog.get_logger()
 
 USER_FILE_NOTE = "không kiểm tra COM trên file của bạn (chỉ xác nhận thao tác đã chạy)"
+SAMPLE_NOTE = "không kiểm tra COM trên file dựng lại từ ảnh (chỉ xác nhận thao tác đã chạy)"
 WARNING = "Guider đang làm mẫu trên một file trống. Di chuột, bấm chuột, gõ phím hoặc nhấn Esc là Guider dừng."
+SAMPLE_WARNING = ("Guider đang làm mẫu trên file dựng lại từ ảnh của bạn. Di chuột, bấm chuột, gõ phím hoặc nhấn Esc "
+                  "là Guider dừng.")
 MAX_REPAIRS = 2
 MAX_ACT_ATTEMPTS = 2
 
@@ -72,8 +75,9 @@ class Session:
     def __init__(self, plan: Plan, out_root: Path, progress: Callable[[dict], None] | None = None,
                  window_logical: tuple[int, int] = (1280, 800), writer: WriteFn | None = None,
                  disambiguate: Disambiguate | None = None, cancel_event=None, allow_skip: bool = False,
-                 source_file: str | Path | None = None):
+                 source_file: str | Path | None = None, fixture: dict | None = None):
         self.plan = plan
+        self.fixture = fixture  # sample rebuilt from the user's picture (ADR-0005), replaces plan.fixture_id
         self.source_file = source_file  # user-file mode: demonstrate on a private copy (ADR-0003)
         self._acted_ok = True
         self.window_logical = window_logical
@@ -211,7 +215,7 @@ class Session:
             return self._poll(lambda: bool(set(office.dialogs(self.sb)) - dialogs_before), timeout=ui_t)
         if exp.type == "dialog_closed":
             return self._poll(lambda: not (set(office.dialogs(self.sb)) & dialogs_before), timeout=ui_t)
-        if exp.type == "com_check" and exp.ref is not None and self.sb.user_file:
+        if exp.type == "com_check" and exp.ref is not None and self.sb.adapt_refs:
             # The ref names a cell/paragraph/shape of the card's fixture; it means nothing in the user's
             # own file. Accept the step when the action itself succeeded, and say so in the trace.
             time.sleep(0.8)
@@ -297,8 +301,8 @@ class Session:
             self._emit("VERIFY", f"Bước {n}: kiểm tra kết quả", n)
             if self._verify(step, el, dialogs_before, windows_before):
                 ts.verified, ts.error = True, None
-                if self.sb.user_file and step.expected.type == "com_check" and step.expected.ref is not None:
-                    ts.verify_note = USER_FILE_NOTE
+                if self.sb.adapt_refs and step.expected.type == "com_check" and step.expected.ref is not None:
+                    ts.verify_note = USER_FILE_NOTE if self.sb.user_file else SAMPLE_NOTE
                 break
             if attempt < MAX_ACT_ATTEMPTS:
                 # Never blindly repeat: a second toggle undoes the first. Restore the selection, look
@@ -412,9 +416,10 @@ class Session:
         win32.escape_pressed()  # clear the "pressed since last call" bit
         try:
             self.progress({"session_id": self.session_id, "state": "SETUP", "step_i": 0,
-                           "n_steps": len(self.plan.steps), "message": WARNING})
+                           "n_steps": len(self.plan.steps),
+                           "message": SAMPLE_WARNING if self.fixture is not None else WARNING})
             self.sb = office.setup(self.spec, self.plan.fixture_id, size_logical=self.window_logical,
-                                   source_file=self.source_file)
+                                   source_file=self.source_file, fixture=self.fixture)
             env = probe_office(self.sb.app, self.sb.hwnd, self.plan.app)
             self.scale = env.dpi / 96
             self.style = Style.load(self.scale)

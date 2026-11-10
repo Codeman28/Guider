@@ -14,7 +14,8 @@ export interface Demo {
   sid: string | null;
   question: string;
   startedAt: number;
-  phase: "planning" | "demonstrating" | "finishing";
+  phase: "reading" | "planning" | "demonstrating" | "finishing";
+  note?: string; // what Guider saw on the user's picture (ADR-0005)
   current: { n: number; total: number; intent?: string; label?: string } | null;
   done: DoneStep[];
   recovered: boolean;
@@ -22,7 +23,7 @@ export interface Demo {
 }
 
 export type ChatEntry =
-  | { kind: "question"; text: string }
+  | { kind: "question"; text: string; image?: string }
   | { kind: "answer"; text: string }
   | { kind: "result"; tutorialId: string; title?: string; status: string; steps: number; seconds: number };
 
@@ -63,6 +64,8 @@ interface State {
   stepIndex: Record<string, number>;
   notice: string | null;
   sourceFile: string | null; // user-file mode (ADR-0003): Guider demonstrates on a private copy
+  problemImage: string | null; // picture of the user's problem (ADR-0005), a PNG in the local work folder
+  attaching: boolean;
   rewriting: Record<string, boolean>; // tutorial ids whose text the background Writer is still improving
   settings: Settings | null;
   cloud: CloudCheck | null;
@@ -93,8 +96,13 @@ interface State {
   onUpdated(id: string): Promise<void>;
   pickFile(): Promise<void>;
   clearFile(): void;
+  pickImage(): Promise<void>;
+  pasteImage(file: Blob): Promise<void>;
+  captureOffice(): Promise<void>;
+  clearImage(): void;
   loadSettings(): Promise<void>;
   useProvider(p: "ollama" | "gemini"): Promise<void>;
+  setVisionCloud(on: boolean): Promise<void>;
   saveGeminiKey(key: string): Promise<void>;
   loadTraining(): Promise<void>;
   startTraining(kind: "file" | "link" | "research" | "verify" | "refit", ref: string): Promise<void>;
@@ -125,6 +133,8 @@ export const useApp = create<State>((set, get) => ({
   stepIndex: {},
   notice: null,
   sourceFile: null,
+  problemImage: null,
+  attaching: false,
   rewriting: {},
   settings: null,
   cloud: null,
@@ -174,16 +184,21 @@ export const useApp = create<State>((set, get) => ({
   },
 
   async ask(question) {
-    const q = question.trim();
+    const image = get().problemImage;
+    const q = question.trim() || (image ? "Sửa vấn đề trong ảnh" : "");
     const c = get().client;
     if (!q || !c || get().demo) return;
     set((s) => ({
-      chat: [...s.chat, { kind: "question", text: q }],
-      demo: { sid: null, question: q, startedAt: Date.now(), phase: "planning", current: null, done: [], recovered: false },
+      chat: [...s.chat, { kind: "question", text: q, image: image ?? undefined }],
+      problemImage: null,
+      demo: { sid: null, question: q, startedAt: Date.now(), phase: image ? "reading" : "planning", current: null, done: [], recovered: false },
     }));
     try {
       const file = get().sourceFile;
-      const { session_id } = await c.call<{ session_id: string }>("tutorial.create", file ? { query: q, source_file: file } : { query: q });
+      const params: Record<string, unknown> = { query: q };
+      if (file) params.source_file = file;
+      if (image) params.problem_image = image;
+      const { session_id } = await c.call<{ session_id: string }>("tutorial.create", params);
       set((s) => (s.demo ? { demo: { ...s.demo, sid: session_id } } : {}));
       if (get().demo?.stopping) await c.call("tutorial.cancel", { session_id }); // Dừng pressed before the id came back
     } catch (e) {
@@ -208,6 +223,8 @@ export const useApp = create<State>((set, get) => ({
       if (!d || (d.sid && p.session_id !== d.sid)) return {};
       const next: Demo = { ...d, sid: d.sid ?? p.session_id };
       if (p.state === "RECOVER") next.recovered = true;
+      if (p.state === "PLAN" && p.message?.startsWith("Vấn đề:")) next.note = p.message.slice(8).trim();
+      if (p.state === "PLAN" && next.phase === "reading") next.phase = "planning";
       if (["SETUP", "GROUND", "CAPTURE", "ACT", "VERIFY"].includes(p.state)) next.phase = "demonstrating";
       if (["TEARDOWN", "WRITE", "DONE"].includes(p.state)) next.phase = "finishing";
       if (p.step_i && (p.state === "ACT" || p.state === "GROUND")) {
@@ -278,6 +295,61 @@ export const useApp = create<State>((set, get) => ({
 
   clearFile: () => set({ sourceFile: null }),
 
+  async pickImage() {
+    const c = get().client;
+    if (!c) return;
+    try {
+      const { open } = await import("@tauri-apps/plugin-dialog");
+      const picked = await open({
+        multiple: false,
+        directory: false,
+        title: "Chọn ảnh chụp vấn đề của bạn (ảnh chỉ được đọc trên máy này)",
+        filters: [{ name: "Ảnh", extensions: ["png", "jpg", "jpeg", "bmp", "gif", "webp"] }],
+      });
+      if (typeof picked !== "string") return;
+      set({ attaching: true });
+      const r = await c.call<{ path: string }>("problem.prepare", { path: picked });
+      set({ problemImage: r.path, attaching: false });
+      void c.call("problem.warm_up");
+    } catch (e) {
+      set({ attaching: false, notice: `Không dùng được ảnh này: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async pasteImage(file) {
+    const c = get().client;
+    if (!c || get().demo) return;
+    set({ attaching: true });
+    try {
+      const data = await new Promise<string>((ok, fail) => {
+        const r = new FileReader();
+        r.onload = () => ok(String(r.result));
+        r.onerror = () => fail(r.error);
+        r.readAsDataURL(file);
+      });
+      const res = await c.call<{ path: string }>("problem.paste", { data_b64: data });
+      set({ problemImage: res.path, attaching: false });
+      void c.call("problem.warm_up");
+    } catch (e) {
+      set({ attaching: false, notice: `Không dán được ảnh: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async captureOffice() {
+    const c = get().client;
+    if (!c || get().demo) return;
+    set({ attaching: true });
+    try {
+      const res = await c.call<{ path: string; app: string; title: string }>("problem.capture");
+      set({ problemImage: res.path, attaching: false });
+      void c.call("problem.warm_up");
+    } catch (e) {
+      set({ attaching: false, notice: e instanceof Error ? e.message : String(e) });
+    }
+  },
+
+  clearImage: () => set({ problemImage: null }),
+
   async loadSettings() {
     const c = get().client;
     if (!c) return;
@@ -295,6 +367,16 @@ export const useApp = create<State>((set, get) => ({
       set({ settings: await c.call<Settings>("settings.set", { provider: p }), cloud: null });
     } catch (e) {
       set({ notice: `Không đổi được model: ${e instanceof Error ? e.message : e}` });
+    }
+  },
+
+  async setVisionCloud(on) {
+    const c = get().client;
+    if (!c) return;
+    try {
+      set({ settings: await c.call<Settings>("settings.set", { vision_cloud: on }) });
+    } catch (e) {
+      set({ notice: `Không đổi được cách đọc ảnh: ${e instanceof Error ? e.message : e}` });
     }
   },
 

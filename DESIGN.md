@@ -254,3 +254,10 @@ Hộp giấy trắng viền đỏ Chủ nhật 1 px, chữ 14 px, nằm trên ô
 - **Don't** dùng Inter, Arial hay phông hệ thống; không dùng màu đen hoặc xám thuần.
 - **Don't** dùng biểu tượng trang trí hay ký tự thay biểu tượng (✓ ✗ × ← →); chỉ dùng biểu tượng nét đơn 16 px đi kèm chữ.
 - **Don't** quay về mặc định ứng dụng chat: nền xám, nhấn xanh dương, bong bóng tin nhắn bo tròn.
+
+## Dark mode (10/11/2026)
+
+Theo chủ đề ứng dụng của Windows (`prefers-color-scheme: dark`). Cùng tên token, giá trị xám than ở
+`design/tokens.json` → `color.ui_dark` / `ramp_dark`; `gen-tokens.mjs` sinh khối `@media` ghi đè biến CSS, nên mọi
+lớp `bg-paper`, `text-ink`, `border-edge` tự đổi, không cần biến thể `dark:`. Ảnh chụp màn hình giữ nguyên như lúc
+chụp. Bản xuất HTML vẫn dùng nền sáng để in.

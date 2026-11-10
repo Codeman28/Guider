@@ -22,7 +22,7 @@ from ..intent.router import route
 from ..llm.client import LLMClient
 from ..llm.config import LLMConfig
 from ..llm.providers.base import LLMError
-from ..models import Expected, Plan, Trace, Tutorial
+from ..models import Expected, Plan, Trace, Tutorial, TutorialProblem
 from ..planner.planner import Planner, card_is_clear
 from ..recipes.store import Store
 from ..writer import llm_writer, template
@@ -113,25 +113,31 @@ class TutorialService:
                progress: Callable[[dict], None] | None = None, cancel_event=None,
                success_check: Expected | None = None,
                on_text_updated: Callable[[str], None] | None = None,
-               source_file: str | None = None, guard_input: bool = True) -> CreateResult:
-        """guard_input: the user touching mouse/keyboard stops the run."""
+               source_file: str | None = None, guard_input: bool = True, card_id: str | None = None,
+               fixture: dict | None = None, problem: tuple[TutorialProblem, Path] | None = None,
+               started: float | None = None) -> CreateResult:
+        """guard_input: the user touching mouse/keyboard stops the run.
+        card_id: a learned task chosen already (picture of the problem); fixture: a sample rebuilt from that
+        picture; problem: (section, picture) added to the tutorial; started: the clock started earlier."""
         import contextlib
 
         from ..env.input_guard import InputGuard
         cancel_event = cancel_event or threading.Event()
         guard = InputGuard(cancel_event) if guard_input else contextlib.nullcontext()
         with guard:
-            res = self._create(query, app_hint, progress, cancel_event, success_check, on_text_updated, source_file)
+            res = self._create(query, app_hint, progress, cancel_event, success_check, on_text_updated, source_file,
+                               card_id, fixture, problem, started)
         if guard_input and guard.reason:
             log.info("service.stopped_by_user_input", reason=guard.reason)
         return res
 
     def _create(self, query: str, app_hint: str | None, progress: Callable[[dict], None] | None, cancel_event,
                 success_check: Expected | None, on_text_updated: Callable[[str], None] | None,
-                source_file: str | None) -> CreateResult:
+                source_file: str | None, card_id: str | None = None, fixture: dict | None = None,
+                problem: tuple[TutorialProblem, Path] | None = None, started: float | None = None) -> CreateResult:
         """success_check: eval-only hook — asserts the task's outcome when the plan has no check of its
         own (LLM-written plans), so eval scores outcomes instead of the model's task naming."""
-        t0 = time.monotonic()
+        t0 = started or time.monotonic()
         progress = progress or (lambda m: None)
         if source_file:  # the file decides the app (ADR-0003); route() still applies the out-of-scope rules
             from ..sandbox.office import app_for_file
@@ -155,12 +161,14 @@ class TutorialService:
         plan: Plan | None = None
         stored_text: Tutorial | None = None
         source = None
-        task = self.store.task_for_question(qf)
-        if task is None:
+        if card_id in pack.by_id:  # chosen from the user's picture (ADR-0005): no recipe, no Planner
+            plan, source = pack.by_id[card_id].to_plan(), "problem_card"
+        task = None if plan is not None else self.store.task_for_question(qf)
+        if task is None and plan is None:
             m = pack.match(query)
             if card_is_clear(m):
                 task = m[0][1].id
-        if task and env:
+        if task and env and fixture is None:
             hit = self.store.get_recipe(app, task, env)
             if hit:
                 plan, stored_text = hit
@@ -205,7 +213,8 @@ class TutorialService:
 
         session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
                           writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
-                          cancel_event=cancel_event, allow_skip=source == "llm", source_file=source_file)
+                          cancel_event=cancel_event, allow_skip=source == "llm", source_file=source_file,
+                          fixture=fixture)
         if cancel_event is not None and cancel_event.is_set():  # stopped between planning and Office start-up
             return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
         res = session.run()
@@ -218,7 +227,8 @@ class TutorialService:
             source = "card_mouse_fallback"
             session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
                               writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
-                              cancel_event=cancel_event, allow_skip=False, source_file=source_file)
+                              cancel_event=cancel_event, allow_skip=False, source_file=source_file,
+                              fixture=fixture)
             res = session.run()
 
         # 4) remember
@@ -227,7 +237,14 @@ class TutorialService:
             res.trace.llm_calls = llm.budget.used if llm else 0
             # the session wrote trace.json before the Writer's call was counted; persist the final number
             (res.out_dir / "trace.json").write_text(res.trace.model_dump_json(indent=2), encoding="utf-8")
-            if res.tutorial.status == "ok" and not source_file:  # user-file runs skip ref checks: no recipe
+            if problem is not None and (res.out_dir / "tutorial.json").exists():
+                import shutil
+                section, picture = problem
+                shutil.copyfile(picture, res.out_dir / section.image)
+                res.tutorial = res.tutorial.model_copy(update={"problem": section})
+                (res.out_dir / "tutorial.json").write_text(
+                    json.dumps(res.tutorial.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+            if res.tutorial.status == "ok" and not source_file and fixture is None:  # no ref checks ran: no recipe
                 if source != "recipe" or res.writer_source == "llm":  # replay keeps the stored recipe
                     self.store.save_recipe(plan, res.trace, pack.version, res.tutorial)
                 self.store.remember_question(qf, plan.task_canonical)
@@ -256,6 +273,7 @@ class TutorialService:
             if src != "llm" or template.validate_labels(tut, res.trace):
                 log.info("service.rewrite_kept_template", tutorial_id=res.tutorial.tutorial_id)
                 return
+            tut = tut.model_copy(update={"problem": res.tutorial.problem})
             (res.out_dir / "tutorial.json").write_text(json.dumps(tut.model_dump(), ensure_ascii=False, indent=2),
                                                        encoding="utf-8")
             res.trace.llm_calls = llm.budget.used
@@ -269,3 +287,57 @@ class TutorialService:
                 on_text_updated(res.tutorial.tutorial_id)
             except Exception:
                 pass
+
+    def create_from_problem(self, image: str, question: str = "", source_file: str | None = None,
+                            progress: Callable[[dict], None] | None = None, cancel_event=None,
+                            on_text_updated: Callable[[str], None] | None = None,
+                            guard_input: bool = True) -> CreateResult:
+        """Picture of the user's problem → tutorial (ADR-0005): read the picture on this machine, pick the
+        learned task that fixes it, rebuild a sample from what the picture shows (or use the user's file),
+        demonstrate the fix there, and add the picture and the diagnosis to the tutorial."""
+        import shutil
+        import uuid
+
+        from ..sandbox.office import work_root
+        from ..vision import problem as vp
+        t0 = time.monotonic()
+        progress = progress or (lambda m: None)
+        cancel_event = cancel_event or threading.Event()
+        if not self._cfg_fixed:
+            self.cfg = LLMConfig.load()
+        work = work_root() / "problems" / uuid.uuid4().hex[:12]
+        progress({"state": "DIAGNOSE", "message": "Guider đang đọc ảnh của bạn (trên máy, không gửi ảnh đi)"})
+        try:
+            try:
+                vconf = vp.VisionConf.load()
+                pr = _until_cancel(lambda: vp.read(image, question, self.pack_for, work, conf=vconf,
+                                                   deadline=t0 + vconf.timeout_s), cancel_event)
+            except _Stopped:
+                return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
+            except vp.ProblemError as e:
+                return CreateResult("text", answer=str(e), seconds=time.monotonic() - t0)
+            d = pr.diagnosis
+            card = self.pack_for(d.app).by_id.get(pr.card_id) if pr.card_id else None
+            fixture = None
+            if source_file:
+                kind = "user_file"
+            elif card is not None and vp.needs_own_layout(card):
+                kind = "lesson"  # formula lessons need their own table; the tutorial says how to apply it
+            else:
+                fixture = vp.sample_fixture(d)
+                kind = "rebuilt" if fixture else "lesson"
+            section = TutorialProblem(summary=d.problem, visible_text=d.visible_text, task=d.task, sample=kind)
+            progress({"state": "PLAN", "message": f"Vấn đề: {d.problem}"})
+            res = self.create(pr.query, d.app, progress=progress, cancel_event=cancel_event,
+                              on_text_updated=on_text_updated, source_file=source_file, guard_input=guard_input,
+                              card_id=pr.card_id, fixture=fixture, problem=(section, pr.image),
+                              # a picture read on this CPU takes ~100 s on its own; the demonstration keeps
+                              # its own 2-minute budget (ADR-0005). With Gemini the whole run fits in it.
+                              started=t0 if pr.timings.get("reader") == "gemini" else None)
+            res.seconds = time.monotonic() - t0
+            res.llm_log.append({"role": "problem_reader", **pr.timings, "card_id": pr.card_id})
+            if res.kind == "text" and res.answer:  # nothing demonstrated: still tell the user what was seen
+                res.answer = f"Guider thấy: {d.problem}\n{res.answer}"
+            return res
+        finally:
+            shutil.rmtree(work, ignore_errors=True)

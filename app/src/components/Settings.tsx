@@ -18,7 +18,7 @@ function Choice({ checked, onSelect, title, detail }: { checked: boolean; onSele
 }
 
 export function Settings() {
-  const { settings, cloud, savingCloud, useProvider, saveGeminiKey } = useApp();
+  const { settings, cloud, savingCloud, useProvider, saveGeminiKey, setVisionCloud } = useApp();
   const [key, setKey] = useState("");
   const provider = settings?.provider ?? "ollama";
   const hasKey = settings?.has_key?.gemini ?? false;
@@ -53,7 +53,7 @@ export function Settings() {
           Tạo miễn phí tại <span className="font-medium text-ink">{AI_STUDIO}</span> rồi dán vào đây. Key được mã hoá theo tài khoản Windows của bạn và chỉ nằm trên máy này.
         </p>
         <p className="mt-2 text-small">
-          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút, không bao giờ gửi ảnh chụp hay nội dung file của bạn.
+          Lưu ý: ở gói miễn phí, Google có thể dùng dữ liệu gửi lên để cải thiện sản phẩm. Guider chỉ gửi câu hỏi và tên các nút; không gửi nội dung file, và chỉ gửi ảnh chụp vấn đề khi bạn bật "Đọc ảnh bằng Gemini" bên dưới.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <input
@@ -89,6 +89,29 @@ export function Settings() {
             <span>{cloud.ok ? `Gemini trả lời sau ${cloud.seconds} giây (${cloud.model}). Đã chuyển sang Gemini.` : `Chưa dùng được Gemini: ${cloud.error}`}</span>
           </p>
         )}
+      </div>
+
+      <div className="mt-8 border-t border-edge pt-6">
+        <h3 className="font-semibold">Đọc ảnh chụp vấn đề</h3>
+        <p className="mt-1 max-w-[600px] text-small text-lunar">
+          Mặc định Guider đọc ảnh ngay trên máy bằng model gemma3:4b: ảnh không rời máy, nhưng mất khoảng 1–2 phút mỗi ảnh trên máy không có card đồ họa.
+        </p>
+        <label className="mt-3 flex max-w-[600px] items-start gap-3">
+          <input
+            type="checkbox"
+            className="mt-1 h-4 w-4"
+            disabled={!hasKey}
+            checked={!!settings?.vision_cloud && hasKey}
+            onChange={(e) => void setVisionCloud(e.target.checked)}
+          />
+          <span>
+            <span className="font-medium">Đọc ảnh bằng Gemini (nhanh, vài giây)</span>
+            <span className="block text-small text-sunday">
+              Ảnh bạn gửi sẽ được tải lên Google. Gói miễn phí cho phép Google dùng dữ liệu gửi lên. Đừng bật nếu ảnh có thông tin riêng tư.
+            </span>
+            {!hasKey && <span className="block text-small text-lunar">Cần lưu API key Gemini ở trên trước.</span>}
+          </span>
+        </label>
       </div>
     </section>
   );

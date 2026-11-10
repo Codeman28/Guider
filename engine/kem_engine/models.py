@@ -155,6 +155,15 @@ class TutorialExample(BaseModel):
     image: Optional[str] = None  # the final result screenshot of the demonstration
 
 
+class TutorialProblem(BaseModel):
+    """The user's own picture of their problem and what Guider read from it (ADR-0005)."""
+    image: str = "problem.png"
+    summary: str
+    visible_text: str = ""
+    task: str = ""
+    sample: Literal["rebuilt", "lesson", "user_file"] = "lesson"  # the file the fix was shown on
+
+
 class Tutorial(BaseModel):
     tutorial_id: str
     title: str
@@ -164,3 +173,4 @@ class Tutorial(BaseModel):
     env_label: str
     status: Literal["ok", "partial", "failed", "cancelled"]
     example: Optional[TutorialExample] = None  # "Ví dụ" section
+    problem: Optional[TutorialProblem] = None  # "Vấn đề của bạn" (picture of the problem, ADR-0005)

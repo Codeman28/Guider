@@ -1,5 +1,7 @@
+import { convertFileSrc } from "@tauri-apps/api/core";
 import { useEffect, useRef, useState } from "react";
 
+import { inTauri } from "../rpc/client";
 import { useApp } from "../stores/app";
 import { StepStack } from "./StepStack";
 
@@ -18,7 +20,9 @@ const STATUS: Record<string, string> = {
 };
 
 export function ChatColumn() {
-  const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile } = useApp();
+  const { chat, demo, ask, cancel, open, tabs, sourceFile, pickFile, clearFile, problemImage, attaching, pickImage, pasteImage, captureOffice, clearImage, settings } = useApp();
+  const cloudVision = !!settings?.vision_cloud && !!settings?.has_key?.gemini;
+  const preview = (p: string) => (inTauri() ? convertFileSrc(p) : "");
   const fileName = sourceFile?.split(/[\/]/).pop();
   const [text, setText] = useState("");
   const input = useRef<HTMLTextAreaElement>(null);
@@ -34,7 +38,7 @@ export function ChatColumn() {
   }, [demo]);
 
   const submit = (q: string) => {
-    if (!q.trim() || demo) return;
+    if ((!q.trim() && !problemImage) || demo || attaching) return;
     void ask(q);
     setText("");
   };
@@ -52,6 +56,7 @@ export function ChatColumn() {
         {showExamples && (
           <div className={`px-5 pt-6 ${tabs.length ? "max-[899px]:hidden" : ""}`}>
             <p>Hỏi một việc bạn muốn làm trong Excel, Word hoặc PowerPoint. Guider sẽ làm mẫu ngay trên máy bạn rồi viết hướng dẫn kèm ảnh.</p>
+            <p className="mt-2 text-small text-lunar">Gặp lỗi? Gửi ảnh chụp màn hình (hoặc dán bằng Ctrl+V), Guider đọc ảnh, dựng lại file mẫu và chỉ cách sửa.</p>
             <ul className="mt-4 space-y-2">
               {EXAMPLES.map((e) => (
                 <li key={e}>
@@ -68,6 +73,7 @@ export function ChatColumn() {
           {chat.map((e, i) =>
             e.kind === "question" ? (
               <li key={i} className="rounded-sheet bg-shell px-3.5 py-2.5">
+                {e.image && preview(e.image) && <img src={preview(e.image)} alt="Ảnh vấn đề bạn gửi" className="mb-2 max-h-32 rounded-sheet border border-edge" />}
                 {e.text}
               </li>
             ) : e.kind === "answer" ? (
@@ -107,7 +113,29 @@ export function ChatColumn() {
         </div>
       )}
 
-      <div className="mx-5 mb-2 flex flex-none items-center gap-2 text-small">
+      {(problemImage || attaching) && (
+        <div className="mx-5 mb-2 flex flex-none items-center gap-3 rounded-sheet border border-edge bg-white p-2 text-small">
+          {problemImage && preview(problemImage) ? (
+            <img src={preview(problemImage)} alt="Ảnh vấn đề sẽ gửi cho Guider" className="h-14 w-20 rounded-sheet border border-edge object-cover object-left-top" />
+          ) : (
+            <span className="h-14 w-20 rounded-sheet border border-edge bg-shell" aria-hidden />
+          )}
+          <span className="min-w-0 flex-1">{attaching ? "Đang lấy ảnh…" : cloudVision ? "Guider sẽ gửi ảnh này cho Gemini để đọc (đã bật trong Cài đặt) rồi chỉ cách sửa." : "Guider sẽ đọc ảnh này ngay trên máy (không gửi đi) rồi chỉ cách sửa."}</span>
+          {problemImage && (
+            <button type="button" disabled={!!demo} onClick={clearImage} aria-label="Bỏ ảnh" className="rounded-sheet border border-edge px-2 py-0.5 disabled:opacity-40">
+              Bỏ ảnh
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="mx-5 mb-2 flex flex-none flex-wrap items-center gap-x-4 gap-y-1 text-small">
+        <button type="button" disabled={!!demo || attaching} onClick={() => void pickImage()} className="underline underline-offset-4 disabled:opacity-40">
+          Gửi ảnh vấn đề…
+        </button>
+        <button type="button" disabled={!!demo || attaching} onClick={() => void captureOffice()} title="Chụp cửa sổ Excel, Word hoặc PowerPoint đang mở của bạn (chỉ chụp ảnh, không bấm gì)" className="underline underline-offset-4 disabled:opacity-40">
+          Chụp cửa sổ Office
+        </button>
         {sourceFile ? (
           <>
             <span className="min-w-0 flex-1 truncate" title={sourceFile}>
@@ -139,16 +167,24 @@ export function ChatColumn() {
           value={text}
           disabled={!!demo}
           onChange={(e) => setText(e.target.value)}
+          onPaste={(e) => {
+            const item = [...e.clipboardData.items].find((it) => it.type.startsWith("image/"));
+            const f = item?.getAsFile();
+            if (f) {
+              e.preventDefault();
+              void pasteImage(f);
+            }
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               submit(text);
             }
           }}
-          placeholder={demo ? "Chờ Guider làm mẫu xong…" : "Hỏi cách làm một việc trong Office…"}
+          placeholder={demo ? "Chờ Guider làm mẫu xong…" : problemImage ? "Mô tả thêm (không bắt buộc)…" : "Hỏi cách làm một việc trong Office…"}
           className="min-h-12 flex-1 resize-none rounded-sheet border border-edge bg-white px-3 py-2 placeholder:text-lunar disabled:bg-shell"
         />
-        <button type="submit" disabled={!!demo || !text.trim()} className="self-end rounded-sheet bg-ink px-4 py-2.5 font-medium text-paper disabled:opacity-40">
+        <button type="submit" disabled={!!demo || attaching || (!text.trim() && !problemImage)} className="self-end rounded-sheet bg-ink px-4 py-2.5 font-medium text-paper disabled:opacity-40">
           Hỏi
         </button>
       </form>
