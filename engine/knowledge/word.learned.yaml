@@ -1225,6 +1225,50 @@ cards:
     source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
     where: trang 20–27
     names_checked: false
+- id: learn_wor_cach_thay_doi_mau_chu_trong_word_3660
+  title: Cách thay đổi màu chữ trong Word
+  keywords:
+  - chỉnh màu văn bản
+  - font color
+  - đổi màu chữ
+  - đổi màu font
+  fixture_id: word_report_basic
+  steps:
+  - id: 1
+    intent: select_ribbon_tab
+    target:
+      names:
+      - Home
+      control_type: TabItem
+    expected:
+      type: tab_selected
+  - id: 2
+    intent: expand
+    target:
+      names:
+      - Font
+      - Font Color
+      control_type: SplitButton|MenuItem
+    expected:
+      type: expanded
+  - id: 3
+    intent: select_item
+    target:
+      names:
+      - Red
+      control_type: ListItem|MenuItem|Button
+    expected:
+      type: none
+    capture_result: true
+  example: Bôi đen đoạn văn bản cần đổi màu, vào tab Home, bấm mũi tên cạnh nút Font Color và chọn màu đỏ để đổi màu chữ.
+  learned:
+    source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
+    where: trang 9–19
+    names_checked: true
+    relearned: đổi 'Font Color' → 'Font'
+  preconditions:
+  - type: select_range
+    ref: p3
 extends:
   word_bold_keys:
   - bold chữ

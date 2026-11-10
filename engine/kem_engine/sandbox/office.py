@@ -82,6 +82,7 @@ class SandboxHandle:
     created_at: float = field(default_factory=time.time)
     closed: bool = False
     work_dir: Path | None = None  # user-file mode: folder holding the private copy (deleted at teardown)
+    ribbon_was_minimized: bool = False  # the user's "Show tabs only" choice, put back at teardown
 
     @property
     def user_file(self) -> bool:
@@ -163,6 +164,7 @@ def setup(spec: AppSpec, fixture_id: str | None, size_logical=(1280, 800), pos=(
         if fixture_id and copy is None:
             fx = load_fixture(fixture_id)
             com_retry(lambda: spec.fill(doc, fx), timeout=timeout)
+        expand_ribbon(h)
         if h.created_instance:  # crash recovery ledger (Phase 5)
             from . import recovery
             recovery.record(spec.name, pid, spec.frame_class, _caption_prefix(spec, doc))
@@ -203,6 +205,31 @@ def sandbox_windows(h: SandboxHandle) -> list[int]:
     return [w for w in win32.top_level_windows(h.pid) if win32.class_name(w) != win32.BORDER_EFFECT_CLASS]
 
 
+def expand_ribbon(h: SandboxHandle) -> None:
+    """A minimized ribbon ("Show tabs only", saved in the user's Office settings) opens each tab as a flyout that
+    closes as soon as focus moves, taking its menus and buttons with it. Show the full ribbon while Guider works;
+    restore_ribbon puts the user's choice back before Office quits (the setting is saved on exit)."""
+    try:
+        bars = h.app.CommandBars
+        if bars.GetPressedMso("MinimizeRibbon"):
+            bars.ExecuteMso("MinimizeRibbon")
+            h.ribbon_was_minimized = True
+    except Exception as e:
+        log.warning("sandbox.ribbon_expand_failed", error=repr(e))
+
+
+def restore_ribbon(h: SandboxHandle) -> None:
+    if not h.ribbon_was_minimized:
+        return
+    try:
+        bars = h.app.CommandBars
+        if not bars.GetPressedMso("MinimizeRibbon"):
+            bars.ExecuteMso("MinimizeRibbon")
+        h.ribbon_was_minimized = False
+    except Exception as e:
+        log.warning("sandbox.ribbon_restore_failed", error=repr(e))
+
+
 def dialogs(h: SandboxHandle) -> list[int]:
     return [w for w in sandbox_windows(h) if win32.class_name(w) in h.spec.dialog_classes]
 
@@ -233,6 +260,7 @@ def teardown(h: SandboxHandle, exit_timeout: float = 15.0) -> dict:
     h.closed = True
     try:
         unstick(h)
+        restore_ribbon(h)
         com_retry(lambda: h.spec.close_doc(h.doc), timeout=8, on_busy=lambda: unstick(h))
         report["closed_doc"] = True
     except Exception as e:

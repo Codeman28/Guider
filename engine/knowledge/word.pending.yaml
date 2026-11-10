@@ -1,7 +1,7 @@
 # Learned by the training area (ADR-0004) — generated, reviewed by demonstration. Edit or delete freely;
 # the base pack is <app>.cards.yaml.
 cards:
-- reason: 'bước ''Heading 1'': Guider không tìm thấy nút này trên Word của bạn'
+- reason: 'bước ''Heading 1'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Heading 1'''
   card:
     id: learn_wor_cach_tao_tieu_de_cho_doan_van_trong_word_ab34
     title: Cách tạo tiêu đề cho đoạn văn trong Word
@@ -38,7 +38,8 @@ cards:
     preconditions:
     - type: select_range
       ref: p2
-- reason: 'bước ''Arial'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Arial'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Arial'''
   card:
     id: learn_wor_cach_thay_doi_phong_chu_cho_tieu_de_4bfd
     title: Cách thay đổi phông chữ cho tiêu đề
@@ -73,7 +74,8 @@ cards:
     preconditions:
     - type: select_range
       ref: p1
-- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Top'''
   card:
     id: learn_wor_cach_thiet_lap_le_trang_trong_word_ab6c
     title: Cách thiết lập lề trang trong Word
@@ -132,7 +134,8 @@ cards:
     preconditions:
     - type: select_range
       ref: all
-- reason: 'bước ''Borders'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Borders'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Borders'''
   card:
     id: learn_wor_cach_tao_khung_vien_cho_doan_van_trong_w_bdf7
     title: Cách tạo khung viền cho đoạn văn trong Word
@@ -176,7 +179,8 @@ cards:
     preconditions:
     - type: select_range
       ref: p3-p5
-- reason: 'bước ''Advanced'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Advanced'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Advanced'''
   card:
     id: learn_wor_cach_dinh_dang_phong_chu_va_khoang_cach_c345
     title: Cách định dạng phông chữ và khoảng cách ký tự trong Word
@@ -230,7 +234,8 @@ cards:
     preconditions:
     - type: select_range
       ref: p3-p5
-- reason: 'bước ''Caption'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Caption'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Caption'''
   card:
     id: learn_wor_cach_danh_so_tu_dong_cho_hinh_anh_captio_c9c2
     title: Cách đánh số tự động cho hình ảnh (Caption)
@@ -281,7 +286,9 @@ cards:
       source: Bai tap Tin hoc FTU2.pdf
       where: trang 34–37
       names_checked: false
-- reason: 'bước ''Automatic Table 1'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Automatic Table 1'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Automatic
+    Table 1'''
   card:
     id: learn_wor_cach_tao_muc_luc_tu_dong_trong_word_aecd
     title: Cách tạo mục lục tự động trong Word
@@ -318,7 +325,9 @@ cards:
     preconditions:
     - type: select_range
       ref: p3-p5
-- reason: 'bước ''Update entire table'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Update entire table'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Update
+    entire table'''
   card:
     id: learn_wor_cach_cap_nhat_muc_luc_trong_word_e1b1
     title: Cách cập nhật mục lục trong Word
@@ -369,52 +378,9 @@ cards:
       source: Bai tap Tin hoc FTU2.pdf
       where: trang 55–59
       names_checked: false
-- reason: 'bước ''Font Color'': Guider không tìm thấy nút này trên Word của bạn'
-  card:
-    id: learn_wor_cach_thay_doi_mau_chu_trong_word_3660
-    title: Cách thay đổi màu chữ trong Word
-    keywords:
-    - chỉnh màu văn bản
-    - font color
-    - đổi màu chữ
-    - đổi màu font
-    fixture_id: word_report_basic
-    steps:
-    - id: 1
-      intent: select_ribbon_tab
-      target:
-        names:
-        - Home
-        control_type: TabItem
-      expected:
-        type: tab_selected
-    - id: 2
-      intent: expand
-      target:
-        names:
-        - Font Color
-        control_type: SplitButton|MenuItem
-        automation_id: FontColorPicker
-      expected:
-        type: expanded
-    - id: 3
-      intent: select_item
-      target:
-        names:
-        - Red
-        control_type: ListItem|MenuItem|Button
-      expected:
-        type: none
-      capture_result: true
-    example: Bôi đen đoạn văn bản cần đổi màu, vào tab Home, bấm mũi tên cạnh nút Font Color và chọn màu đỏ để đổi màu chữ.
-    learned:
-      source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
-      where: trang 9–19
-      names_checked: false
-    preconditions:
-    - type: select_range
-      ref: p3
-- reason: 'bước ''Automatic Table 2'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Automatic Table 2'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Automatic
+    Table 2'''
   card:
     id: learn_wor_cach_tao_muc_luc_tu_dong_fe6f
     title: Cách tạo mục lục tự động
@@ -447,7 +413,8 @@ cards:
       source: 1702861677MICROSOFT-OFFICE-BOOK.pdf
       where: trang 20–27
       names_checked: false
-- reason: 'bước ''Font Size'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Font'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Font'''
   card:
     id: learn_wor_cach_thay_doi_kich_thuoc_phong_chu_6fae
     title: Cách thay đổi kích thước phông chữ
@@ -470,9 +437,9 @@ cards:
       intent: expand
       target:
         names:
+        - Font
         - Font Size
         control_type: ComboBox
-        automation_id: FontSize
       expected:
         type: expanded
     - id: 3
@@ -492,7 +459,8 @@ cards:
     preconditions:
     - type: select_range
       ref: p3
-- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn'
+    refit_tries: 1
+- reason: 'bước ''Top'': Guider không tìm thấy nút này trên Word của bạn · học lại: không có nút nào trên màn hình giống ''Top'''
   card:
     id: learn_wor_cach_thay_doi_le_trang_trong_word_5f3b
     title: Cách thay đổi lề trang trong Word
@@ -572,3 +540,4 @@ cards:
     preconditions:
     - type: select_range
       ref: all
+    refit_tries: 1
