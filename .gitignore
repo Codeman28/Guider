@@ -24,3 +24,5 @@ app/src-tauri/binaries/
 .impeccable/
 .hallmark/
 docs/HANDOFF.md
+.claude/
+docs/phase3/INSTALL_PLAN.md
