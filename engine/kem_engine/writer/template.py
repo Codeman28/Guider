@@ -46,7 +46,12 @@ def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
     if s.intent == "set_value":
         return (f"Nhập giá trị vào ô {n}", f"Gõ “{s.value}” vào ô {n}.")
     if s.intent == "type_formula":
+        if ":" in (s.element_name or ""):
+            return (f"Gõ công thức cho vùng {n}", f"Chọn vùng {n}, gõ “{s.value}” rồi nhấn Ctrl+Enter để điền cả vùng.")
         return (f"Gõ công thức vào ô {n}", f"Chọn ô {n}, gõ “{s.value}” rồi nhấn Enter.")
+    if s.intent == "select_range":
+        what = f"vùng {n}" if ":" in (s.element_name or "") else f"ô {n}"
+        return (f"Chọn {what}", f"Kéo chuột (hoặc giữ Shift và dùng phím mũi tên) để chọn {what}.")
     if s.intent == "key_combo":
         if "+" in (s.element_name or "").strip("+"):
             return (f"Nhấn {n}", f"Nhấn tổ hợp phím {n}: giữ các phím đầu, rồi nhấn phím cuối.")

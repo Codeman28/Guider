@@ -364,19 +364,23 @@ class TutorialService:
         progress({"state": "DIAGNOSE", "message": "Guider đang đọc bài tập và dựng lại bảng"})
         try:
             try:
-                er = _until_cancel(lambda: ex.read_and_solve(image, text, work), cancel_event)
+                er = _until_cancel(lambda: ex.read_and_solve(
+                    image, text, work, notify=lambda m: progress({"state": "DIAGNOSE", "message": m})), cancel_event)
             except _Stopped:
                 return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
             except (ex.ExerciseError, vp.ProblemError) as e:
                 return CreateResult("text", answer=str(e), seconds=time.monotonic() - t0)
             fx, sol = er.fixture, er.solution
-            if not sol.steps:
-                return CreateResult("text", answer="Bài này không có yêu cầu tính toán Guider giải được bằng công thức: "
-                                    + "; ".join(sol.unsolved or er.tasks), seconds=time.monotonic() - t0)
-            title = "Giải bài tập: " + (er.tasks[0] if len(er.tasks) == 1 else f"{len(sol.steps)} yêu cầu trên bảng của bạn")
+            if not sol.steps and not sol.actions:
+                return CreateResult("text", answer="Guider đã dựng lại bảng nhưng chưa làm được yêu cầu này: "
+                                    + "; ".join(sol.unsolved or er.tasks)
+                                    + ". Guider làm được: tính bằng công thức, lọc, sắp xếp, tô màu hàng theo điều kiện, "
+                                      "in đậm, tô nền.", seconds=time.monotonic() - t0)
+            n_tasks = len(sol.steps) + len(sol.actions)
+            title = "Giải bài tập: " + (er.tasks[0] if len(er.tasks) == 1 else f"{n_tasks} yêu cầu trên bảng của bạn")
             plan = ex.to_plan(fx, sol, title[:120])
             progress({"state": "PLAN", "message": f"Vấn đề: dựng lại bảng {len(fx['rows'])} hàng × {len(fx['columns'])} cột; "
-                                                  f"lời giải {len(sol.steps)} bước đã chạy đúng trong Excel"})
+                                                  f"lời giải {n_tasks} phần đã thử đúng trong Excel"})
             summary = "Bài tập: " + "; ".join(er.tasks)
             if sol.unsolved:
                 summary += ". Chưa làm mẫu được (không phải công thức): " + "; ".join(sol.unsolved)
@@ -386,7 +390,7 @@ class TutorialService:
                               on_text_updated=on_text_updated, guard_input=guard_input, fixture=fx,
                               problem=(section, er.image), ready_plan=plan, started=t0)
             res.seconds = time.monotonic() - t0
-            res.llm_log.append({"role": "exercise", **er.timings, "steps": len(sol.steps)})
+            res.llm_log.append({"role": "exercise", **er.timings, "steps": len(sol.steps), "actions": len(sol.actions)})
             return res
         finally:
             shutil.rmtree(work, ignore_errors=True)

@@ -30,6 +30,9 @@ const VERBS: Record<string, string> = {
   select_item: "Chọn",
   toggle: "Bật",
   set_value: "Nhập vào",
+  select_range: "Chọn",
+  type_formula: "Gõ công thức vào",
+  key_combo: "Nhấn",
 };
 
 export function actionText(intent?: string, label?: string): string {

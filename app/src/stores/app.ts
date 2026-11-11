@@ -16,6 +16,7 @@ export interface Demo {
   startedAt: number;
   phase: "reading" | "planning" | "demonstrating" | "finishing";
   note?: string; // what Guider saw on the user's picture (ADR-0005)
+  reading?: string; // what Guider is doing while it reads the picture (Gemini busy, solving…)
   current: { n: number; total: number; intent?: string; label?: string } | null;
   done: DoneStep[];
   recovered: boolean;
@@ -249,6 +250,7 @@ export const useApp = create<State>((set, get) => ({
       if (!d || (d.sid && p.session_id !== d.sid)) return {};
       const next: Demo = { ...d, sid: d.sid ?? p.session_id };
       if (p.state === "RECOVER") next.recovered = true;
+      if (p.state === "DIAGNOSE" && p.message) next.reading = p.message;
       if (p.state === "PLAN" && p.message?.startsWith("Vấn đề:")) next.note = p.message.slice(8).trim();
       if (p.state === "PLAN" && next.phase === "reading") next.phase = "planning";
       if (["SETUP", "GROUND", "CAPTURE", "ACT", "VERIFY"].includes(p.state)) next.phase = "demonstrating";

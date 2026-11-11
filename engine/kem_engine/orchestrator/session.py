@@ -150,9 +150,10 @@ class Session:
         """A stray click can move the selection; re-apply the plan's range so toggles hit the right cells."""
         if len(self._windows()) > 1:
             return  # a menu or dialog of ours is open; touching the grid would close it
-        for pre in self.plan.preconditions:
+        refs = [self._sel] if getattr(self, "_sel", None) else [p.ref for p in self.plan.preconditions]
+        for ref in refs:
             try:
-                office.select(self.sb, pre.ref, timeout=2)
+                office.select(self.sb, ref, timeout=2)
             except Exception as e:
                 log.warning("session.restore_selection_failed", error=repr(e))
 
@@ -238,6 +239,8 @@ class Session:
         self.trace.steps.append(ts)
         if step.intent in ("key_combo", "type_formula"):
             return self._run_keys_step(step, ts, n, t_step)
+        if step.intent == "select_range":
+            return self._run_select_step(step, ts, n, t_step)
         self._emit("GROUND", f"Bước {n}: tìm nút", n)
 
         res, ident = self._ground(step)
@@ -359,6 +362,20 @@ class Session:
             return self._cell_rect(str(self.sb.app.Selection.Address))
         except Exception:
             return None
+
+    def _run_select_step(self, step: Step, ts: TraceStep, n: int, t_step: float):
+        """Select a range mid-plan (exercise mode: each task works on its own part of the rebuilt table)."""
+        ref = step.target.names[0] if step.target and step.target.names else "A1"
+        ts.element_name, ts.control_type, ts.attempts = ref, "Cell", 1
+        self._emit("ACT", f"Bước {n}: chọn {ref}", n, label=ref, intent=step.intent)
+        office.select(self.sb, ref)
+        self._sel = ref
+        time.sleep(0.3)
+        _, ident = snapshot([self.sb.hwnd])
+        ts.image = self._capture(self._cell_rect(ref), n, ident, f"step_{n:02d}.png", keys=None)
+        ts.verified = True
+        self._emit("STEP_DONE", f"Bước {n} xong", n, label=ref, intent=step.intent,
+                   seconds=round(time.monotonic() - t_step, 1))
 
     def _run_keys_step(self, step: Step, ts: TraceStep, n: int, t_step: float):
         """Type a formula into a cell, or press a shortcut — real keystrokes, only while the sandbox is in front."""
