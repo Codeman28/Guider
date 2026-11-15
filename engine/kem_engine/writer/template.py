@@ -49,6 +49,8 @@ def _texts(s: TraceStep, app: str = "Excel") -> tuple[str, str]:
         if ":" in (s.element_name or ""):
             return (f"Gõ công thức cho vùng {n}", f"Chọn vùng {n}, gõ “{s.value}” rồi nhấn Ctrl+Enter để điền cả vùng.")
         return (f"Gõ công thức vào ô {n}", f"Chọn ô {n}, gõ “{s.value}” rồi nhấn Enter.")
+    if s.intent == "type_text":
+        return (f"Gõ “{s.value}”", f"Đặt con trỏ vào chỗ cần nhập rồi gõ “{s.value}”.")
     if s.intent == "select_range":
         what = f"vùng {n}" if ":" in (s.element_name or "") else f"ô {n}"
         return (f"Chọn {what}", f"Kéo chuột (hoặc giữ Shift và dùng phím mũi tên) để chọn {what}.")

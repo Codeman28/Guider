@@ -33,6 +33,7 @@ const VERBS: Record<string, string> = {
   select_range: "Chọn",
   type_formula: "Gõ công thức vào",
   key_combo: "Nhấn",
+  type_text: "Gõ",
 };
 
 export function actionText(intent?: string, label?: string): string {

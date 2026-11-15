@@ -106,7 +106,15 @@ def perform(intent: str, el: Element, value: str | None = None) -> None:
         elif intent == "set_value":
             if value is None:
                 raise ActionError("set_value needs a value")
-            if "Value" in el.patterns:
+            if value.endswith("\n"):  # a ribbon box (Font Size…) applies only on Enter, as when a person types
+                from ..env import keyboard
+                _type_into(el, value[:-1])
+                keyboard.press("Enter")
+            elif value.endswith("\t"):  # a dialog box (Font > Size:) takes the value when focus leaves it
+                from ..env import keyboard
+                _type_into(el, value[:-1])
+                keyboard.press("Tab")
+            elif "Value" in el.patterns:
                 w.iface_value.SetValue(value)
             else:
                 _type_into(el, value)

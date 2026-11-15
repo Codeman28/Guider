@@ -75,8 +75,9 @@ class Session:
     def __init__(self, plan: Plan, out_root: Path, progress: Callable[[dict], None] | None = None,
                  window_logical: tuple[int, int] = (1280, 800), writer: WriteFn | None = None,
                  disambiguate: Disambiguate | None = None, cancel_event=None, allow_skip: bool = False,
-                 source_file: str | Path | None = None, fixture: dict | None = None):
+                 source_file: str | Path | None = None, fixture: dict | None = None, agent=None):
         self.plan = plan
+        self.agent = agent  # observe-act agent (ADR-0007): finds the steps no card covers, after the plan's own
         self.fixture = fixture  # sample rebuilt from the user's picture (ADR-0005), replaces plan.fixture_id
         self.source_file = source_file  # user-file mode: demonstrate on a private copy (ADR-0003)
         self._acted_ok = True
@@ -237,7 +238,7 @@ class Session:
         ts = TraceStep(id=n, plan_step_id=plan_step_id, intent=step.intent, value=step.value,
                        inserted_reason=reason)
         self.trace.steps.append(ts)
-        if step.intent in ("key_combo", "type_formula"):
+        if step.intent in ("key_combo", "type_formula", "type_text"):
             return self._run_keys_step(step, ts, n, t_step)
         if step.intent == "select_range":
             return self._run_select_step(step, ts, n, t_step)
@@ -368,7 +369,11 @@ class Session:
         ref = step.target.names[0] if step.target and step.target.names else "A1"
         ts.element_name, ts.control_type, ts.attempts = ref, "Cell", 1
         self._emit("ACT", f"Bước {n}: chọn {ref}", n, label=ref, intent=step.intent)
-        office.select(self.sb, ref)
+        try:
+            office.select(self.sb, ref)
+        except Exception as e:
+            ts.error = f"không chọn được {ref}"
+            raise StepFailed(f"không chọn được {ref}: {e!r}"[:200]) from e
         self._sel = ref
         time.sleep(0.3)
         _, ident = snapshot([self.sb.hwnd])
@@ -387,6 +392,24 @@ class Session:
             com_retry(lambda: self.sb.app.ActiveSheet.Range(ref).Select(), timeout=3)
             ts.element_name, ts.control_type = ref, "Cell"
             box = self._cell_rect(ref)
+        elif step.intent == "type_text":
+            if step.target and step.target.names:  # Word p3 / PowerPoint s4.1: put the cursor there first
+                try:
+                    office.select(self.sb, step.target.names[0])
+                except Exception as e:
+                    raise StepFailed(f"không chọn được {step.target.names[0]}") from e
+                self._sel = step.target.names[0]
+            ts.element_name, ts.control_type = step.value or "", "Text"
+            box = None
+        elif step.intent == "key_combo" and step.target and step.target.names:
+            ref = step.target.names[0]  # the agent named a cell: select it, then press the keys there
+            try:
+                office.select(self.sb, ref)
+            except Exception as e:
+                raise StepFailed(f"không chọn được {ref}") from e
+            self._sel = ref
+            ts.element_name, ts.control_type = step.value or "", "Keys"
+            box = self._cell_rect(ref)
         else:
             ts.element_name, ts.control_type = step.value or "", "Keys"
             box = self._selection_rect()
@@ -402,6 +425,10 @@ class Session:
                 ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=None) if box else                     self._capture(None, n, ident, f"step_{n:02d}.png", keys=step.value)
                 guard.check("key_combo", None)
                 keyboard.press("Ctrl+Enter" if ":" in ts.element_name else "Enter")  # a range: fill it all
+            elif step.intent == "type_text":  # Word/PowerPoint: text at the cursor
+                keyboard.type_text(step.value or "", check_foreground=lambda: guard.check("type_text", None))
+                time.sleep(0.35)
+                ts.image = self._capture(None, n, ident, f"step_{n:02d}.png", keys=None)
             else:
                 ts.image = self._capture(box, n, ident, f"step_{n:02d}.png", keys=step.value)
                 keyboard.press(step.value or "")
@@ -479,6 +506,13 @@ class Session:
                 except StepFailed as e:  # acted but the result could not be confirmed: its photo exists
                     failed = True
                     log.warning("session.step_unverified", error=str(e))
+            if self.agent is not None:
+                first_agent_step = len(self.trace.steps)
+                self._run_agent()
+                self._compact_selections(first_agent_step)
+                v = self.agent.verdict
+                if v is not None and not v.achieved:
+                    failed = True
             if failed:
                 status = "partial" if any(s.verified for s in self.trace.steps) else "failed"
             self._final_capture()
@@ -514,6 +548,113 @@ class Session:
         self._emit("DONE", f"Xong ({status})")
         return RunResult(tut, self.out_dir, teardown_report, time.monotonic() - t0, self.trace, writer_source,
                          self.ribbon_tabs)
+
+    def _run_agent(self):
+        """Look, choose one action, do it, look again (ADR-0007). Failed attempts leave the trace (the tutorial
+        shows the path that worked) and are reported back so the next choice differs."""
+        from ..agent.loop import MAX_ACTIONS, MAX_FAILS_IN_A_ROW, AgentUnavailable
+        a, fails = self.agent, 0
+        deadline = time.monotonic() + getattr(a, "budget_s", 110.0)
+        if not a.initial_state:
+            a.initial_state = a._doc_state(self, True)
+        if a.judge_only:  # replaying a cleaned path: only check the result
+            self._check_cancel()
+            a.judge(self)
+            return
+        last_state = a._doc_state(self)
+        for _ in range(MAX_ACTIONS):
+            self._check_cancel()
+            if time.monotonic() > deadline:
+                a.gave_up = "hết thời gian cho phép"
+                break
+            self._emit("PLAN", "Guider đang xem màn hình và chọn bước tiếp theo", len(self.trace.steps) + 1)
+            try:
+                d = a.decide(self)
+            except AgentUnavailable as e:
+                a.gave_up = str(e)
+                break
+            if d.action == "give_up":
+                a.gave_up = d.thought or "không tìm ra cách"
+                break
+            if d.action == "done":
+                self._check_cancel()
+                v = a.judge(self)
+                checks = sum(1 for h in a.history if h["what"] == "báo đã xong")
+                if v.achieved or checks >= 2:
+                    return
+                # the model stopped early: tell it what the check saw and keep going
+                a.history.append({"what": "báo đã xong", "result": f"kiểm tra thấy CHƯA đạt: {v.reason}"})
+                a.verdict = None
+                continue
+            step = a.to_step(d, len(self.trace.steps) + 1)
+            what = a.describe(d)
+            if step is None:
+                a.history.append({"what": what, "result": "không làm được: "
+                                  + (a.reject or "thiếu tên control, ô hoặc giá trị")})
+                a.reject = ""
+                fails += 1
+            else:
+                before = len(self.trace.steps)
+                result = "đã làm"
+                try:
+                    self._run_step(step, None)
+                except NotFound:
+                    result = "không có control này trên màn hình"
+                except StepFailed as e:
+                    result = f"đã làm nhưng không thấy kết quả mong đợi ({e})"
+                except SafetyViolation:
+                    result = "bị chặn vì không an toàn"
+                if result == "đã làm":
+                    state = a._doc_state(self)
+                    prev = a.history[-1] if a.history else None
+                    if prev and prev["what"] == what and state == last_state:
+                        result = "đã làm lại nhưng trạng thái file không đổi; đừng lặp lại, thử cách khác hoặc báo xong"
+                        fails += 1
+                    else:
+                        fails = 0
+                        if last_state is not None:
+                            result += "; " + a.change_note(last_state, state)
+                    last_state = state
+                else:
+                    fails += 1
+                    del self.trace.steps[before:]  # the tutorial keeps only the path that worked
+                    if len(self._windows()) > 1 and result.startswith("không có"):
+                        pass  # a menu may still be open on purpose; the model sees it next turn
+                a.history.append({"what": what, "result": result})
+            if fails >= MAX_FAILS_IN_A_ROW:
+                a.gave_up = "nhiều lần liền không làm được"
+                break
+        self._check_cancel()
+        a.judge(self)
+
+    def _compact_selections(self, start: int = 0):
+        """The agent may select, re-select and select again, or do something and undo it; the tutorial keeps only
+        the selection that the next action used (none at the very end) and drops undone steps with their undo.
+        Sets self.agent_path_cleaned when an undo was dropped (the service then replays the clean path)."""
+        steps = list(self.trace.steps)
+        undo = [i for i, st in enumerate(steps) if i >= start and (
+            (st.intent == "key_combo" and (st.value or "").replace(" ", "").lower() == "ctrl+z")
+            or (st.intent == "invoke" and (st.element_name or "").strip().lower() == "undo"))]
+        drop = set()
+        for i in undo:
+            drop.add(i)
+            j = i - 1
+            while j >= start and (j in drop or steps[j].intent == "select_range"):
+                j -= 1
+            if j >= start:
+                drop.add(j)  # the step that was undone
+        self.agent_path_cleaned = bool(undo)
+        steps = [st for i, st in enumerate(steps) if i not in drop]
+        keep = []
+        for i, st in enumerate(steps):
+            if i >= start and st.intent == "select_range":
+                nxt = steps[i + 1] if i + 1 < len(steps) else None
+                if nxt is None or nxt.intent == "select_range":
+                    continue
+            keep.append(st)
+        for k, st in enumerate(keep, 1):
+            st.id = k
+        self.trace.steps = keep
 
     def _capture_missing(self, ts):
         """Screenshot of the window at the moment a step could not be done (no arrow: nothing to point at)."""

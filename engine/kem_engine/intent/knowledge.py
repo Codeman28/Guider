@@ -80,6 +80,16 @@ class KnowledgePack:
                 for c in self.cards:
                     if c.id == cid:
                         c.keywords += [k for k in kws if k not in c.keywords]
+        # Cards the observe-act agent learned on this machine (ADR-0007), when loading the default pack
+        if learned_path is not None:
+            from ..agent.loop import self_knowledge_path
+            sp = self_knowledge_path(app)
+            if sp.exists():
+                stext = sp.read_text(encoding="utf-8")
+                text += stext
+                known = {c.id for c in self.cards}
+                self.cards += [Card(c["id"], c["title"], list(c.get("keywords", [])), c, self.app)
+                               for c in (yaml.safe_load(stext) or {}).get("cards", []) if c["id"] not in known]
         self.version = f"{data.get('version', 0)}-{hashlib.sha1(text.encode()).hexdigest()[:8]}"
         self.by_id = {c.id: c for c in self.cards}
 

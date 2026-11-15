@@ -56,6 +56,15 @@ def _until_cancel(fn, cancel_event, poll: float = 0.1):
 
 
 REWRITE_SECONDS = 90.0  # background Writer: after tutorial.done, outside the 2-minute budget
+DEFAULT_FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}
+
+
+def agent_title(query: str) -> str:
+    q = query.strip().rstrip("?.!")
+    from ..intent.knowledge import fold
+    if fold(q).startswith(("cach", "lam sao", "lam the nao")):
+        return q[:1].upper() + q[1:120]
+    return "Cách " + q[:1].lower() + q[1:120]
 
 
 @dataclass
@@ -89,7 +98,10 @@ def text_matches_trace(text: Tutorial, trace: Trace) -> bool:
 class TutorialService:
     def __init__(self, out_root: Path, store: Store | None = None, cfg: LLMConfig | None = None,
                  llm_factory: Callable[[LLMConfig], LLMClient | None] | None = None,
-                 window_logical: tuple[int, int] = (1280, 800), use_cards_directly: bool = True):
+                 window_logical: tuple[int, int] = (1280, 800), use_cards_directly: bool = True,
+                 use_agent: bool = False):
+        """use_agent: tasks no card covers are worked out live by the observe-act agent (ADR-0007); needs Gemini."""
+        self.use_agent = use_agent
         self.out_root = out_root
         self.store = store or Store()
         self.cfg = cfg or LLMConfig.load()
@@ -115,7 +127,7 @@ class TutorialService:
                on_text_updated: Callable[[str], None] | None = None,
                source_file: str | None = None, guard_input: bool = True, card_id: str | None = None,
                fixture: dict | None = None, problem: tuple[TutorialProblem, Path] | None = None,
-               started: float | None = None, ready_plan: Plan | None = None) -> CreateResult:
+               started: float | None = None, ready_plan: Plan | None = None, extra_agent=None) -> CreateResult:
         """guard_input: the user touching mouse/keyboard stops the run.
         card_id: a learned task chosen already (picture of the problem); fixture: a sample rebuilt from that
         picture; problem: (section, picture) added to the tutorial; started: the clock started earlier."""
@@ -126,7 +138,7 @@ class TutorialService:
         guard = InputGuard(cancel_event) if guard_input else contextlib.nullcontext()
         with guard:
             res = self._create(query, app_hint, progress, cancel_event, success_check, on_text_updated, source_file,
-                               card_id, fixture, problem, started, ready_plan)
+                               card_id, fixture, problem, started, ready_plan, extra_agent)
         if guard_input and guard.reason:
             log.info("service.stopped_by_user_input", reason=guard.reason)
         return res
@@ -135,7 +147,7 @@ class TutorialService:
                 success_check: Expected | None, on_text_updated: Callable[[str], None] | None,
                 source_file: str | None, card_id: str | None = None, fixture: dict | None = None,
                 problem: tuple[TutorialProblem, Path] | None = None, started: float | None = None,
-                ready_plan: Plan | None = None) -> CreateResult:
+                ready_plan: Plan | None = None, extra_agent=None) -> CreateResult:
         """success_check: eval-only hook — asserts the task's outcome when the plan has no check of its
         own (LLM-written plans), so eval scores outcomes instead of the model's task naming."""
         t0 = started or time.monotonic()
@@ -167,17 +179,33 @@ class TutorialService:
         elif card_id in pack.by_id:  # chosen from the user's picture (ADR-0005): no recipe, no Planner
             plan, source = pack.by_id[card_id].to_plan(), "problem_card"
         task = None if plan is not None else self.store.task_for_question(qf)
+        force_agent = False
         if task is None and plan is None:
             m = pack.match(query)
             if card_is_clear(m):
-                task = m[0][1].id
+                if self._card_fits(query, m[0][1]):
+                    task = m[0][1].id
+                else:  # a loose keyword hit (11/11/2026: "đầu trang" → the bullets card): let the agent do it
+                    force_agent = True
         if task and env and fixture is None:
             hit = self.store.get_recipe(app, task, env)
-            if hit:
+            if hit and hit[0].steps:  # an agent run leaves no replayable recipe
                 plan, stored_text = hit
                 source = "recipe"
 
-        # 2) card or LLM Planner
+        # 2a) no card for this: the observe-act agent works it out on the sample (ADR-0007)
+        agent = None
+        if plan is None and self._agent_ready():
+            m = pack.match(query)
+            if force_agent or not card_is_clear(m):
+                from ..agent.loop import Agent
+                agent = Agent(query, app)
+                plan = Plan(task_canonical="agent", app=app, title=agent_title(query),
+                            fixture_id=None if source_file else DEFAULT_FIXTURE.get(app), steps=[])
+                source = "agent"
+                progress({"state": "PLAN", "message": "Việc này chưa có trong kho: Guider tự xem màn hình và tìm cách làm"})
+
+        # 2b) card or LLM Planner
         if plan is None:
             progress({"state": "PLAN", "message": "Guider đang lập kế hoạch các bước"})
             planner = Planner(pack, llm, app=app, use_cards_directly=self.use_cards_directly,
@@ -217,7 +245,7 @@ class TutorialService:
         session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
                           writer=writer, disambiguate=LLMDisambiguator(llm) if llm else None,
                           cancel_event=cancel_event, allow_skip=source == "llm", source_file=source_file,
-                          fixture=fixture)
+                          fixture=fixture, agent=agent if agent is not None else extra_agent)
         if cancel_event is not None and cancel_event.is_set():  # stopped between planning and Office start-up
             return CreateResult("text", answer="Đã dừng theo yêu cầu.", seconds=time.monotonic() - t0)
         res = session.run()
@@ -234,7 +262,41 @@ class TutorialService:
                               fixture=fixture)
             res = session.run()
 
+        # 3b) the agent found the way only after undoing a wrong step: replay the clean path once, check it, and
+        # show that run instead (the tutorial then has no wrong-and-undone steps; ADR-0007)
+        if (agent is not None and getattr(session, "agent_path_cleaned", False) and agent.verdict is not None
+                and agent.verdict.achieved and res.trace is not None
+                and not (cancel_event is not None and cancel_event.is_set())):
+            from ..agent.loop import Agent, card_from_trace
+            card = card_from_trace(agent.goal, app, res.trace, plan.fixture_id)
+            if card:
+                progress({"state": "PLAN", "message": "Guider làm lại một lượt sạch theo đúng các bước vừa tìm ra"})
+                clean = Plan(task_canonical="agent", app=app, title=plan.title, fixture_id=plan.fixture_id,
+                             steps=card["steps"])
+                checker = Agent(agent.goal, app, judge_only=True)
+                s2 = Session(clean, self.out_root, progress=progress, window_logical=self.window_logical,
+                             writer=writer, cancel_event=cancel_event, source_file=source_file, fixture=fixture,
+                             agent=checker)
+                res2 = s2.run()
+                log.info("service.agent_replay", status=res2.tutorial.status,
+                         achieved=checker.verdict.achieved if checker.verdict else None)
+                if res2.tutorial.status == "ok" and checker.verdict is not None and checker.verdict.achieved:
+                    res, agent.verdict = res2, checker.verdict
+                else:
+                    agent.replay_failed = True  # the clean path does not hold up alone: do not learn it
+
         # 4) remember
+        used_agent = agent if agent is not None else extra_agent
+        if used_agent is not None and res.trace is not None:
+            v = used_agent.verdict
+            note = (f" Guider tự kiểm tra kết quả: {v.reason}" if v and v.reason else "")
+            if note and (res.out_dir / "tutorial.json").exists():
+                res.tutorial = res.tutorial.model_copy(update={"outro": (res.tutorial.outro + note).strip()})
+                (res.out_dir / "tutorial.json").write_text(
+                    json.dumps(res.tutorial.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+            if (agent is not None and v is not None and v.achieved and res.tutorial.status == "ok" and not source_file
+                    and not getattr(agent, "replay_failed", False)):
+                self._learn(agent, res.trace, plan)  # next time this is a card replay
         if res.trace is not None:
             self.store.save_env(res.trace.env, res.ribbon_tabs or tabs)
             res.trace.llm_calls = llm.budget.used if llm else 0
@@ -247,7 +309,8 @@ class TutorialService:
                 res.tutorial = res.tutorial.model_copy(update={"problem": section})
                 (res.out_dir / "tutorial.json").write_text(
                     json.dumps(res.tutorial.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
-            if res.tutorial.status == "ok" and not source_file and fixture is None:  # no ref checks ran: no recipe
+            if (res.tutorial.status == "ok" and not source_file and fixture is None
+                    and plan.steps and source != "agent"):  # no ref checks ran / nothing to replay: no recipe
                 if source != "recipe" or res.writer_source == "llm":  # replay keeps the stored recipe
                     self.store.save_recipe(plan, res.trace, pack.version, res.tutorial)
                 self.store.remember_question(qf, plan.task_canonical)
@@ -265,6 +328,46 @@ class TutorialService:
                             path=str(res.out_dir), llm_calls=calls, plan_source=source,
                             writer_source=writer_source, seconds=time.monotonic() - t0,
                             llm_log=[asdict(c) for c in llm.budget.log] if llm else [])
+
+    def _card_fits(self, query: str, card) -> bool:
+        """A card found by loose keywords is checked before it is used: does it really do what was asked?
+        Title close to the question: yes. Otherwise a one-line text question to Gemini (no picture, ~2 s)."""
+        if not self._agent_ready():
+            return True
+        from rapidfuzz import fuzz
+
+        from ..intent.knowledge import fold
+        if fuzz.token_set_ratio(fold(query), fold(card.title)) >= 75:
+            return True
+        try:
+            from ..vision.exercise import _gemini
+            raw = _gemini([{"role": "system", "content": "Trả lời JSON {\"fits\": true/false}: bài hướng dẫn Office "
+                            "này có làm đúng việc người dùng hỏi không?"},
+                           {"role": "user", "content": f"Người dùng hỏi: {query}\nBài: {card.title}"}], 15, 200)
+            fits = bool(json.loads(raw or "{}").get("fits", True))
+        except Exception as e:
+            log.info("service.card_check_failed", error=repr(e))
+            return True
+        log.info("service.card_check", card=card.id, fits=fits)
+        return fits
+
+    def _agent_ready(self) -> bool:
+        if not self.use_agent:
+            return False
+        from ..vision import problem as vp
+        return vp.cloud_enabled()
+
+    def _learn(self, agent, trace, plan: Plan) -> None:
+        """Save the path the agent found as a card in the user's own knowledge (ADR-0007)."""
+        from ..agent.loop import card_from_trace, save_self_card
+        try:
+            card = card_from_trace(agent.goal, plan.app, trace, plan.fixture_id)
+            if card:
+                save_self_card(plan.app, card)
+                self.packs.pop(plan.app, None)  # reload with the new card
+                log.info("service.agent_learned", card=card["id"], steps=len(card["steps"]))
+        except Exception as e:
+            log.warning("service.agent_learn_failed", error=repr(e))
 
     def _rewrite(self, res, plan: Plan, llm: LLMClient, on_text_updated: Callable[[str], None]):
         """Deferred Writer: same rules as the inline one (exact labels, template fallback), own time box."""
@@ -371,7 +474,11 @@ class TutorialService:
             except (ex.ExerciseError, vp.ProblemError) as e:
                 return CreateResult("text", answer=str(e), seconds=time.monotonic() - t0)
             fx, sol = er.fixture, er.solution
-            if not sol.steps and not sol.actions:
+            leftover = None
+            if sol.unsolved and self._agent_ready():
+                from ..agent.loop import Agent
+                leftover = Agent("Trên bảng đang mở, làm nốt các yêu cầu: " + "; ".join(sol.unsolved), "excel")
+            if not sol.steps and not sol.actions and leftover is None:
                 return CreateResult("text", answer="Guider đã dựng lại bảng nhưng chưa làm được yêu cầu này: "
                                     + "; ".join(sol.unsolved or er.tasks)
                                     + ". Guider làm được: tính bằng công thức, lọc, sắp xếp, tô màu hàng theo điều kiện, "
@@ -388,7 +495,7 @@ class TutorialService:
                                       task=" / ".join(er.tasks)[:300], sample="rebuilt")
             res = self.create(plan.title, "excel", progress=progress, cancel_event=cancel_event,
                               on_text_updated=on_text_updated, guard_input=guard_input, fixture=fx,
-                              problem=(section, er.image), ready_plan=plan, started=t0)
+                              problem=(section, er.image), ready_plan=plan, started=t0, extra_agent=leftover)
             res.seconds = time.monotonic() - t0
             res.llm_log.append({"role": "exercise", **er.timings, "steps": len(sol.steps), "actions": len(sol.actions)})
             return res

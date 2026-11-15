@@ -546,7 +546,7 @@ def main():
         recover()
     except Exception:
         traceback.print_exc(file=sys.stderr)
-    Server(lambda: TutorialService(out), out).serve()
+    Server(lambda: TutorialService(out, use_agent=True), out).serve()
 
 
 def warm_up_model():

@@ -398,6 +398,10 @@ kem/
 | problem.prepare / problem.paste / problem.capture | {path} / {data_b64} / {hwnd?} | {path} của ảnh PNG trong thư mục work (v1.5, ADR-0005) |
 | problem.warm_up | {} | {ok} — nạp sẵn model đọc ảnh khi người dùng vừa gắn ảnh |
 
+### 11.1 Việc chưa có thẻ (v1.6, ADR-0007)
+
+Khi không có thẻ khớp rõ và có key Gemini, `tutorial.create` dùng vòng "nhìn rồi làm": mỗi lượt đọc trạng thái file và các control đang hiện, Gemini chọn một hành động, Guider làm qua actuator và SafetyGuard, rồi tự chấm kết quả so với trạng thái ban đầu. Việc làm được lưu thành thẻ ở `%LOCALAPPDATA%\Kem\knowledge\<app>.self.yaml`.
+
 ## 12. Lộ trình theo phase và tiêu chí nghiệm thu
 
 ### PHASE 0 — Spikes (bắt buộc làm trước, ghi kết quả thật)
