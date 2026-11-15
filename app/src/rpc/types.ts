@@ -80,7 +80,23 @@ export interface SystemCheck {
 export interface Settings {
   provider?: "ollama" | "gemini";
   vision_cloud?: boolean; // read pictures of problems with Gemini (sends the picture to Google; on by default when a key is saved)
+  auto_practice?: boolean; // practise unsolved goals while the machine is idle (on by default)
   has_key: { gemini: boolean };
+}
+
+export interface PracticeGoal {
+  app: "excel" | "word" | "powerpoint";
+  goal: string;
+  tries: number;
+  solved: boolean;
+  why?: string;
+  last?: string;
+}
+
+export interface PracticeList {
+  goals: PracticeGoal[];
+  pending: number;
+  auto: boolean;
 }
 
 export interface CloudCheck {

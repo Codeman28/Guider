@@ -594,18 +594,28 @@ class Session:
                 a.reject = ""
                 fails += 1
             else:
-                before = len(self.trace.steps)
-                result = "đã làm"
+                before, wins_before = len(self.trace.steps), set(self._windows())
+                result, state = "đã làm", None
                 try:
                     self._run_step(step, None)
                 except NotFound:
                     result = "không có control này trên màn hình"
                 except StepFailed as e:
-                    result = f"đã làm nhưng không thấy kết quả mong đợi ({e})"
+                    # the action ran but its expected sign did not show: if it still changed something (a popup
+                    # opened, the file changed) the step is part of the path; dropping it would make the clean
+                    # path skip it and fail on replay
+                    state = a._doc_state(self)
+                    if len(self.trace.steps) > before and (set(self._windows()) != wins_before or state != last_state):
+                        for ts in self.trace.steps[before:]:
+                            ts.verified, ts.error = True, None
+                        result = "đã làm"
+                        log.info("agent.kept_unverified_step", step=before + 1, why=str(e))
+                    else:
+                        result = f"đã làm nhưng không thấy kết quả mong đợi ({e})"
                 except SafetyViolation:
                     result = "bị chặn vì không an toàn"
                 if result == "đã làm":
-                    state = a._doc_state(self)
+                    state = state if state is not None else a._doc_state(self)
                     prev = a.history[-1] if a.history else None
                     if prev and prev["what"] == what and state == last_state:
                         result = "đã làm lại nhưng trạng thái file không đổi; đừng lặp lại, thử cách khác hoặc báo xong"

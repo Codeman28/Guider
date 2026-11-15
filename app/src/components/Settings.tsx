@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+import type { PracticeList } from "../rpc/types";
 
 import { Check, Cross } from "../lib/icons";
 import { useApp } from "../stores/app";
@@ -14,6 +16,108 @@ function Choice({ checked, onSelect, title, detail }: { checked: boolean; onSele
         <span className="block text-small text-lunar">{detail}</span>
       </span>
     </label>
+  );
+}
+
+const APP_NAME = { excel: "Excel", word: "Word", powerpoint: "PowerPoint" } as const;
+
+/** Goals the agent has not reached yet (ADR-0008): Guider tries them again later, with what it learned. */
+function Practice() {
+  const { client } = useApp();
+  const [list, setList] = useState<PracticeList | null>(null);
+  const [running, setRunning] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    if (!client) return;
+    try {
+      setList(await client.call<PracticeList>("practice.list"));
+    } catch {
+      /* older engine: no practice queue */
+    }
+  }, [client]);
+
+  useEffect(() => {
+    void load();
+    if (!client) return;
+    const offProgress = client.on("practice.progress", (p: { message?: string }) => setRunning(p.message ?? "Đang luyện…"));
+    const offDone = client.on("practice.done", () => {
+      setRunning(null);
+      void load();
+    });
+    return () => {
+      offProgress();
+      offDone();
+    };
+  }, [client, load]);
+
+  if (!list) return null;
+  const open = list.goals.filter((g) => !g.solved);
+  const solved = list.goals.filter((g) => g.solved);
+
+  return (
+    <div className="mt-8 border-t border-edge pt-6">
+      <h3 className="font-semibold">Guider tự học</h3>
+      <p className="mt-1 max-w-[600px] text-small text-lunar">
+        Việc nào Guider làm chưa được sau vài lượt sẽ được ghi vào đây cùng bài học rút ra. Guider luyện lại các việc này,
+        mỗi lần một việc, và làm được thì lưu thành cách làm cho lần sau.
+      </p>
+      <label className="mt-3 flex max-w-[600px] items-start gap-3">
+        <input
+          type="checkbox"
+          className="mt-1 h-4 w-4"
+          checked={list.auto}
+          onChange={async (e) => {
+            if (!client) return;
+            await client.call("settings.set", { auto_practice: e.target.checked });
+            void load();
+          }}
+        />
+        <span>
+          <span className="font-medium">Tự luyện khi máy rảnh</span>
+          <span className="block text-small text-lunar">
+            Sau 10 phút không ai dùng chuột hay bàn phím, Guider mở file mẫu và luyện. Bạn chạm vào máy là Guider dừng ngay.
+          </span>
+        </span>
+      </label>
+      {open.length === 0 ? (
+        <p className="mt-3 text-small">Chưa có việc nào cần luyện.</p>
+      ) : (
+        <ul className="mt-3 space-y-2">
+          {open.map((g) => (
+            <li key={`${g.app}:${g.goal}`} className="rounded-sheet border border-edge bg-white px-3.5 py-2.5">
+              <span className="block font-medium">{g.goal}</span>
+              <span className="block text-small text-lunar">
+                {APP_NAME[g.app]} · đã luyện {g.tries} lần{g.why ? ` · lần gần nhất: ${g.why}` : ""}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {solved.length > 0 && <p className="mt-3 text-small text-lunar">Đã tự học được: {solved.map((g) => g.goal).join("; ")}</p>}
+      <div className="mt-3 flex items-center gap-3">
+        <button
+          type="button"
+          disabled={!!running || list.pending === 0}
+          onClick={async () => {
+            if (!client) return;
+            setError(null);
+            try {
+              const r = await client.call<{ started: boolean; reason?: string }>("practice.run");
+              if (r.started) setRunning("Đang luyện…");
+              else setError(r.reason ?? null);
+            } catch (e) {
+              setError(e instanceof Error ? e.message : String(e));
+            }
+          }}
+          className="rounded-sheet bg-ink px-4 py-2 font-medium text-paper disabled:opacity-40"
+        >
+          {running ? "Đang luyện…" : "Luyện ngay một việc"}
+        </button>
+        {running && <span aria-live="polite" className="text-small text-lunar">{running}</span>}
+        {error && <span className="text-small text-sunday">{error}</span>}
+      </div>
+    </div>
   );
 }
 
@@ -113,6 +217,8 @@ export function Settings() {
           </span>
         </label>
       </div>
+
+      <Practice />
     </section>
   );
 }

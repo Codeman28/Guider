@@ -60,6 +60,9 @@ class Card:
         return f"[{self.id}] {self.title}: " + " → ".join(parts)
 
 
+EXACT = 110.0  # match() score of a keyword that is the whole question
+
+
 class KnowledgePack:
     def __init__(self, app: str = "excel", path: Path | None = None):
         learned_path = KNOWLEDGE_DIR / f"{app}.learned.yaml" if path is None else None
@@ -111,7 +114,9 @@ class KnowledgePack:
                 k = fold(kw)
                 if len(k) < 3:
                     continue
-                if re.search(rf"(?<!\w){re.escape(k)}(?!\w)", q):
+                if k == q.strip(" .?!"):
+                    s = EXACT  # the very question this card was learned from (ADR-0008): no rival comes close
+                elif re.search(rf"(?<!\w){re.escape(k)}(?!\w)", q):
                     s = 100.0
                 elif all(_word_in(w, q_words) for w in k.split()):
                     # every word present (any order): strong when the keyword has 2+ real words

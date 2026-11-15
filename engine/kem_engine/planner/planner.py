@@ -96,6 +96,9 @@ def card_is_clear(matches) -> bool:
     ("trộn ô và căn giữa" hits both merge_center and center_align → let the Planner choose)."""
     if not matches or matches[0][0] < CARD_DIRECT_THRESHOLD:
         return False
+    from ..intent.knowledge import EXACT
+    if matches[0][0] >= EXACT and (len(matches) < 2 or matches[1][0] < EXACT):
+        return True  # the question a card was learned from, word for word
     if len(matches) < 2 or matches[1][0] < CARD_RIVAL_THRESHOLD:
         return True
     # keyboard-first (27/10/2026): a typed/shortcut card beats an equally good ribbon card without asking

@@ -22,7 +22,7 @@ from dataclasses import dataclass, field
 import structlog
 from pydantic import BaseModel, Field, ValidationError
 
-from ..models import Expected, Step, Target
+from ..models import Expected, Step, Target, Within
 
 log = structlog.get_logger()
 
@@ -204,6 +204,12 @@ class Agent:
     reject: str = ""  # why the last decision could not become a step (told to the model)
     main_hwnd: int = 0  # the sandbox frame (ribbon controls live under it)
     replay_failed: bool = False  # the cleaned path did not reach the goal on its own (not learned)
+    lessons: list = field(default_factory=list)  # what earlier attempts taught (memory.lessons_for + this request)
+    state_cache: str = ""  # the last document view read while no dialog was open
+    unsolved_note: str = ""  # said in the tutorial when every round failed
+    group_members: set | None = None  # controls that appeared when that group opened (its popup)
+    prev_keys: set = field(default_factory=set)  # (name, type) of the controls in the previous look
+    group: str = ""  # a ribbon group collapsed into a button, opened by the last click (its popup is in front)
 
     # ---------------------------------------------------------------- what the agent sees
     def observe(self, s, detail: bool = False) -> tuple[str, str]:
@@ -236,6 +242,10 @@ class Agent:
             rows.append(f"#{k} {e.name} | {ct} | {where}")
             if len(rows) >= MAX_ELEMENTS:
                 break
+        keys = {(e.name, e.control_type) for e in self.shown.values()}
+        if self.group and self.group_members is None:  # the first look after opening a shrunk group
+            self.group_members = keys - self.prev_keys
+        self.prev_keys = keys
         state = self._doc_state(s, detail)
         text = (f"Trạng thái file:\n{state}\n\nCửa sổ đang mở: " + ", ".join(names.get(w) or "?" for w in wins)
                 + "\n\nControl trên màn hình (#id tên | loại | cửa sổ):\n" + "\n".join(rows))
@@ -254,7 +264,24 @@ class Agent:
         return text, url
 
     def _doc_state(self, s, detail: bool = False) -> str:
-        """A compact view of the document, so the model can tell whether the goal is reached."""
+        """A compact view of the document, so the model can tell whether the goal is reached.
+        Excel does not answer COM while one of its modal dialogs is open (Create PivotTable, 15/11/2026: every read
+        waited minutes): then the last view is reused, with a note, until the dialog closes."""
+        if self.app == "excel":
+            from ..sandbox import office
+            try:
+                busy = bool(office.dialogs(s.sb))
+            except Exception:
+                busy = False
+            if busy:
+                return ((self.state_cache + "\n") if self.state_cache else "") + (
+                    "(Excel đang mở hộp thoại: nội dung file chỉ đọc lại được sau khi hộp thoại đóng)")
+        out =self._read_state(s, detail)
+        if not detail:
+            self.state_cache = out
+        return out
+
+    def _read_state(self, s, detail: bool = False) -> str:
         try:
             if self.app == "excel":
                 from ..sandbox.excel import col_letter
@@ -345,7 +372,9 @@ class Agent:
         text, url = self.observe(s)
         t1 = time.monotonic()
         done = "\n".join(f"{i}. {h['what']} → {h['result']}" for i, h in enumerate(self.history, 1)) or "(chưa có)"
-        prompt = f"Mục tiêu: {self.goal}\n\nĐã làm:\n{done}\n\n{text}"
+        learned = ("Bài học từ những lần làm trước (làm theo, đừng lặp lại cách đã thất bại):\n"
+                   + "\n".join(f"- {x}" for x in self.lessons) + "\n\n") if self.lessons else ""
+        prompt = f"Mục tiêu: {self.goal}\n\n{learned}Đã làm:\n{done}\n\n{text}"
         d = self._ask(SYSTEM.format(app={"excel": "Excel", "word": "Word", "powerpoint": "PowerPoint"}[self.app],
                                     tips=TIPS.get(self.app, "")),
                       prompt, url, Decision) or Decision(action="invalid", thought="câu trả lời của model không hợp lệ")
@@ -362,12 +391,30 @@ class Agent:
         if el is not None and a in ("click", "set_value"):
             d.name, d.control_type = el.name, el.control_type
         aid = (el.automation_id or None) if el is not None else None
+        within = None
+        if a in ("click", "set_value") and el is not None:
+            if self.group and (el.name, el.control_type) in (self.group_members or set()):
+                # a control of the collapsed group's popup: replayed on a wider ribbon it sits in the group itself,
+                # on a narrow one the grounder opens the group first (S1 repair)
+                within = Within(names=[self.group], control_type="Group")
+            else:
+                self.group, self.group_members = "", None
+        elif a in ("keys", "type", "select"):
+            self.group, self.group_members = "", None
         if a == "keys" and not d.value and "+" in d.name:
             d.value = d.name
         if a == "keys" and re.match(r"^\s*alt\s*[,+ ]\s*[a-z0-9]\s*([, ]|$)", d.value or "", re.I):
             return None  # KeyTips sequences put letters all over the screenshots; the model is told to click
         if a == "click" and d.name:
             ct = d.control_type or "Button"
+            from ..intent.ribbon import is_group
+            if (el is not None and el.root_hwnd == self.main_hwnd and is_group(d.name)
+                    and ct in ("Button", "MenuItem", "SplitButton")):
+                # the window is narrow and the group shrank into one button: it opens a popup window, which the
+                # expanded check cannot see, so the step is checked by what the next look shows
+                self.group, self.group_members = d.name, None
+                return Step(id=n, intent="expand", target=Target(names=[d.name], control_type=ct, automation_id=aid),
+                            expected=Expected(type="none"))
             intent = {"TabItem": "select_ribbon_tab", "ListItem": "select_item", "CheckBox": "toggle",
                       "RadioButton": "select_item"}.get(ct, "invoke")
             if d.expect == "menu" and intent == "invoke" and ct in ("MenuItem", "SplitButton", "Button", "ComboBox"):
@@ -377,7 +424,8 @@ class Agent:
                 exp = "none"
             if intent == "select_ribbon_tab":
                 exp = "tab_selected"
-            return Step(id=n, intent=intent, target=Target(names=[d.name], control_type=ct, automation_id=aid),
+            return Step(id=n, intent=intent, target=Target(names=[d.name], control_type=ct, automation_id=aid,
+                                                           within=within),
                         expected=Expected(type=exp), capture_result=d.expect == "dialog")
         if a == "type" and self.app == "excel" and d.cell and d.value:
             first = d.cell.split(":")[0]
@@ -408,7 +456,8 @@ class Agent:
             elif el is not None and el.root_hwnd != self.main_hwnd:
                 value = value.rstrip("\t") + "\t"  # dialog box: type and Tab out, as a person does
             return Step(id=n, intent="set_value", value=value,
-                        target=Target(names=[d.name], control_type=d.control_type or "Edit", automation_id=aid))
+                        target=Target(names=[d.name], control_type=d.control_type or "Edit", automation_id=aid,
+                                      within=within))
         return None
 
     def describe(self, d: Decision) -> str:
@@ -474,13 +523,28 @@ def save_self_card(app: str, card: dict) -> None:
                     + yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 
+def remove_self_card(app: str, card_id: str) -> None:
+    import yaml
+    path = self_knowledge_path(app)
+    if not path.exists():
+        return
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {"cards": []}
+    data["cards"] = [c for c in data["cards"] if c.get("id") != card_id]
+    path.write_text("# Learned by Guider's observe-act agent on this machine (ADR-0007).\n"
+                    + yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    log.info("agent.self_card_removed", card=card_id)
+
+
 def card_from_trace(goal: str, app: str, trace, fixture_id: str | None) -> dict | None:
     """The path the agent found, as a card: only the steps that worked, in order (ADR-0007: learn by doing)."""
     from ..intent.knowledge import fold
+    from ..intent.ribbon import is_group
     steps = []
     for st in trace.steps:
         if not st.verified:
             continue
+        if st.intent == "expand" and is_group(st.element_name or ""):
+            continue  # a group shrunk on a narrow ribbon: the grounder opens it when needed
         step = {"id": len(steps) + 1, "intent": st.intent}
         if st.intent in ("key_combo", "type_text"):
             step["value"] = st.value
@@ -490,6 +554,8 @@ def card_from_trace(goal: str, app: str, trace, fixture_id: str | None) -> dict 
                 step["value"] = st.value
         else:
             step["target"] = {"names": [st.element_name], "control_type": st.control_type or "Button"}
+            if st.locator is not None and st.locator.within:
+                step["target"]["within"] = {"names": [st.locator.within], "control_type": "Group"}
             if st.value:
                 step["value"] = st.value
         steps.append(step)

@@ -14,7 +14,7 @@ from typing import Any, Callable
 PARSE_ERROR, INVALID_REQUEST, METHOD_NOT_FOUND, INVALID_PARAMS, INTERNAL = -32700, -32600, -32601, -32602, -32603
 BUSY = -32001
 
-SETTINGS_KEYS = {"provider", "planner_model", "writer_model", "accent", "output_lang", "vision_cloud"}
+SETTINGS_KEYS = {"provider", "planner_model", "writer_model", "accent", "output_lang", "vision_cloud", "auto_practice"}
 PROVIDERS = {"ollama", "gemini"}  # choices the app offers (ADR-0003)
 
 
@@ -73,6 +73,7 @@ class Server:
             "problem.prepare": self.problem_prepare,
             "tutorial.image": self.tutorial_image, "problem.image": self.problem_image,
             "problem.windows": self.problem_windows, "problem.warm_up": self.problem_warm_up,
+            "practice.list": self.practice_list, "practice.run": self.practice_run,
         }
         self._training: dict | None = None  # {"job_id", "cancel", "thread"} — one training run at a time
 
@@ -185,6 +186,58 @@ class Server:
         self.workers.append(t)
         t.start()
         return {"session_id": sid}
+
+    # ---- practice (ADR-0008): goals the agent has not reached yet, tried again later
+    def practice_list(self, params):
+        from ..agent import memory
+        return {"goals": memory.queue(), "pending": len(memory.pending()),
+                "auto": self.settings_get({}).get("auto_practice", True)}
+
+    def practice_run(self, params):
+        """Try the next pending goal now (the user pressed the button, or the machine has been idle)."""
+        from ..agent import memory
+        if not memory.pending():
+            return {"started": False, "reason": "Không còn việc nào cần luyện."}
+        if not self._lock.acquire(blocking=False):
+            raise RpcError(BUSY, "Guider đang làm mẫu một tutorial khác")
+        import uuid
+        sid = "practice-" + uuid.uuid4().hex[:8]
+        cancel = threading.Event()
+        self.active[sid] = cancel
+
+        def progress(m: dict):
+            self.notify("practice.progress", {"session_id": sid, "message": m.get("message"), "state": m.get("state")})
+
+        def work():
+            import pythoncom
+            pythoncom.CoInitializeEx(0)
+            try:
+                out = self.service.practice_once(progress=progress, cancel_event=cancel) or {}
+                self.notify("practice.done", {"session_id": sid, **out})
+            except Exception as e:
+                traceback.print_exc(file=sys.stderr)
+                self.notify("practice.done", {"session_id": sid, "error": str(e)})
+            finally:
+                self.active.pop(sid, None)
+                self._lock.release()
+
+        t = threading.Thread(target=work, name=sid, daemon=True)
+        self.workers.append(t)
+        t.start()
+        return {"started": True, "session_id": sid}
+
+    def practice_when_idle(self, idle_s: float = 600.0, every_s: float = 60.0, stop: threading.Event | None = None):
+        """Background loop: while nobody has touched the machine for idle_s, practise one pending goal at a time.
+        The run stops by itself the moment the user moves the mouse or types (InputGuard)."""
+        from ..agent import memory
+        stop = stop or threading.Event()
+        while not stop.wait(every_s):
+            try:
+                if (self.settings_get({}).get("auto_practice", True) and memory.pending()
+                        and idle_seconds() >= idle_s and not self._lock.locked()):
+                    self.practice_run({})
+            except Exception:
+                traceback.print_exc(file=sys.stderr)
 
     # ---- picture of the problem (ADR-0005): everything stays on this machine
     def _inbox(self) -> Path:
@@ -344,6 +397,8 @@ class Server:
             raise RpcError(INVALID_PARAMS, f"unknown settings: {sorted(bad)}")
         if "vision_cloud" in params and not isinstance(params["vision_cloud"], bool):
             raise RpcError(INVALID_PARAMS, "vision_cloud must be true or false")
+        if "auto_practice" in params and not isinstance(params["auto_practice"], bool):
+            raise RpcError(INVALID_PARAMS, "auto_practice must be true or false")
         if "provider" in params and params["provider"] not in PROVIDERS:
             raise RpcError(INVALID_PARAMS, f"unknown provider: {params['provider']}")
         cur = self.settings_get({})
@@ -546,7 +601,22 @@ def main():
         recover()
     except Exception:
         traceback.print_exc(file=sys.stderr)
-    Server(lambda: TutorialService(out, use_agent=True), out).serve()
+    server = Server(lambda: TutorialService(out, use_agent=True), out)
+    threading.Thread(target=server.practice_when_idle, name="practice-idle", daemon=True).start()
+    server.serve()
+
+
+def idle_seconds() -> float:
+    """Seconds since the last keyboard or mouse input on this machine."""
+    import ctypes
+
+    class LastInput(ctypes.Structure):
+        _fields_ = [("cbSize", ctypes.c_uint), ("dwTime", ctypes.c_uint)]
+    li = LastInput()
+    li.cbSize = ctypes.sizeof(li)
+    if not ctypes.windll.user32.GetLastInputInfo(ctypes.byref(li)):
+        return 0.0
+    return ((ctypes.windll.kernel32.GetTickCount() - li.dwTime) & 0xFFFFFFFF) / 1000.0
 
 
 def warm_up_model():

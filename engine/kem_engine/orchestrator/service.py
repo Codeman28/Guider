@@ -56,6 +56,7 @@ def _until_cancel(fn, cancel_event, poll: float = 0.1):
 
 
 REWRITE_SECONDS = 90.0  # background Writer: after tutorial.done, outside the 2-minute budget
+MAX_AGENT_ROUNDS = 3  # fresh starts per question; what is still not reached goes to the practice queue
 DEFAULT_FIXTURE = {"excel": "sales_table_basic", "word": "word_report_basic", "powerpoint": "ppt_deck_basic"}
 
 
@@ -199,7 +200,8 @@ class TutorialService:
             m = pack.match(query)
             if force_agent or not card_is_clear(m):
                 from ..agent.loop import Agent
-                agent = Agent(query, app)
+                from ..agent import memory
+                agent = Agent(query, app, lessons=memory.lessons_for(app, query))
                 plan = Plan(task_canonical="agent", app=app, title=agent_title(query),
                             fixture_id=None if source_file else DEFAULT_FIXTURE.get(app), steps=[])
                 source = "agent"
@@ -262,34 +264,96 @@ class TutorialService:
                               fixture=fixture)
             res = session.run()
 
+        def cancelled() -> bool:
+            return cancel_event is not None and cancel_event.is_set()
+
         # 3b) the agent found the way only after undoing a wrong step: replay the clean path once, check it, and
         # show that run instead (the tutorial then has no wrong-and-undone steps; ADR-0007)
-        if (agent is not None and getattr(session, "agent_path_cleaned", False) and agent.verdict is not None
-                and agent.verdict.achieved and res.trace is not None
-                and not (cancel_event is not None and cancel_event.is_set())):
-            from ..agent.loop import Agent, card_from_trace
-            card = card_from_trace(agent.goal, app, res.trace, plan.fixture_id)
-            if card:
-                progress({"state": "PLAN", "message": "Guider làm lại một lượt sạch theo đúng các bước vừa tìm ra"})
-                clean = Plan(task_canonical="agent", app=app, title=plan.title, fixture_id=plan.fixture_id,
-                             steps=card["steps"])
-                checker = Agent(agent.goal, app, judge_only=True)
-                s2 = Session(clean, self.out_root, progress=progress, window_logical=self.window_logical,
-                             writer=writer, cancel_event=cancel_event, source_file=source_file, fixture=fixture,
-                             agent=checker)
-                res2 = s2.run()
-                log.info("service.agent_replay", status=res2.tutorial.status,
-                         achieved=checker.verdict.achieved if checker.verdict else None)
-                if res2.tutorial.status == "ok" and checker.verdict is not None and checker.verdict.achieved:
-                    res, agent.verdict = res2, checker.verdict
+        def settle(ag, sess, r):
+            if (ag is not None and getattr(sess, "agent_path_cleaned", False) and ag.verdict is not None
+                    and ag.verdict.achieved and r.trace is not None and not cancelled()):
+                from ..agent.loop import Agent, card_from_trace
+                card = card_from_trace(ag.goal, app, r.trace, plan.fixture_id)
+                if card:
+                    progress({"state": "PLAN", "message": "Guider làm lại một lượt sạch theo đúng các bước vừa tìm ra"})
+                    clean = Plan(task_canonical="agent", app=app, title=plan.title, fixture_id=plan.fixture_id,
+                                 steps=card["steps"])
+                    checker = Agent(ag.goal, app, judge_only=True)
+                    s2 = Session(clean, self.out_root, progress=progress, window_logical=self.window_logical,
+                                 writer=writer, cancel_event=cancel_event, source_file=source_file, fixture=fixture,
+                                 agent=checker)
+                    r2 = s2.run()
+                    log.info("service.agent_replay", status=r2.tutorial.status,
+                             achieved=checker.verdict.achieved if checker.verdict else None)
+                    if r2.tutorial.status == "ok" and checker.verdict is not None and checker.verdict.achieved:
+                        r, ag.verdict = r2, checker.verdict
+                    else:
+                        ag.replay_failed = True  # the clean path does not hold up alone: do not learn it
+            return r
+
+        res = settle(agent, session, res)
+
+        # 3c) not there yet (ADR-0008): start over on a fresh copy of the file with what went wrong, until it
+        # works or the rounds run out; a card that broke here is worked out by the agent the same way
+        def reached(ag) -> bool:
+            return ag is not None and ag.verdict is not None and ag.verdict.achieved
+
+        from ..agent import memory
+        rounds = 1 if agent is not None else 0
+        notes: list[str] = []
+        broken_card = None
+        if (agent is None and extra_agent is None and source != "exercise" and res.trace is not None
+                and res.tutorial.status in ("partial", "failed") and self._agent_ready() and not cancelled()):
+            broken_card = plan.task_canonical
+            bad = next((st for st in res.trace.steps if not st.verified), None)
+            notes.append(f"Cách có sẵn '{plan.title}' không làm được ở máy này"
+                         + (f": bước '{bad.element_name or bad.value}' lỗi ({bad.error})" if bad else ""))
+            log.info("service.card_failed_agent_takes_over", card=broken_card)
+        while ((agent is not None or broken_card) and not reached(agent) and rounds < MAX_AGENT_ROUNDS
+               and self._agent_ready() and not cancelled()):
+            if agent is not None:
+                why = agent.verdict.reason if agent.verdict else agent.gave_up
+                learned = memory.reflect(agent.goal, agent.history, why, False)
+                memory.add_lessons(app, query, learned, ok=False)
+                notes = [n for n in notes if n not in learned] + learned
+            rounds += 1
+            progress({"state": "PLAN", "message": f"Chưa đạt: Guider làm lại từ đầu (lượt {rounds}/{MAX_AGENT_ROUNDS}) "
+                                                  "với những gì vừa rút ra"})
+            from ..agent.loop import Agent
+            agent = Agent(query, app, budget_s=110.0 + 40.0 * (rounds - 1),
+                          lessons=memory.lessons_for(app, query) + notes)
+            plan = Plan(task_canonical="agent", app=app, title=agent_title(query),
+                        fixture_id=None if source_file else (plan.fixture_id or DEFAULT_FIXTURE.get(app)), steps=[])
+            source = "agent"
+            session = Session(plan, self.out_root, progress=progress, window_logical=self.window_logical,
+                              writer=writer, cancel_event=cancel_event, source_file=source_file, fixture=fixture,
+                              agent=agent)
+            res = settle(agent, session, session.run())
+        if agent is not None and not cancelled():
+            if reached(agent):
+                if rounds > 1 or any(not h["result"].startswith("đã làm") for h in agent.history):
+                    memory.add_lessons(app, query, memory.reflect(agent.goal, agent.history, agent.verdict.reason,
+                                                                  True), ok=True)
+                memory.mark(app, query, True)
+                if broken_card and broken_card.startswith("agent_"):
+                    from ..agent.loop import remove_self_card
+                    remove_self_card(app, broken_card)  # the agent found a path that works here instead
+            else:
+                why = agent.verdict.reason if agent.verdict else agent.gave_up
+                memory.add_lessons(app, query, memory.reflect(agent.goal, agent.history, why, False), ok=False)
+                if any(r["goal"] == query and r["app"] == app for r in memory.queue()):
+                    memory.mark(app, query, False, why)
                 else:
-                    agent.replay_failed = True  # the clean path does not hold up alone: do not learn it
+                    memory.queue_goal(app, query, why)
+                agent.unsolved_note = (f" Guider đã thử {rounds} lượt mà chưa làm được; các bài học đã được ghi lại "
+                                       "và Guider sẽ tự luyện tiếp việc này khi máy rảnh.")
 
         # 4) remember
         used_agent = agent if agent is not None else extra_agent
         if used_agent is not None and res.trace is not None:
             v = used_agent.verdict
             note = (f" Guider tự kiểm tra kết quả: {v.reason}" if v and v.reason else "")
+            note += getattr(used_agent, "unsolved_note", "")
             if note and (res.out_dir / "tutorial.json").exists():
                 res.tutorial = res.tutorial.model_copy(update={"outro": (res.tutorial.outro + note).strip()})
                 (res.out_dir / "tutorial.json").write_text(
@@ -328,6 +392,28 @@ class TutorialService:
                             path=str(res.out_dir), llm_calls=calls, plan_source=source,
                             writer_source=writer_source, seconds=time.monotonic() - t0,
                             llm_log=[asdict(c) for c in llm.budget.log] if llm else [])
+
+    def practice_once(self, progress: Callable[[dict], None] | None = None, cancel_event=None) -> dict | None:
+        """Try again one goal the agent has not reached yet (ADR-0008), with every lesson learned since.
+        A goal solved this way becomes a card and its tutorial stays in the library; a failed try leaves only its
+        lessons (the page is not the user's question and is removed)."""
+        from ..agent import memory
+        todo = memory.pending()
+        if not todo or not self._agent_ready():
+            return None
+        g = todo[0]
+        log.info("service.practice", app=g["app"], goal=g["goal"][:80], tries=g.get("tries", 0))
+        res = self.create(g["goal"], g["app"], progress=progress, cancel_event=cancel_event)
+        solved = res.kind == "tutorial" and res.status == "ok"
+        if solved:
+            memory.mark(g["app"], g["goal"], True)
+        elif res.tutorial_id and res.status != "cancelled":
+            import shutil
+            self.store.remove_tutorial(res.tutorial_id)
+            if res.path:
+                shutil.rmtree(res.path, ignore_errors=True)
+        return {"app": g["app"], "goal": g["goal"], "solved": solved, "status": res.status,
+                "tutorial_id": res.tutorial_id if solved else None}
 
     def _card_fits(self, query: str, card) -> bool:
         """A card found by loose keywords is checked before it is used: does it really do what was asked?

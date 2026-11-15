@@ -180,6 +180,10 @@ export const useApp = create<State>((set, get) => ({
         }),
       );
     }
+    client.on("practice.done", (d: { solved?: boolean; goal?: string }) => {
+      void get().refreshLibrary();
+      if (d.solved && d.goal) set({ notice: `Guider vừa tự học được: ${d.goal}` });
+    });
     client.on("training.progress", (p: TrainProgress) =>
       set((s) => (s.trainJob && s.trainJob.id === p.job_id ? { trainJob: { ...s.trainJob, progress: p } } : {})));
     client.on("training.done", (d: TrainDone) => {

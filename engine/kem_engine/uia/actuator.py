@@ -58,7 +58,22 @@ def _click(el: Element) -> None:
     r = el.rect
     # a split button's arrow is on the right (small) or at the bottom (large): aim at the body, not the middle
     fx = 0.3 if el.control_type == "SplitButton" else 0.5
-    keyboard.click(r.left + round((r.right - r.left) * fx), r.top + round((r.bottom - r.top) * fx), pid)
+    # a combo box's arrow is on the right: aim at its text, or the click opens the list instead of focusing it
+    fx_x = 0.3 if el.control_type in ("SplitButton", "ComboBox") else 0.5
+    keyboard.click(r.left + round((r.right - r.left) * fx_x), r.top + round((r.bottom - r.top) * fx), pid)
+
+
+# UIA control types where typed text lands in the user's content, not in a box: Document, DataGrid,
+# DataItem, Table (Word page, Excel grid). Typing there after a missed click overwrites the document.
+CONTENT_TYPES = {50030, 50028, 50029, 50036}
+
+
+def _focus_in_content() -> bool:
+    try:
+        from pywinauto.uia_defines import IUIA
+        return IUIA().iuia.GetFocusedElement().CurrentControlType in CONTENT_TYPES
+    except Exception:
+        return False
 
 
 def _type_into(el: Element, value: str) -> None:
@@ -74,6 +89,8 @@ def _type_into(el: Element, value: str) -> None:
     _click(el)
     time.sleep(0.25)
     ours()
+    if _focus_in_content():  # the click did not reach the box (a popup closed under it, 15/11/2026)
+        raise ActionError(f"không đưa được con trỏ vào ô {el.name!r}, không gõ để tránh ghi vào tài liệu")
     keyboard.press("Ctrl+A")
     keyboard.type_text(value, check_foreground=ours)
     time.sleep(0.2)
@@ -100,9 +117,15 @@ def perform(intent: str, el: Element, value: str | None = None) -> None:
             else:
                 raise ActionError(f"{el.name!r} supports neither Invoke, ExpandCollapse nor Toggle")
         elif intent == "expand":
-            w.expand()
+            if "ExpandCollapse" in el.patterns:
+                w.expand()
+            else:  # the colour pickers of the Font dialog open on a click but expose no pattern (15/11/2026)
+                _click(el)
         elif intent == "toggle":
-            w.toggle()
+            if "Toggle" in el.patterns:
+                w.toggle()
+            else:
+                _click(el)
         elif intent == "set_value":
             if value is None:
                 raise ActionError("set_value needs a value")

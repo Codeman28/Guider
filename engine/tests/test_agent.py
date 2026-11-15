@@ -86,3 +86,24 @@ def test_the_path_that_worked_becomes_a_card():
     assert card["id"].startswith("agent_them_slide") and card["title"].startswith("Cách thêm slide")
     assert [s["intent"] for s in card["steps"]] == ["select_range", "key_combo", "type_text"]
     assert card["steps"][2]["value"] == "Kết luận" and card["fixture_id"] == "ppt_deck_basic"
+
+
+def test_a_collapsed_group_opens_its_popup_and_later_steps_remember_the_group():
+    a = agent("word", shown={1: el(1, "Font", "Button", root=1), 2: el(2, "Font Color Red", "Button", root=50),
+                             3: el(3, "Bold", "Button", root=1)})
+    st = a.to_step(Decision(action="click", id=1, expect="menu"), 1)
+    assert st.intent == "expand" and st.expected.type == "none" and a.group == "Font"
+    a.group_members = {("Font Color Red", "Button")}  # what the next look found new on screen
+    st = a.to_step(Decision(action="click", id=2), 2)
+    assert st.target.within.names == ["Font"]
+    assert a.to_step(Decision(action="click", id=3), 3).target.within is None and a.group == ""
+
+
+def test_the_card_drops_the_group_opener_and_keeps_the_group():
+    from kem_engine.models import Locator
+    s2 = ts(2, "invoke", "Font Color Red", ct="Button")
+    s2.locator = Locator(control_type="Button", name="Font Color Red", within="Font")
+    trace = SimpleNamespace(steps=[ts(1, "expand", "Font", ct="Button"), s2])
+    card = card_from_trace("Tô đỏ tiêu đề", "word", trace, "word_report_basic")
+    assert [s["target"]["names"][0] for s in card["steps"]] == ["Font Color Red"]
+    assert card["steps"][0]["target"]["within"] == {"names": ["Font"], "control_type": "Group"}
