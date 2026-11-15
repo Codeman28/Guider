@@ -393,14 +393,27 @@ kem/
 | tutorial.get | {tutorial_id} | Tutorial |
 | tutorial.list | {} | [TutorialMeta] |
 | tutorial.export | {tutorial_id, format: md\|html\|pdf} | {path} |
-| settings.get/set |  | provider, model, màu nhấn, ngôn ngữ đầu ra |
+| settings.get/set |  | provider, model, màu nhấn, ngôn ngữ đầu ra, vision_cloud, auto_practice (v1.7: tự luyện khi máy rảnh, mặc định bật) |
 | settings.set_api_key | {provider, key} | {ok} — key lưu bằng DPAPI, không bao giờ trả về qua RPC (v1.3) |
 | problem.prepare / problem.paste / problem.capture | {path} / {data_b64} / {hwnd?} | {path} của ảnh PNG trong thư mục work (v1.5, ADR-0005) |
 | problem.warm_up | {} | {ok} — nạp sẵn model đọc ảnh khi người dùng vừa gắn ảnh |
+| practice.list | {} | {goals: [{app, goal, tries, solved, why?, last?}], pending, auto} (v1.7, ADR-0008) |
+| practice.run | {} | {started, session_id?, reason?}; sau đó notification practice.progress {session_id, state, message} và practice.done {session_id, app, goal, solved, status, tutorial_id?} (v1.7, ADR-0008) |
 
 ### 11.1 Việc chưa có thẻ (v1.6, ADR-0007)
 
 Khi không có thẻ khớp rõ và có key Gemini, `tutorial.create` dùng vòng "nhìn rồi làm": mỗi lượt đọc trạng thái file và các control đang hiện, Gemini chọn một hành động, Guider làm qua actuator và SafetyGuard, rồi tự chấm kết quả so với trạng thái ban đầu. Việc làm được lưu thành thẻ ở `%LOCALAPPDATA%\Kem\knowledge\<app>.self.yaml`.
+
+### 11.2 Làm lại đến khi được và tự luyện (v1.7, ADR-0008)
+
+- Vòng "nhìn rồi làm" chưa đạt thì `tutorial.create` mở lại file mẫu sạch và làm lại, tối đa 3 lượt; mỗi lượt đọc bài học
+  của lượt trước. Thẻ hoặc công thức đã lưu mà hỏng trên máy này cũng được vòng này làm lại theo cách đó.
+- Bài học (1–3 câu ngắn mỗi lượt, do Gemini rút ra từ các bước và kết luận chấm) lưu ở
+  `%LOCALAPPDATA%\Kem\knowledge\<app>.lessons.json`, tối đa 300 mỗi app; chỉ nằm trên máy.
+- Việc vẫn chưa đạt: bài ghi rõ là chưa làm được, việc vào `%LOCALAPPDATA%\Kem\knowledge\practice.json`. Guider luyện
+  lại mỗi lần một việc, tối đa 6 lần mỗi việc: khi máy không có thao tác chuột/bàn phím 10 phút và `auto_practice` bật,
+  hoặc khi người dùng gọi `practice.run`. Lượt luyện chỉ dùng file mẫu, dừng ngay khi người dùng chạm máy (InputGuard).
+  Luyện được thì lưu thẻ và giữ bài hướng dẫn trong thư viện; luyện chưa được thì chỉ giữ bài học.
 
 ## 12. Lộ trình theo phase và tiêu chí nghiệm thu
 
